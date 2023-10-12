@@ -22,6 +22,7 @@ const Map = ({
   const mapRef = useRef();
   const prevWidth = usePrevious(width);
   const prevHeight = usePrevious(height);
+  const isPhone = width <= 428;
 
   const { data: route } = useCalculateRouteQuery({
     key: apiKey,
@@ -64,7 +65,7 @@ const Map = ({
         height: `${height}px`
       }}
       fitBoundsOptions={{
-        padding: 30
+        padding: { top: 50, right: 50, bottom: 150, left: 50 }
       }}
       center={center}
       zoom={zoom}
@@ -73,7 +74,7 @@ const Map = ({
       {route && (
         <>
           <Route color="#3baee3" before={before} data={route} />
-          <RouteOverviewPanel route={route} />
+          <RouteOverviewPanel route={route} isPhone={isPhone} />
         </>
       )}
       {renderWaypoints()}

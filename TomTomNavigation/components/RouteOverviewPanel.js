@@ -9,7 +9,7 @@ import formatDistance from "../functions/formatDistance";
 
 const getRouteSummary = (route) => route.features[0].properties.summary;
 
-const RouteOverviewPanel = ({ route }) => {
+const RouteOverviewPanel = ({ route, isPhone }) => {
   const theme = useTheme();
   const { travelTimeInSeconds, lengthInMeters } = getRouteSummary(route);
   const duration = formatDuration(travelTimeInSeconds);
@@ -19,9 +19,13 @@ const RouteOverviewPanel = ({ route }) => {
     root: {
       position: "absolute",
       bottom: 0,
-      width: "100%",
+      right: 0,
+      width: isPhone ? "100%" : "400px",
+      marginRight: isPhone ? 0 : theme.spacing.s1,
       padding: theme.spacing.m,
       background: theme.palette.white,
+      borderTopLeftRadius: theme.spacing.m,
+      borderTopRightRadius: theme.spacing.m,
       boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.15)",
       zIndex: 10
     }
@@ -35,12 +39,10 @@ const RouteOverviewPanel = ({ route }) => {
     >
       <Text variant="xLarge">San Francisco</Text>
       <Stack horizontal={true} gap={theme.spacing.s1}>
-        <Text variant="mediumPlus">{`${duration} ${
+        <Text variant="large">{`${duration} ${
           duration > 3600 ? "hr" : "min"
         }`}</Text>
-        <Text variant="mediumPlus">
-          {`${distance.value} ${distance.units}`}
-        </Text>
+        <Text variant="large">{`${distance.value} ${distance.units}`}</Text>
       </Stack>
       <PrimaryButton
         text="Drive"
