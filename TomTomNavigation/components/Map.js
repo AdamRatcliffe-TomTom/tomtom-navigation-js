@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import ReactMap from "react-tomtom-maps";
 import Route from "./Route";
+import LocationMarker from "./LocationMarker";
+import WaypointMarker from "./WaypointMarker";
 import { useCalculateRouteQuery } from "../services/routing";
 import usePrevious from "../hooks/usePrevious";
 import geoJsonBounds from "../functions/geoJsonBounds";
@@ -35,6 +37,18 @@ const Map = ({
   const getMapBounds = () =>
     fitRouteBounds && route ? geoJsonBounds(route) : undefined;
 
+  const renderWaypoints = () => {
+    if (!routeWaypoints) return null;
+
+    return routeWaypoints.map((waypoint, index) =>
+      index === 0 ? (
+        <LocationMarker coordinates={routeWaypoints[0]} />
+      ) : (
+        <WaypointMarker coordinates={waypoint} />
+      )
+    );
+  };
+
   return (
     <ReactMap
       ref={mapRef}
@@ -53,6 +67,7 @@ const Map = ({
       bounds={getMapBounds()}
     >
       {route && <Route color="#3baee3" before={before} data={route} />}
+      {renderWaypoints()}
     </ReactMap>
   );
 };
