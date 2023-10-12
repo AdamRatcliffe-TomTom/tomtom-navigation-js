@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import ReactMap from "react-tomtom-maps";
+import RouteOverviewPanel from "./RouteOverviewPanel";
 import Route from "./Route";
 import LocationMarker from "./LocationMarker";
 import WaypointMarker from "./WaypointMarker";
@@ -42,9 +43,12 @@ const Map = ({
 
     return routeWaypoints.map((waypoint, index) =>
       index === 0 ? (
-        <LocationMarker coordinates={routeWaypoints[0]} />
+        <LocationMarker
+          key={waypoint.toString()}
+          coordinates={routeWaypoints[0]}
+        />
       ) : (
-        <WaypointMarker coordinates={waypoint} />
+        <WaypointMarker key={waypoint.toString()} coordinates={waypoint} />
       )
     );
   };
@@ -66,7 +70,12 @@ const Map = ({
       zoom={zoom}
       bounds={getMapBounds()}
     >
-      {route && <Route color="#3baee3" before={before} data={route} />}
+      {route && (
+        <>
+          <Route color="#3baee3" before={before} data={route} />
+          <RouteOverviewPanel route={route} />
+        </>
+      )}
       {renderWaypoints()}
     </ReactMap>
   );

@@ -19,6 +19,8 @@
     "@tomtom-international/web-sdk-services": "^6.25.0",
     "@turf/bbox": "^6.5.0",
     "deck.gl": "^8.9.31",
+    "moment": "^2.29.4",
+    "moment-duration-format": "^2.3.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-redux": "^8.1.3",
