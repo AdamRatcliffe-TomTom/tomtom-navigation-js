@@ -16,6 +16,7 @@ export default function routeToGeoJson(route, properties) {
       },
       {
         summary,
+        legs,
         sections,
         guidance,
         ...properties
