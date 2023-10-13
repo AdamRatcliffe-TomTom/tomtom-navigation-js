@@ -22,7 +22,11 @@ const Map = ({ apiKey, center, zoom, routeWaypoints, fitRouteBounds }) => {
 
   const { data: route } = useCalculateRouteQuery({
     key: apiKey,
-    locations: routeWaypoints
+    locations: routeWaypoints,
+    sectionType: ["speedLimit", "lanes"],
+    instructionsType: "text",
+    instructionAnnouncementPoints: "all",
+    instructionRoadShieldReferences: "all"
   });
 
   useEffect(() => {
@@ -71,6 +75,7 @@ const Map = ({ apiKey, center, zoom, routeWaypoints, fitRouteBounds }) => {
       center={center}
       zoom={zoom}
       bounds={getMapBounds()}
+      movingMethod="easeTo"
     >
       <CompassControl onClick={handleCompassClick} />
       {route && (

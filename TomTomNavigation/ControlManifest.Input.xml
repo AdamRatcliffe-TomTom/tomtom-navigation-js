@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.0.1" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.1.0" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -21,7 +21,7 @@
 		</external-service-usage>
 		<!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
 		<property name="apiKey" display-name-key="API key" description-key="API Key field" of-type="SingleLine.Text" usage="bound" required="true" />
-		<property name="center" display-name-key="Map center (latitude/longitude)" description-key="Map center field" of-type="SingleLine.Text" usage="bound" required="false" />
+		<property name="center" display-name-key="Map center (latitude,longitude)" description-key="Map center field" of-type="SingleLine.Text" usage="bound" required="false" />
 		<property name="zoom" display-name-key="Zoom level" description-key="Zoom level field" of-type="Decimal" usage="bound" required="true" default-value="12" />
 		<property name="routeWaypoints" display-name-key="Route waypoints" description-key="Route waypoints field" of-type="SingleLine.Text" usage="bound" required="false" />
 		<property name="fitRouteBounds" display-name-key="Fit route bounds" description-key="Fit route bounds field" of-type="TwoOptions" usage="bound" required="false" />

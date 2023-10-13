@@ -13,6 +13,9 @@ const getRouteSummary = (route) => route.features[0].properties.summary;
 const RouteOverviewPanel = ({ route }) => {
   const theme = useTheme();
   const { isPhone } = useAppContext();
+
+  console.log("route: ", route);
+
   const { travelTimeInSeconds, lengthInMeters } = getRouteSummary(route);
   const duration = formatDuration(travelTimeInSeconds);
   const distance = formatDistance(lengthInMeters);

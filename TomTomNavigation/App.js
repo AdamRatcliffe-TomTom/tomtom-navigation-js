@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "@fluentui/react";
-import { Provider } from "react-redux";
+import { Provider as StoreProvider } from "react-redux";
 import { store } from "./store";
 import AppContextProvider from "./AppContext";
 import Map from "./components/Map";
@@ -11,7 +11,7 @@ const appStyle = {
 
 function App({ width, height, ...otherProps }) {
   return (
-    <Provider store={store}>
+    <StoreProvider store={store}>
       <ThemeProvider>
         <AppContextProvider width={width} height={height}>
           <div className="App" style={appStyle}>
@@ -19,7 +19,7 @@ function App({ width, height, ...otherProps }) {
           </div>
         </AppContextProvider>
       </ThemeProvider>
-    </Provider>
+    </StoreProvider>
   );
 }
 
