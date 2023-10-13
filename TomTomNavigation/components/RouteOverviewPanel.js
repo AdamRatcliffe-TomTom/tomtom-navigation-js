@@ -26,7 +26,7 @@ const RouteOverviewPanel = ({ route, isPhone }) => {
       background: theme.palette.white,
       borderTopLeftRadius: theme.spacing.m,
       borderTopRightRadius: theme.spacing.m,
-      boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.15)",
+      boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.15)",
       zIndex: 10
     }
   };

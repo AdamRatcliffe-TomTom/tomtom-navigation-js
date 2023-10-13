@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import ReactMap from "react-tomtom-maps";
+import CompassControl from "./CompassControl";
 import RouteOverviewPanel from "./RouteOverviewPanel";
 import Route from "./Route";
 import LocationMarker from "./LocationMarker";
@@ -71,6 +72,7 @@ const Map = ({
       zoom={zoom}
       bounds={getMapBounds()}
     >
+      <CompassControl />
       {route && (
         <>
           <Route color="#3baee3" before={before} data={route} />

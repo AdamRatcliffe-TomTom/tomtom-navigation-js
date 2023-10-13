@@ -9,7 +9,7 @@ const Circle = styled.div`
   background: rgb(59, 174, 227);
   border: 3px solid white;
   border-radius: 50%;
-  box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.075);
 `;
 
 const LocationMarker = (props) => {
