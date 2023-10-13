@@ -7,6 +7,7 @@ import ChevronIcon from "./icons/ChevronIcon";
 import { useAppContext } from "../AppContext";
 import formatDuration from "../functions/formatDuration";
 import formatDistance from "../functions/formatDistance";
+import strings from "../strings";
 
 const getRouteSummary = (route) => route.features[0].properties.summary;
 
@@ -47,7 +48,7 @@ const RouteOverviewPanel = ({ route }) => {
         <Text variant="large">{`${distance.value} ${distance.units}`}</Text>
       </Stack>
       <PrimaryButton
-        text="Drive"
+        text={strings.drive}
         style={{
           marginTop: theme.spacing.m
         }}

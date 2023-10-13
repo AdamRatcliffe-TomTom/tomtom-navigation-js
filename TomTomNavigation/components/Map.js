@@ -35,7 +35,8 @@ const Map = ({
     sectionType: ["speedLimit", "lanes"],
     instructionsType: "text",
     instructionAnnouncementPoints: "all",
-    instructionRoadShieldReferences: "all"
+    instructionRoadShieldReferences: "all",
+    language: navigator.language
   });
 
   useEffect(() => {
