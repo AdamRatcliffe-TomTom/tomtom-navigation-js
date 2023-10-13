@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.1.2" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.1.5" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -31,6 +31,17 @@
 		<property name="center" display-name-key="Map center (latitude,longitude)" description-key="center_Desc_Key" of-type="SingleLine.Text" usage="bound" required="false" />
 		<property name="zoom" display-name-key="Zoom level" description-key="zoom_Desc_Key" of-type="Decimal" usage="bound" required="true" default-value="12" />
 		<property name="routeWaypoints" display-name-key="Route waypoints" description-key="routeWaypoints_Desc_Key" of-type="SingleLine.Text" usage="bound" required="false" />
+		<property name="travelMode" display-name-key="Travel mode" description-key="travelMode_Desc_Key" of-type="Enum" usage="input" required="true" default-value="car">
+			<value name="car" display-name-key="Car">car</value>
+			<value name="truck" display-name-key="Truck">truck</value>
+			<value name="taxi" display-name-key="Taxi">taxi</value>
+			<value name="bus" display-name-key="Bus">bus</value>
+			<value name="van" display-name-key="Van">van</value>
+			<value name="motorcycle" display-name-key="Motorcycle">motorcycle</value>
+			<value name="bicycle" display-name-key="Bicycle">bicycle</value>
+			<value name="pedestrian" display-name-key="Pedestrian">pedestrian</value>
+		</property>
+		<property name="traffic" display-name-key="Calculate with traffic" description-key="traffic_Desc_Key" of-type="TwoOptions" usage="bound" required="false" default-value="true"/>
 		<property name="fitRouteBounds" display-name-key="Fit route bounds" description-key="fitRouteBounds_Desc_Key" of-type="TwoOptions" usage="bound" required="false" />
 		<resources>
 			<code path="index.ts" order="1" />

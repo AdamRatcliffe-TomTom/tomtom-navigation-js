@@ -40,9 +40,9 @@ export class TomTomNavigation
   ): React.ReactElement {
     const apiKey = context.parameters.apiKey.raw;
     const theme = context.parameters.theme.raw;
-    const showTrafficFlow = context.parameters.showTrafficFlow.raw;
-    const showTrafficIncidents = context.parameters.showTrafficIncidents.raw;
-    const showPoi = context.parameters.showPoi.raw;
+    const showTrafficFlow = !!context.parameters.showTrafficFlow.raw;
+    const showTrafficIncidents = !!context.parameters.showTrafficIncidents.raw;
+    const showPoi = !!context.parameters.showPoi.raw;
     const center = parseCoordinateString(context.parameters.center.raw);
     const zoom = context.parameters.zoom.raw;
     let routeWaypoints: any = parseCoordinateString(
@@ -51,6 +51,8 @@ export class TomTomNavigation
     if (routeWaypoints instanceof tt.LngLat) {
       routeWaypoints = [routeWaypoints];
     }
+    const travelMode = context.parameters.travelMode.raw;
+    const traffic = !!context.parameters.traffic.raw;
     const fitRouteBounds = context.parameters.fitRouteBounds.raw;
     const width = context.mode.allocatedWidth;
     const height = context.mode.allocatedHeight;
@@ -64,6 +66,8 @@ export class TomTomNavigation
       center,
       zoom,
       routeWaypoints,
+      travelMode,
+      traffic,
       fitRouteBounds,
       width,
       height

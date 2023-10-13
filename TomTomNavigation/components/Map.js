@@ -21,6 +21,8 @@ const Map = ({
   center,
   zoom,
   routeWaypoints,
+  travelMode,
+  traffic,
   fitRouteBounds
 }) => {
   const mapRef = useRef();
@@ -28,6 +30,8 @@ const Map = ({
   const { data: route } = useCalculateRouteQuery({
     key: apiKey,
     locations: routeWaypoints,
+    travelMode,
+    traffic,
     sectionType: ["speedLimit", "lanes"],
     instructionsType: "text",
     instructionAnnouncementPoints: "all",
