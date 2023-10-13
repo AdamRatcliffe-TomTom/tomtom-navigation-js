@@ -15,6 +15,7 @@ const StyledControl = styled.div`
   border-radius: 50%;
   overflow: hidden;
   transition: opacity 0.3s ease-out;
+  cursor: pointer;
 `;
 
 const Icon = styled.div`
@@ -25,6 +26,7 @@ const Icon = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  transition: 0.1s;
 `;
 
 class CompassControl extends Component {

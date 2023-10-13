@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import ReactMap from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
 import RouteOverviewPanel from "./RouteOverviewPanel";
@@ -9,21 +9,16 @@ import { useCalculateRouteQuery } from "../services/routing";
 import usePrevious from "../hooks/usePrevious";
 import geoJsonBounds from "../functions/geoJsonBounds";
 
+import { useAppContext } from "../AppContext";
+
 const before = "Borders - Treaty label";
 
-const Map = ({
-  apiKey,
-  center,
-  zoom,
-  routeWaypoints,
-  fitRouteBounds,
-  width,
-  height
-}) => {
+const Map = ({ apiKey, center, zoom, routeWaypoints, fitRouteBounds }) => {
   const mapRef = useRef();
+
+  const { width, height } = useAppContext();
   const prevWidth = usePrevious(width);
   const prevHeight = usePrevious(height);
-  const isPhone = width <= 428;
 
   const { data: route } = useCalculateRouteQuery({
     key: apiKey,
@@ -39,6 +34,11 @@ const Map = ({
 
   const getMapBounds = () =>
     fitRouteBounds && route ? geoJsonBounds(route) : undefined;
+
+  const handleCompassClick = () => {
+    const map = mapRef.current.getMap();
+    map.easeTo({ bearing: 0, duration: 250 });
+  };
 
   const renderWaypoints = () => {
     if (!routeWaypoints) return null;
@@ -72,11 +72,11 @@ const Map = ({
       zoom={zoom}
       bounds={getMapBounds()}
     >
-      <CompassControl />
+      <CompassControl onClick={handleCompassClick} />
       {route && (
         <>
           <Route color="#3baee3" before={before} data={route} />
-          <RouteOverviewPanel route={route} isPhone={isPhone} />
+          <RouteOverviewPanel route={route} />
         </>
       )}
       {renderWaypoints()}

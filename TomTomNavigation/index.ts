@@ -1,5 +1,5 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import App from "./components/App";
+import App from "./App";
 import * as React from "react";
 import parseCoordinateString from "./functions/parseCoordinateString";
 

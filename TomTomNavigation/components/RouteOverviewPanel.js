@@ -4,13 +4,15 @@ import { Stack } from "@fluentui/react/lib/Stack";
 import { Text } from "@fluentui/react/lib/Text";
 import { PrimaryButton } from "@fluentui/react/lib/Button";
 import ChevronIcon from "./icons/ChevronIcon";
+import { useAppContext } from "../AppContext";
 import formatDuration from "../functions/formatDuration";
 import formatDistance from "../functions/formatDistance";
 
 const getRouteSummary = (route) => route.features[0].properties.summary;
 
-const RouteOverviewPanel = ({ route, isPhone }) => {
+const RouteOverviewPanel = ({ route }) => {
   const theme = useTheme();
+  const { isPhone } = useAppContext();
   const { travelTimeInSeconds, lengthInMeters } = getRouteSummary(route);
   const duration = formatDuration(travelTimeInSeconds);
   const distance = formatDistance(lengthInMeters);
