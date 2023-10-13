@@ -39,6 +39,9 @@ const locationToString = (coordinate) => `${coordinate.lat},${coordinate.lng}`;
 
 const routeBaseQuery = async (args) => {
   try {
+    // work around for resetApiState not resetting the data in the useQuery hook
+    if (args.locations.length < 2) return { data: null };
+
     const data = await calculateRoute(args);
     return { data };
   } catch (error) {

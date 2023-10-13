@@ -5941,8 +5941,8 @@ react-redux@^8.1.3:
     use-sync-external-store "^1.0.0"
 
 "react-tomtom-maps@ssh://git@github.com:AdamRatcliffe-TomTom/react-tomtom-maps.git":
-  version "2.6.2"
-  resolved "git+ssh://git@github.com/AdamRatcliffe-TomTom/react-tomtom-maps.git#18d3b90847e76e8678b40e471d4161c7f1c2d5d8"
+  version "2.7.0"
+  resolved "ssh://git@github.com:AdamRatcliffe-TomTom/react-tomtom-maps.git#de7795a9e719c4c12641c9ea037e9e7a31aea53f"
   dependencies:
     "@tomtom-international/web-sdk-maps" "^6.15.0"
     "@tomtom-international/web-sdk-plugin-minimap" "^2.1.6"

@@ -8,5 +8,5 @@ const reducer = combineReducers({
 export const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([routingApi.middleware])
+    getDefaultMiddleware().prepend(routingApi.middleware)
 });

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import ReactMap from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
 import RouteOverviewPanel from "./RouteOverviewPanel";
@@ -6,20 +6,25 @@ import Route from "./Route";
 import LocationMarker from "./LocationMarker";
 import WaypointMarker from "./WaypointMarker";
 import { useCalculateRouteQuery } from "../services/routing";
-import usePrevious from "../hooks/usePrevious";
 import geoJsonBounds from "../functions/geoJsonBounds";
 
 import { useAppContext } from "../AppContext";
 
 const before = "Borders - Treaty label";
 
-const Map = ({ apiKey, center, zoom, routeWaypoints, fitRouteBounds }) => {
+const Map = ({
+  apiKey,
+  theme,
+  showTrafficFlow,
+  showTrafficIncidents,
+  showPoi,
+  center,
+  zoom,
+  routeWaypoints,
+  fitRouteBounds
+}) => {
   const mapRef = useRef();
-
   const { width, height } = useAppContext();
-  const prevWidth = usePrevious(width);
-  const prevHeight = usePrevious(height);
-
   const { data: route } = useCalculateRouteQuery({
     key: apiKey,
     locations: routeWaypoints,
@@ -30,11 +35,9 @@ const Map = ({ apiKey, center, zoom, routeWaypoints, fitRouteBounds }) => {
   });
 
   useEffect(() => {
-    if (width !== prevWidth || height !== prevHeight) {
-      const map = mapRef.current.getMap();
-      map?.resize();
-    }
-  });
+    const map = mapRef.current.getMap();
+    map?.resize();
+  }, [width, height]);
 
   const getMapBounds = () =>
     fitRouteBounds && route ? geoJsonBounds(route) : undefined;
@@ -64,7 +67,12 @@ const Map = ({ apiKey, center, zoom, routeWaypoints, fitRouteBounds }) => {
       ref={mapRef}
       key={apiKey}
       apiKey={apiKey}
-      mapStyle="https://api.tomtom.com/style/1/style/24.*?map=10-test/basic_street-light"
+      mapStyle={`https://api.tomtom.com/style/1/style/24.*?map=10-test/basic_street-${theme}&traffic_flow=2/flow_relative-${theme}&traffic_incidents=2/incidents_${theme}&poi=2/poi_${theme}`}
+      stylesVisibility={{
+        trafficFlow: showTrafficFlow,
+        trafficIncidents: showTrafficIncidents,
+        poi: showPoi
+      }}
       containerStyle={{
         width: `${width}px`,
         height: `${height}px`
@@ -80,7 +88,7 @@ const Map = ({ apiKey, center, zoom, routeWaypoints, fitRouteBounds }) => {
       <CompassControl onClick={handleCompassClick} />
       {route && (
         <>
-          <Route color="#3baee3" before={before} data={route} />
+          <Route before={before} data={route} />
           <RouteOverviewPanel route={route} />
         </>
       )}

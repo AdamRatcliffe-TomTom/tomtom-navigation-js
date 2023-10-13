@@ -13,9 +13,6 @@ const getRouteSummary = (route) => route.features[0].properties.summary;
 const RouteOverviewPanel = ({ route }) => {
   const theme = useTheme();
   const { isPhone } = useAppContext();
-
-  console.log("route: ", route);
-
   const { travelTimeInSeconds, lengthInMeters } = getRouteSummary(route);
   const duration = formatDuration(travelTimeInSeconds);
   const distance = formatDistance(lengthInMeters);
@@ -24,9 +21,9 @@ const RouteOverviewPanel = ({ route }) => {
     root: {
       position: "absolute",
       bottom: 0,
-      right: 0,
+      left: 0,
       width: isPhone ? "100%" : "400px",
-      marginRight: isPhone ? 0 : theme.spacing.s1,
+      marginLeft: isPhone ? 0 : theme.spacing.s1,
       padding: theme.spacing.m,
       background: theme.palette.white,
       borderTopLeftRadius: theme.spacing.m,

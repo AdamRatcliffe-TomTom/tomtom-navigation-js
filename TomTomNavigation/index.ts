@@ -1,3 +1,4 @@
+import * as tt from "@tomtom-international/web-sdk-maps";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import App from "./App";
 import * as React from "react";
@@ -38,17 +39,28 @@ export class TomTomNavigation
     context: ComponentFramework.Context<IInputs>
   ): React.ReactElement {
     const apiKey = context.parameters.apiKey.raw;
+    const theme = context.parameters.theme.raw;
+    const showTrafficFlow = context.parameters.showTrafficFlow.raw;
+    const showTrafficIncidents = context.parameters.showTrafficIncidents.raw;
+    const showPoi = context.parameters.showPoi.raw;
     const center = parseCoordinateString(context.parameters.center.raw);
     const zoom = context.parameters.zoom.raw;
-    const routeWaypoints = parseCoordinateString(
+    let routeWaypoints: any = parseCoordinateString(
       context.parameters.routeWaypoints.raw
     );
+    if (routeWaypoints instanceof tt.LngLat) {
+      routeWaypoints = [routeWaypoints];
+    }
     const fitRouteBounds = context.parameters.fitRouteBounds.raw;
     const width = context.mode.allocatedWidth;
     const height = context.mode.allocatedHeight;
 
     return React.createElement(App, {
       apiKey,
+      theme,
+      showTrafficFlow,
+      showTrafficIncidents,
+      showPoi,
       center,
       zoom,
       routeWaypoints,
