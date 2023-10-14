@@ -12,10 +12,10 @@ import strings from "../strings";
 
 const RouteOverviewPanel = ({ route }) => {
   const theme = useTheme();
-  const textStyles = useTextStyles();
-  const buttonStyles = useButtonStyles();
+  const textClasses = useTextStyles();
+  const buttonClasses = useButtonStyles();
   const { isPhone } = useAppContext();
-  const { summary, legs } = route.features[0]?.properties;
+  const { summary, legs } = route.features[0].properties;
   const { travelTimeInSeconds, lengthInMeters } = summary;
   const numStops = legs.length;
   const duration = formatDuration(travelTimeInSeconds);
@@ -44,29 +44,29 @@ const RouteOverviewPanel = ({ route }) => {
       gap={theme.spacing.s1}
     >
       <Stack gap={theme.spacing.s1}>
-        <Text variant="xxLarge">{`${duration} ${
-          duration > 3600 ? "hr" : "min"
-        }`}</Text>
+        <Text
+          className={textClasses.primaryText}
+          variant="xLarge"
+        >{`${duration} ${duration > 3600 ? "hr" : "min"}`}</Text>
         <Stack
           horizontal
           gap={theme.spacing.s2}
           styles={{ root: { marginBottom: theme.spacing.s1 } }}
         >
           <Text
-            className={textStyles.secondaryText}
+            className={textClasses.secondaryText}
             variant="xLarge"
           >{`${distance.value} ${distance.units}`}</Text>
           {numStops > 1 && (
-            <Text className={textStyles.secondaryText} variant="xLarge">
+            <Text className={textClasses.secondaryText} variant="xLarge">
               {`⸱ ${numStops} stops`}
             </Text>
           )}
         </Stack>
       </Stack>
       <PrimaryButton
-        className={buttonStyles.largeButton}
+        className={buttonClasses.largeButton}
         text={strings.drive}
-        size="large"
         styles={{
           textContainer: {
             flexGrow: 0
