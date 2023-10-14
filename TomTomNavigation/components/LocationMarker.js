@@ -4,8 +4,8 @@ import { Marker } from "react-tomtom-maps";
 
 const Circle = styled.div`
   box-sizing: border-box;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background: rgb(59, 174, 227);
   border: 3px solid white;
   border-radius: 50%;

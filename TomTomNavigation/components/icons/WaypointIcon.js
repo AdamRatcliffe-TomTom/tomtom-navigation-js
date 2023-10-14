@@ -2,8 +2,8 @@ import React from "react";
 
 const WaypointIcon = () => (
   <svg
-    width="32"
-    height="41"
+    width="48"
+    height="61"
     viewBox="0 0 48 61"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

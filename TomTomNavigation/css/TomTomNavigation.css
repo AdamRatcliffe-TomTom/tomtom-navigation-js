@@ -1,0 +1,19 @@
+.mapboxgl-ctrl-top-left .mapboxgl-ctrl {
+  margin-left: 16px;
+  margin-top: 16px;
+}
+
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl {
+  margin-right: 16px;
+  margin-top: 16px;
+}
+
+.mapboxgl-ctrl-bottom-right .mapboxgl-ctrl {
+  margin-right: 16px;
+  margin-bottom: 16px;
+}
+
+.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {
+  margin-left: 16px;
+  margin-bottom: 16px;
+}
