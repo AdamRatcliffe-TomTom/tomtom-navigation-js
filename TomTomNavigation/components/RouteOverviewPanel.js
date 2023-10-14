@@ -3,6 +3,7 @@ import { useTheme, PrimaryButton } from "@fluentui/react";
 import { Stack } from "@fluentui/react/lib/Stack";
 import { Text } from "@fluentui/react/lib/Text";
 import ChevronIcon from "./icons/ChevronIcon";
+import useTextStyles from "./styles/useTextStyles";
 import useButtonStyles from "./styles/useButtonStyles";
 import { useAppContext } from "../AppContext";
 import formatDuration from "../functions/formatDuration";
@@ -11,6 +12,7 @@ import strings from "../strings";
 
 const RouteOverviewPanel = ({ route }) => {
   const theme = useTheme();
+  const textStyles = useTextStyles();
   const buttonStyles = useButtonStyles();
   const { isPhone } = useAppContext();
   const { summary, legs } = route.features[0]?.properties;
@@ -51,24 +53,11 @@ const RouteOverviewPanel = ({ route }) => {
           styles={{ root: { marginBottom: theme.spacing.s1 } }}
         >
           <Text
+            className={textStyles.secondaryText}
             variant="xLarge"
-            styles={{
-              root: {
-                color: theme.palette.neutralSecondaryAlt,
-                fontWeight: 600
-              }
-            }}
           >{`${distance.value} ${distance.units}`}</Text>
           {numStops > 1 && (
-            <Text
-              variant="xLarge"
-              styles={{
-                root: {
-                  color: theme.palette.neutralSecondaryAlt,
-                  fontWeight: 600
-                }
-              }}
-            >
+            <Text className={textStyles.secondaryText} variant="xLarge">
               {`⸱ ${numStops} stops`}
             </Text>
           )}
