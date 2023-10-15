@@ -11,7 +11,8 @@ export default function AppContextProvider({ children, width, height }) {
     () => ({
       width,
       height,
-      isPhone: width <= 428
+      isPhone: width <= 428,
+      isTablet: width > 428
     }),
     [width, height]
   );

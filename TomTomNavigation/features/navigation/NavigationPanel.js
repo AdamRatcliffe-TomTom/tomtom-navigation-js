@@ -1,5 +1,6 @@
 import { makeStyles } from "@fluentui/react";
-import RouteOverviewPanel from "./RouteOverviewPanel";
+import RouteOverview from "./RouteOverview";
+import GuidanceView from "./GuidanceView";
 import { useAppContext } from "../../app/AppContext";
 
 const useStyles = (props) =>
@@ -19,15 +20,19 @@ const useStyles = (props) =>
     }
   }));
 
-const NavigationView = ({ route }) => {
+const NavigationPanel = ({ route, isNavigating = false }) => {
   const { isPhone } = useAppContext();
   const classes = useStyles({ isPhone })();
 
   return (
     <div className={classes.root}>
-      <RouteOverviewPanel route={route} />
+      {isNavigating ? (
+        <GuidanceView route={route} />
+      ) : (
+        <RouteOverview route={route} />
+      )}
     </div>
   );
 };
 
-export default NavigationView;
+export default NavigationPanel;

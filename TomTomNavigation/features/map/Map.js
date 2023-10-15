@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useMemo } from "react";
 import ReactMap from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
-import NavigationView from "../navigation/NavigationView";
+import NavigationPanel from "../navigation/NavigationPanel";
 import Route from "./Route";
 import LocationMarker from "./LocationMarker";
 import WaypointMarker from "./WaypointMarker";
@@ -105,7 +105,7 @@ const Map = ({
       {route && (
         <>
           <Route before={before} data={route} />
-          <NavigationView route={route} />
+          <NavigationPanel route={route} />
         </>
       )}
       {renderWaypoints()}

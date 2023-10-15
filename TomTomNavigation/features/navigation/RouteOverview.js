@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   }
 });
 
-const RouteOverviewPanel = ({ route }) => {
+const RouteOverview = ({ route }) => {
   const theme = useTheme();
   const classes = useStyles();
   const textClasses = useTextStyles();
@@ -64,4 +64,4 @@ const RouteOverviewPanel = ({ route }) => {
   );
 };
 
-export default RouteOverviewPanel;
+export default RouteOverview;
