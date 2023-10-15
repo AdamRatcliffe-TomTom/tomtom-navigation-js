@@ -1,6 +1,7 @@
 {
   "extends": "./node_modules/pcf-scripts/tsconfig_base.json",
   "compilerOptions": {
+    "baseUrl": "TomTomNavigation",
     "allowJs": true,
     "typeRoots": ["node_modules/@types"]
   }

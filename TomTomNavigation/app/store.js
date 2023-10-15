@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { routingApi } from "./services/routing";
+import { routingApi } from "../services/routing";
 
 const reducer = combineReducers({
   [routingApi.reducerPath]: routingApi.reducer

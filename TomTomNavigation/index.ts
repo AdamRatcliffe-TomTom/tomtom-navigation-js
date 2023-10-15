@@ -1,7 +1,7 @@
+import * as React from "react";
 import * as tt from "@tomtom-international/web-sdk-maps";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import App from "./App";
-import * as React from "react";
+import App from "./app/App";
 import parseCoordinateString from "./functions/parseCoordinateString";
 
 export class TomTomNavigation

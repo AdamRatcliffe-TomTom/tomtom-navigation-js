@@ -1,9 +1,9 @@
 import React from "react";
 import { Marker } from "react-tomtom-maps";
-import WaypointIcon from "./icons/WaypointIcon";
+import WaypointIcon from "../../icons/WaypointIcon";
 
 const WaypointMarker = (props) => (
-  <Marker {...props}>
+  <Marker className="WaypointMarker" {...props}>
     <WaypointIcon />
   </Marker>
 );

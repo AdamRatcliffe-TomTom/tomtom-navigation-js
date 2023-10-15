@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 const LocationMarker = (props) => {
   const classes = useStyles();
   return (
-    <Marker {...props} anchor="bottom">
+    <Marker className="LocationMarker" {...props} anchor="bottom">
       <div className={classes.root} />
     </Marker>
   );

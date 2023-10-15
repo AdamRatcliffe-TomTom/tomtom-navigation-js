@@ -2,13 +2,13 @@ import React from "react";
 import { useTheme, PrimaryButton } from "@fluentui/react";
 import { Stack } from "@fluentui/react/lib/Stack";
 import { Text } from "@fluentui/react/lib/Text";
-import ChevronIcon from "./icons/ChevronIcon";
-import useTextStyles from "./styles/useTextStyles";
-import useButtonStyles from "./styles/useButtonStyles";
-import { useAppContext } from "../AppContext";
-import formatDuration from "../functions/formatDuration";
-import formatDistance from "../functions/formatDistance";
-import strings from "../strings";
+import ChevronIcon from "../../icons/ChevronIcon";
+import useTextStyles from "../../hooks/useTextStyles";
+import useButtonStyles from "../../hooks/useButtonStyles";
+import { useAppContext } from "../../app/AppContext";
+import formatDuration from "../../functions/formatDuration";
+import formatDistance from "../../functions/formatDistance";
+import strings from "../../config/strings";
 
 const RouteOverviewPanel = ({ route }) => {
   const theme = useTheme();

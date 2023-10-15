@@ -1,14 +1,13 @@
 import React, { useRef, useEffect, useMemo } from "react";
 import ReactMap from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
-import RouteOverviewPanel from "./RouteOverviewPanel";
+import RouteOverviewPanel from "../navigation/RouteOverviewPanel";
 import Route from "./Route";
 import LocationMarker from "./LocationMarker";
 import WaypointMarker from "./WaypointMarker";
-import { useCalculateRouteQuery } from "../services/routing";
-import geoJsonBounds from "../functions/geoJsonBounds";
-
-import { useAppContext } from "../AppContext";
+import { useCalculateRouteQuery } from "../../services/routing";
+import geoJsonBounds from "../../functions/geoJsonBounds";
+import { useAppContext } from "../../app/AppContext";
 
 const before = "Borders - Treaty label";
 

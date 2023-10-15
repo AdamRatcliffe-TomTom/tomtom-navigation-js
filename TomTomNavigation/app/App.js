@@ -3,7 +3,7 @@ import { ThemeProvider } from "@fluentui/react";
 import { Provider as StoreProvider } from "react-redux";
 import { store } from "./store";
 import AppContextProvider from "./AppContext";
-import Map from "./components/Map";
+import Map from "../features/map/Map";
 
 function App({ width, height, ...otherProps }) {
   return (
