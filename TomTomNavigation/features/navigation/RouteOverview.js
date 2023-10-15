@@ -28,17 +28,19 @@ const RouteOverview = ({ route }) => {
   const distance = formatDistance(lengthInMeters);
 
   return (
-    <Stack className={classes.root} gap={theme.spacing.s1}>
-      <Stack gap={theme.spacing.s1}>
+    <Stack
+      className={classes.root}
+      tokens={{ childrenGap: theme.spacing.s1 }}
+      horizontal
+      horizontalAlign="space-between"
+      verticalAlign="center"
+    >
+      <Stack tokens={{ childrenGap: theme.spacing.s1 }}>
         <Text
           className={textClasses.primaryText}
           variant="xLarge"
         >{`${duration} ${duration > 3600 ? "hr" : "min"}`}</Text>
-        <Stack
-          horizontal
-          gap={theme.spacing.s2}
-          styles={{ root: { marginBottom: theme.spacing.s1 } }}
-        >
+        <Stack horizontal tokens={{ childrenGap: theme.spacing.s2 }}>
           <Text
             className={textClasses.secondaryText}
             variant="xLarge"

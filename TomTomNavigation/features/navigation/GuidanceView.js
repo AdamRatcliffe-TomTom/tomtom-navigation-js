@@ -1,6 +1,6 @@
 import React from "react";
 
-const GuidanceView = () => {
+const GuidanceView = ({ route }) => {
   return <div>GuidanceView</div>;
 };
 
