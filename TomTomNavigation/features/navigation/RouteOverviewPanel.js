@@ -1,48 +1,34 @@
 import React from "react";
 import { useTheme, PrimaryButton } from "@fluentui/react";
+import { makeStyles } from "@fluentui/react";
 import { Stack } from "@fluentui/react/lib/Stack";
 import { Text } from "@fluentui/react/lib/Text";
 import ChevronIcon from "../../icons/ChevronIcon";
 import useTextStyles from "../../hooks/useTextStyles";
 import useButtonStyles from "../../hooks/useButtonStyles";
-import { useAppContext } from "../../app/AppContext";
 import formatDuration from "../../functions/formatDuration";
 import formatDistance from "../../functions/formatDistance";
 import strings from "../../config/strings";
 
+const useStyles = makeStyles({
+  root: {
+    width: "100%"
+  }
+});
+
 const RouteOverviewPanel = ({ route }) => {
   const theme = useTheme();
+  const classes = useStyles();
   const textClasses = useTextStyles();
   const buttonClasses = useButtonStyles();
-  const { isPhone } = useAppContext();
   const { summary, legs } = route.features[0].properties;
   const { travelTimeInSeconds, lengthInMeters } = summary;
   const numStops = legs.length;
   const duration = formatDuration(travelTimeInSeconds);
   const distance = formatDistance(lengthInMeters);
 
-  const routeOverviewPanelStyles = {
-    root: {
-      position: "absolute",
-      bottom: 0,
-      left: 0,
-      width: isPhone ? "100%" : "380px",
-      marginLeft: isPhone ? 0 : theme.spacing.m,
-      padding: theme.spacing.m,
-      background: theme.palette.white,
-      borderTopLeftRadius: theme.spacing.m,
-      borderTopRightRadius: theme.spacing.m,
-      boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.15)",
-      zIndex: 10
-    }
-  };
-
   return (
-    <Stack
-      className="RouteOverviewPanel"
-      styles={routeOverviewPanelStyles}
-      gap={theme.spacing.s1}
-    >
+    <Stack className={classes.root} gap={theme.spacing.s1}>
       <Stack gap={theme.spacing.s1}>
         <Text
           className={textClasses.primaryText}
