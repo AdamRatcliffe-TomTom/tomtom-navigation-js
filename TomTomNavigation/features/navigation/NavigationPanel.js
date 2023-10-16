@@ -24,7 +24,7 @@ const useStyles = ({ isPhone }) =>
     }
   }));
 
-const NavigationPanel = () => {
+const NavigationPanel = ({ map }) => {
   const { apiKey, isPhone } = useAppContext();
   const classes = useStyles({ isPhone })();
   const routeOptions = useSelector(getRouteOptions);
@@ -35,7 +35,7 @@ const NavigationPanel = () => {
 
   return route ? (
     <div className={classes.root}>
-      <RouteOverview route={route} />
+      <RouteOverview map={map} route={route} />
     </div>
   ) : null;
 };

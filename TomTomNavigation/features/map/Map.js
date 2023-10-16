@@ -6,6 +6,7 @@ import Route from "./Route";
 import LocationMarker from "./LocationMarker";
 import DeviceMarker from "./DeviceMarker";
 import WaypointMarker from "./WaypointMarker";
+import Fade from "../../core/Fade";
 import { useCalculateRouteQuery } from "../../services/routing";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import { useAppContext } from "../../app/AppContext";
@@ -21,7 +22,10 @@ import {
   setBounds
 } from "./mapSlice";
 
-import { getIsNavigating } from "../navigation/navigationSlice";
+import {
+  getIsNavigating,
+  getNavigationModeTransitioning
+} from "../navigation/navigationSlice";
 
 const before = "Borders - Treaty label";
 
@@ -36,6 +40,9 @@ const Map = ({
   const mapRef = useRef();
   const { apiKey, width, height, theme } = useAppContext();
   const isNavigating = useSelector(getIsNavigating);
+  const navigationModeTransitioning = useSelector(
+    getNavigationModeTransitioning
+  );
   const center = useSelector(getCenter);
   const zoom = useSelector(getZoom);
   const pitch = useSelector(getPitch);
@@ -113,7 +120,9 @@ const Map = ({
       <CompassControl onClick={handleCompassClick} />
       {route && <Route before={before} data={route} />}
       {renderWaypoints()}
-      {isNavigating && <DeviceMarker anchor="center" coordinates={center} />}
+      <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
+        <DeviceMarker anchor="center" coordinates={center} />
+      </Fade>
       {children}
     </ReactMap>
   );

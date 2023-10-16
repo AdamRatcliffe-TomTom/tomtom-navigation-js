@@ -12,7 +12,12 @@ import formatDistance from "../../functions/formatDistance";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import strings from "../../config/strings";
 
-import { getIsNavigating, setIsNavigating } from "./navigationSlice";
+import {
+  getIsNavigating,
+  setIsNavigating,
+  setNavigationModeTransitioning
+} from "./navigationSlice";
+
 import {
   setMovingMethod,
   setCenter,
@@ -28,7 +33,7 @@ const useStyles = makeStyles({
   }
 });
 
-const RouteOverview = ({ route }) => {
+const RouteOverview = ({ map, route }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const classes = useStyles();
@@ -47,12 +52,15 @@ const RouteOverview = ({ route }) => {
 
     batch(() => {
       dispatch(setIsNavigating(true));
+      dispatch(setNavigationModeTransitioning(true));
       dispatch(setMovingMethod("flyTo"));
       dispatch(setCenter(center));
       dispatch(setPitch(60));
       dispatch(setZoom(18));
       dispatch(setBounds(undefined));
     });
+
+    map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
   };
 
   const handleStopNavigation = () => {
@@ -60,12 +68,15 @@ const RouteOverview = ({ route }) => {
 
     batch(() => {
       dispatch(setIsNavigating(false));
+      dispatch(setNavigationModeTransitioning(true));
       dispatch(setFitBoundsOptions({ animate: true }));
       dispatch(setCenter(undefined));
       dispatch(setZoom(undefined));
       dispatch(setPitch(0));
       dispatch(setBounds(bounds));
     });
+
+    map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
   };
 
   return (
