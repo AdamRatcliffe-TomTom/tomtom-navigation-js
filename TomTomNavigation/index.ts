@@ -40,11 +40,13 @@ export class TomTomNavigation
   ): React.ReactElement {
     const apiKey = context.parameters.apiKey.raw;
     const theme = context.parameters.theme.raw;
+    const initialCenter = parseCoordinateString(
+      context.parameters.initialCenter.raw
+    );
+    const initialZoom = context.parameters.initialZoom.raw;
     const showTrafficFlow = !!context.parameters.showTrafficFlow.raw;
     const showTrafficIncidents = !!context.parameters.showTrafficIncidents.raw;
     const showPoi = !!context.parameters.showPoi.raw;
-    const center = parseCoordinateString(context.parameters.center.raw);
-    const zoom = context.parameters.zoom.raw;
     const showLocationMarker = !!context.parameters.showLocationMarker.raw;
     let routeWaypoints: any = parseCoordinateString(
       context.parameters.routeWaypoints.raw
@@ -54,25 +56,31 @@ export class TomTomNavigation
     }
     const travelMode = context.parameters.travelMode.raw;
     const traffic = !!context.parameters.traffic.raw;
-    const fitRouteBounds = context.parameters.fitRouteBounds.raw;
     const width = context.mode.allocatedWidth;
     const height = context.mode.allocatedHeight;
+
+    const mapOptions = {
+      initialCenter,
+      initialZoom,
+      showTrafficFlow,
+      showTrafficIncidents,
+      showPoi,
+      showLocationMarker
+    };
+
+    const routeOptions = {
+      travelMode,
+      traffic,
+      locations: routeWaypoints
+    };
 
     return React.createElement(App, {
       apiKey,
       theme,
-      showTrafficFlow,
-      showTrafficIncidents,
-      showPoi,
-      center,
-      zoom,
-      showLocationMarker,
-      routeWaypoints,
-      travelMode,
-      traffic,
-      fitRouteBounds,
       width,
-      height
+      height,
+      mapOptions,
+      routeOptions
     });
   }
 

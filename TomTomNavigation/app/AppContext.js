@@ -6,15 +6,23 @@ export function useAppContext() {
   return useContext(AppContext);
 }
 
-export default function AppContextProvider({ children, width, height }) {
+export default function AppContextProvider({
+  children,
+  apiKey,
+  width,
+  height,
+  theme
+}) {
   const contextValue = useMemo(
     () => ({
+      apiKey,
       width,
       height,
       isPhone: width <= 428,
-      isTablet: width > 428
+      isTablet: width > 428,
+      theme
     }),
-    [width, height]
+    [apiKey, width, height, theme]
   );
 
   return <AppContext.Provider value={contextValue} children={children} />;

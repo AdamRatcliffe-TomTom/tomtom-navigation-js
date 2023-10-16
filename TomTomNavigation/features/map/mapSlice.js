@@ -1,14 +1,22 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 const initialState = {
-  center: [0, 0],
-  zoom: 0,
-  bearing: 0,
-  pitch: 0,
-  bounds: null,
-  movingMethod: "easeTo",
-  animationOptions: {
-    duration: 2000
+  apiKey: undefined,
+  center: undefined,
+  zoom: undefined,
+  bearing: undefined,
+  pitch: undefined,
+  bounds: undefined,
+  movingMethod: "jumpTo",
+  routeOptions: {
+    travelMode: "car",
+    traffic: true,
+    locations: [],
+    sectionType: ["speedLimit", "lanes"],
+    instructionsType: "text",
+    instructionAnnouncementPoints: "all",
+    instructionRoadShieldReferences: "all",
+    language: navigator.language
   }
 };
 
@@ -16,6 +24,9 @@ const mapSlice = createSlice({
   name: "map",
   initialState,
   reducers: {
+    setApiKey: (state, action) => {
+      state.apiKey = action.payload;
+    },
     setCenter: (state, action) => {
       state.center = action.payload;
     },
@@ -34,13 +45,15 @@ const mapSlice = createSlice({
     setMovingMethod: (state, action) => {
       state.movingMethod = action.payload;
     },
-    setAnimationOptions: (state, action) => {
-      state.animationOptions = action.payload;
+    setRouteOptions: (state, action) => {
+      state.routeOptions = { ...state.routeOptions, ...action.payload };
     }
   }
 });
 
 const rootSelector = (state) => state.map;
+
+const getApiKey = createSelector(rootSelector, (state) => state.apiKey);
 
 const getCenter = createSelector(rootSelector, (state) => state.center);
 
@@ -57,29 +70,32 @@ const getMovingMethod = createSelector(
   (state) => state.movingMethod
 );
 
-const getAnimationOptions = createSelector(
+const getRouteOptions = createSelector(
   rootSelector,
-  (state) => state.animationOptions
+  (state) => state.routeOptions
 );
 
 export {
+  getApiKey,
   getCenter,
   getZoom,
   getBearing,
   getPitch,
   getBounds,
   getMovingMethod,
-  getAnimationOptions
+  getRouteOptions
 };
 
 export const {
+  setApiKey,
   setCenter,
   setZoom,
   setBearing,
   setPitch,
   setBounds,
   setMovingMethod,
-  setAnimationOptions
+  setRouteOptions,
+  setIsNavigating
 } = mapSlice.actions;
 
 export default mapSlice.reducer;

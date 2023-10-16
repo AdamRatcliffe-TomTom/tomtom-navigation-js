@@ -2,13 +2,19 @@ import LocalizedStrings from "react-localization";
 
 const strings = new LocalizedStrings({
   "en-US": {
-    drive: "Drive"
+    drive: "Drive",
+    stops: "stops",
+    exit: "Exit"
   },
   de: {
-    drive: "Fahren"
+    drive: "Fahren",
+    stops: "haltestellen",
+    exit: "Uitgang"
   },
   nl: {
-    drive: "Drijfveer"
+    drive: "Drijfveer",
+    stops: "haltes",
+    exit: "Ausfahrt"
   }
 });
 

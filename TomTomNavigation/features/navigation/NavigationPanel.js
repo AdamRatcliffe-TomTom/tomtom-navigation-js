@@ -1,16 +1,19 @@
 import { makeStyles } from "@fluentui/react";
+import { useSelector } from "react-redux";
 import RouteOverview from "./RouteOverview";
-import GuidanceView from "./GuidanceView";
 import { useAppContext } from "../../app/AppContext";
+import { useCalculateRouteQuery } from "../../services/routing";
 
-const useStyles = (props) =>
+import { getRouteOptions } from "../map/mapSlice";
+
+const useStyles = ({ isPhone }) =>
   makeStyles((theme) => ({
     root: {
       position: "absolute",
       bottom: 0,
       left: 0,
-      width: props.isPhone ? "100%" : "380px",
-      marginLeft: props.isPhone ? 0 : theme.spacing.m,
+      width: isPhone ? "100%" : "380px",
+      marginLeft: isPhone ? 0 : theme.spacing.m,
       padding: theme.spacing.m,
       background: theme.palette.white,
       borderTopLeftRadius: theme.spacing.m,
@@ -20,19 +23,20 @@ const useStyles = (props) =>
     }
   }));
 
-const NavigationPanel = ({ route, isNavigating = false }) => {
-  const { isPhone } = useAppContext();
+const NavigationPanel = () => {
+  const { apiKey, isPhone } = useAppContext();
   const classes = useStyles({ isPhone })();
+  const routeOptions = useSelector(getRouteOptions);
+  const { data: route } = useCalculateRouteQuery({
+    key: apiKey,
+    ...routeOptions
+  });
 
-  return (
+  return route ? (
     <div className={classes.root}>
-      {isNavigating ? (
-        <GuidanceView route={route} />
-      ) : (
-        <RouteOverview route={route} />
-      )}
+      <RouteOverview route={route} />
     </div>
-  );
+  ) : null;
 };
 
 export default NavigationPanel;

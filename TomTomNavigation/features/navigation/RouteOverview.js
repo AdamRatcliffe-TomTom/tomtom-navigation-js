@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector, batch } from "react-redux";
 import { useTheme, PrimaryButton } from "@fluentui/react";
 import { makeStyles } from "@fluentui/react";
 import { Stack } from "@fluentui/react/lib/Stack";
@@ -8,7 +9,17 @@ import useTextStyles from "../../hooks/useTextStyles";
 import useButtonStyles from "../../hooks/useButtonStyles";
 import formatDuration from "../../functions/formatDuration";
 import formatDistance from "../../functions/formatDistance";
+import geoJsonBounds from "../../functions/geoJsonBounds";
 import strings from "../../config/strings";
+
+import { getIsNavigating, setIsNavigating } from "./navigationSlice";
+import {
+  setMovingMethod,
+  setCenter,
+  setZoom,
+  setPitch,
+  setBounds
+} from "../map/mapSlice";
 
 const useStyles = makeStyles({
   root: {
@@ -17,15 +28,43 @@ const useStyles = makeStyles({
 });
 
 const RouteOverview = ({ route }) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const classes = useStyles();
   const textClasses = useTextStyles();
   const buttonClasses = useButtonStyles();
+  const isNavigating = useSelector(getIsNavigating);
   const { summary, legs } = route.features[0].properties;
   const { travelTimeInSeconds, lengthInMeters } = summary;
   const numStops = legs.length;
   const duration = formatDuration(travelTimeInSeconds);
   const distance = formatDistance(lengthInMeters);
+
+  const handleStartNavigation = () => {
+    // Center the map on the first coordinate of the route
+    const center = route.features[0].geometry.coordinates[0];
+
+    batch(() => {
+      dispatch(setIsNavigating(true));
+      dispatch(setMovingMethod("flyTo"));
+      dispatch(setCenter(center));
+      dispatch(setPitch(60));
+      dispatch(setZoom(18));
+      dispatch(setBounds(undefined));
+    });
+  };
+
+  const handleStopNavigation = () => {
+    const bounds = geoJsonBounds(route);
+
+    batch(() => {
+      dispatch(setIsNavigating(false));
+      dispatch(setCenter(undefined));
+      dispatch(setZoom(undefined));
+      dispatch(setPitch(0));
+      dispatch(setBounds(bounds));
+    });
+  };
 
   return (
     <Stack
@@ -47,21 +86,30 @@ const RouteOverview = ({ route }) => {
           >{`${distance.value} ${distance.units}`}</Text>
           {numStops > 1 && (
             <Text className={textClasses.secondaryText} variant="xLarge">
-              {`⸱ ${numStops} stops`}
+              {`⸱ ${numStops} ${strings.stops}`}
             </Text>
           )}
         </Stack>
       </Stack>
-      <PrimaryButton
-        className={buttonClasses.largeButton}
-        text={strings.drive}
-        styles={{
-          textContainer: {
-            flexGrow: 0
-          }
-        }}
-        onRenderIcon={() => <ChevronIcon />}
-      />
+      {isNavigating ? (
+        <PrimaryButton
+          className={[buttonClasses.largeButton, buttonClasses.warningButton]}
+          text={strings.exit}
+          onClick={handleStopNavigation}
+        />
+      ) : (
+        <PrimaryButton
+          className={buttonClasses.largeButton}
+          text={strings.drive}
+          styles={{
+            textContainer: {
+              flexGrow: 0
+            }
+          }}
+          onRenderIcon={() => <ChevronIcon />}
+          onClick={handleStartNavigation}
+        />
+      )}
     </Stack>
   );
 };
