@@ -1,5 +1,6 @@
 import { makeStyles } from "@fluentui/react";
 import { useSelector } from "react-redux";
+import { withMap } from "react-tomtom-maps";
 import RouteOverview from "./RouteOverview";
 import { useAppContext } from "../../app/AppContext";
 import { useCalculateRouteQuery } from "../../services/routing";
@@ -39,4 +40,4 @@ const NavigationPanel = () => {
   ) : null;
 };
 
-export default NavigationPanel;
+export default withMap(NavigationPanel);

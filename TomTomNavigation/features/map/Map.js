@@ -1,9 +1,10 @@
 import React, { useRef, useEffect } from "react";
-import { useSelector, useDispatch, batch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ReactMap from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
 import Route from "./Route";
 import LocationMarker from "./LocationMarker";
+import DeviceMarker from "./DeviceMarker";
 import WaypointMarker from "./WaypointMarker";
 import { useCalculateRouteQuery } from "../../services/routing";
 import geoJsonBounds from "../../functions/geoJsonBounds";
@@ -20,6 +21,8 @@ import {
   setBounds
 } from "./mapSlice";
 
+import { getIsNavigating } from "../navigation/navigationSlice";
+
 const before = "Borders - Treaty label";
 
 const Map = ({
@@ -32,6 +35,7 @@ const Map = ({
   const dispatch = useDispatch();
   const mapRef = useRef();
   const { apiKey, width, height, theme } = useAppContext();
+  const isNavigating = useSelector(getIsNavigating);
   const center = useSelector(getCenter);
   const zoom = useSelector(getZoom);
   const pitch = useSelector(getPitch);
@@ -70,7 +74,7 @@ const Map = ({
     for (let i = 0; i < locations.length; i++) {
       const waypoint = locations[i];
       if (i === 0) {
-        if (showLocationMarker) {
+        if (showLocationMarker && !isNavigating) {
           items.push(
             <LocationMarker key={waypoint.toString()} coordinates={waypoint} />
           );
@@ -109,6 +113,7 @@ const Map = ({
       <CompassControl onClick={handleCompassClick} />
       {route && <Route before={before} data={route} />}
       {renderWaypoints()}
+      {isNavigating && <DeviceMarker anchor="center" coordinates={center} />}
       {children}
     </ReactMap>
   );

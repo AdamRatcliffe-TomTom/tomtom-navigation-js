@@ -4,7 +4,7 @@ import { useTheme, PrimaryButton } from "@fluentui/react";
 import { makeStyles } from "@fluentui/react";
 import { Stack } from "@fluentui/react/lib/Stack";
 import { Text } from "@fluentui/react/lib/Text";
-import ChevronIcon from "../../icons/ChevronIcon";
+import DriveIcon from "../../icons/DriveIcon";
 import useTextStyles from "../../hooks/useTextStyles";
 import useButtonStyles from "../../hooks/useButtonStyles";
 import formatDuration from "../../functions/formatDuration";
@@ -108,7 +108,7 @@ const RouteOverview = ({ route }) => {
               flexGrow: 0
             }
           }}
-          onRenderIcon={() => <ChevronIcon />}
+          onRenderIcon={() => <DriveIcon />}
           onClick={handleStartNavigation}
         />
       )}
