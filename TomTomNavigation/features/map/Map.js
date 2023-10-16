@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import ReactMap from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
@@ -13,18 +13,16 @@ import {
   getCenter,
   getZoom,
   getPitch,
+  getBounds,
   getMovingMethod,
   getRouteOptions,
-  setCenter,
-  setZoom,
-  setPitch
+  getFitBoundsOptions,
+  setBounds
 } from "./mapSlice";
 
 const before = "Borders - Treaty label";
 
 const Map = ({
-  initialCenter,
-  initialZoom,
   showTrafficFlow,
   showTrafficIncidents,
   showPoi,
@@ -34,20 +32,25 @@ const Map = ({
   const dispatch = useDispatch();
   const mapRef = useRef();
   const { apiKey, width, height, theme } = useAppContext();
-  const center = useSelector(getCenter) || initialCenter;
-  const zoom = useSelector(getZoom) || initialZoom;
+  const center = useSelector(getCenter);
+  const zoom = useSelector(getZoom);
   const pitch = useSelector(getPitch);
+  const bounds = useSelector(getBounds);
   const movingMethod = useSelector(getMovingMethod);
   const routeOptions = useSelector(getRouteOptions);
+  const fitBoundsOptions = useSelector(getFitBoundsOptions);
   const { data: route } = useCalculateRouteQuery({
     key: apiKey,
     ...routeOptions
   });
-  const bounds = useMemo(
-    () => (route ? geoJsonBounds(route) : undefined),
-    [route]
-  );
   const mapStyle = `https://api.tomtom.com/style/1/style/24.*?map=10-test/basic_street-${theme}&traffic_flow=2/flow_relative-${theme}&traffic_incidents=2/incidents_${theme}&poi=2/poi_${theme}`;
+
+  useEffect(() => {
+    if (route) {
+      const bounds = geoJsonBounds(route);
+      dispatch(setBounds(bounds));
+    }
+  }, [route]);
 
   useEffect(() => {
     const map = mapRef.current.getMap();
@@ -96,10 +99,7 @@ const Map = ({
         width: `${width}px`,
         height: `${height}px`
       }}
-      fitBoundsOptions={{
-        padding: { top: 80, right: 40, bottom: 150, left: 40 },
-        animate: false
-      }}
+      fitBoundsOptions={fitBoundsOptions}
       movingMethod={movingMethod}
       center={center}
       zoom={zoom}

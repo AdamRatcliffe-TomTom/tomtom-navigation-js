@@ -1,13 +1,16 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 const initialState = {
-  apiKey: undefined,
   center: undefined,
   zoom: undefined,
   bearing: undefined,
   pitch: undefined,
   bounds: undefined,
   movingMethod: "jumpTo",
+  fitBoundsOptions: {
+    padding: { top: 80, right: 40, bottom: 150, left: 40 },
+    animate: false
+  },
   routeOptions: {
     travelMode: "car",
     traffic: true,
@@ -24,9 +27,6 @@ const mapSlice = createSlice({
   name: "map",
   initialState,
   reducers: {
-    setApiKey: (state, action) => {
-      state.apiKey = action.payload;
-    },
     setCenter: (state, action) => {
       state.center = action.payload;
     },
@@ -47,13 +47,14 @@ const mapSlice = createSlice({
     },
     setRouteOptions: (state, action) => {
       state.routeOptions = { ...state.routeOptions, ...action.payload };
+    },
+    setFitBoundsOptions: (state, action) => {
+      state.fitBoundsOptions = { ...state.fitBoundsOptions, ...action.payload };
     }
   }
 });
 
 const rootSelector = (state) => state.map;
-
-const getApiKey = createSelector(rootSelector, (state) => state.apiKey);
 
 const getCenter = createSelector(rootSelector, (state) => state.center);
 
@@ -75,19 +76,23 @@ const getRouteOptions = createSelector(
   (state) => state.routeOptions
 );
 
+const getFitBoundsOptions = createSelector(
+  rootSelector,
+  (state) => state.fitBoundsOptions
+);
+
 export {
-  getApiKey,
   getCenter,
   getZoom,
   getBearing,
   getPitch,
   getBounds,
   getMovingMethod,
-  getRouteOptions
+  getRouteOptions,
+  getFitBoundsOptions
 };
 
 export const {
-  setApiKey,
   setCenter,
   setZoom,
   setBearing,
@@ -95,6 +100,7 @@ export const {
   setBounds,
   setMovingMethod,
   setRouteOptions,
+  setFitBoundsOptions,
   setIsNavigating
 } = mapSlice.actions;
 

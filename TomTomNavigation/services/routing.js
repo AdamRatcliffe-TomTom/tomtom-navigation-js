@@ -40,7 +40,7 @@ const locationToString = (coordinate) => `${coordinate.lat},${coordinate.lng}`;
 const routeBaseQuery = async (args) => {
   try {
     // work around for resetApiState not resetting the data in the useQuery hook
-    if (args.locations.length < 2) return { data: null };
+    if (args.locations?.length < 2) return { data: null };
 
     const data = await calculateRoute(args);
     return { data };
@@ -52,11 +52,13 @@ const routeBaseQuery = async (args) => {
 export const routingApi = createApi({
   reducerPath: "routeApi",
   baseQuery: routeBaseQuery,
+  tagTypes: ["Route"],
   endpoints: (builder) => ({
     calculateRoute: builder.query({
       query: (args) => args
     })
-  })
+  }),
+  serializeQueryArgs: (args) => JSON.stringify(args)
 });
 
 export const { useCalculateRouteQuery } = routingApi;

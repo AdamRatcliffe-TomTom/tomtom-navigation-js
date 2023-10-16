@@ -10,16 +10,19 @@ import NavigationPanel from "../features/navigation/NavigationPanel";
 import { setCenter, setZoom, setRouteOptions } from "../features/map/mapSlice";
 
 // Use the wrapper to save shared state to the store
-function Wrapper({ center, zoom, routeOptions, children }) {
+function Wrapper({ initialCenter, initialZoom, routeOptions, children }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
     batch(() => {
-      dispatch(setCenter(center));
-      dispatch(setZoom(zoom));
-      dispatch(setRouteOptions(routeOptions));
+      if (initialCenter) dispatch(setCenter(initialCenter));
+      if (initialZoom) dispatch(setZoom(initialZoom));
     });
-  }, [center, zoom, routeOptions]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(setRouteOptions(routeOptions));
+  }, [routeOptions]);
 
   return <div className="TomTomNavigation">{children}</div>;
 }

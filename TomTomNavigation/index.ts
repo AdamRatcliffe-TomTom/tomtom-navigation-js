@@ -60,8 +60,6 @@ export class TomTomNavigation
     const height = context.mode.allocatedHeight;
 
     const mapOptions = {
-      initialCenter,
-      initialZoom,
       showTrafficFlow,
       showTrafficIncidents,
       showPoi,
@@ -79,6 +77,8 @@ export class TomTomNavigation
       theme,
       width,
       height,
+      initialCenter,
+      initialZoom,
       mapOptions,
       routeOptions
     });

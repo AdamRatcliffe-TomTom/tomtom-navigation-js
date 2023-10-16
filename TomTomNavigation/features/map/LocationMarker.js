@@ -5,8 +5,8 @@ import { Marker } from "react-tomtom-maps";
 const useStyles = makeStyles({
   root: {
     boxSizing: "border-box",
-    width: "24px",
-    height: "24px",
+    width: "20px",
+    height: "20px",
     background: "rgb(59, 174, 227)",
     border: "3px solid white",
     borderRadius: "50%",

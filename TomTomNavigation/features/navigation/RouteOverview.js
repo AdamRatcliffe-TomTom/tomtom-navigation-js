@@ -18,7 +18,8 @@ import {
   setCenter,
   setZoom,
   setPitch,
-  setBounds
+  setBounds,
+  setFitBoundsOptions
 } from "../map/mapSlice";
 
 const useStyles = makeStyles({
@@ -59,6 +60,7 @@ const RouteOverview = ({ route }) => {
 
     batch(() => {
       dispatch(setIsNavigating(false));
+      dispatch(setFitBoundsOptions({ animate: true }));
       dispatch(setCenter(undefined));
       dispatch(setZoom(undefined));
       dispatch(setPitch(0));
