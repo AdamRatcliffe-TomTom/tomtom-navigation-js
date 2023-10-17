@@ -1,12 +1,25 @@
 import React from "react";
-import { Marker } from "react-tomtom-maps";
 import ChevronIcon from "../../icons/ChevronIcon";
+import { makeStyles } from "@fluentui/react";
 
-const DeviceMarker = (props) =>
-  props.coordinates ? (
-    <Marker className="DeviceMarker" {...props}>
+const useStyles = makeStyles({
+  root: {
+    position: "absolute",
+    left: "50%",
+    top: "50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: 10
+  }
+});
+
+const DeviceMarker = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
       <ChevronIcon />
-    </Marker>
-  ) : null;
+    </div>
+  );
+};
 
 export default DeviceMarker;

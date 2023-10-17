@@ -54,6 +54,7 @@ export class TomTomNavigation
     if (routeWaypoints instanceof tt.LngLat) {
       routeWaypoints = [routeWaypoints];
     }
+    const simulationSpeed = context.parameters.simulationSpeed.raw;
     const travelMode = context.parameters.travelMode.raw;
     const traffic = !!context.parameters.traffic.raw;
     const width = context.mode.allocatedWidth;
@@ -77,6 +78,7 @@ export class TomTomNavigation
       theme,
       width,
       height,
+      simulationSpeed,
       initialCenter,
       initialZoom,
       mapOptions,
