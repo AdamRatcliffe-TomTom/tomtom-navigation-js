@@ -2,7 +2,8 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 const initialState = {
   isNavigating: false,
-  navigationModeTransitioning: false
+  navigationModeTransitioning: false,
+  navigationRoute: undefined
 };
 
 const navigationSlice = createSlice({
@@ -14,6 +15,9 @@ const navigationSlice = createSlice({
     },
     setNavigationModeTransitioning: (state, action) => {
       state.navigationModeTransitioning = action.payload;
+    },
+    setNavigationRoute: (state, action) => {
+      state.navigationRoute = action.payload;
     }
   }
 });
@@ -30,9 +34,17 @@ const getNavigationModeTransitioning = createSelector(
   (state) => state.navigationModeTransitioning
 );
 
-export { getIsNavigating, getNavigationModeTransitioning };
+const getNavigationRoute = createSelector(
+  rootSelector,
+  (state) => state.navigationRoute
+);
 
-export const { setIsNavigating, setNavigationModeTransitioning } =
-  navigationSlice.actions;
+export { getIsNavigating, getNavigationModeTransitioning, getNavigationRoute };
+
+export const {
+  setIsNavigating,
+  setNavigationModeTransitioning,
+  setNavigationRoute
+} = navigationSlice.actions;
 
 export default navigationSlice.reducer;

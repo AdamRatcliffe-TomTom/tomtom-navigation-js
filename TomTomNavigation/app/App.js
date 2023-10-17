@@ -5,7 +5,7 @@ import { Provider as StoreProvider } from "react-redux";
 import { store } from "./store";
 import AppContextProvider from "./AppContext";
 import Map from "../features/map/Map";
-import NavigationPanel from "../features/navigation/NavigationPanel";
+import Navigation from "../features/navigation/Navigation";
 
 import { setCenter, setZoom, setRouteOptions } from "../features/map/mapSlice";
 
@@ -27,7 +27,15 @@ function Wrapper({ initialCenter, initialZoom, routeOptions, children }) {
   return <div className="TomTomNavigation">{children}</div>;
 }
 
-function App({ apiKey, width, height, theme, mapOptions, ...otherProps }) {
+function App({
+  apiKey,
+  width,
+  height,
+  simulationSpeed,
+  theme,
+  mapOptions,
+  ...otherProps
+}) {
   return (
     <StoreProvider store={store}>
       <ThemeProvider>
@@ -35,11 +43,12 @@ function App({ apiKey, width, height, theme, mapOptions, ...otherProps }) {
           apiKey={apiKey}
           width={width}
           height={height}
+          simulationSpeed={simulationSpeed}
           theme={theme}
         >
           <Wrapper {...otherProps}>
             <Map {...mapOptions}>
-              <NavigationPanel />
+              <Navigation />
             </Map>
           </Wrapper>
         </AppContextProvider>

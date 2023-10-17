@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useAppContext } from "../../app/AppContext";
 import ReactMap from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
 import Route from "./Route";
@@ -9,7 +10,7 @@ import WaypointMarker from "./WaypointMarker";
 import Fade from "../../core/Fade";
 import { useCalculateRouteQuery } from "../../services/routing";
 import geoJsonBounds from "../../functions/geoJsonBounds";
-import { useAppContext } from "../../app/AppContext";
+import tomtom2mapbox from "../../functions/tomtom2mapbox";
 
 import {
   getCenter,
@@ -24,7 +25,8 @@ import {
 
 import {
   getIsNavigating,
-  getNavigationModeTransitioning
+  getNavigationModeTransitioning,
+  setNavigationRoute
 } from "../navigation/navigationSlice";
 
 const before = "Borders - Treaty label";
@@ -60,6 +62,9 @@ const Map = ({
     if (route) {
       const bounds = geoJsonBounds(route);
       dispatch(setBounds(bounds));
+
+      const navigationRoute = tomtom2mapbox(route.features[0]);
+      dispatch(setNavigationRoute(navigationRoute));
     }
   }, [route]);
 
@@ -81,7 +86,10 @@ const Map = ({
     for (let i = 0; i < locations.length; i++) {
       const waypoint = locations[i];
       if (i === 0) {
-        if (showLocationMarker && !isNavigating) {
+        if (
+          showLocationMarker &&
+          (!isNavigating || navigationModeTransitioning)
+        ) {
           items.push(
             <LocationMarker key={waypoint.toString()} coordinates={waypoint} />
           );
@@ -121,7 +129,7 @@ const Map = ({
       {route && <Route before={before} data={route} />}
       {renderWaypoints()}
       <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
-        <DeviceMarker anchor="center" coordinates={center} />
+        <DeviceMarker />
       </Fade>
       {children}
     </ReactMap>

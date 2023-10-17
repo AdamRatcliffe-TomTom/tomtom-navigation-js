@@ -7,7 +7,7 @@ const Fade = ({ show, children, duration = "1s" }) => {
     if (show) setRender(true);
   }, [show]);
 
-  const onAnimationEnd = () => {
+  const handleAnimationEnd = () => {
     if (!show) setRender(false);
   };
 
@@ -15,7 +15,7 @@ const Fade = ({ show, children, duration = "1s" }) => {
     shouldRender && (
       <div
         style={{ animation: `${show ? "fadeIn" : "fadeOut"} ${duration}` }}
-        onAnimationEnd={onAnimationEnd}
+        onAnimationEnd={handleAnimationEnd}
       >
         {children}
       </div>

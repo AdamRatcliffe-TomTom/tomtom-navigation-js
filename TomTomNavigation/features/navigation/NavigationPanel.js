@@ -1,6 +1,5 @@
 import { makeStyles } from "@fluentui/react";
 import { useSelector } from "react-redux";
-import { withMap } from "react-tomtom-maps";
 import RouteOverview from "./RouteOverview";
 import { useAppContext } from "../../app/AppContext";
 import { useCalculateRouteQuery } from "../../services/routing";
@@ -24,7 +23,7 @@ const useStyles = ({ isPhone }) =>
     }
   }));
 
-const NavigationPanel = ({ map }) => {
+const NavigationPanel = () => {
   const { apiKey, isPhone } = useAppContext();
   const classes = useStyles({ isPhone })();
   const routeOptions = useSelector(getRouteOptions);
@@ -35,9 +34,9 @@ const NavigationPanel = ({ map }) => {
 
   return route ? (
     <div className={classes.root}>
-      <RouteOverview map={map} route={route} />
+      <RouteOverview route={route} />
     </div>
   ) : null;
 };
 
-export default withMap(NavigationPanel);
+export default NavigationPanel;

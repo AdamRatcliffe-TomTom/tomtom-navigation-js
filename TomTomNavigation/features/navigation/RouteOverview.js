@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector, batch } from "react-redux";
+import { withMap } from "react-tomtom-maps";
 import { useTheme, PrimaryButton } from "@fluentui/react";
 import { makeStyles } from "@fluentui/react";
 import { Stack } from "@fluentui/react/lib/Stack";
@@ -127,4 +128,4 @@ const RouteOverview = ({ map, route }) => {
   );
 };
 
-export default RouteOverview;
+export default withMap(RouteOverview);
