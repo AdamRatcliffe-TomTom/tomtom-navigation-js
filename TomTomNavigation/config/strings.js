@@ -9,12 +9,12 @@ const strings = new LocalizedStrings({
   de: {
     drive: "Fahren",
     stops: "haltestellen",
-    exit: "Uitgang"
+    exit: "Ende"
   },
   nl: {
-    drive: "Drijfveer",
+    drive: "Start",
     stops: "haltes",
-    exit: "Ausfahrt"
+    exit: "Stop"
   }
 });
 

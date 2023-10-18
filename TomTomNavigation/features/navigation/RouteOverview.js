@@ -61,6 +61,9 @@ const RouteOverview = ({ map, route }) => {
       dispatch(setBounds(undefined));
     });
 
+    // Make map non-interactive when navigating
+    getMapCanvas().style.pointerEvents = "none";
+
     map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
   };
 
@@ -77,8 +80,13 @@ const RouteOverview = ({ map, route }) => {
       dispatch(setBounds(bounds));
     });
 
+    // Restore map interaction
+    getMapCanvas().style.pointerEvents = "all";
+
     map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
   };
+
+  const getMapCanvas = () => map.__om._canvas;
 
   return (
     <Stack

@@ -48,6 +48,7 @@ export class TomTomNavigation
     const showTrafficIncidents = !!context.parameters.showTrafficIncidents.raw;
     const showPoi = !!context.parameters.showPoi.raw;
     const showLocationMarker = !!context.parameters.showLocationMarker.raw;
+    const showZoomControl = !!context.parameters.showZoomControl.raw;
     let routeWaypoints: any = parseCoordinateString(
       context.parameters.routeWaypoints.raw
     );
@@ -64,7 +65,8 @@ export class TomTomNavigation
       showTrafficFlow,
       showTrafficIncidents,
       showPoi,
-      showLocationMarker
+      showLocationMarker,
+      showZoomControl
     };
 
     const routeOptions = {

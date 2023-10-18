@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAppContext } from "../../app/AppContext";
-import ReactMap from "react-tomtom-maps";
+import ReactMap, { ZoomControls } from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
 import Route from "./Route";
 import LocationMarker from "./LocationMarker";
@@ -36,6 +36,7 @@ const Map = ({
   showTrafficIncidents,
   showPoi,
   showLocationMarker,
+  showZoomControl,
   children
 }) => {
   const dispatch = useDispatch();
@@ -126,6 +127,7 @@ const Map = ({
       pitch={pitch}
     >
       <CompassControl onClick={handleCompassClick} />
+      {showZoomControl && <ZoomControls />}
       {route && <Route before={before} data={route} />}
       {renderWaypoints()}
       <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">

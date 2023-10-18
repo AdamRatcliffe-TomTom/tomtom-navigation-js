@@ -1,125 +1,52 @@
-import { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { withMap } from "react-tomtom-maps";
-import { MapboxOverlay } from "@deck.gl/mapbox";
-import { GeoJsonLayer } from "deck.gl";
-import { v4 as uuid } from "uuid";
+import React from "react";
+import { GeoJSONLayer } from "react-tomtom-maps";
 
-class Route extends PureComponent {
-  id = `Route-${uuid()}`;
-
-  componentDidMount() {
-    const { map } = this.props;
-
-    this.control = new MapboxOverlay({
-      interleaved: true,
-      layers: this.createLayers()
-    });
-
-    map.addControl(this.control);
-  }
-
-  componentWillUnmount() {
-    const { map } = this.props;
-
-    try {
-      map.removeControl(this.control);
-      this.control = undefined;
-    } catch (e) {
-      // do nothing
-    }
-  }
-
-  createLayers() {
-    const { data, routeProgress, before } = this.props;
-
-    if (!data) return null;
-
-    const layers = [
-      new GeoJsonLayer({
-        id: `${this.id}--Casing`,
-        beforeId: before,
-        data: data,
-        filled: true,
-        stroked: true,
-        getLineColor: [5, 104, 168, 255],
-        getLineWidth: 9,
-        lineWidthMinPixels: 8,
-        lineWidthMaxPixels: 14,
-        lineWidthUnits: "meters",
-        lineCapRounded: true,
-        lineJointRounded: true
-      }),
-      new GeoJsonLayer({
-        id: `${this.id}--Line`,
-        beforeId: before,
-        data: data,
-        filled: true,
-        stroked: true,
-        getLineColor: [59, 174, 227, 255],
-        getLineWidth: 6,
-        lineWidthMinPixels: 5,
-        lineWidthMaxPixels: 12,
-        lineWidthUnits: "meters",
-        lineCapRounded: true,
-        lineJointRounded: true
-      }),
-      new GeoJsonLayer({
-        id: `${this.id}--Progress-Casing`,
-        beforeId: before,
-        data: routeProgress,
-        filled: true,
-        stroked: true,
-        getLineColor: [135, 144, 152, 255],
-        getLineWidth: 9,
-        lineWidthMinPixels: 8,
-        lineWidthMaxPixels: 14,
-        lineWidthUnits: "meters",
-        lineCapRounded: true,
-        lineJointRounded: true
-      }),
-      new GeoJsonLayer({
-        id: `${this.id}--Progress-Line`,
-        beforeId: before,
-        data: routeProgress,
-        filled: true,
-        stroked: true,
-        getLineColor: [184, 187, 190, 255],
-        getLineWidth: 6,
-        lineWidthMinPixels: 6,
-        lineWidthMaxPixels: 12,
-        lineWidthUnits: "meters",
-        lineCapRounded: true,
-        lineJointRounded: true
-      })
-    ];
-
-    return layers;
-  }
-
-  render() {
-    if (!this.control) {
-      return null;
-    }
-
-    this.control.setProps({
-      layers: this.createLayers()
-    });
-
-    return null;
-  }
-}
-
-Route.propTypes = {
-  map: PropTypes.object,
-  data: PropTypes.object,
-  routeProgress: PropTypes.object,
-  animationDuration: PropTypes.number,
-  before: PropTypes.string
+const lineLayout = {
+  "line-join": "round",
+  "line-cap": "round"
 };
 
-Route.defaultProps = {
-  animationDuration: 2000
-};
+const Route = React.memo(({ data, ...otherProps }) => (
+  <>
+    <GeoJSONLayer
+      data={data}
+      {...otherProps}
+      lineLayout={lineLayout}
+      linePaint={{
+        "line-width": {
+          stops: [
+            [8, 7],
+            [10, 8],
+            [12, 9],
+            [14, 11],
+            [16, 12],
+            [18, 14],
+            [20, 16]
+          ]
+        },
+        "line-color": "#0568A8"
+      }}
+    />
+    <GeoJSONLayer
+      data={data}
+      {...otherProps}
+      lineLayout={lineLayout}
+      linePaint={{
+        "line-width": {
+          stops: [
+            [8, 4],
+            [10, 5],
+            [12, 6],
+            [14, 8],
+            [16, 9],
+            [18, 10],
+            [20, 13]
+          ]
+        },
+        "line-color": "#3BAEE3"
+      }}
+    />
+  </>
+));
 
-export default withMap(Route);
+export default Route;

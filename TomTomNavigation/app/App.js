@@ -9,6 +9,15 @@ import Navigation from "../features/navigation/Navigation";
 
 import { setCenter, setZoom, setRouteOptions } from "../features/map/mapSlice";
 
+const darkTheme = {
+  semanticColors: {
+    bodyText: "#fff"
+  },
+  palette: {
+    white: "#18212A"
+  }
+};
+
 // Use the wrapper to save shared state to the store
 function Wrapper({ initialCenter, initialZoom, routeOptions, children }) {
   const dispatch = useDispatch();
@@ -38,7 +47,7 @@ function App({
 }) {
   return (
     <StoreProvider store={store}>
-      <ThemeProvider>
+      <ThemeProvider {...(theme === "dark" && { theme: darkTheme })}>
         <AppContextProvider
           apiKey={apiKey}
           width={width}
