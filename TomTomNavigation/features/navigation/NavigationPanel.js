@@ -4,7 +4,7 @@ import RouteOverview from "./RouteOverview";
 import { useAppContext } from "../../app/AppContext";
 import { useCalculateRouteQuery } from "../../services/routing";
 
-import { getRouteOptions } from "../map/mapSlice";
+import { getRouteOptions, getAutomaticRouteCalculation } from "../map/mapSlice";
 
 const useStyles = ({ isPhone }) =>
   makeStyles((theme) => ({
@@ -14,7 +14,7 @@ const useStyles = ({ isPhone }) =>
       left: 0,
       width: isPhone ? "100%" : "380px",
       marginLeft: isPhone ? 0 : theme.spacing.m,
-      padding: theme.spacing.m,
+      padding: theme.spacing.l1,
       background: theme.palette.white,
       borderTopLeftRadius: theme.spacing.m,
       borderTopRightRadius: theme.spacing.m,
@@ -27,10 +27,14 @@ const NavigationPanel = () => {
   const { apiKey, isPhone } = useAppContext();
   const classes = useStyles({ isPhone })();
   const routeOptions = useSelector(getRouteOptions);
-  const { data: route } = useCalculateRouteQuery({
-    key: apiKey,
-    ...routeOptions
-  });
+  const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
+  const { data: route } = useCalculateRouteQuery(
+    {
+      key: apiKey,
+      ...routeOptions
+    },
+    { skip: !automaticRouteCalculation }
+  );
 
   return route ? (
     <div className={classes.root}>

@@ -20,7 +20,8 @@ const initialState = {
     instructionAnnouncementPoints: "all",
     instructionRoadShieldReferences: "all",
     language: navigator.language
-  }
+  },
+  automaticRouteCalculation: false
 };
 
 const mapSlice = createSlice({
@@ -47,6 +48,9 @@ const mapSlice = createSlice({
     },
     setRouteOptions: (state, action) => {
       state.routeOptions = { ...state.routeOptions, ...action.payload };
+    },
+    setAutomaticRouteCalculation: (state, action) => {
+      state.automaticRouteCalculation = action.payload;
     },
     setFitBoundsOptions: (state, action) => {
       state.fitBoundsOptions = { ...state.fitBoundsOptions, ...action.payload };
@@ -76,6 +80,11 @@ const getRouteOptions = createSelector(
   (state) => state.routeOptions
 );
 
+const getAutomaticRouteCalculation = createSelector(
+  rootSelector,
+  (state) => state.automaticRouteCalculation
+);
+
 const getFitBoundsOptions = createSelector(
   rootSelector,
   (state) => state.fitBoundsOptions
@@ -89,6 +98,7 @@ export {
   getBounds,
   getMovingMethod,
   getRouteOptions,
+  getAutomaticRouteCalculation,
   getFitBoundsOptions
 };
 
@@ -100,6 +110,7 @@ export const {
   setBounds,
   setMovingMethod,
   setRouteOptions,
+  setAutomaticRouteCalculation,
   setFitBoundsOptions,
   setIsNavigating
 } = mapSlice.actions;

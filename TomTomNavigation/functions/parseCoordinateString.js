@@ -1,6 +1,9 @@
 import * as tt from "@tomtom-international/web-sdk-maps";
 
-export default function parseCoordinateString(coordString) {
+export default function parseCoordinateString(
+  coordString,
+  returnFirst = false
+) {
   if (!coordString || !coordString.length) {
     return undefined;
   }
@@ -19,10 +22,12 @@ export default function parseCoordinateString(coordString) {
     }
   }
 
-  if (coordinates.length === 1) {
-    return coordinates[0];
-  } else if (coordinates.length > 1) {
-    return coordinates;
+  if (coordinates.length > 0) {
+    if (coordinates.length === 1 || returnFirst) {
+      return coordinates[0];
+    } else {
+      return coordinates;
+    }
   } else {
     return undefined;
   }

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { featureCollection, feature } from "@turf/helpers";
 import { useAppContext } from "../../app/AppContext";
 import ReactMap, { ZoomControls } from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
@@ -19,6 +20,7 @@ import {
   getBounds,
   getMovingMethod,
   getRouteOptions,
+  getAutomaticRouteCalculation,
   getFitBoundsOptions,
   setBounds
 } from "./mapSlice";
@@ -52,18 +54,33 @@ const Map = ({
   const bounds = useSelector(getBounds);
   const movingMethod = useSelector(getMovingMethod);
   const routeOptions = useSelector(getRouteOptions);
+  const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const fitBoundsOptions = useSelector(getFitBoundsOptions);
-  const { data: route } = useCalculateRouteQuery({
-    key: apiKey,
-    ...routeOptions
-  });
+  const { data: route } = useCalculateRouteQuery(
+    {
+      key: apiKey,
+      ...routeOptions
+    },
+    { skip: !automaticRouteCalculation }
+  );
   const mapStyle = `https://api.tomtom.com/style/1/style/24.*?map=10-test/basic_street-${theme}&traffic_flow=2/flow_relative-${theme}&traffic_incidents=2/incidents_${theme}&poi=2/poi_${theme}`;
 
   useEffect(() => {
-    if (route) {
-      const bounds = geoJsonBounds(route);
+    const { locations } = routeOptions;
+    if (locations.length) {
+      const bounds = geoJsonBounds(
+        featureCollection(
+          locations.map((location) =>
+            feature({ type: "Point", coordinates: location.toArray() })
+          )
+        )
+      );
       dispatch(setBounds(bounds));
+    }
+  }, [routeOptions.locations]);
 
+  useEffect(() => {
+    if (route) {
       const navigationRoute = tomtom2mapbox(route.features[0]);
       dispatch(setNavigationRoute(navigationRoute));
     }
@@ -81,27 +98,12 @@ const Map = ({
 
   const renderWaypoints = () => {
     const { locations } = routeOptions;
+
     if (!locations) return null;
 
-    const items = [];
-    for (let i = 0; i < locations.length; i++) {
-      const waypoint = locations[i];
-      if (i === 0) {
-        if (
-          showLocationMarker &&
-          (!isNavigating || navigationModeTransitioning)
-        ) {
-          items.push(
-            <LocationMarker key={waypoint.toString()} coordinates={waypoint} />
-          );
-        }
-      } else {
-        items.push(
-          <WaypointMarker key={waypoint.toString()} coordinates={waypoint} />
-        );
-      }
-    }
-    return items;
+    return locations.map((location) => (
+      <WaypointMarker key={location.toString()} coordinates={location} />
+    ));
   };
 
   return (

@@ -7,7 +7,12 @@ import AppContextProvider from "./AppContext";
 import Map from "../features/map/Map";
 import Navigation from "../features/navigation/Navigation";
 
-import { setCenter, setZoom, setRouteOptions } from "../features/map/mapSlice";
+import {
+  setCenter,
+  setZoom,
+  setRouteOptions,
+  setAutomaticRouteCalculation
+} from "../features/map/mapSlice";
 
 const darkTheme = {
   semanticColors: {
@@ -19,7 +24,13 @@ const darkTheme = {
 };
 
 // Use the wrapper to save shared state to the store
-function Wrapper({ initialCenter, initialZoom, routeOptions, children }) {
+function Wrapper({
+  initialCenter,
+  initialZoom,
+  routeOptions,
+  automaticRouteCalculation,
+  children
+}) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,8 +41,9 @@ function Wrapper({ initialCenter, initialZoom, routeOptions, children }) {
   }, []);
 
   useEffect(() => {
+    dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
     dispatch(setRouteOptions(routeOptions));
-  }, [routeOptions]);
+  }, [automaticRouteCalculation, routeOptions]);
 
   return <div className="TomTomNavigation">{children}</div>;
 }

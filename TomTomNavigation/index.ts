@@ -41,7 +41,8 @@ export class TomTomNavigation
     const apiKey = context.parameters.apiKey.raw;
     const theme = context.parameters.theme.raw;
     const initialCenter = parseCoordinateString(
-      context.parameters.initialCenter.raw
+      context.parameters.initialCenter.raw,
+      true
     );
     const initialZoom = context.parameters.initialZoom.raw;
     const showTrafficFlow = !!context.parameters.showTrafficFlow.raw;
@@ -49,6 +50,8 @@ export class TomTomNavigation
     const showPoi = !!context.parameters.showPoi.raw;
     const showLocationMarker = !!context.parameters.showLocationMarker.raw;
     const showZoomControl = !!context.parameters.showZoomControl.raw;
+    const automaticRouteCalculation =
+      !!context.parameters.automaticRouteCalculation.raw;
     let routeWaypoints: any = parseCoordinateString(
       context.parameters.routeWaypoints.raw
     );
@@ -84,7 +87,8 @@ export class TomTomNavigation
       initialCenter,
       initialZoom,
       mapOptions,
-      routeOptions
+      routeOptions,
+      automaticRouteCalculation
     });
   }
 
