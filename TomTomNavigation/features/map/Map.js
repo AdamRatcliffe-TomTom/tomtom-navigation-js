@@ -1,9 +1,10 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { featureCollection, feature } from "@turf/helpers";
 import { useAppContext } from "../../app/AppContext";
 import ReactMap, { ZoomControls } from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
+import MapSwitcherControl from "./MapSwitcherControl";
 import Route from "./Route";
 import LocationMarker from "./LocationMarker";
 import DeviceMarker from "./DeviceMarker";
@@ -39,11 +40,12 @@ const Map = ({
   showPoi,
   showLocationMarker,
   showZoomControl,
+  showMapSwitcherControl,
   children
 }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
-  const { apiKey, width, height, theme } = useAppContext();
+  const { apiKey, width, height, theme, mapStyles } = useAppContext();
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
@@ -63,7 +65,10 @@ const Map = ({
     },
     { skip: !automaticRouteCalculation }
   );
-  const mapStyle = `https://api.tomtom.com/style/1/style/24.*?map=10-test/basic_street-${theme}&traffic_flow=2/flow_relative-${theme}&traffic_incidents=2/incidents_${theme}&poi=2/poi_${theme}&restrictions=2/restrictions_${theme}`;
+  const [mapStyle, setMapStyle] = useState({
+    name: "street",
+    style: mapStyles.street
+  });
 
   useEffect(() => {
     const { locations } = routeOptions;
@@ -96,6 +101,13 @@ const Map = ({
     map.easeTo({ bearing: 0, duration: 250 });
   };
 
+  const handleMapStyleSelected = (name) => {
+    setMapStyle({
+      name,
+      style: mapStyles[name]
+    });
+  };
+
   const renderWaypoints = () => {
     const { locations } = routeOptions;
 
@@ -111,7 +123,7 @@ const Map = ({
       ref={mapRef}
       key={apiKey}
       apiKey={apiKey}
-      mapStyle={mapStyle}
+      mapStyle={mapStyle.style}
       stylesVisibility={{
         trafficFlow: showTrafficFlow,
         trafficIncidents: showTrafficIncidents,
@@ -123,12 +135,19 @@ const Map = ({
       }}
       fitBoundsOptions={fitBoundsOptions}
       movingMethod={movingMethod}
+      attributionControl={false}
       center={center}
       zoom={zoom}
       bounds={bounds}
       pitch={pitch}
     >
       <CompassControl onClick={handleCompassClick} />
+      {showMapSwitcherControl && !isNavigating && (
+        <MapSwitcherControl
+          selected={mapStyle.name}
+          onSelected={handleMapStyleSelected}
+        />
+      )}
       {showZoomControl && <ZoomControls />}
       {route && <Route before={before} data={route} />}
       {renderWaypoints()}

@@ -56,6 +56,10 @@ export class TomTomNavigation
       "showLocationMarker"
     );
     const showZoomControl = this.getRawParameter(context, "showZoomControl");
+    const showMapSwitcherControl = this.getRawParameter(
+      context,
+      "showMapSwitcherControl"
+    );
     const automaticRouteCalculation = this.getRawParameter(
       context,
       "automaticRouteCalculation"
@@ -81,7 +85,8 @@ export class TomTomNavigation
       showTrafficIncidents,
       showPoi,
       showLocationMarker,
-      showZoomControl
+      showZoomControl,
+      showMapSwitcherControl
     };
 
     const routeOptions = {
