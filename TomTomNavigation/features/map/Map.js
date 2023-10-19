@@ -63,7 +63,7 @@ const Map = ({
     },
     { skip: !automaticRouteCalculation }
   );
-  const mapStyle = `https://api.tomtom.com/style/1/style/24.*?map=10-test/basic_street-${theme}&traffic_flow=2/flow_relative-${theme}&traffic_incidents=2/incidents_${theme}&poi=2/poi_${theme}`;
+  const mapStyle = `https://api.tomtom.com/style/1/style/24.*?map=10-test/basic_street-${theme}&traffic_flow=2/flow_relative-${theme}&traffic_incidents=2/incidents_${theme}&poi=2/poi_${theme}&restrictions=2/restrictions_${theme}`;
 
   useEffect(() => {
     const { locations } = routeOptions;

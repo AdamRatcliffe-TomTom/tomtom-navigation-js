@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.2.2" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.3.0" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -45,6 +45,10 @@
 			<value name="pedestrian" display-name-key="Pedestrian">pedestrian</value>
 		</property>
 		<property name="traffic" display-name-key="Calculate route with traffic" description-key="traffic_Desc_Key" of-type="TwoOptions" usage="bound" required="false" default-value="true"/>
+		<property name="arrivalSidePreference" display-name-key="Arrival side preference" description-key="arrivalSidePreference_Desc_Key" of-type="Enum" usage="input" required="true" default-value="anySide">
+			<value name="anySide" display-name-key="Any side">anySide</value>
+			<value name="curbSide" display-name-key="Curb side">curbSide</value>			
+		</property>
 		<property name="simulationSpeed" display-name-key="Simulation speed" description-key="simulationSpeed_Desc_Key" of-type="Enum" usage="input" required="true" default-value="3x">
 			<value name="1x" display-name-key="1x">1x</value>
 			<value name="2x" display-name-key="2x">2x</value>

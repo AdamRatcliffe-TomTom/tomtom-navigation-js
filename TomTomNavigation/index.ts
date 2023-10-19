@@ -38,29 +38,41 @@ export class TomTomNavigation
   public updateView(
     context: ComponentFramework.Context<IInputs>
   ): React.ReactElement {
-    const apiKey = context.parameters.apiKey.raw;
-    const theme = context.parameters.theme.raw;
+    const apiKey = this.getRawParameter(context, "apiKey");
+    const theme = this.getRawParameter(context, "theme");
     const initialCenter = parseCoordinateString(
-      context.parameters.initialCenter.raw,
+      this.getRawParameter(context, "initialCenter"),
       true
     );
-    const initialZoom = context.parameters.initialZoom.raw;
-    const showTrafficFlow = !!context.parameters.showTrafficFlow.raw;
-    const showTrafficIncidents = !!context.parameters.showTrafficIncidents.raw;
-    const showPoi = !!context.parameters.showPoi.raw;
-    const showLocationMarker = !!context.parameters.showLocationMarker.raw;
-    const showZoomControl = !!context.parameters.showZoomControl.raw;
-    const automaticRouteCalculation =
-      !!context.parameters.automaticRouteCalculation.raw;
+    const initialZoom = this.getRawParameter(context, "initialZoom");
+    const showTrafficFlow = this.getRawParameter(context, "showTrafficFlow");
+    const showTrafficIncidents = this.getRawParameter(
+      context,
+      "showTrafficIncidents"
+    );
+    const showPoi = this.getRawParameter(context, "showPoi");
+    const showLocationMarker = this.getRawParameter(
+      context,
+      "showLocationMarker"
+    );
+    const showZoomControl = this.getRawParameter(context, "showZoomControl");
+    const automaticRouteCalculation = this.getRawParameter(
+      context,
+      "automaticRouteCalculation"
+    );
     let routeWaypoints: any = parseCoordinateString(
-      context.parameters.routeWaypoints.raw
+      this.getRawParameter(context, "routeWaypoints")
     );
     if (routeWaypoints instanceof tt.LngLat) {
       routeWaypoints = [routeWaypoints];
     }
-    const simulationSpeed = context.parameters.simulationSpeed.raw;
-    const travelMode = context.parameters.travelMode.raw;
-    const traffic = !!context.parameters.traffic.raw;
+    const simulationSpeed = this.getRawParameter(context, "simulationSpeed");
+    const travelMode = this.getRawParameter(context, "travelMode");
+    const traffic = this.getRawParameter(context, "traffic");
+    const arrivalSidePreference = this.getRawParameter(
+      context,
+      "arrivalSidePreference"
+    );
     const width = context.mode.allocatedWidth;
     const height = context.mode.allocatedHeight;
 
@@ -75,6 +87,7 @@ export class TomTomNavigation
     const routeOptions = {
       travelMode,
       traffic,
+      arrivalSidePreference,
       locations: routeWaypoints
     };
 
@@ -90,6 +103,17 @@ export class TomTomNavigation
       routeOptions,
       automaticRouteCalculation
     });
+  }
+
+  private getRawParameter(
+    context: ComponentFramework.Context<IInputs>,
+    name: string
+  ): any {
+    const parameter = (context.parameters as { [key: string]: any })[name];
+    if (parameter) {
+      return parameter.raw;
+    }
+    return undefined;
   }
 
   /**
