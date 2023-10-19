@@ -89,7 +89,7 @@ const Map = ({
       const navigationRoute = tomtom2mapbox(route.features[0]);
       dispatch(setNavigationRoute(navigationRoute));
 
-      updateControlMargins();
+      updateControlMarginsIfNeeded();
     }
   }, [route]);
 
@@ -97,10 +97,10 @@ const Map = ({
     const map = mapRef.current.getMap();
     map?.resize();
 
-    updateControlMargins();
+    updateControlMarginsIfNeeded();
   }, [width, height]);
 
-  const updateControlMargins = () => {
+  const updateControlMarginsIfNeeded = () => {
     if (!route) return;
 
     const map = mapRef.current.getMap();
@@ -108,14 +108,12 @@ const Map = ({
     const bottomLeftControls = container.querySelectorAll(
       ".mapboxgl-ctrl-bottom-left .mapboxgl-ctrl"
     );
-    const marginBottom = "105px";
-
     bottomLeftControls.forEach((element) => {
-      element.style.marginBottom = marginBottom;
+      element.style.marginBottom = "105px";
     });
   };
 
-  const handleCompassClick = () => {
+  const handleCompassControlClick = () => {
     const map = mapRef.current.getMap();
     map.easeTo({ bearing: 0, duration: 250 });
   };
@@ -159,9 +157,9 @@ const Map = ({
       zoom={zoom}
       bounds={bounds}
       pitch={pitch}
-      onLoad={updateControlMargins}
+      onLoad={updateControlMarginsIfNeeded}
     >
-      <CompassControl onClick={handleCompassClick} />
+      <CompassControl onClick={handleCompassControlClick} />
       {showMapSwitcherControl && !isNavigating && (
         <MapSwitcherControl
           selected={mapStyle.name}
