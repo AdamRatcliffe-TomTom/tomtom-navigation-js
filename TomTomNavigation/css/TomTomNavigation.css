@@ -26,10 +26,6 @@
   margin-bottom: 16px;
 }
 
-.mapboxgl-ctrl.mapboxgl-ctrl-attrib {
-  display: none;
-}
-
 @keyframes fadeIn {
   0% {
     opacity: 0;

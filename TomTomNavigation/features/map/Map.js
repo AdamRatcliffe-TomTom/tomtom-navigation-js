@@ -45,7 +45,7 @@ const Map = ({
 }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
-  const { apiKey, width, height, theme, mapStyles } = useAppContext();
+  const { apiKey, width, height, mapStyles, isPhone } = useAppContext();
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
@@ -72,7 +72,7 @@ const Map = ({
 
   useEffect(() => {
     const { locations } = routeOptions;
-    if (locations.length) {
+    if (locations?.length) {
       const bounds = geoJsonBounds(
         featureCollection(
           locations.map((location) =>
@@ -88,13 +88,32 @@ const Map = ({
     if (route) {
       const navigationRoute = tomtom2mapbox(route.features[0]);
       dispatch(setNavigationRoute(navigationRoute));
+
+      updateControlMargins();
     }
   }, [route]);
 
   useEffect(() => {
     const map = mapRef.current.getMap();
     map?.resize();
+
+    updateControlMargins();
   }, [width, height]);
+
+  const updateControlMargins = () => {
+    if (!route) return;
+
+    const map = mapRef.current.getMap();
+    const container = map.getContainer();
+    const bottomLeftControls = container.querySelectorAll(
+      ".mapboxgl-ctrl-bottom-left .mapboxgl-ctrl"
+    );
+    const marginBottom = "105px";
+
+    bottomLeftControls.forEach((element) => {
+      element.style.marginBottom = marginBottom;
+    });
+  };
 
   const handleCompassClick = () => {
     const map = mapRef.current.getMap();
@@ -140,6 +159,7 @@ const Map = ({
       zoom={zoom}
       bounds={bounds}
       pitch={pitch}
+      onLoad={updateControlMargins}
     >
       <CompassControl onClick={handleCompassClick} />
       {showMapSwitcherControl && !isNavigating && (

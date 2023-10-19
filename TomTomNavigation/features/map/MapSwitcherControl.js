@@ -77,9 +77,6 @@ const MapSwitcher = ({
     setBounds(map?.getBounds().toArray());
   };
 
-  console.log("apiKey: ", apiKey);
-  console.log("mapStyle: ", mapStyle);
-
   return (
     <div className={classes.control} onClick={handleClick} {...otherProps}>
       <Map
@@ -163,7 +160,7 @@ MapSwitcherControl.propTypes = {
 };
 
 MapSwitcherControl.defaultProps = {
-  position: "bottom-right"
+  position: "bottom-left"
 };
 
 export default withMap(MapSwitcherControl);
