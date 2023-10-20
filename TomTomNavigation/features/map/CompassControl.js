@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { makeStyles } from "@fluentui/react";
 import { withMap } from "react-tomtom-maps";
+import Fade from "../../core/Fade";
 
 const useStyles = makeStyles((theme) => ({
   control: {
@@ -80,9 +81,11 @@ function CompassControl({ map, position, onClick }) {
 
   return containerRef.current
     ? ReactDOM.createPortal(
-        <div className={classes.control} onClick={onClick}>
-          <div className={classes.icon} style={iconStyle} />
-        </div>,
+        <Fade show={bearing !== 0} duration="0.3s">
+          <div className={classes.control} onClick={onClick}>
+            <div className={classes.icon} style={iconStyle} />
+          </div>
+        </Fade>,
         containerRef.current
       )
     : null;
