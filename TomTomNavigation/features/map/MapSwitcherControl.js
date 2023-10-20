@@ -41,9 +41,13 @@ const MapSwitcher = ({
   const [styleName, setStyleName] = useState(
     selected === "street" ? "satellite" : "street"
   );
-  const { apiKey, mapStyles } = useAppContext();
+  const { apiKey, mapStyles, theme } = useAppContext();
   const [mapStyle, setMapStyle] = useState(mapStyles[styleName]);
   const [bounds, setBounds] = useState(map?.getBounds().toArray());
+
+  useEffect(() => {
+    setMapStyle(mapStyles[styleName]);
+  }, [theme]);
 
   useEffect(() => {
     map && map.on("moveend", handleMapViewChange);
@@ -70,6 +74,9 @@ const MapSwitcher = ({
 
   const handleClick = () => {
     const newSelected = selected === "street" ? "satellite" : "street";
+
+    console.log("handleClick");
+
     onSelected(newSelected);
   };
 

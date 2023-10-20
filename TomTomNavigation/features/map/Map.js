@@ -49,7 +49,7 @@ const Map = ({
 }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
-  const { apiKey, width, height, mapStyles, isPhone } = useAppContext();
+  const { apiKey, width, height, mapStyles, theme } = useAppContext();
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
@@ -73,6 +73,13 @@ const Map = ({
     name: "street",
     style: mapStyles.street
   });
+
+  useEffect(() => {
+    setMapStyle({
+      name: mapStyle.name,
+      style: mapStyles[mapStyle.name]
+    });
+  }, [theme]);
 
   useEffect(() => {
     const { locations } = routeOptions;
@@ -117,6 +124,8 @@ const Map = ({
   };
 
   const handleMapStyleSelected = (name) => {
+    console.log("mapStyles: ", mapStyles);
+
     setMapStyle({
       name,
       style: mapStyles[name]

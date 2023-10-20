@@ -17,7 +17,5 @@ export function removeStyleFromDocument(id) {
 
   if (styleToRemove) {
     styleToRemove.parentNode.removeChild(styleToRemove);
-  } else {
-    console.error("Style with the specified id was not found.");
   }
 }
