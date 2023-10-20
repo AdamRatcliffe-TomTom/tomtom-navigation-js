@@ -13,6 +13,10 @@ import Fade from "../../core/Fade";
 import { useCalculateRouteQuery } from "../../services/routing";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import tomtom2mapbox from "../../functions/tomtom2mapbox";
+import {
+  addStyleToDocument,
+  removeStyleFromDocument
+} from "../../functions/styles";
 
 import {
   getCenter,
@@ -88,30 +92,24 @@ const Map = ({
     if (route) {
       const navigationRoute = tomtom2mapbox(route.features[0]);
       dispatch(setNavigationRoute(navigationRoute));
-
-      updateControlMarginsIfNeeded();
     }
   }, [route]);
 
   useEffect(() => {
     const map = mapRef.current.getMap();
     map?.resize();
-
-    updateControlMarginsIfNeeded();
   }, [width, height]);
 
-  const updateControlMarginsIfNeeded = () => {
-    if (!route) return;
-
-    const map = mapRef.current.getMap();
-    const container = map.getContainer();
-    const bottomLeftControls = container.querySelectorAll(
-      ".mapboxgl-ctrl-bottom-left .mapboxgl-ctrl"
-    );
-    bottomLeftControls.forEach((element) => {
-      element.style.marginBottom = "105px";
-    });
-  };
+  useEffect(() => {
+    if (route) {
+      addStyleToDocument(
+        "bottom-control-margin",
+        ".TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {margin-bottom: 105px;}"
+      );
+    } else {
+      removeStyleFromDocument("bottom-control-margin");
+    }
+  }, [width, height, route]);
 
   const handleCompassControlClick = () => {
     const map = mapRef.current.getMap();
@@ -157,7 +155,6 @@ const Map = ({
       zoom={zoom}
       bounds={bounds}
       pitch={pitch}
-      onLoad={updateControlMarginsIfNeeded}
     >
       <CompassControl onClick={handleCompassControlClick} />
       {showMapSwitcherControl && !isNavigating && (
