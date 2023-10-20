@@ -2,6 +2,12 @@
 
 A navigation PCF component implemented with React and Fluent UI.
 
+## Development
+
+1. Install [yarn](https://classic.yarnpkg.com/en/docs/install#mac-stable) if needed.
+2. From the project root directory run `yarn` to install project dependencies.
+3. Run `yarn start:watch` to run component in a local sandbox.
+
 ## Properties
 
 Available component properties:
