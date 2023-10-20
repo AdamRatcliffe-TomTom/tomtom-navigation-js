@@ -71,10 +71,7 @@ const Map = ({
     },
     { skip: !automaticRouteCalculation }
   );
-  const [mapStyle, setMapStyle] = useState({
-    name: "street",
-    style: mapStyles.street
-  });
+  const [mapStyle, setMapStyle] = useState(mapStyles.street);
 
   useEffect(() => {
     setMapStyle({
@@ -126,12 +123,7 @@ const Map = ({
   };
 
   const handleMapStyleSelected = (name) => {
-    console.log("mapStyles: ", mapStyles);
-
-    setMapStyle({
-      name,
-      style: mapStyles[name]
-    });
+    setMapStyle(mapStyles[name]);
   };
 
   const renderWaypoints = () => {

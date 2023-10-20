@@ -55,6 +55,8 @@ const MapSwitcher = ({
   }, [map]);
 
   useEffect(() => {
+    console.log("selected: ", selected);
+
     const styleName = selected === "street" ? "satellite" : "street";
     const mapStyle = mapStyles[styleName];
     setStyleName(styleName);
@@ -74,9 +76,6 @@ const MapSwitcher = ({
 
   const handleClick = () => {
     const newSelected = selected === "street" ? "satellite" : "street";
-
-    console.log("handleClick");
-
     onSelected(newSelected);
   };
 
@@ -88,7 +87,7 @@ const MapSwitcher = ({
     <div className={classes.control} onClick={handleClick} {...otherProps}>
       <Map
         apiKey={apiKey}
-        mapStyle={mapStyle}
+        mapStyle={mapStyle.style}
         containerStyle={{ width: "72px", height: "52px" }}
         mapOptions={{
           interactive: false
@@ -101,7 +100,7 @@ const MapSwitcher = ({
         onStyleData={handleStyleData}
       ></Map>
       <Text className={classes.text} variant="small">
-        {_capitalize(styleName)}
+        {mapStyle.label}
       </Text>
     </div>
   );
