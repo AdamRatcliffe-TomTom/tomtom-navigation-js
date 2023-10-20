@@ -81,18 +81,14 @@ const Map = ({
   }, [theme]);
 
   useEffect(() => {
-    const { locations } = routeOptions;
-    if (locations?.length) {
-      const bounds = geoJsonBounds(
-        featureCollection(
-          locations.map((location) =>
-            feature({ type: "Point", coordinates: location.toArray() })
-          )
-        )
-      );
+    const features =
+      route || (routeOptions.locations?.length && routeOptions.locations);
+
+    if (features) {
+      const bounds = geoJsonBounds(features);
       dispatch(setBounds(bounds));
     }
-  }, [routeOptions.locations]);
+  }, [route, routeOptions.locations]);
 
   useEffect(() => {
     if (route) {

@@ -1,5 +1,3 @@
-import * as tt from "@tomtom-international/web-sdk-maps";
-
 export default function parseCoordinateString(
   coordString,
   returnFirst = false
@@ -18,7 +16,7 @@ export default function parseCoordinateString(
     if (match) {
       const latitude = parseFloat(match[1]);
       const longitude = parseFloat(match[3]);
-      coordinates.push(new tt.LngLat(longitude, latitude));
+      coordinates.push([longitude, latitude]);
     }
   }
 
