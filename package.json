@@ -23,7 +23,7 @@
     "@turf/helpers": "^6.5.0",
     "deck.gl": "^8.9.31",
     "guidance-sim": "^0.1.7",
-    "lodash.capitalize": "^4.2.1",
+    "lodash.merge": "^4.6.2",
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
     "react": "16.8.6",

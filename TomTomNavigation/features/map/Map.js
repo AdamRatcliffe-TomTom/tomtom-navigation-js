@@ -27,7 +27,8 @@ import {
   getRouteOptions,
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
-  setBounds
+  setBounds,
+  setFitBoundsOptions
 } from "./mapSlice";
 
 import {
@@ -112,8 +113,18 @@ const Map = ({
         "bottom-control-margin",
         ".TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {margin-bottom: 105px;}"
       );
+      dispatch(
+        setFitBoundsOptions({
+          padding: { bottom: 150 }
+        })
+      );
     } else {
       removeStyleFromDocument("bottom-control-margin");
+      dispatch(
+        setFitBoundsOptions({
+          padding: { bottom: 40 }
+        })
+      );
     }
   }, [route, showNavigationPanel]);
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import { makeStyles, Text } from "@fluentui/react";
-import _capitalize from "lodash.capitalize";
 import Map, { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
 

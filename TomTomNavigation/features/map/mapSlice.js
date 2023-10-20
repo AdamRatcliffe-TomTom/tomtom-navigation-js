@@ -1,4 +1,5 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
+import _merge from "lodash.merge";
 
 const initialState = {
   center: undefined,
@@ -53,7 +54,7 @@ const mapSlice = createSlice({
       state.automaticRouteCalculation = action.payload;
     },
     setFitBoundsOptions: (state, action) => {
-      state.fitBoundsOptions = { ...state.fitBoundsOptions, ...action.payload };
+      state.fitBoundsOptions = _merge(state.fitBoundsOptions, action.payload);
     }
   }
 });
