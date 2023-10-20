@@ -31,7 +31,6 @@
 		<property name="initialCenter" display-name-key="Initial map center (latitude,longitude)" description-key="initialCenter_Desc_Key" of-type="SingleLine.Text" usage="bound" required="false" />
 		<property name="initialZoom" display-name-key="Initial zoom level" description-key="initialZoom_Desc_Key" of-type="Decimal" usage="bound" required="true" default-value="12" />
 		<property name="showLocationMarker" display-name-key="Show location marker" description-key="showLocationMarker_Desc_Key" of-type="TwoOptions" usage="bound" required="false" default-value="true"/>
-		<property name="showZoomControl" display-name-key="Show zoom control" description-key="showZoomControl_Desc_Key" of-type="TwoOptions" usage="bound" required="false" default-value="false"/>
 		<property name="showMapSwitcherControl" display-name-key="Show map switcher control" description-key="showMapSwitcherControl_Desc_Key" of-type="TwoOptions" usage="bound" required="false" default-value="false"/>
 		<property name="showNavigationPanel" display-name-key="Show navigation panel" description-key="showNavigationPanel_Desc_Key" of-type="TwoOptions" usage="bound" required="false" default-value="true"/>
 		<property name="automaticRouteCalculation" display-name-key="Automatic route calculation" description-key="automaticRouteCalculation_Desc_Key" of-type="TwoOptions" usage="bound" required="false" default-value="false" />

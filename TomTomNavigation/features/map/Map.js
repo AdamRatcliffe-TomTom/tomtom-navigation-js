@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { featureCollection, feature } from "@turf/helpers";
 import { useAppContext } from "../../app/AppContext";
-import ReactMap, { ZoomControls } from "react-tomtom-maps";
+import ReactMap from "react-tomtom-maps";
 import CompassControl from "./CompassControl";
 import MapSwitcherControl from "./MapSwitcherControl";
 import Route from "./Route";
@@ -45,7 +45,6 @@ const Map = ({
   showTrafficIncidents,
   showPoi,
   showLocationMarker,
-  showZoomControl,
   showMapSwitcherControl,
   children
 }) => {
@@ -177,7 +176,6 @@ const Map = ({
           onSelected={handleMapStyleSelected}
         />
       )}
-      {showZoomControl && <ZoomControls />}
       {route && <Route before={before} data={route} />}
       {renderWaypoints()}
       <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
