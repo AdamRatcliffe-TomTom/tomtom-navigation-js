@@ -22,7 +22,7 @@
     "@turf/clean-coords": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "deck.gl": "^8.9.31",
-    "guidance-sim": "^0.1.7",
+    "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git",
     "lodash.merge": "^4.6.2",
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",

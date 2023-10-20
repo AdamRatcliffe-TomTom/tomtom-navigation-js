@@ -1,6 +1,6 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
-import { simulate, setSpeed } from "guidance-sim";
+import { simulate, setSpeed, util } from "guidance-sim";
 import { withMap } from "react-tomtom-maps";
 
 class Simulator extends Component {
@@ -37,7 +37,7 @@ class Simulator extends Component {
     }
 
     if (paused && !prevProps.paused) {
-      window.clearInterval(this.simulator.interval);
+      util.clearRequestInterval(this.simulator.interval);
     }
   }
 
@@ -53,7 +53,7 @@ class Simulator extends Component {
 
   unbind() {
     if (this.simulator) {
-      clearInterval(this.simulator.interval);
+      util.clearRequestInterval(this.simulator.interval);
 
       this.simulator.removeAllListeners();
     }
