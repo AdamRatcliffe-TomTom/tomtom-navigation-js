@@ -1,6 +1,7 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 const initialState = {
+  showNavigationPanel: true,
   isNavigating: false,
   navigationModeTransitioning: false,
   navigationRoute: undefined
@@ -10,6 +11,9 @@ const navigationSlice = createSlice({
   name: "navigation",
   initialState,
   reducers: {
+    setShowNavigationPanel: (state, action) => {
+      state.showNavigationPanel = action.payload;
+    },
     setIsNavigating: (state, action) => {
       state.isNavigating = action.payload;
     },
@@ -23,6 +27,11 @@ const navigationSlice = createSlice({
 });
 
 const rootSelector = (state) => state.navigation;
+
+const getShowNavigationPanel = createSelector(
+  rootSelector,
+  (state) => state.showNavigationPanel
+);
 
 const getIsNavigating = createSelector(
   rootSelector,
@@ -39,9 +48,15 @@ const getNavigationRoute = createSelector(
   (state) => state.navigationRoute
 );
 
-export { getIsNavigating, getNavigationModeTransitioning, getNavigationRoute };
+export {
+  getShowNavigationPanel,
+  getIsNavigating,
+  getNavigationModeTransitioning,
+  getNavigationRoute
+};
 
 export const {
+  setShowNavigationPanel,
   setIsNavigating,
   setNavigationModeTransitioning,
   setNavigationRoute

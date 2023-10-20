@@ -31,6 +31,7 @@ import {
 } from "./mapSlice";
 
 import {
+  getShowNavigationPanel,
   getIsNavigating,
   getNavigationModeTransitioning,
   setNavigationRoute
@@ -50,6 +51,7 @@ const Map = ({
   const dispatch = useDispatch();
   const mapRef = useRef();
   const { apiKey, width, height, mapStyles, theme } = useAppContext();
+  const showNavigationPanel = useSelector(getShowNavigationPanel);
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
@@ -108,7 +110,7 @@ const Map = ({
   }, [width, height]);
 
   useEffect(() => {
-    if (route) {
+    if (route && showNavigationPanel) {
       addStyleToDocument(
         "bottom-control-margin",
         ".TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {margin-bottom: 105px;}"
@@ -116,7 +118,7 @@ const Map = ({
     } else {
       removeStyleFromDocument("bottom-control-margin");
     }
-  }, [width, height, route]);
+  }, [route, showNavigationPanel]);
 
   const handleCompassControlClick = () => {
     const map = mapRef.current.getMap();

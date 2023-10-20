@@ -60,6 +60,10 @@ export class TomTomNavigation
       context,
       "showMapSwitcherControl"
     );
+    const showNavigationPanel = this.getRawParameter(
+      context,
+      "showNavigationPanel"
+    );
     const automaticRouteCalculation = this.getRawParameter(
       context,
       "automaticRouteCalculation"
@@ -106,6 +110,7 @@ export class TomTomNavigation
       initialZoom,
       mapOptions,
       routeOptions,
+      showNavigationPanel,
       automaticRouteCalculation
     });
   }

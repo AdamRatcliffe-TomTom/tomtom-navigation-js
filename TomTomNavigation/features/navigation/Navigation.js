@@ -5,6 +5,7 @@ import NavigationPanel from "./NavigationPanel";
 import Simulator from "./Simulator";
 
 import {
+  getShowNavigationPanel,
   getNavigationRoute,
   getIsNavigating,
   getNavigationModeTransitioning
@@ -12,6 +13,7 @@ import {
 
 const Navigation = () => {
   const { simulationSpeed } = useAppContext();
+  const showNavigationPanel = useSelector(getShowNavigationPanel);
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
@@ -20,7 +22,7 @@ const Navigation = () => {
 
   return (
     <>
-      <NavigationPanel />
+      {showNavigationPanel && <NavigationPanel />}
       {navigationRoute && isNavigating && !navigationModeTransitioning && (
         <Simulator
           route={navigationRoute}

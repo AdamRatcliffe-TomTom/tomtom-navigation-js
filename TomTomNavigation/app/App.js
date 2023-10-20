@@ -14,6 +14,8 @@ import {
   setAutomaticRouteCalculation
 } from "../features/map/mapSlice";
 
+import { setShowNavigationPanel } from "../features/navigation/navigationSlice";
+
 const darkTheme = {
   semanticColors: {
     bodyText: "#fff"
@@ -29,6 +31,7 @@ function Wrapper({
   initialZoom,
   routeOptions,
   automaticRouteCalculation,
+  showNavigationPanel,
   children
 }) {
   const dispatch = useDispatch();
@@ -44,6 +47,10 @@ function Wrapper({
     dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
     dispatch(setRouteOptions(routeOptions));
   }, [automaticRouteCalculation, routeOptions]);
+
+  useEffect(() => {
+    dispatch(setShowNavigationPanel(showNavigationPanel));
+  }, [showNavigationPanel]);
 
   return <div className="TomTomNavigation">{children}</div>;
 }
