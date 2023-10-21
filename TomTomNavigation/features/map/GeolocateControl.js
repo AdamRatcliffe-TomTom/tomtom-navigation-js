@@ -56,7 +56,7 @@ const Geolocate = ({
       const { longitude, latitude } = coords;
       const center = [longitude, latitude];
       const movingMethod = shouldAnimateCamera(map.getBounds(), center)
-        ? "easeTo"
+        ? "flyTo"
         : "jumpTo";
 
       batch(() => {

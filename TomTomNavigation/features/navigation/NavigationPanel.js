@@ -13,9 +13,7 @@ const useStyles = ({ isPhone, isTablet }) =>
       bottom: 0,
       left: 0,
       height: "88px",
-      marginLeft: theme.spacing.m,
-      marginRight: theme.spacing.m,
-      marginBottom: theme.spacing.m,
+      margin: theme.spacing.m,
       borderBottomLeftRadius: theme.spacing.m,
       borderBottomRightRadius: theme.spacing.m,
       padding: theme.spacing.l1,
@@ -27,7 +25,7 @@ const useStyles = ({ isPhone, isTablet }) =>
       ...(isTablet && {
         width: "380px"
       }),
-      ...(isPhone && { right: 0 })
+      ...(isPhone && { right: 0, margin: theme.spacing.s1 })
     }
   }));
 

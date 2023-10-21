@@ -51,7 +51,7 @@
 			<value name="anySide" display-name-key="Any side">anySide</value>
 			<value name="curbSide" display-name-key="Curb side">curbSide</value>			
 		</property>
-		<property name="simulationSpeed" display-name-key="Simulation speed" description-key="simulationSpeed_Desc_Key" of-type="Enum" usage="input" required="true" default-value="3x">
+		<property name="simulationSpeed" display-name-key="Simulation speed" description-key="simulationSpeed_Desc_Key" of-type="Enum" usage="input" required="true" default-value="2x">
 			<value name="1x" display-name-key="1x">1x</value>
 			<value name="2x" display-name-key="2x">2x</value>
 			<value name="3x" display-name-key="3x">3x</value>
