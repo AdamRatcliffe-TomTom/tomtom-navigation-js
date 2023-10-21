@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
-import PropTypes from "prop-types";
 import { makeStyles, Text } from "@fluentui/react";
 import Map, { withMap } from "react-tomtom-maps";
+import MapControl from "./MapControl";
 import { useAppContext } from "../../app/AppContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -10,8 +9,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "80px",
-    height: "80px",
+    width: "88px",
+    height: "88px",
     padding: "4px 4px 0",
     borderRadius: "8px",
     background: theme.palette.white,
@@ -54,8 +53,6 @@ const MapSwitcher = ({
   }, [map]);
 
   useEffect(() => {
-    console.log("selected: ", selected);
-
     const styleName = selected === "street" ? "satellite" : "street";
     const mapStyle = mapStyles[styleName];
     setStyleName(styleName);
@@ -87,7 +84,7 @@ const MapSwitcher = ({
       <Map
         apiKey={apiKey}
         mapStyle={mapStyle.style}
-        containerStyle={{ width: "72px", height: "52px" }}
+        containerStyle={{ width: "80px", height: "60px" }}
         mapOptions={{
           interactive: false
         }}
@@ -105,67 +102,10 @@ const MapSwitcher = ({
   );
 };
 
-class MapSwitcherControl extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this._container = this.createContainer();
-
-    this.state = {
-      onMap: false
-    };
-  }
-
-  componentDidMount() {
-    const { map, position } = this.props;
-
-    map.addControl(this, position);
-
-    this.setState({ onMap: true });
-  }
-
-  componentWillUnmount() {
-    const { map } = this.props;
-
-    map.removeControl(this);
-
-    this.setState({ onMap: false });
-  }
-
-  createContainer() {
-    const container = document.createElement("div");
-    container.className = "mapboxgl-ctrl";
-    return container;
-  }
-
-  onAdd() {
-    return this._container;
-  }
-
-  onRemove() {
-    const { onMap } = this.state;
-
-    if (onMap && this._container.parentNode) {
-      this._container.parentNode.removeChild(this._container);
-    }
-  }
-
-  render() {
-    const { position, ...otherProps } = this.props;
-    const { onMap } = this.state;
-
-    return onMap
-      ? createPortal(<MapSwitcher {...otherProps} />, this._container)
-      : null;
-  }
-}
-
-MapSwitcherControl.propTypes = {
-  position: PropTypes.string
-};
-
-MapSwitcherControl.defaultProps = {
-  position: "bottom-left"
-};
+const MapSwitcherControl = ({ position, ...otherProps }) => (
+  <MapControl position={position}>
+    <MapSwitcher {...otherProps} />
+  </MapControl>
+);
 
 export default withMap(MapSwitcherControl);

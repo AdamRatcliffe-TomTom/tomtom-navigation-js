@@ -22,7 +22,8 @@ const initialState = {
     instructionRoadShieldReferences: "all",
     language: navigator.language
   },
-  automaticRouteCalculation: false
+  automaticRouteCalculation: false,
+  userLocation: undefined
 };
 
 const mapSlice = createSlice({
@@ -31,6 +32,7 @@ const mapSlice = createSlice({
   reducers: {
     setCenter: (state, action) => {
       state.center = action.payload;
+      state.bounds = undefined;
     },
     setZoom: (state, action) => {
       state.zoom = action.payload;
@@ -43,6 +45,7 @@ const mapSlice = createSlice({
     },
     setBounds: (state, action) => {
       state.bounds = action.payload;
+      state.center = undefined;
     },
     setMovingMethod: (state, action) => {
       state.movingMethod = action.payload;
@@ -55,6 +58,9 @@ const mapSlice = createSlice({
     },
     setFitBoundsOptions: (state, action) => {
       state.fitBoundsOptions = _merge(state.fitBoundsOptions, action.payload);
+    },
+    setUserLocation: (state, action) => {
+      state.userLocation = action.payload;
     }
   }
 });
@@ -91,6 +97,11 @@ const getFitBoundsOptions = createSelector(
   (state) => state.fitBoundsOptions
 );
 
+const getUserLocation = createSelector(
+  rootSelector,
+  (state) => state.userLocation
+);
+
 export {
   getCenter,
   getZoom,
@@ -100,7 +111,8 @@ export {
   getMovingMethod,
   getRouteOptions,
   getAutomaticRouteCalculation,
-  getFitBoundsOptions
+  getFitBoundsOptions,
+  getUserLocation
 };
 
 export const {
@@ -113,7 +125,8 @@ export const {
   setRouteOptions,
   setAutomaticRouteCalculation,
   setFitBoundsOptions,
-  setIsNavigating
+  setIsNavigating,
+  setUserLocation
 } = mapSlice.actions;
 
 export default mapSlice.reducer;

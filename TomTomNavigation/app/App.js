@@ -21,7 +21,8 @@ const darkTheme = {
     bodyText: "#fff"
   },
   palette: {
-    white: "#18212A"
+    white: "#18212A",
+    black: "#fff"
   }
 };
 
@@ -46,7 +47,7 @@ function Wrapper({
   useEffect(() => {
     dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
     dispatch(setRouteOptions(routeOptions));
-  }, [automaticRouteCalculation, routeOptions]);
+  }, [automaticRouteCalculation, JSON.stringify(routeOptions)]);
 
   useEffect(() => {
     dispatch(setShowNavigationPanel(showNavigationPanel));

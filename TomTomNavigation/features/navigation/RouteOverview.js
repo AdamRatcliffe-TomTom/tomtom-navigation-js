@@ -8,6 +8,7 @@ import { Text } from "@fluentui/react/lib/Text";
 import DriveIcon from "../../icons/DriveIcon";
 import useTextStyles from "../../hooks/useTextStyles";
 import useButtonStyles from "../../hooks/useButtonStyles";
+import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import formatDuration from "../../functions/formatDuration";
 import formatDistance from "../../functions/formatDistance";
 import geoJsonBounds from "../../functions/geoJsonBounds";
@@ -50,15 +51,17 @@ const RouteOverview = ({ map, route }) => {
   const handleStartNavigation = () => {
     // Center the map on the first coordinate of the route
     const center = route.features[0].geometry.coordinates[0];
+    const movingMethod = shouldAnimateCamera(map.getBounds(), center)
+      ? "easeTo"
+      : "jumpTo";
 
     batch(() => {
       dispatch(setIsNavigating(true));
       dispatch(setNavigationModeTransitioning(true));
-      dispatch(setMovingMethod("flyTo"));
+      dispatch(setMovingMethod(movingMethod));
       dispatch(setCenter(center));
       dispatch(setPitch(60));
       dispatch(setZoom(18));
-      dispatch(setBounds(undefined));
     });
 
     // Make map non-interactive when navigating
@@ -74,7 +77,6 @@ const RouteOverview = ({ map, route }) => {
       dispatch(setIsNavigating(false));
       dispatch(setNavigationModeTransitioning(true));
       dispatch(setFitBoundsOptions({ animate: true }));
-      dispatch(setCenter(undefined));
       dispatch(setZoom(undefined));
       dispatch(setPitch(0));
       dispatch(setBounds(bounds));

@@ -27,7 +27,7 @@
 }
 
 .TomTomNavigation .mapboxgl-ctrl.mapboxgl-ctrl-attrib {
-  margin: 0;
+  display: none;
 }
 
 @keyframes fadeIn {

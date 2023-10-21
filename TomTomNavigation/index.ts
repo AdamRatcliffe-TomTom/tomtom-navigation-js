@@ -45,6 +45,10 @@ export class TomTomNavigation
       true
     );
     const initialZoom = this.getRawParameter(context, "initialZoom");
+    const enableGeolocation = this.getRawParameter(
+      context,
+      "enableGeolocation"
+    );
     const showTrafficFlow = this.getRawParameter(context, "showTrafficFlow");
     const showTrafficIncidents = this.getRawParameter(
       context,
@@ -84,6 +88,7 @@ export class TomTomNavigation
     const height = context.mode.allocatedHeight;
 
     const mapOptions = {
+      enableGeolocation,
       showTrafficFlow,
       showTrafficIncidents,
       showPoi,

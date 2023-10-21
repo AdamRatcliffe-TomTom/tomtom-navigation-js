@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { featureCollection, feature } from "@turf/helpers";
 import { useAppContext } from "../../app/AppContext";
 import ReactMap from "react-tomtom-maps";
+import GeolocateControl from "./GeolocateControl";
 import CompassControl from "./CompassControl";
 import MapSwitcherControl from "./MapSwitcherControl";
 import Route from "./Route";
@@ -27,6 +27,7 @@ import {
   getRouteOptions,
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
+  getUserLocation,
   setBounds,
   setFitBoundsOptions
 } from "./mapSlice";
@@ -41,6 +42,7 @@ import {
 const before = "Borders - Treaty label";
 
 const Map = ({
+  enableGeolocation,
   showTrafficFlow,
   showTrafficIncidents,
   showPoi,
@@ -50,7 +52,7 @@ const Map = ({
 }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
-  const { apiKey, width, height, mapStyles, theme } = useAppContext();
+  const { apiKey, width, height, mapStyles, theme, isPhone } = useAppContext();
   const showNavigationPanel = useSelector(getShowNavigationPanel);
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
@@ -64,6 +66,7 @@ const Map = ({
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const fitBoundsOptions = useSelector(getFitBoundsOptions);
+  const userLocation = useSelector(getUserLocation);
   const { data: route } = useCalculateRouteQuery(
     {
       key: apiKey,
@@ -74,10 +77,7 @@ const Map = ({
   const [mapStyle, setMapStyle] = useState(mapStyles.street);
 
   useEffect(() => {
-    setMapStyle({
-      name: mapStyle.name,
-      style: mapStyles[mapStyle.name]
-    });
+    setMapStyle(mapStyles[mapStyle.name]);
   }, [theme]);
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const Map = ({
       const bounds = geoJsonBounds(features);
       dispatch(setBounds(bounds));
     }
-  }, [route, routeOptions.locations]);
+  }, [route, JSON.stringify(routeOptions.locations)]);
 
   useEffect(() => {
     if (route) {
@@ -104,10 +104,12 @@ const Map = ({
 
   useEffect(() => {
     if (route && showNavigationPanel) {
-      addStyleToDocument(
-        "bottom-control-margin",
-        ".TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {margin-bottom: 105px;}"
-      );
+      if (isPhone) {
+        addStyleToDocument(
+          "bottom-control-margin",
+          ".TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl, .TomTomNavigation .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl {margin-bottom: 120px;}"
+        );
+      }
       dispatch(
         setFitBoundsOptions({
           padding: { bottom: 150 }
@@ -121,7 +123,7 @@ const Map = ({
         })
       );
     }
-  }, [route, showNavigationPanel]);
+  }, [route, showNavigationPanel, isPhone]);
 
   const handleCompassControlClick = () => {
     const map = mapRef.current.getMap();
@@ -165,12 +167,18 @@ const Map = ({
       bounds={bounds}
       pitch={pitch}
     >
+      {enableGeolocation && (
+        <GeolocateControl watchPosition={true} visible={!isNavigating} />
+      )}
       <CompassControl onClick={handleCompassControlClick} />
       {showMapSwitcherControl && !isNavigating && (
         <MapSwitcherControl
           selected={mapStyle.name}
           onSelected={handleMapStyleSelected}
         />
+      )}
+      {showLocationMarker && userLocation && (
+        <LocationMarker coordinates={userLocation} />
       )}
       {route && <Route before={before} data={route} />}
       {renderWaypoints()}

@@ -6,26 +6,34 @@ import { useCalculateRouteQuery } from "../../services/routing";
 
 import { getRouteOptions, getAutomaticRouteCalculation } from "../map/mapSlice";
 
-const useStyles = ({ isPhone }) =>
+const useStyles = ({ isPhone, isTablet }) =>
   makeStyles((theme) => ({
     root: {
       position: "absolute",
       bottom: 0,
       left: 0,
-      width: isPhone ? "100%" : "380px",
-      marginLeft: isPhone ? 0 : theme.spacing.m,
+      height: "88px",
+      marginLeft: theme.spacing.m,
+      marginRight: theme.spacing.m,
+      marginBottom: theme.spacing.m,
+      borderBottomLeftRadius: theme.spacing.m,
+      borderBottomRightRadius: theme.spacing.m,
       padding: theme.spacing.l1,
       background: theme.palette.white,
       borderTopLeftRadius: theme.spacing.m,
       borderTopRightRadius: theme.spacing.m,
       boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.15)",
-      zIndex: 10
+      zIndex: 10,
+      ...(isTablet && {
+        width: "380px"
+      }),
+      ...(isPhone && { right: 0 })
     }
   }));
 
 const NavigationPanel = () => {
-  const { apiKey, isPhone } = useAppContext();
-  const classes = useStyles({ isPhone })();
+  const { apiKey, isPhone, isTablet } = useAppContext();
+  const classes = useStyles({ isPhone, isTablet })();
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const { data: route } = useCalculateRouteQuery(
