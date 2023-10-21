@@ -107,8 +107,10 @@ const Map = ({
       if (isPhone) {
         addStyleToDocument(
           "bottom-control-margin",
-          ".TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl, .TomTomNavigation .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl {margin-bottom: 120px;}"
+          ".TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl, .TomTomNavigation .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl {margin-bottom: 112px;}"
         );
+      } else {
+        removeStyleFromDocument("bottom-control-margin");
       }
       dispatch(
         setFitBoundsOptions({
@@ -117,6 +119,7 @@ const Map = ({
       );
     } else {
       removeStyleFromDocument("bottom-control-margin");
+
       dispatch(
         setFitBoundsOptions({
           padding: { bottom: 40 }

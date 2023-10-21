@@ -52,7 +52,7 @@ const RouteOverview = ({ map, route }) => {
     // Center the map on the first coordinate of the route
     const center = route.features[0].geometry.coordinates[0];
     const movingMethod = shouldAnimateCamera(map.getBounds(), center)
-      ? "easeTo"
+      ? "flyTo"
       : "jumpTo";
 
     batch(() => {
