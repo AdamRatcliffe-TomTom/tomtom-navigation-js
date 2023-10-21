@@ -164,15 +164,14 @@ const Map = ({
       }}
       fitBoundsOptions={fitBoundsOptions}
       movingMethod={movingMethod}
+      animationOptions={{ essential: true }}
       attributionControl={false}
       center={center}
       zoom={zoom}
       bounds={bounds}
       pitch={pitch}
     >
-      {enableGeolocation && (
-        <GeolocateControl watchPosition={true} visible={!isNavigating} />
-      )}
+      {enableGeolocation && <GeolocateControl watchPosition={true} />}
       <CompassControl onClick={handleCompassControlClick} />
       {showMapSwitcherControl && !isNavigating && (
         <MapSwitcherControl

@@ -3,6 +3,7 @@ import { useDispatch, batch } from "react-redux";
 import { makeStyles, useTheme } from "@fluentui/react";
 import { useGeolocated } from "react-geolocated";
 import { withMap } from "react-tomtom-maps";
+import Fade from "../../core/Fade";
 import MapControl from "./MapControl";
 import CrosshairIcon from "../../icons/CrosshairIcon";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
@@ -12,6 +13,7 @@ import { setUserLocation, setCenter, setMovingMethod } from "./mapSlice";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    // display: visible ? "flex" : "none",
     alignItems: "center",
     justifyContent: "center",
     width: "56px",
@@ -33,8 +35,7 @@ const defaultPositionOptions = {
 const Geolocate = ({
   map,
   watchPosition = false,
-  positionOptions = defaultPositionOptions,
-  visible = true
+  positionOptions = defaultPositionOptions
 }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -66,7 +67,7 @@ const Geolocate = ({
     }
   };
 
-  return isGeolocationEnabled && visible ? (
+  return isGeolocationEnabled ? (
     <div className={classes.root} onClick={handleClick}>
       <CrosshairIcon color={theme.palette.black} />
     </div>
