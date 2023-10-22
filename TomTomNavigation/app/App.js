@@ -67,9 +67,7 @@ function App({
   mapOptions,
   ...otherProps
 }) {
-  if (language) {
-    strings.setLanguage(language);
-  }
+  strings.setLanguage(language);
 
   return (
     <StoreProvider store={store}>

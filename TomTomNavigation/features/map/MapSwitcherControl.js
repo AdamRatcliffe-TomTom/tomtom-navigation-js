@@ -39,13 +39,13 @@ const MapSwitcher = ({
   const [styleName, setStyleName] = useState(
     selected === "street" ? "satellite" : "street"
   );
-  const { apiKey, mapStyles, theme } = useAppContext();
+  const { apiKey, mapStyles, theme, language } = useAppContext();
   const [mapStyle, setMapStyle] = useState(mapStyles[styleName]);
   const [bounds, setBounds] = useState(map?.getBounds().toArray());
 
   useEffect(() => {
     setMapStyle(mapStyles[styleName]);
-  }, [theme]);
+  }, [theme, language]);
 
   useEffect(() => {
     map && map.on("moveend", handleMapViewChange);
