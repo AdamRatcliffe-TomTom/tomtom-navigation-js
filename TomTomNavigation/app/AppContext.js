@@ -10,6 +10,7 @@ export function useAppContext() {
 export default function AppContextProvider({
   children,
   apiKey,
+  language = navigator.language,
   width,
   height,
   simulationSpeed,
@@ -18,6 +19,7 @@ export default function AppContextProvider({
   const contextValue = useMemo(
     () => ({
       apiKey,
+      language,
       width,
       height,
       simulationSpeed,
@@ -38,7 +40,7 @@ export default function AppContextProvider({
         }
       }
     }),
-    [apiKey, width, height, simulationSpeed, theme]
+    [apiKey, language, width, height, simulationSpeed, theme]
   );
 
   return <AppContext.Provider value={contextValue} children={children} />;

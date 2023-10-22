@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.5.3" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.5.4" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -25,6 +25,7 @@
 			<value name="lightTheme" display-name-key="Light theme">light</value>
 			<value name="darkTheme" display-name-key="Dark theme">dark</value>
 		</property>
+		<property name="language" display-name-key="Language" description-key="language_Desc_Key" of-type="SingleLine.Text" usage="bound" required="false" />
 		<property name="showTrafficFlow" display-name-key="Show traffic flow" description-key="showTrafficFlow_Desc_Key" of-type="TwoOptions" usage="bound" required="false" default-value="false" />
 		<property name="showTrafficIncidents" display-name-key="Show traffic incidents" description-key="showTrafficIncidents_Desc_Key" of-type="TwoOptions" usage="bound" required="false" default-value="false"/>
 		<property name="showPoi" display-name-key="Show POI" description-key="showPoi_Desc_Key" of-type="TwoOptions" usage="bound" required="false" default-value="false"/>

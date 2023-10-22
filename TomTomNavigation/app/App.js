@@ -6,6 +6,7 @@ import { store } from "./store";
 import AppContextProvider from "./AppContext";
 import Map from "../features/map/Map";
 import Navigation from "../features/navigation/Navigation";
+import strings from "../config/strings";
 
 import {
   setCenter,
@@ -58,18 +59,24 @@ function Wrapper({
 
 function App({
   apiKey,
+  theme,
+  language,
   width,
   height,
   simulationSpeed,
-  theme,
   mapOptions,
   ...otherProps
 }) {
+  if (language) {
+    strings.setLanguage(language);
+  }
+
   return (
     <StoreProvider store={store}>
       <ThemeProvider {...(theme === "dark" && { theme: darkTheme })}>
         <AppContextProvider
           apiKey={apiKey}
+          language={language}
           width={width}
           height={height}
           simulationSpeed={simulationSpeed}

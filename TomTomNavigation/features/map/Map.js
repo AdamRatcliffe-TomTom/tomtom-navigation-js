@@ -52,7 +52,8 @@ const Map = ({
 }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
-  const { apiKey, width, height, mapStyles, theme, isPhone } = useAppContext();
+  const { apiKey, language, width, height, mapStyles, theme, isPhone } =
+    useAppContext();
   const showNavigationPanel = useSelector(getShowNavigationPanel);
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
@@ -158,6 +159,7 @@ const Map = ({
         trafficIncidents: showTrafficIncidents,
         poi: showPoi
       }}
+      language={language}
       containerStyle={{
         width: `${width}px`,
         height: `${height}px`

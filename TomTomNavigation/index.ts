@@ -40,6 +40,7 @@ export class TomTomNavigation
   ): React.ReactElement {
     const apiKey = this.getRawParameter(context, "apiKey");
     const theme = this.getRawParameter(context, "theme");
+    const language = this.getRawParameter(context, "language");
     const initialCenter = parseCoordinateString(
       this.getRawParameter(context, "initialCenter"),
       true
@@ -97,6 +98,7 @@ export class TomTomNavigation
     };
 
     const routeOptions = {
+      language,
       travelMode,
       traffic,
       arrivalSidePreference,
@@ -106,6 +108,7 @@ export class TomTomNavigation
     return React.createElement(App, {
       apiKey,
       theme,
+      language,
       width,
       height,
       simulationSpeed,

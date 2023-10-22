@@ -16,6 +16,7 @@ const initialState = {
     travelMode: "car",
     traffic: true,
     locations: [],
+    supportingPoints: undefined,
     sectionType: ["speedLimit", "lanes"],
     instructionsType: "text",
     instructionAnnouncementPoints: "all",
