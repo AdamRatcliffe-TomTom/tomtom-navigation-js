@@ -9,7 +9,7 @@ import Route from "./Route";
 import LocationMarker from "./LocationMarker";
 import DeviceMarker from "./DeviceMarker";
 import WaypointMarker from "./WaypointMarker";
-import Fade from "../../core/Fade";
+import Fade from "../../components/Fade";
 import { useCalculateRouteQuery } from "../../services/routing";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import tomtom2mapbox from "../../functions/tomtom2mapbox";

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@fluentui/react";
 import { withMap } from "react-tomtom-maps";
 import MapControl from "./MapControl";
-import Fade from "../../core/Fade";
+import Fade from "../../components/Fade";
 
 const useStyles = makeStyles((theme) => ({
   control: {
