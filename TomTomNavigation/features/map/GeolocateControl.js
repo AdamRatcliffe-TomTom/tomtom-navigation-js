@@ -3,7 +3,6 @@ import { useDispatch, batch } from "react-redux";
 import { makeStyles, useTheme } from "@fluentui/react";
 import { useGeolocated } from "react-geolocated";
 import { withMap } from "react-tomtom-maps";
-import Fade from "../../core/Fade";
 import MapControl from "./MapControl";
 import CrosshairIcon from "../../icons/CrosshairIcon";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";

@@ -6,21 +6,39 @@ const strings = new LocalizedStrings({
     stops: "stops",
     exit: "Exit",
     street: "Street",
-    satellite: "Satellite"
+    satellite: "Satellite",
+    location: "Location",
+    locationServicesUnavailable:
+      "Location services not supported for this device",
+    locationServicesNotEnabled:
+      "Location services not enabled. Enable to use your current location",
+    ok: "OK"
   },
   de: {
     drive: "Fahren",
     stops: "haltestellen",
     exit: "Ende",
     street: "Straße",
-    satellite: "Satellit"
+    satellite: "Satellit",
+    location: "Standort",
+    locationServicesUnavailable:
+      "Ortungsdienste werden für dieses Gerät nicht unterstützt",
+    locationServicesNotEnabled:
+      "Ortungsdienste nicht aktiviert. Aktivieren Sie diese Option, um Ihren aktuellen Standort zu verwenden",
+    ok: "OK"
   },
   nl: {
     drive: "Start",
     stops: "haltes",
     exit: "Stop",
     street: "Straat",
-    satellite: "Satelliet"
+    satellite: "Satelliet",
+    location: "Plaats",
+    locationServicesUnavailable:
+      "Locatieservices worden niet ondersteund voor dit apparaat",
+    locationServicesNotEnabled:
+      "Locatieservices zijn niet ingeschakeld. Schakel in om uw huidige locatie te gebruiken",
+    ok: "OK"
   }
 });
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.7.0" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.7.2" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -69,18 +69,8 @@
 			<platform-library name="Fluent" version="8.29.0" />
 			<css path="css/TomTomNavigation.css" order="1" />
 			</resources>
-		<!--
-		UNCOMMENT TO ENABLE THE SPECIFIED API
 		<feature-usage>
-		<uses-feature name="Device.captureAudio" required="true" />
-		<uses-feature name="Device.captureImage" required="true" />
-		<uses-feature name="Device.captureVideo" required="true" />
-		<uses-feature name="Device.getBarcodeValue" required="true" />
-		<uses-feature name="Device.getCurrentPosition" required="true" />
-		<uses-feature name="Device.pickFile" required="true" />
-		<uses-feature name="Utility" required="true" />
-		<uses-feature name="WebAPI" required="true" />
+		  <uses-feature name="Device.getCurrentPosition" required="true" />
 		</feature-usage>
-		-->
 	</control>
 </manifest>
