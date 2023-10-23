@@ -30,7 +30,7 @@ const useStyles = ({ isPhone, isTablet }) =>
   }));
 
 const NavigationPanel = () => {
-  const { apiKey, isPhone, isTablet } = useAppContext();
+  const { apiKey, measurementSystem, isPhone, isTablet } = useAppContext();
   const classes = useStyles({ isPhone, isTablet })();
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
@@ -44,7 +44,7 @@ const NavigationPanel = () => {
 
   return route ? (
     <div className={classes.root}>
-      <RouteOverview route={route} />
+      <RouteOverview route={route} measurementSystem={measurementSystem} />
     </div>
   ) : null;
 };

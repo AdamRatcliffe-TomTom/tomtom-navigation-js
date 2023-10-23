@@ -41,6 +41,10 @@ export class TomTomNavigation
     const apiKey = this.getRawParameter(context, "apiKey");
     const theme = this.getRawParameter(context, "theme");
     const language = this.getRawParameter(context, "language");
+    const measurementSystem = this.getRawParameter(
+      context,
+      "measurementSystem"
+    );
     const initialCenter = parseCoordinateString(
       this.getRawParameter(context, "initialCenter"),
       true
@@ -109,6 +113,7 @@ export class TomTomNavigation
       apiKey,
       theme,
       language,
+      measurementSystem,
       width,
       height,
       simulationSpeed,

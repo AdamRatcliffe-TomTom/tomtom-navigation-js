@@ -61,6 +61,7 @@ function App({
   apiKey,
   theme,
   language,
+  measurementSystem,
   width,
   height,
   simulationSpeed,
@@ -75,6 +76,7 @@ function App({
         <AppContextProvider
           apiKey={apiKey}
           language={language}
+          measurementSystem={measurementSystem}
           width={width}
           height={height}
           simulationSpeed={simulationSpeed}

@@ -11,6 +11,7 @@ export default function AppContextProvider({
   children,
   apiKey,
   language = navigator.language,
+  measurementSystem = "metric",
   width,
   height,
   simulationSpeed,
@@ -20,6 +21,7 @@ export default function AppContextProvider({
     () => ({
       apiKey,
       language,
+      measurementSystem,
       width,
       height,
       simulationSpeed,
@@ -40,7 +42,7 @@ export default function AppContextProvider({
         }
       }
     }),
-    [apiKey, language, width, height, simulationSpeed, theme]
+    [apiKey, language, measurementSystem, width, height, simulationSpeed, theme]
   );
 
   return <AppContext.Provider value={contextValue} children={children} />;

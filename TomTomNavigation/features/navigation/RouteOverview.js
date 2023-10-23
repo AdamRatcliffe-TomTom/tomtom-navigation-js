@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   }
 });
 
-const RouteOverview = ({ map, route }) => {
+const RouteOverview = ({ map, route, measurementSystem }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const classes = useStyles();
@@ -46,7 +46,7 @@ const RouteOverview = ({ map, route }) => {
   const { travelTimeInSeconds, lengthInMeters } = summary;
   const numStops = legs.length;
   const duration = formatDuration(travelTimeInSeconds);
-  const distance = formatDistance(lengthInMeters);
+  const distance = formatDistance(lengthInMeters, measurementSystem);
 
   const handleStartNavigation = () => {
     // Center the map on the first coordinate of the route

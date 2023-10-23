@@ -6,15 +6,15 @@ const numberFormat = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 1
 });
 
-export default function formatDistance(meters, units = "km") {
-  if (units === "km") {
+export default function formatDistance(meters, measurementSystem = "metric") {
+  if (measurementSystem === "metric") {
     return Math.abs(meters) < 1000
       ? { value: roundUp(meters, meters < 100 ? 10 : 100), units: "m" }
       : {
           value: numberFormat.format(metersToKilometers(meters)),
           units: "km"
         };
-  } else if (units === "mi") {
+  } else if (measurementSystem === "imperial") {
     return meters < 160
       ? {
           value: roundUp(
