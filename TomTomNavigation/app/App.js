@@ -15,7 +15,8 @@ import {
   setCenter,
   setZoom,
   setRouteOptions,
-  setAutomaticRouteCalculation
+  setAutomaticRouteCalculation,
+  setMovingMethod
 } from "../features/map/mapSlice";
 
 import { setShowNavigationPanel } from "../features/navigation/navigationSlice";
@@ -51,6 +52,7 @@ function Wrapper({
   useEffect(() => {
     dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
     dispatch(setRouteOptions(routeOptions));
+    dispatch(setMovingMethod("jumpTo"));
   }, [automaticRouteCalculation, JSON.stringify(routeOptions)]);
 
   useEffect(() => {

@@ -21,6 +21,7 @@ import {
 import {
   getCenter,
   getZoom,
+  getBearing,
   getPitch,
   getBounds,
   getMovingMethod,
@@ -61,6 +62,7 @@ const Map = ({
   );
   const center = useSelector(getCenter);
   const zoom = useSelector(getZoom);
+  const bearing = useSelector(getBearing);
   const pitch = useSelector(getPitch);
   const bounds = useSelector(getBounds);
   const movingMethod = useSelector(getMovingMethod);
@@ -171,6 +173,7 @@ const Map = ({
       center={center}
       zoom={zoom}
       bounds={bounds}
+      bearing={bearing}
       pitch={pitch}
     >
       {enableGeolocation && <GeolocateControl watchPosition={true} />}
@@ -187,7 +190,7 @@ const Map = ({
       {route && <Route before={before} data={route} />}
       {renderWaypoints()}
       <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
-        <DeviceMarker />
+        <DeviceMarker coordinates={center} />
       </Fade>
       {children}
     </ReactMap>

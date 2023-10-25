@@ -7343,7 +7343,7 @@ guidance-replay@^0.1.4:
 
 "guidance-sim@ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git":
   version "0.1.7"
-  resolved "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git#90dfd281c1470c64057a6346a4508eb69b11bf47"
+  resolved "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git#5ac52f1aad2d26a48f8931946bb743f3fd757bc8"
   dependencies:
     browserify "^13.0.0"
     budo "^8.1.0"
