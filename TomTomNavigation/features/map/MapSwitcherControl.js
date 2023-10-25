@@ -9,16 +9,16 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "88px",
-    height: "88px",
+    width: 88,
+    height: 88,
     padding: "4px 4px 0",
-    borderRadius: "8px",
+    borderRadius: 8,
     background: theme.palette.white,
     boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.075)",
     cursor: "pointer",
     userSelect: "none",
     "& .mapboxgl-map": {
-      borderRadius: "8px"
+      borderRadius: 8
     },
     "& .mapboxgl-ctrl-attrib": {
       display: "none"
@@ -98,7 +98,7 @@ const MapSwitcher = ({
       <Map
         apiKey={apiKey}
         mapStyle={mapStyle.style}
-        containerStyle={{ width: "80px", height: "60px" }}
+        containerStyle={{ width: 80, height: 60 }}
         mapOptions={{
           interactive: false
         }}

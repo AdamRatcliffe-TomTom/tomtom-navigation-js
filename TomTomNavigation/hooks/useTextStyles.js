@@ -2,12 +2,12 @@ import { makeStyles } from "@fluentui/react";
 
 const useTextStyles = makeStyles((theme) => ({
   primaryText: {
-    fontSize: "24px",
+    fontSize: 24,
     fontWeight: 700
   },
   secondaryText: {
     color: theme.palette.neutralSecondaryAlt,
-    fontSize: "20px",
+    fontSize: 20,
     fontWeight: 600
   }
 }));

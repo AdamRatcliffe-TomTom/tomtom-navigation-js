@@ -12,7 +12,7 @@ const useStyles = ({ isPhone, isTablet }) =>
       position: "absolute",
       bottom: 0,
       left: 0,
-      height: "88px",
+      height: 88,
       margin: theme.spacing.m,
       borderBottomLeftRadius: theme.spacing.m,
       borderBottomRightRadius: theme.spacing.m,
@@ -23,7 +23,7 @@ const useStyles = ({ isPhone, isTablet }) =>
       boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.15)",
       zIndex: 10,
       ...(isTablet && {
-        width: "380px"
+        width: 380
       }),
       ...(isPhone && { right: 0, margin: theme.spacing.s1 })
     }

@@ -2,10 +2,10 @@ import { makeStyles } from "@fluentui/react";
 
 const useButtonStyles = makeStyles((theme) => ({
   largeButton: {
-    height: "48px",
-    fontSize: "20px",
+    height: 48,
+    fontSize: 20,
     fontWeight: 700,
-    borderRadius: "24px",
+    borderRadius: 24,
     color: "#fff",
     ":hover": {
       color: "#fff"
