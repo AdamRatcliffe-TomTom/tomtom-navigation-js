@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const getMapStyleName = (selected) =>
+  selected === "street" ? "satellite" : "street";
+
 const MapSwitcher = ({
   map,
   selected = "street",
@@ -36,15 +39,19 @@ const MapSwitcher = ({
   ...otherProps
 }) => {
   const classes = useStyles();
-  const [styleName, setStyleName] = useState(
-    selected === "street" ? "satellite" : "street"
-  );
   const { apiKey, mapStyles, theme, language } = useAppContext();
-  const [mapStyle, setMapStyle] = useState(mapStyles[styleName]);
-  const [bounds, setBounds] = useState(map?.getBounds().toArray());
+  const [state, setState] = useState({
+    styleName: getMapStyleName(selected),
+    mapStyle: mapStyles[getMapStyleName(selected)],
+    bounds: map?.getBounds().toArray()
+  });
+  const { styleName, mapStyle, bounds } = state;
 
   useEffect(() => {
-    setMapStyle(mapStyles[styleName]);
+    setState((prev) => ({
+      ...prev,
+      mapStyle: mapStyles[styleName]
+    }));
   }, [theme, language]);
 
   useEffect(() => {
@@ -53,10 +60,14 @@ const MapSwitcher = ({
   }, [map]);
 
   useEffect(() => {
-    const styleName = selected === "street" ? "satellite" : "street";
+    const styleName = getMapStyleName(selected);
     const mapStyle = mapStyles[styleName];
-    setStyleName(styleName);
-    setMapStyle(mapStyle);
+
+    setState((prev) => ({
+      ...prev,
+      styleName,
+      mapStyle
+    }));
   }, [selected]);
 
   const handleStyleData = (map) => {
@@ -71,12 +82,15 @@ const MapSwitcher = ({
   };
 
   const handleClick = () => {
-    const newSelected = selected === "street" ? "satellite" : "street";
-    onSelected(newSelected);
+    const styleName = getMapStyleName(selected);
+    onSelected(styleName);
   };
 
   const handleMapViewChange = () => {
-    setBounds(map?.getBounds().toArray());
+    setState((prev) => ({
+      ...prev,
+      bounds: map?.getBounds().toArray()
+    }));
   };
 
   return (
