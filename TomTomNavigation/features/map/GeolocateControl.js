@@ -12,16 +12,18 @@ import { setUserLocation, setCenter, setMovingMethod } from "./mapSlice";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    // display: visible ? "flex" : "none",
     alignItems: "center",
     justifyContent: "center",
     width: 56,
     height: 56,
     borderRadius: "50%",
     backgroundColor: theme.palette.white,
-    boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.075)",
+    boxShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)",
     userSelect: "none",
-    cursor: "pointer"
+    cursor: "pointer",
+    ":active": {
+      backgroundColor: theme.semanticColors.buttonBackgroundPressed
+    }
   }
 }));
 

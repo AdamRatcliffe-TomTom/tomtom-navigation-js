@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "4px 4px 0",
     borderRadius: 8,
     background: theme.palette.white,
-    boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.075)",
+    boxShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)",
     cursor: "pointer",
     userSelect: "none",
     "& .mapboxgl-map": {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   text: {
-    fontWeight: 600
+    fontWeight: 500
   }
 }));
 

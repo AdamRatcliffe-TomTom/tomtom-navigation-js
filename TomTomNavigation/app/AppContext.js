@@ -32,7 +32,7 @@ export default function AppContextProvider({
         street: {
           name: "street",
           label: strings.street,
-          style: `https://api.tomtom.com/style/1/style/24.*?map=10-test/basic_street-${theme}&traffic_flow=2/flow_relative-${theme}&traffic_incidents=2/incidents_${theme}&poi=2/poi_${theme}`
+          style: `https://api.tomtom.com/style/1/style/24.4.0-0?map=10-test/basic_street-${theme}&traffic_flow=2/flow_relative-${theme}&traffic_incidents=2/incidents_${theme}&poi=2/poi_${theme}`
         },
         satellite: {
           name: "satellite",

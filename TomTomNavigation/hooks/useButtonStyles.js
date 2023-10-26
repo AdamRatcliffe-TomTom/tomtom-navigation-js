@@ -4,7 +4,7 @@ const useButtonStyles = makeStyles((theme) => ({
   largeButton: {
     height: 48,
     fontSize: 20,
-    fontWeight: 700,
+    fontWeight: 500,
     borderRadius: 24,
     color: "#fff",
     ":hover": {
@@ -26,6 +26,12 @@ const useButtonStyles = makeStyles((theme) => ({
     ":active": {
       color: "#fff"
     }
+  },
+  circularButton: {
+    width: 56,
+    height: 56,
+    borderRadius: "50%",
+    minWidth: "auto"
   }
 }));
 

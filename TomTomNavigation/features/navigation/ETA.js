@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useMemo } from "react";
+import add from "date-fns/add";
 import { useDispatch, useSelector, batch } from "react-redux";
 import { withMap } from "react-tomtom-maps";
-import { useTheme, PrimaryButton } from "@fluentui/react";
+import { useTheme, DefaultButton } from "@fluentui/react";
 import { makeStyles } from "@fluentui/react";
 import { Stack } from "@fluentui/react/lib/Stack";
 import { Text } from "@fluentui/react/lib/Text";
 import DriveIcon from "../../icons/DriveIcon";
+import CrossIcon from "../../icons/CrossIcon";
+import JamIcon from "../../icons/JamIcon";
 import useTextStyles from "../../hooks/useTextStyles";
 import useButtonStyles from "../../hooks/useButtonStyles";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
+import formatTime from "../../functions/formatTime";
 import formatDuration from "../../functions/formatDuration";
 import formatDistance from "../../functions/formatDistance";
 import geoJsonBounds from "../../functions/geoJsonBounds";
-import strings from "../../config/strings";
 
 import {
   getIsNavigating,
@@ -35,18 +38,25 @@ const useStyles = makeStyles({
   }
 });
 
-const RouteOverview = ({ map, route, measurementSystem }) => {
+const ETA = ({ map, route, measurementSystem }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const classes = useStyles();
   const textClasses = useTextStyles();
   const buttonClasses = useButtonStyles();
   const isNavigating = useSelector(getIsNavigating);
-  const { summary, legs } = route.features[0].properties;
-  const { travelTimeInSeconds, lengthInMeters } = summary;
-  const numStops = legs.length;
+  const { summary } = route.features[0].properties;
+  const { travelTimeInSeconds, lengthInMeters, trafficDelayInSeconds } =
+    summary;
   const duration = formatDuration(travelTimeInSeconds);
   const distance = formatDistance(lengthInMeters, measurementSystem);
+  const delay = formatDuration(trafficDelayInSeconds);
+  const showTrafficDelay = trafficDelayInSeconds >= 30;
+
+  const eta = useMemo(
+    () => formatTime(add(new Date(), { seconds: travelTimeInSeconds })),
+    [travelTimeInSeconds]
+  );
 
   const handleStartNavigation = () => {
     // Center the map on the first coordinate of the route
@@ -99,38 +109,35 @@ const RouteOverview = ({ map, route, measurementSystem }) => {
       verticalAlign="center"
     >
       <Stack tokens={{ childrenGap: theme.spacing.s1 }}>
-        <Text
-          className={textClasses.primaryText}
-          variant="xLarge"
-        >{`${duration} ${duration > 3600 ? "hr" : "min"}`}</Text>
-        <Stack horizontal tokens={{ childrenGap: theme.spacing.s2 }}>
+        <Stack horizontal verticalAlign="baseline" tokens={{ childrenGap: 6 }}>
+          <Text className={textClasses.primaryText}>{eta.time}</Text>
+          <Text className={textClasses.primaryUnitsText}>{eta.meridiem}</Text>
+        </Stack>
+        <Stack horizontal tokens={{ childrenGap: theme.spacing.s1 }}>
           <Text
             className={textClasses.secondaryText}
-            variant="xLarge"
           >{`${distance.value} ${distance.units}`}</Text>
-          {numStops > 1 && (
-            <Text className={textClasses.secondaryText} variant="xLarge">
-              {`⸱ ${numStops} ${strings.stops}`}
-            </Text>
+          <Text className={textClasses.secondaryText}>⸱</Text>
+          <Text className={textClasses.secondaryText}>{duration}</Text>
+          {showTrafficDelay && (
+            <Stack horizontal tokens={{ childrenGap: 6 }}>
+              <Text className={textClasses.secondaryText}>⸱</Text>
+              <JamIcon color={theme.semanticColors.surfaceContentCritical} />
+              <Text className={textClasses.warningText}>{delay}</Text>
+            </Stack>
           )}
         </Stack>
       </Stack>
       {isNavigating ? (
-        <PrimaryButton
-          className={[buttonClasses.largeButton, buttonClasses.warningButton]}
-          text={strings.exit}
+        <DefaultButton
+          className={buttonClasses.circularButton}
+          onRenderIcon={() => <CrossIcon color={theme.palette.black} />}
           onClick={handleStopNavigation}
         />
       ) : (
-        <PrimaryButton
-          className={buttonClasses.largeButton}
-          text={strings.drive}
-          styles={{
-            textContainer: {
-              flexGrow: 0
-            }
-          }}
-          onRenderIcon={() => <DriveIcon />}
+        <DefaultButton
+          className={buttonClasses.circularButton}
+          onRenderIcon={() => <DriveIcon color={theme.palette.black} />}
           onClick={handleStartNavigation}
         />
       )}
@@ -138,4 +145,4 @@ const RouteOverview = ({ map, route, measurementSystem }) => {
   );
 };
 
-export default withMap(RouteOverview);
+export default withMap(ETA);

@@ -23,6 +23,7 @@
     "@turf/boolean-contains": "^6.5.0",
     "@turf/clean-coords": "^6.5.0",
     "@turf/helpers": "^6.5.0",
+    "date-fns": "^2.30.0",
     "deck.gl": "^8.9.31",
     "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git",
     "lodash.merge": "^4.6.2",

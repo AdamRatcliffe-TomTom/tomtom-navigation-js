@@ -21,13 +21,28 @@ import {
 
 import { setShowNavigationPanel } from "../features/navigation/navigationSlice";
 
-const darkTheme = {
+const lightTheme = {
   semanticColors: {
-    bodyText: "#fff"
+    buttonBackgroundHovered: "none",
+    surfaceContentCritical: "#F84545"
   },
   palette: {
-    white: "#18212A",
-    black: "#fff"
+    black: "#263543",
+    neutralSecondary: "#727c85"
+  }
+};
+
+const darkTheme = {
+  semanticColors: {
+    bodyText: "#fff",
+    buttonBackgroundHovered: "none",
+    buttonBackgroundPressed: "#202C37",
+    surfaceContentCritical: "#F84545"
+  },
+  palette: {
+    white: "#11181e",
+    black: "#fff",
+    neutralSecondary: "#abafb3"
   }
 };
 
@@ -86,7 +101,7 @@ function App({
 
   return (
     <StoreProvider store={store}>
-      <ThemeProvider {...(theme === "dark" && { theme: darkTheme })}>
+      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
         <AppContextProvider
           apiKey={apiKey}
           language={language}
