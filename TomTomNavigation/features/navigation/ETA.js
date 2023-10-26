@@ -51,7 +51,7 @@ const ETA = ({ map, route, measurementSystem }) => {
   const duration = formatDuration(travelTimeInSeconds);
   const distance = formatDistance(lengthInMeters, measurementSystem);
   const delay = formatDuration(trafficDelayInSeconds);
-  const showTrafficDelay = trafficDelayInSeconds >= 30;
+  const showTrafficDelay = trafficDelayInSeconds >= 60;
 
   const eta = useMemo(
     () => formatTime(add(new Date(), { seconds: travelTimeInSeconds })),

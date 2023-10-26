@@ -1,7 +1,18 @@
-import moment from "moment";
-import "moment-duration-format";
+import { intervalToDuration, formatDuration } from "date-fns";
 
-export default function formatDuration(timeInSeconds) {
-  const duration = moment.duration(timeInSeconds, "seconds").format("h:mm");
-  return duration > 3600 ? `${duration} hr` : `${duration} min`;
+const formatDistanceLocale = {
+  xMinutes: "{{count}} min",
+  xHours: "{{count}} hr"
+};
+const shortEnLocale = {
+  formatDistance: (token, count) =>
+    formatDistanceLocale[token].replace("{{count}}", count)
+};
+
+export default function (seconds) {
+  const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
+  return formatDuration(duration, {
+    format: ["hours", "minutes"],
+    locale: shortEnLocale
+  });
 }

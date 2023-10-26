@@ -9,6 +9,7 @@ import AppContextProvider from "./AppContext";
 import Map from "../features/map/Map";
 import Navigation from "../features/navigation/Navigation";
 import LocationDialog from "../components/LocationDialog";
+import { lightTheme, darkTheme } from "./themes";
 import strings from "../config/strings";
 
 import {
@@ -20,31 +21,6 @@ import {
 } from "../features/map/mapSlice";
 
 import { setShowNavigationPanel } from "../features/navigation/navigationSlice";
-
-const lightTheme = {
-  semanticColors: {
-    buttonBackgroundHovered: "none",
-    surfaceContentCritical: "#F84545"
-  },
-  palette: {
-    black: "#263543",
-    neutralSecondary: "#727c85"
-  }
-};
-
-const darkTheme = {
-  semanticColors: {
-    bodyText: "#fff",
-    buttonBackgroundHovered: "none",
-    buttonBackgroundPressed: "#202C37",
-    surfaceContentCritical: "#F84545"
-  },
-  palette: {
-    white: "#11181e",
-    black: "#fff",
-    neutralSecondary: "#abafb3"
-  }
-};
 
 // Use the wrapper to save shared state to the store
 function Wrapper({
@@ -98,6 +74,8 @@ function App({
       toggleHideLocationDialog();
     }
   }, [isGeolocationAvailable, isGeolocationEnabled]);
+
+  console.log(lightTheme);
 
   return (
     <StoreProvider store={store}>
