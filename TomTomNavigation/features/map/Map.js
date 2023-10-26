@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAppContext } from "../../app/AppContext";
 import ReactMap from "react-tomtom-maps";
@@ -70,6 +70,8 @@ const Map = ({
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const fitBoundsOptions = useSelector(getFitBoundsOptions);
   const userLocation = useSelector(getUserLocation);
+  const [mapStyle, setMapStyle] = useState(mapStyles.street);
+
   const { data: route } = useCalculateRouteQuery(
     {
       key: apiKey,
@@ -77,7 +79,6 @@ const Map = ({
     },
     { skip: !automaticRouteCalculation }
   );
-  const [mapStyle, setMapStyle] = useState(mapStyles.street);
 
   useEffect(() => {
     setMapStyle(mapStyles[mapStyle.name]);
@@ -140,7 +141,7 @@ const Map = ({
     setMapStyle(mapStyles[name]);
   };
 
-  const renderWaypoints = () => {
+  const waypoints = useMemo(() => {
     const { locations } = routeOptions;
 
     if (!locations) return null;
@@ -148,14 +149,22 @@ const Map = ({
     return locations.map((location) => (
       <WaypointMarker key={location.toString()} coordinates={location} />
     ));
-  };
+  }, [routeOptions.locations]);
+
+  const currentStyle = useMemo(
+    () =>
+      isNavigating && mapStyle.styleDriving
+        ? mapStyle.styleDriving
+        : mapStyle.style,
+    [mapStyle, isNavigating]
+  );
 
   return (
     <ReactMap
       ref={mapRef}
       key={apiKey}
       apiKey={apiKey}
-      mapStyle={mapStyle.style}
+      mapStyle={currentStyle}
       stylesVisibility={{
         trafficFlow: showTrafficFlow,
         trafficIncidents: showTrafficIncidents,
@@ -188,7 +197,7 @@ const Map = ({
         <LocationMarker coordinates={userLocation} />
       )}
       {route && <Route before={before} data={route} />}
-      {renderWaypoints()}
+      {waypoints}
       <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
         <DeviceMarker coordinates={center} />
       </Fade>

@@ -75,8 +75,6 @@ function App({
     }
   }, [isGeolocationAvailable, isGeolocationEnabled]);
 
-  console.log(lightTheme);
-
   return (
     <StoreProvider store={store}>
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
