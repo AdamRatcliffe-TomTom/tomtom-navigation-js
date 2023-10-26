@@ -6,28 +6,31 @@
   box-sizing: border-box;
 }
 
-.TomTomNavigation .mapboxgl-ctrl-top-left .mapboxgl-ctrl {
+.TomTomNavigation .mapboxgl-ctrl-top-left .mapboxgl-ctrl:empty,
+.TomTomNavigation .mapboxgl-ctrl-top-right .mapboxgl-ctrl:empty,
+.TomTomNavigation .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl:empty,
+.TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl:empty {
+  margin: 0; /* Reset margins for empty elements */
+}
+
+.TomTomNavigation .mapboxgl-ctrl-top-left .mapboxgl-ctrl:not(:empty) {
   margin-left: 16px;
   margin-top: 16px;
 }
 
-.TomTomNavigation .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
+.TomTomNavigation .mapboxgl-ctrl-top-right .mapboxgl-ctrl:not(:empty) {
   margin-right: 16px;
   margin-top: 16px;
 }
 
-.TomTomNavigation .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl {
+.TomTomNavigation .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl:not(:empty) {
   margin-right: 16px;
   margin-bottom: 16px;
 }
 
-.TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {
+.TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl:not(:empty) {
   margin-left: 16px;
   margin-bottom: 16px;
-}
-
-.TomTomNavigation .mapboxgl-ctrl.mapboxgl-ctrl-attrib {
-  display: none;
 }
 
 @keyframes fadeIn {

@@ -1,31 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, batch } from "react-redux";
-import { makeStyles, useTheme } from "@fluentui/react";
+import { useTheme } from "@fluentui/react";
 import { useGeolocated } from "react-geolocated";
 import { withMap } from "react-tomtom-maps";
 import MapControl from "./MapControl";
 import CrosshairIcon from "../../icons/CrosshairIcon";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
+import useButtonStyles from "../../hooks/useButtonStyles";
 
 import { setUserLocation, setCenter, setMovingMethod } from "./mapSlice";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 56,
-    height: 56,
-    borderRadius: "50%",
-    backgroundColor: theme.palette.white,
-    boxShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)",
-    userSelect: "none",
-    cursor: "pointer",
-    ":active": {
-      backgroundColor: theme.semanticColors.buttonBackgroundPressed
-    }
-  }
-}));
 
 const defaultPositionOptions = {
   enableHighAccuracy: true,
@@ -40,7 +23,7 @@ const Geolocate = ({
 }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const classes = useStyles();
+  const buttonClasses = useButtonStyles();
   const { coords, isGeolocationEnabled } = useGeolocated({
     watchPosition,
     positionOptions
@@ -69,7 +52,7 @@ const Geolocate = ({
   };
 
   return isGeolocationEnabled ? (
-    <div className={classes.root} onClick={handleClick}>
+    <div className={buttonClasses.mapControlButton} onClick={handleClick}>
       <CrosshairIcon color={theme.palette.black} />
     </div>
   ) : null;

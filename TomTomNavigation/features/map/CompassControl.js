@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Compass({ map, onClick = () => {} }) {
+function Compass({ map, visible = true, onClick = () => {} }) {
   const classes = useStyles();
   const [bearing, setBearing] = useState(0);
 
@@ -50,7 +50,7 @@ function Compass({ map, onClick = () => {} }) {
   };
 
   return (
-    <Fade show={bearing !== 0} duration="0.3s">
+    <Fade show={visible && bearing !== 0} duration="0.3s">
       <div className={classes.control} onClick={onClick}>
         <div className={classes.icon} style={iconStyle} />
       </div>

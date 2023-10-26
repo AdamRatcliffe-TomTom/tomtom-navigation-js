@@ -4,7 +4,7 @@ import { useAppContext } from "../../app/AppContext";
 import ReactMap from "react-tomtom-maps";
 import GeolocateControl from "./GeolocateControl";
 import CompassControl from "./CompassControl";
-import MapSwitcherControl from "./MapSwitcherControl";
+import MapSwitcherControlAlt from "./MapSwitcherControlAlt";
 import Route from "./Route";
 import LocationMarker from "./LocationMarker";
 import DeviceMarker from "./DeviceMarker";
@@ -133,6 +133,8 @@ const Map = ({
   }, [route, showNavigationPanel, isPhone]);
 
   const handleCompassControlClick = () => {
+    if (isNavigating) return;
+
     const map = mapRef.current.getMap();
     map.easeTo({ bearing: 0, duration: 250 });
   };
@@ -186,13 +188,12 @@ const Map = ({
       pitch={pitch}
     >
       {enableGeolocation && <GeolocateControl watchPosition={true} />}
-      <CompassControl onClick={handleCompassControlClick} />
-      {showMapSwitcherControl && !isNavigating && (
-        <MapSwitcherControl
-          selected={mapStyle.name}
-          onSelected={handleMapStyleSelected}
-        />
-      )}
+      <MapSwitcherControlAlt
+        visible={showMapSwitcherControl && !isNavigating}
+        selected={mapStyle.name}
+        onSelected={handleMapStyleSelected}
+      />
+      <CompassControl visible onClick={handleCompassControlClick} />
       {showLocationMarker && userLocation && (
         <LocationMarker coordinates={userLocation} />
       )}

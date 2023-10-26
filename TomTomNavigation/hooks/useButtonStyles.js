@@ -32,6 +32,21 @@ const useButtonStyles = makeStyles((theme) => ({
     height: 56,
     borderRadius: "50%",
     minWidth: "auto"
+  },
+  mapControlButton: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 56,
+    height: 56,
+    borderRadius: "50%",
+    backgroundColor: theme.palette.white,
+    boxShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)",
+    userSelect: "none",
+    cursor: "pointer",
+    ":active": {
+      backgroundColor: theme.semanticColors.buttonBackgroundPressed
+    }
   }
 }));
 
