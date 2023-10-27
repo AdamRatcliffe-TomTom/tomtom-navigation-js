@@ -33,7 +33,11 @@
   margin-bottom: 16px;
 }
 
-@keyframes fadeIn {
+.TomTomNavigation .ms-Modal {
+  position: absolute;
+}
+
+@keyframes TomTomNavigation__fade-in {
   0% {
     opacity: 0;
   }
@@ -42,7 +46,7 @@
   }
 }
 
-@keyframes fadeOut {
+@keyframes TomTomNavigation__fade-out {
   0% {
     opacity: 1;
   }

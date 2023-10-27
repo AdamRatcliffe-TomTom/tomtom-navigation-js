@@ -14,7 +14,11 @@ const Fade = ({ show, children, duration = "1s" }) => {
   return (
     shouldRender && (
       <div
-        style={{ animation: `${show ? "fadeIn" : "fadeOut"} ${duration}` }}
+        style={{
+          animation: `${
+            show ? "TomTomNavigation__fade-in" : "TomTomNavigation__fade-out"
+          } ${duration}`
+        }}
         onAnimationEnd={handleAnimationEnd}
       >
         {children}
