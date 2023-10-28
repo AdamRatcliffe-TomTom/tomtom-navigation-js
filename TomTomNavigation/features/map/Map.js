@@ -173,7 +173,7 @@ const Map = ({
       isNavigating && mapStyle.styleDriving
         ? mapStyle.styleDriving
         : mapStyle.style,
-    [mapStyle, isNavigating, navigationModeTransitioning]
+    [mapStyle, isNavigating]
   );
 
   return (
