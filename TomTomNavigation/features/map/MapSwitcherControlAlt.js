@@ -1,31 +1,97 @@
-import React, { useState } from "react";
-import { useTheme, makeStyles, Modal, IconButton } from "@fluentui/react";
+import React, { useState, useMemo } from "react";
+import {
+  useTheme,
+  makeStyles,
+  Modal,
+  Stack,
+  IconButton,
+  Text
+} from "@fluentui/react";
 import { withMap } from "react-tomtom-maps";
 import MapControl from "./MapControl";
 import LayersIcon from "../../icons/LayersIcon";
 import Fade from "../../components/Fade";
+import { useAppContext } from "../../app/AppContext";
 import useButtonStyles from "../../hooks/useButtonStyles";
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    position: "auto"
-  },
-  closeButton: {
-    color: theme.palette.neutralSecondary,
-    position: "absolute",
-    top: 4,
-    right: 4,
-    ":hover": {
-      background: "none"
+const useStyles = (props) =>
+  makeStyles((theme) => ({
+    modal: {
+      position: "auto",
+      minHeight: 100
     },
-    ":active": {
-      background: "none"
+    title: {
+      padding: `${theme.spacing.s2} ${theme.spacing.s2} ${theme.spacing.s2} ${theme.spacing.m}`
+    },
+    items: {
+      padding: `${theme.spacing.s2} ${theme.spacing.m} ${theme.spacing.m}`
+    },
+    closeButton: {
+      color: theme.palette.neutralSecondary,
+      ":hover": {
+        background: "none"
+      },
+      ":active": {
+        background: "none"
+      }
+    },
+    item: {
+      display: "flex",
+      flexDirection: "column"
+    },
+    itemMap: {
+      width: 120,
+      height: 100,
+      borderStyle: "solid",
+      borderRadius: 8,
+      borderWidth: 3,
+      borderColor: props?.selected ? theme.palette.themePrimary : "transparent",
+      cursor: "pointer"
+    },
+    itemLabel: {
+      textAlign: "center",
+      marginTop: theme.spacing.s1
     }
-  }
-}));
+  }));
 
-const MapStylesModal = ({ onDismiss, ...otherProps }) => {
-  const classes = useStyles();
+const MapItem = ({ mapStyle, selected, onSelected }) => {
+  const classes = useStyles({ selected })();
+  const { name, label } = mapStyle;
+
+  const handleClick = () => {
+    onSelected(name);
+  };
+
+  return (
+    <Stack.Item className={classes.item} onClick={handleClick}>
+      <div className={classes.itemMap}></div>
+      <Text className={classes.itemLabel} variant="medium">
+        {label}
+      </Text>
+    </Stack.Item>
+  );
+};
+
+const MapStylesModal = ({ selected, onSelected, onDismiss, ...otherProps }) => {
+  const theme = useTheme();
+  const classes = useStyles()();
+  const { mapStyles } = useAppContext();
+
+  const items = useMemo(
+    () =>
+      Object.keys(mapStyles).map((name) => {
+        const mapStyle = mapStyles[name];
+        return (
+          <MapItem
+            key={name}
+            mapStyle={mapStyle}
+            selected={name === selected}
+            onSelected={onSelected}
+          />
+        );
+      }),
+    [mapStyles, selected]
+  );
 
   return (
     <Modal
@@ -36,18 +102,34 @@ const MapStylesModal = ({ onDismiss, ...otherProps }) => {
       onDismiss={onDismiss}
       {...otherProps}
     >
-      <div>
+      <Stack
+        className={classes.title}
+        horizontal
+        horizontalAlign="space-between"
+        verticalAlign="center"
+      >
+        <Text variant="mediumPlus">Choose Map</Text>
         <IconButton
           className={classes.closeButton}
           iconProps={{ iconName: "Cancel" }}
           onClick={onDismiss}
         />
+      </Stack>
+      <div className={classes.items}>
+        <Stack tokens={{ childrenGap: theme.spacing.m }} horizontal>
+          {items}
+        </Stack>
       </div>
     </Modal>
   );
 };
 
-const MapSwitcher = ({ hostId, visible = true }) => {
+const MapSwitcher = ({
+  modalHostId,
+  selected = "street",
+  onSelected = () => {},
+  visible = true
+}) => {
   const theme = useTheme();
   const buttonStyles = useButtonStyles();
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -74,8 +156,10 @@ const MapSwitcher = ({ hostId, visible = true }) => {
           styles: {
             position: "absolute"
           },
-          hostId
+          hostId: modalHostId
         }}
+        selected={selected}
+        onSelected={onSelected}
       />
     </>
   );

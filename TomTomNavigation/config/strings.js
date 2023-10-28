@@ -12,7 +12,8 @@ const strings = new LocalizedStrings({
       "Location services not supported for this device",
     locationServicesNotEnabled:
       "Location services not enabled. Enable to use your current location",
-    ok: "OK"
+    ok: "OK",
+    go: "Go"
   },
   de: {
     drive: "Fahren",

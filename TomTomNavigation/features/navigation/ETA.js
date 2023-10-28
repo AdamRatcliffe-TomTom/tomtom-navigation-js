@@ -4,7 +4,6 @@ import { useTheme, DefaultButton } from "@fluentui/react";
 import { makeStyles } from "@fluentui/react";
 import { Stack } from "@fluentui/react/lib/Stack";
 import { Text } from "@fluentui/react/lib/Text";
-import DriveIcon from "../../icons/DriveIcon";
 import CrossIcon from "../../icons/CrossIcon";
 import JamIcon from "../../icons/JamIcon";
 import useTextStyles from "../../hooks/useTextStyles";
@@ -12,6 +11,7 @@ import useButtonStyles from "../../hooks/useButtonStyles";
 import formatTime from "../../functions/formatTime";
 import formatDuration from "../../functions/formatDuration";
 import formatDistance from "../../functions/formatDistance";
+import strings from "../../config/strings";
 
 const useStyles = makeStyles({
   root: {
@@ -52,7 +52,7 @@ const ETA = ({
       verticalAlign="center"
     >
       <Stack tokens={{ childrenGap: theme.spacing.s1 }}>
-        <Stack horizontal verticalAlign="baseline" tokens={{ childrenGap: 6 }}>
+        <Stack horizontal verticalAlign="baseline" tokens={{ childrenGap: 3 }}>
           <Text className={textClasses.primaryText}>{eta.time}</Text>
           <Text className={textClasses.primaryUnitsText}>{eta.meridiem}</Text>
         </Stack>
@@ -65,7 +65,7 @@ const ETA = ({
           {showTrafficDelay && (
             <Stack horizontal tokens={{ childrenGap: 6 }}>
               <Text className={textClasses.secondaryText}>⸱</Text>
-              <JamIcon color={theme.semanticColors.surfaceContentCritical} />
+              <JamIcon color={theme.semanticColors.warningIcon} />
               <Text className={textClasses.warningText}>{delay}</Text>
             </Stack>
           )}
@@ -73,14 +73,14 @@ const ETA = ({
       </Stack>
       {isNavigating ? (
         <DefaultButton
-          className={buttonClasses.circularButton}
+          className={buttonClasses.circleButton}
           onRenderIcon={() => <CrossIcon color={theme.palette.black} />}
           onClick={onStopNavigation}
         />
       ) : (
         <DefaultButton
-          className={buttonClasses.circularButton}
-          onRenderIcon={() => <DriveIcon color={theme.palette.black} />}
+          className={buttonClasses.pillButton}
+          text={strings.go}
           onClick={onStartNavigation}
         />
       )}

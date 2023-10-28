@@ -173,7 +173,7 @@ const Map = ({
       isNavigating && mapStyle.styleDriving
         ? mapStyle.styleDriving
         : mapStyle.style,
-    [mapStyle, isNavigating]
+    [mapStyle, isNavigating, navigationModeTransitioning]
   );
 
   return (
@@ -209,7 +209,7 @@ const Map = ({
       <MapSwitcherControlAlt
         visible={showMapSwitcherControl && !isNavigating}
         selected={mapStyle.name}
-        hostId={layerHostId}
+        modalHostId={layerHostId}
         onSelected={handleMapStyleSelected}
       />
       <CompassControl visible onClick={handleCompassControlClick} />

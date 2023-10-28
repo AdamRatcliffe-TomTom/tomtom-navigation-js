@@ -15,7 +15,7 @@ const useTextStyles = makeStyles((theme) => ({
     fontWeight: 500
   },
   warningText: {
-    color: theme.semanticColors.surfaceContentCritical,
+    color: theme.semanticColors.warningIcon,
     fontSize: 18,
     fontWeight: 500
   }

@@ -1,37 +1,29 @@
 import { makeStyles } from "@fluentui/react";
 
 const useButtonStyles = makeStyles((theme) => ({
-  largeButton: {
-    height: 48,
-    fontSize: 20,
-    fontWeight: 500,
-    borderRadius: 24,
-    color: "#fff",
-    ":hover": {
-      color: "#fff"
-    },
-    ":active": {
-      color: "#fff"
-    }
-  },
-  warningButton: {
-    backgroundColor: theme.palette.red,
-    borderColor: theme.palette.red,
-    ":hover": {
-      backgroundColor: theme.palette.redDark,
-      borderColor: theme.palette.redDark,
-      color: "#fff"
-    },
-    color: "#fff",
-    ":active": {
-      color: "#fff"
-    }
-  },
-  circularButton: {
+  circleButton: {
     width: 56,
     height: 56,
     borderRadius: "50%",
-    minWidth: "auto"
+    minWidth: "auto",
+    ":active": {
+      backgroundColor: theme.semanticColors.buttonBackgroundPressed
+    }
+  },
+  pillButton: {
+    minWidth: 75,
+    fontSize: 18,
+    fontWeight: 400,
+    height: 56,
+    borderRadius: 28,
+    color: theme.palette.black,
+    ":hover": {
+      color: theme.palette.black
+    },
+    ":active": {
+      color: theme.palette.black,
+      backgroundColor: theme.semanticColors.buttonBackgroundPressed
+    }
   },
   mapControlButton: {
     display: "flex",

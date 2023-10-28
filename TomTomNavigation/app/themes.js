@@ -1,7 +1,7 @@
 export const lightTheme = {
   semanticColors: {
     buttonBackgroundHovered: "none",
-    surfaceContentCritical: "#F84545"
+    warningIcon: "#F84545"
   },
   palette: {
     black: "#263543",
@@ -14,7 +14,7 @@ export const darkTheme = {
     bodyText: "#fff",
     buttonBackgroundHovered: "none",
     buttonBackgroundPressed: "#202C37",
-    surfaceContentCritical: "#f84545"
+    warningIcon: "#f84545"
   },
   palette: {
     white: "#18212a",
