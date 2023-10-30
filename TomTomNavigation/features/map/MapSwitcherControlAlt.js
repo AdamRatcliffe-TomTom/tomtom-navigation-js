@@ -126,12 +126,12 @@ const MapStylesModal = ({ selected, onSelected, onDismiss, ...otherProps }) => {
 };
 
 const MapSwitcher = ({
-  modalHostId,
   selected = "street",
   onSelected = () => {},
   visible = true
 }) => {
   const theme = useTheme();
+  const { layerHostId } = useAppContext();
   const buttonStyles = useButtonStyles();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -157,7 +157,7 @@ const MapSwitcher = ({
           styles: {
             position: "absolute"
           },
-          hostId: modalHostId
+          hostId: layerHostId
         }}
         selected={selected}
         onSelected={onSelected}

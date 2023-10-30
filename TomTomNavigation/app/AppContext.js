@@ -15,7 +15,8 @@ export default function AppContextProvider({
   width,
   height,
   simulationSpeed,
-  theme
+  theme,
+  layerHostId
 }) {
   const contextValue = useMemo(
     () => ({
@@ -28,6 +29,7 @@ export default function AppContextProvider({
       isPhone: width <= 428,
       isTablet: width > 428,
       theme,
+      layerHostId,
       mapStyles: {
         street: {
           name: "street",
@@ -43,7 +45,16 @@ export default function AppContextProvider({
         }
       }
     }),
-    [apiKey, language, measurementSystem, width, height, simulationSpeed, theme]
+    [
+      apiKey,
+      language,
+      measurementSystem,
+      width,
+      height,
+      simulationSpeed,
+      theme,
+      layerHostId
+    ]
   );
 
   return <AppContext.Provider value={contextValue} children={children} />;

@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { LayerHost, makeStyles } from "@fluentui/react";
 import { useAppContext } from "../../app/AppContext";
 import ReactMap from "react-tomtom-maps";
 import GeolocateControl from "./GeolocateControl";
@@ -41,20 +40,7 @@ import {
   setNavigationRoute
 } from "../navigation/navigationSlice";
 
-const useStyles = makeStyles({
-  layerHost: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    zIndex: 1000,
-    pointerEvents: "none"
-  }
-});
-
 const before = "Borders - Treaty label";
-const layerHostId = "map-layer-host";
 
 const Map = ({
   enableGeolocation,
@@ -67,7 +53,6 @@ const Map = ({
 }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
-  const classes = useStyles();
   const { apiKey, language, width, height, mapStyles, theme, isPhone } =
     useAppContext();
   const showNavigationPanel = useSelector(getShowNavigationPanel);
@@ -209,7 +194,6 @@ const Map = ({
       <MapSwitcherControlAlt
         visible={showMapSwitcherControl && !isNavigating}
         selected={mapStyle.name}
-        modalHostId={layerHostId}
         onSelected={handleMapStyleSelected}
       />
       <CompassControl visible onClick={handleCompassControlClick} />
@@ -222,7 +206,6 @@ const Map = ({
         <DeviceMarker coordinates={center} />
       </Fade>
       {children}
-      <LayerHost className={classes.layerHost} id={layerHostId} />
     </ReactMap>
   );
 };

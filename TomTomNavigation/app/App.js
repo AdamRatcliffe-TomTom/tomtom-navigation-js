@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, batch } from "react-redux";
-import { ThemeProvider } from "@fluentui/react";
+import { ThemeProvider, LayerHost, makeStyles } from "@fluentui/react";
 import { useBoolean } from "@fluentui/react-hooks";
 import { Provider as StoreProvider } from "react-redux";
 import { useGeolocated } from "react-geolocated";
@@ -21,6 +21,20 @@ import {
 } from "../features/map/mapSlice";
 
 import { setShowNavigationPanel } from "../features/navigation/navigationSlice";
+
+const useStyles = makeStyles({
+  layerHost: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    zIndex: 1000,
+    pointerEvents: "none"
+  }
+});
+
+const layerHostId = "map-layer-host";
 
 // Use the wrapper to save shared state to the store
 function Wrapper({
@@ -65,6 +79,8 @@ function App({
   ...otherProps
 }) {
   strings.setLanguage(language);
+
+  const classes = useStyles();
   const { isGeolocationAvailable, isGeolocationEnabled } = useGeolocated();
   const [hideLocationDialog, { toggle: toggleHideLocationDialog }] =
     useBoolean(true);
@@ -86,10 +102,16 @@ function App({
           height={height}
           simulationSpeed={simulationSpeed}
           theme={theme}
+          layerHostId={layerHostId}
         >
           <Wrapper {...otherProps}>
             <Map {...mapOptions}>
               <Navigation />
+              <LayerHost
+                style={{ width, height }}
+                className={classes.layerHost}
+                id={layerHostId}
+              />
             </Map>
           </Wrapper>
           <LocationDialog
