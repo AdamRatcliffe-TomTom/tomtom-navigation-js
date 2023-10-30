@@ -33,6 +33,13 @@
   margin-bottom: 16px;
 }
 
+.TomTomNavigation
+  .mapboxgl-ctrl-bottom-right
+  .mapboxgl-ctrl.mapboxgl-ctrl-attrib {
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
 .ms-Modal {
   position: absolute;
 }
