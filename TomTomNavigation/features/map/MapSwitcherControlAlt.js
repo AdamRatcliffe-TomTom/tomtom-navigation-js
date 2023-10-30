@@ -46,7 +46,8 @@ const useStyles = (props) =>
       borderRadius: 8,
       borderWidth: 3,
       borderColor: props?.selected ? theme.palette.themePrimary : "transparent",
-      cursor: "pointer"
+      cursor: "pointer",
+      transition: "border 0.3s"
     },
     itemLabel: {
       textAlign: "center",
@@ -65,7 +66,7 @@ const MapItem = ({ mapStyle, selected, onSelected }) => {
   return (
     <Stack.Item className={classes.item} onClick={handleClick}>
       <div className={classes.itemMap}></div>
-      <Text className={classes.itemLabel} variant="medium">
+      <Text className={classes.itemLabel} variant="mediumPlus">
         {label}
       </Text>
     </Stack.Item>
@@ -108,7 +109,7 @@ const MapStylesModal = ({ selected, onSelected, onDismiss, ...otherProps }) => {
         horizontalAlign="space-between"
         verticalAlign="center"
       >
-        <Text variant="mediumPlus">Choose Map</Text>
+        <Text variant="large">Choose Map</Text>
         <IconButton
           className={classes.closeButton}
           iconProps={{ iconName: "Cancel" }}

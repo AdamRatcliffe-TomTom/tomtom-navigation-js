@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.7.10" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.7.11" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -21,9 +21,10 @@
 		</external-service-usage>
 		<!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
 		<property name="apiKey" display-name-key="API key" description-key="apiKey_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
-		<property name="theme" display-name-key="Theme" description-key="theme_Desc_Key" of-type="Enum" usage="input" required="true" default-value="light">
+		<property name="theme" display-name-key="Theme" description-key="theme_Desc_Key" of-type="Enum" usage="input" required="true" default-value="auto">
 			<value name="lightTheme" display-name-key="Light theme">light</value>
 			<value name="darkTheme" display-name-key="Dark theme">dark</value>
+			<value name="autoTheme" display-name-key="Auto">auto</value>
 		</property>
 		<property name="language" display-name-key="Language" description-key="language_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
 		<property name="measurementSystem" display-name-key="Measurement system" description-key="measurementSystem_Desc_Key" of-type="Enum" usage="input" required="true" default-value="metric">

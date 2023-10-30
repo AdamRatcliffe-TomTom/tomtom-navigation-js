@@ -3,6 +3,7 @@ import * as tt from "@tomtom-international/web-sdk-maps";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import App from "./app/App";
 import parseCoordinateString from "./functions/parseCoordinateString";
+import detectColorScheme from "./functions/detectColorScheme";
 
 export class TomTomNavigation
   implements ComponentFramework.ReactControl<IInputs, IOutputs>
@@ -39,7 +40,8 @@ export class TomTomNavigation
     context: ComponentFramework.Context<IInputs>
   ): React.ReactElement {
     const apiKey = this.getRawParameter(context, "apiKey");
-    const theme = this.getRawParameter(context, "theme");
+    let theme = this.getRawParameter(context, "theme");
+    theme = theme === "auto" ? detectColorScheme() : theme;
     const language = this.getRawParameter(context, "language");
     const measurementSystem = this.getRawParameter(
       context,
