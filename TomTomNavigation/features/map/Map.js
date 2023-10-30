@@ -31,7 +31,8 @@ import {
 
 import {
   getIsNavigating,
-  getNavigationModeTransitioning
+  getNavigationModeTransitioning,
+  getCurrentLocation
 } from "../navigation/navigationSlice";
 
 const before = "Borders - Treaty label";
@@ -52,6 +53,7 @@ const Map = ({
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
   );
+  const { speedLimit } = useSelector(getCurrentLocation);
   const center = useSelector(getCenter);
   const zoom = useSelector(getZoom);
   const bearing = useSelector(getBearing);
@@ -164,7 +166,9 @@ const Map = ({
       <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
         <DeviceMarker coordinates={center} />
       </Fade>
-      {countryCode === "US" && <SpeedLimitUS visible={isNavigating} />}
+      {countryCode === "US" && (
+        <SpeedLimitUS value={speedLimit} visible={isNavigating && speedLimit} />
+      )}
       {children}
     </ReactMap>
   );

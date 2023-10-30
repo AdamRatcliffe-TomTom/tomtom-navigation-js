@@ -31,9 +31,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SpeedLimitUS = ({ value = 40.23, visible }) => {
+const SpeedLimitUS = ({ value, visible }) => {
   const classes = useStyles();
-  const speedLimit = Math.round(metersToMiles(value * 1000));
+  const speedLimit = value ? Math.round(metersToMiles(value * 1000)) : "\u2014";
+
   return (
     <Fade show={visible} duration="0.3s">
       <div className={classes.shield}>

@@ -22,7 +22,9 @@ import {
   getIsNavigating,
   getNavigationModeTransitioning,
   setIsNavigating,
-  setNavigationModeTransitioning
+  setNavigationModeTransitioning,
+  setCurrentLocation,
+  clearCurrentLocation
 } from "../navigation/navigationSlice";
 
 const Navigation = ({ map }) => {
@@ -83,6 +85,7 @@ const Navigation = ({ map }) => {
     batch(() => {
       dispatch(setIsNavigating(false));
       dispatch(setNavigationModeTransitioning(true));
+      dispatch(clearCurrentLocation());
       dispatch(setFitBoundsOptions({ animate: true }));
       dispatch(
         setCamera({
@@ -101,6 +104,11 @@ const Navigation = ({ map }) => {
 
   const setMapInteractive = (interactive) =>
     (map.__om._canvas.style.pointerEvents = interactive ? "all" : "none");
+
+  const handleSimulatorUpdate = (event) => {
+    const { stepCoords } = event;
+    dispatch(setCurrentLocation({ location: stepCoords, route }));
+  };
 
   return (
     <>
@@ -136,6 +144,7 @@ const Navigation = ({ map }) => {
           ]}
           spacing="acceldecel"
           speed={simulationSpeed}
+          onUpdate={handleSimulatorUpdate}
         />
       )}
     </>
