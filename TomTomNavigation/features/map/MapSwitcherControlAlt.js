@@ -24,6 +24,10 @@ const useStyles = (props) =>
     title: {
       padding: `${theme.spacing.s2} ${theme.spacing.s2} ${theme.spacing.s2} ${theme.spacing.m}`
     },
+    titleText: {
+      fontFamily: "Noto Sans",
+      fontWeight: 500
+    },
     items: {
       padding: `${theme.spacing.s2} ${theme.spacing.m} ${theme.spacing.m}`
     },
@@ -51,6 +55,7 @@ const useStyles = (props) =>
       transition: "border 0.3s"
     },
     itemLabel: {
+      fontFamily: "Noto Sans",
       textAlign: "center",
       marginTop: theme.spacing.s1
     }
@@ -110,7 +115,9 @@ const MapStylesModal = ({ selected, onSelected, onDismiss, ...otherProps }) => {
         horizontalAlign="space-between"
         verticalAlign="center"
       >
-        <Text variant="large">{strings.chooseMap}</Text>
+        <Text className={classes.titleText} variant="mediumPlus">
+          {strings.chooseMap}
+        </Text>
         <IconButton
           className={classes.closeButton}
           iconProps={{ iconName: "Cancel" }}

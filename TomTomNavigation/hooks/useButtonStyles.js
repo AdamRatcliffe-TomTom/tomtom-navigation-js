@@ -12,6 +12,7 @@ const useButtonStyles = makeStyles((theme) => ({
   },
   pillButton: {
     minWidth: 75,
+    fontFamily: "Noto Sans",
     fontSize: 18,
     fontWeight: 400,
     height: 56,

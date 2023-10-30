@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   text: {
+    fontFamily: "Noto Sans",
     fontWeight: 500
   }
 }));
