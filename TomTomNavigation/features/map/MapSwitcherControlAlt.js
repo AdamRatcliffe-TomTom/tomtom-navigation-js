@@ -13,6 +13,7 @@ import LayersIcon from "../../icons/LayersIcon";
 import Fade from "../../components/Fade";
 import { useAppContext } from "../../app/AppContext";
 import useButtonStyles from "../../hooks/useButtonStyles";
+import strings from "../../config/strings";
 
 const useStyles = (props) =>
   makeStyles((theme) => ({
@@ -109,7 +110,7 @@ const MapStylesModal = ({ selected, onSelected, onDismiss, ...otherProps }) => {
         horizontalAlign="space-between"
         verticalAlign="center"
       >
-        <Text variant="large">Choose Map</Text>
+        <Text variant="large">{strings.chooseMap}</Text>
         <IconButton
           className={classes.closeButton}
           iconProps={{ iconName: "Cancel" }}

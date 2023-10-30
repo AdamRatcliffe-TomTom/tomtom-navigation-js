@@ -2,7 +2,6 @@ import LocalizedStrings from "react-localization";
 
 const strings = new LocalizedStrings({
   "en-US": {
-    drive: "Drive",
     stops: "stops",
     exit: "Exit",
     street: "Street",
@@ -13,10 +12,11 @@ const strings = new LocalizedStrings({
     locationServicesNotEnabled:
       "Location services not enabled. Enable to use your current location",
     ok: "OK",
-    go: "Go"
+    go: "Go",
+    chooseMap: "Choose Map",
+    limit: "LIMIT"
   },
   de: {
-    drive: "Fahren",
     stops: "haltestellen",
     exit: "Ende",
     street: "Straße",
@@ -29,7 +29,6 @@ const strings = new LocalizedStrings({
     ok: "OK"
   },
   nl: {
-    drive: "Start",
     stops: "haltes",
     exit: "Stop",
     street: "Straat",

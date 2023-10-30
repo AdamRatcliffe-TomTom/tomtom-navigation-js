@@ -5,6 +5,7 @@ import ReactMap from "react-tomtom-maps";
 import GeolocateControl from "./GeolocateControl";
 import CompassControl from "./CompassControl";
 import MapSwitcherControlAlt from "./MapSwitcherControlAlt";
+import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
 import LocationMarker from "./LocationMarker";
 import DeviceMarker from "./DeviceMarker";
@@ -13,10 +14,7 @@ import Fade from "../../components/Fade";
 import { useCalculateRouteQuery } from "../../services/routing";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import tomtom2mapbox from "../../functions/tomtom2mapbox";
-import {
-  addStyleToDocument,
-  removeStyleFromDocument
-} from "../../functions/styles";
+import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 
 import {
   getCenter,
@@ -29,12 +27,10 @@ import {
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
   getUserLocation,
-  setBounds,
-  setFitBoundsOptions
+  setBounds
 } from "./mapSlice";
 
 import {
-  getShowNavigationPanel,
   getIsNavigating,
   getNavigationModeTransitioning,
   setNavigationRoute
@@ -53,9 +49,7 @@ const Map = ({
 }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
-  const { apiKey, language, width, height, mapStyles, theme, isPhone } =
-    useAppContext();
-  const showNavigationPanel = useSelector(getShowNavigationPanel);
+  const { apiKey, language, width, height, mapStyles, theme } = useAppContext();
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
@@ -71,7 +65,6 @@ const Map = ({
   const fitBoundsOptions = useSelector(getFitBoundsOptions);
   const userLocation = useSelector(getUserLocation);
   const [mapStyle, setMapStyle] = useState(mapStyles.street);
-
   const { data: route } = useCalculateRouteQuery(
     {
       key: apiKey,
@@ -79,6 +72,7 @@ const Map = ({
     },
     { skip: !automaticRouteCalculation }
   );
+  const countryCode = countryCodeFromRoute(route);
 
   useEffect(() => {
     setMapStyle(mapStyles[mapStyle.name]);
@@ -105,32 +99,6 @@ const Map = ({
     const map = mapRef.current.getMap();
     map?.resize();
   }, [width, height]);
-
-  useEffect(() => {
-    if (route && showNavigationPanel) {
-      if (isPhone) {
-        addStyleToDocument(
-          "bottom-control-margin",
-          ".TomTomNavigation .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl, .TomTomNavigation .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl {margin-bottom: 112px;}"
-        );
-      } else {
-        removeStyleFromDocument("bottom-control-margin");
-      }
-      dispatch(
-        setFitBoundsOptions({
-          padding: { bottom: 150 }
-        })
-      );
-    } else {
-      removeStyleFromDocument("bottom-control-margin");
-
-      dispatch(
-        setFitBoundsOptions({
-          padding: { bottom: 40 }
-        })
-      );
-    }
-  }, [route, showNavigationPanel, isPhone]);
 
   const handleCompassControlClick = () => {
     if (isNavigating) return;
@@ -205,6 +173,7 @@ const Map = ({
       <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
         <DeviceMarker coordinates={center} />
       </Fade>
+      {countryCode === "US" && <SpeedLimitUS visible={isNavigating} />}
       {children}
     </ReactMap>
   );
