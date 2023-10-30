@@ -13,7 +13,6 @@ import WaypointMarker from "./WaypointMarker";
 import Fade from "../../components/Fade";
 import { useCalculateRouteQuery } from "../../services/routing";
 import geoJsonBounds from "../../functions/geoJsonBounds";
-import tomtom2mapbox from "../../functions/tomtom2mapbox";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 
 import {
@@ -32,8 +31,7 @@ import {
 
 import {
   getIsNavigating,
-  getNavigationModeTransitioning,
-  setNavigationRoute
+  getNavigationModeTransitioning
 } from "../navigation/navigationSlice";
 
 const before = "Borders - Treaty label";
@@ -87,13 +85,6 @@ const Map = ({
       dispatch(setBounds(bounds));
     }
   }, [route, JSON.stringify(routeOptions.locations)]);
-
-  useEffect(() => {
-    if (route) {
-      const navigationRoute = tomtom2mapbox(route.features[0]);
-      dispatch(setNavigationRoute(navigationRoute));
-    }
-  }, [route]);
 
   useEffect(() => {
     const map = mapRef.current.getMap();

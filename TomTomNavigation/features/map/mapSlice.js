@@ -1,5 +1,6 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import _merge from "lodash.merge";
+import _pick from "lodash.pick";
 
 const initialState = {
   center: undefined,
@@ -31,6 +32,16 @@ const mapSlice = createSlice({
   name: "map",
   initialState,
   reducers: {
+    setCamera: (state, action) => {
+      const cameraProps = _pick(action.payload, [
+        "center",
+        "zoom",
+        "bearing",
+        "pitch",
+        "movingMethod"
+      ]);
+      return { ...state, bounds: undefined, ...cameraProps };
+    },
     setCenter: (state, action) => {
       state.center = action.payload;
       state.bounds = undefined;
@@ -117,6 +128,7 @@ export {
 };
 
 export const {
+  setCamera,
   setCenter,
   setZoom,
   setBearing,
