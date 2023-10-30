@@ -12,7 +12,5 @@ const reducer = combineReducers({
 export const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false
-    }).prepend(routingApi.middleware)
+    getDefaultMiddleware().prepend(routingApi.middleware)
 });
