@@ -52,16 +52,19 @@ const ETA = ({
       verticalAlign="center"
     >
       <Stack tokens={{ childrenGap: theme.spacing.s1 }}>
-        <Stack horizontal verticalAlign="baseline" tokens={{ childrenGap: 3 }}>
-          <Text className={textClasses.primaryText}>{eta.time}</Text>
-          <Text className={textClasses.primaryUnitsText}>{eta.meridiem}</Text>
-        </Stack>
-        <Stack horizontal tokens={{ childrenGap: theme.spacing.s1 }}>
-          <Text
-            className={textClasses.secondaryText}
-          >{`${distance.value} ${distance.units}`}</Text>
-          <Text className={textClasses.secondaryText}>⸱</Text>
-          <Text className={textClasses.secondaryText}>{duration}</Text>
+        <Stack
+          horizontal
+          verticalAlign="baseline"
+          tokens={{ childrenGap: theme.spacing.s1 }}
+        >
+          <Stack
+            horizontal
+            verticalAlign="baseline"
+            tokens={{ childrenGap: 3 }}
+          >
+            <Text className={textClasses.primaryText}>{eta.time}</Text>
+            <Text className={textClasses.primaryUnitsText}>{eta.meridiem}</Text>
+          </Stack>
           {showTrafficDelay && (
             <Stack horizontal tokens={{ childrenGap: 6 }}>
               <Text className={textClasses.secondaryText}>⸱</Text>
@@ -69,6 +72,13 @@ const ETA = ({
               <Text className={textClasses.warningText}>{delay}</Text>
             </Stack>
           )}
+        </Stack>
+        <Stack horizontal tokens={{ childrenGap: theme.spacing.s1 }}>
+          <Text
+            className={textClasses.secondaryText}
+          >{`${distance.value} ${distance.units}`}</Text>
+          <Text className={textClasses.secondaryText}>⸱</Text>
+          <Text className={textClasses.secondaryText}>{duration}</Text>
         </Stack>
       </Stack>
       {isNavigating ? (
