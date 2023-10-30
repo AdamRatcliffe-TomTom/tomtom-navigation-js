@@ -40,8 +40,10 @@ export class TomTomNavigation
     context: ComponentFramework.Context<IInputs>
   ): React.ReactElement {
     const apiKey = this.getRawParameter(context, "apiKey");
+
     let theme = this.getRawParameter(context, "theme");
     theme = theme === "auto" ? detectColorScheme() : theme;
+
     const language = this.getRawParameter(context, "language");
     const measurementSystem = this.getRawParameter(
       context,
