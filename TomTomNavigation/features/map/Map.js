@@ -49,7 +49,15 @@ const Map = ({
 }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
-  const { apiKey, language, width, height, mapStyles, theme } = useAppContext();
+  const {
+    apiKey,
+    language,
+    width,
+    height,
+    mapStyles,
+    theme,
+    setMeasurementSystemAuto
+  } = useAppContext();
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
@@ -74,6 +82,10 @@ const Map = ({
     { skip: !automaticRouteCalculation }
   );
   const countryCode = countryCodeFromRoute(route);
+
+  useEffect(() => {
+    setMeasurementSystemAuto(countryCode === "US" ? "imperial" : "metric");
+  }, [countryCode]);
 
   useEffect(() => {
     setMapStyle(mapStyles[mapStyle.name]);

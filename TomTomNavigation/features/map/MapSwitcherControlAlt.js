@@ -72,7 +72,7 @@ const MapItem = ({ mapStyle, selected, onSelected }) => {
   return (
     <Stack.Item className={classes.item} onClick={handleClick}>
       <div className={classes.itemMap}></div>
-      <Text className={classes.itemLabel} variant="mediumPlus">
+      <Text className={classes.itemLabel} variant="medium">
         {label}
       </Text>
     </Stack.Item>

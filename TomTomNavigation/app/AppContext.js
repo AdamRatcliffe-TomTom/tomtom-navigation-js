@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import strings from "../config/strings";
 
 const AppContext = createContext();
@@ -18,11 +18,12 @@ export default function AppContextProvider({
   theme,
   layerHostId
 }) {
+  const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
+
   const contextValue = useMemo(
     () => ({
       apiKey,
       language,
-      measurementSystem,
       width,
       height,
       simulationSpeed,
@@ -43,12 +44,18 @@ export default function AppContextProvider({
           style:
             "https://api.tomtom.com/style/1/style/24.*?map=2/basic_street-satellite&traffic_flow=2/flow_relative-light&traffic_incidents=2/incidents_light&poi=2/poi_light"
         }
-      }
+      },
+      measurementSystem:
+        measurementSystem === "auto"
+          ? measurementSystemAuto
+          : measurementSystem,
+      setMeasurementSystemAuto
     }),
     [
       apiKey,
       language,
       measurementSystem,
+      measurementSystemAuto,
       width,
       height,
       simulationSpeed,
