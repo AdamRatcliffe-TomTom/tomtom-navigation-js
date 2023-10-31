@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import add from "date-fns/add";
+import { useSelector } from "react-redux";
 import { useTheme, DefaultButton } from "@fluentui/react";
 import { makeStyles } from "@fluentui/react";
 import { Stack } from "@fluentui/react/lib/Stack";
@@ -12,6 +13,8 @@ import formatTime from "../../functions/formatTime";
 import formatDuration from "../../functions/formatDuration";
 import formatDistance from "../../functions/formatDistance";
 import strings from "../../config/strings";
+
+import { getDistanceRemaining } from "./navigationSlice";
 
 const useStyles = makeStyles({
   root: {
@@ -30,11 +33,11 @@ const ETA = ({
   const classes = useStyles();
   const textClasses = useTextStyles();
   const buttonClasses = useButtonStyles();
+  const distanceRemaining = useSelector(getDistanceRemaining);
   const { summary } = route.features[0].properties;
-  const { travelTimeInSeconds, lengthInMeters, trafficDelayInSeconds } =
-    summary;
+  const { travelTimeInSeconds, trafficDelayInSeconds } = summary;
   const duration = formatDuration(travelTimeInSeconds);
-  const distance = formatDistance(lengthInMeters, measurementSystem);
+  const distance = formatDistance(distanceRemaining, measurementSystem);
   const delay = formatDuration(trafficDelayInSeconds);
   const showTrafficDelay = trafficDelayInSeconds >= 60;
 

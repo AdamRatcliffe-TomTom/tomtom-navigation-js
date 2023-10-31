@@ -11,8 +11,10 @@ const initialState = {
     point: undefined,
     speedLimit: undefined
   },
-  ruler: undefined
+  distanceRemaining: undefined
 };
+
+let ruler;
 
 const navigationSlice = createSlice({
   name: "navigation",
@@ -31,20 +33,35 @@ const navigationSlice = createSlice({
       const { location, route } = action.payload;
       const { coordinates } = route.features[0].geometry;
 
-      if (!state.ruler) {
-        state.ruler = new CheapRuler(coordinates[0][1], "meters");
+      if (!ruler) {
+        ruler = new CheapRuler(coordinates[0][1], "meters");
       }
 
-      const { point, index: pointIndex } = state.ruler.pointOnLine(
+      const { point, index: pointIndex } = ruler.pointOnLine(
         coordinates,
         location
       );
+      const part = ruler.lineSlice(
+        point,
+        coordinates[coordinates.length - 1],
+        coordinates
+      );
+      const distanceRemaining = ruler.lineDistance(part);
       const speedLimit = speedLimitByIndex(route.features[0], pointIndex);
-      state.currentLocation = { pointIndex, point, speedLimit };
+
+      state.currentLocation = {
+        pointIndex,
+        point,
+        speedLimit
+      };
+      state.distanceRemaining = distanceRemaining;
     },
     clearCurrentLocation: (state) => {
       state.currentLocation = initialState.currentLocation;
-      state.ruler = undefined;
+      ruler = undefined;
+    },
+    setDistanceRemaining: (state, action) => {
+      state.distanceRemaining = action.payload;
     }
   }
 });
@@ -71,11 +88,17 @@ const getCurrentLocation = createSelector(
   (state) => state.currentLocation
 );
 
+const getDistanceRemaining = createSelector(
+  rootSelector,
+  (state) => state.distanceRemaining
+);
+
 export {
   getShowNavigationPanel,
   getIsNavigating,
   getNavigationModeTransitioning,
-  getCurrentLocation
+  getCurrentLocation,
+  getDistanceRemaining
 };
 
 export const {
@@ -83,6 +106,7 @@ export const {
   setIsNavigating,
   setNavigationModeTransitioning,
   setCurrentLocation,
+  setDistanceRemaining,
   clearCurrentLocation
 } = navigationSlice.actions;
 

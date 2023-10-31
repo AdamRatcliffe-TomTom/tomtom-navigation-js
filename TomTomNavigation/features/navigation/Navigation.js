@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
+import CheapRuler from "cheap-ruler";
 import { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
 import NavigationPanel from "./NavigationPanel";
@@ -24,6 +25,7 @@ import {
   setIsNavigating,
   setNavigationModeTransitioning,
   setCurrentLocation,
+  setDistanceRemaining,
   clearCurrentLocation
 } from "../navigation/navigationSlice";
 
@@ -50,12 +52,21 @@ const Navigation = ({ map }) => {
     if (route) {
       const navigationRoute = tomtom2mapbox(route.features[0]);
       setNavigationRoute(navigationRoute);
+
+      const routeCoordinates = route.features[0].geometry.coordinates;
+      const routeLength = new CheapRuler(
+        routeCoordinates[0][1],
+        "meters"
+      ).lineDistance(routeCoordinates);
+
+      dispatch(setDistanceRemaining(routeLength));
     }
   }, [route]);
 
   const handleStartNavigation = () => {
     // Center the map on the first coordinate of the route
-    const center = route.features[0].geometry.coordinates[0];
+    const routeCoordinates = route.features[0].geometry.coordinates;
+    const center = routeCoordinates[0];
     const movingMethod = shouldAnimateCamera(map.getBounds(), center)
       ? "flyTo"
       : "jumpTo";
