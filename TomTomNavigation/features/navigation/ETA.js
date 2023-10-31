@@ -1,5 +1,4 @@
-import React, { useMemo } from "react";
-import add from "date-fns/add";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useTheme, DefaultButton } from "@fluentui/react";
 import { makeStyles } from "@fluentui/react";
@@ -14,7 +13,11 @@ import formatDuration from "../../functions/formatDuration";
 import formatDistance from "../../functions/formatDistance";
 import strings from "../../config/strings";
 
-import { getDistanceRemaining } from "./navigationSlice";
+import {
+  getDistanceRemaining,
+  getTimeRemaining,
+  getEta
+} from "./navigationSlice";
 
 const useStyles = makeStyles({
   root: {
@@ -34,17 +37,15 @@ const ETA = ({
   const textClasses = useTextStyles();
   const buttonClasses = useButtonStyles();
   const distanceRemaining = useSelector(getDistanceRemaining);
+  const timeRemaining = useSelector(getTimeRemaining);
+  const eta = useSelector(getEta);
   const { summary } = route.features[0].properties;
-  const { travelTimeInSeconds, trafficDelayInSeconds } = summary;
-  const duration = formatDuration(travelTimeInSeconds);
+  const { trafficDelayInSeconds } = summary;
+  const duration = formatDuration(timeRemaining);
   const distance = formatDistance(distanceRemaining, measurementSystem);
+  const arrival = formatTime(eta);
   const delay = formatDuration(trafficDelayInSeconds);
   const showTrafficDelay = trafficDelayInSeconds >= 60;
-
-  const eta = useMemo(
-    () => formatTime(add(new Date(), { seconds: travelTimeInSeconds })),
-    [travelTimeInSeconds]
-  );
 
   return (
     <Stack
@@ -65,8 +66,10 @@ const ETA = ({
             verticalAlign="baseline"
             tokens={{ childrenGap: 3 }}
           >
-            <Text className={textClasses.primaryText}>{eta.time}</Text>
-            <Text className={textClasses.primaryUnitsText}>{eta.meridiem}</Text>
+            <Text className={textClasses.primaryText}>{arrival.time}</Text>
+            <Text className={textClasses.primaryUnitsText}>
+              {arrival.meridiem}
+            </Text>
           </Stack>
           {showTrafficDelay && (
             <Stack

@@ -11,7 +11,9 @@ const initialState = {
     point: undefined,
     speedLimit: undefined
   },
-  distanceRemaining: undefined
+  distanceRemaining: undefined,
+  timeRemaining: undefined,
+  eta: undefined
 };
 
 let ruler;
@@ -30,7 +32,8 @@ const navigationSlice = createSlice({
       state.navigationModeTransitioning = action.payload;
     },
     setCurrentLocation: (state, action) => {
-      const { location, route } = action.payload;
+      const { location, elapsedTime, route } = action.payload;
+      const { travelTimeInSeconds } = route.features[0].properties.summary;
       const { coordinates } = route.features[0].geometry;
 
       if (!ruler) {
@@ -47,6 +50,7 @@ const navigationSlice = createSlice({
         coordinates
       );
       const distanceRemaining = ruler.lineDistance(part);
+      const timeRemaining = travelTimeInSeconds - elapsedTime;
       const speedLimit = speedLimitByIndex(route.features[0], pointIndex);
 
       state.currentLocation = {
@@ -55,6 +59,7 @@ const navigationSlice = createSlice({
         speedLimit
       };
       state.distanceRemaining = distanceRemaining;
+      state.timeRemaining = timeRemaining;
     },
     clearCurrentLocation: (state) => {
       state.currentLocation = initialState.currentLocation;
@@ -62,6 +67,12 @@ const navigationSlice = createSlice({
     },
     setDistanceRemaining: (state, action) => {
       state.distanceRemaining = action.payload;
+    },
+    setTimeRemaining: (state, action) => {
+      state.timeRemaining = action.payload;
+    },
+    setEta: (state, action) => {
+      state.eta = action.payload;
     }
   }
 });
@@ -93,12 +104,21 @@ const getDistanceRemaining = createSelector(
   (state) => state.distanceRemaining
 );
 
+const getTimeRemaining = createSelector(
+  rootSelector,
+  (state) => state.timeRemaining
+);
+
+const getEta = createSelector(rootSelector, (state) => state.eta);
+
 export {
   getShowNavigationPanel,
   getIsNavigating,
   getNavigationModeTransitioning,
   getCurrentLocation,
-  getDistanceRemaining
+  getDistanceRemaining,
+  getTimeRemaining,
+  getEta
 };
 
 export const {
@@ -107,6 +127,8 @@ export const {
   setNavigationModeTransitioning,
   setCurrentLocation,
   setDistanceRemaining,
+  setTimeRemaining,
+  setEta,
   clearCurrentLocation
 } = navigationSlice.actions;
 

@@ -10,6 +10,8 @@ const shortEnLocale = {
 };
 
 export default function (seconds) {
+  if (!seconds) return null;
+
   const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
   return formatDuration(duration, {
     format: ["hours", "minutes"],

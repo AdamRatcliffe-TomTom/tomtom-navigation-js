@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
-import CheapRuler from "cheap-ruler";
+import add from "date-fns/add";
 import { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
 import NavigationPanel from "./NavigationPanel";
@@ -26,6 +26,8 @@ import {
   setNavigationModeTransitioning,
   setCurrentLocation,
   setDistanceRemaining,
+  setTimeRemaining,
+  setEta,
   clearCurrentLocation
 } from "../navigation/navigationSlice";
 
@@ -53,13 +55,18 @@ const Navigation = ({ map }) => {
       const navigationRoute = tomtom2mapbox(route.features[0]);
       setNavigationRoute(navigationRoute);
 
-      const routeCoordinates = route.features[0].geometry.coordinates;
-      const routeLength = new CheapRuler(
-        routeCoordinates[0][1],
-        "meters"
-      ).lineDistance(routeCoordinates);
+      const {
+        properties: {
+          summary: { lengthInMeters, travelTimeInSeconds }
+        }
+      } = route.features[0];
+      const eta = add(new Date(), { seconds: travelTimeInSeconds });
 
-      dispatch(setDistanceRemaining(routeLength));
+      batch(() => {
+        dispatch(setDistanceRemaining(lengthInMeters));
+        dispatch(setTimeRemaining(travelTimeInSeconds));
+        dispatch(setEta(eta));
+      });
     }
   }, [route]);
 
@@ -117,8 +124,10 @@ const Navigation = ({ map }) => {
     (map.__om._canvas.style.pointerEvents = interactive ? "all" : "none");
 
   const handleSimulatorUpdate = (event) => {
-    const { stepCoords } = event;
-    dispatch(setCurrentLocation({ location: stepCoords, route }));
+    const { stepCoords, stepTime } = event;
+    const elapsedTime = Math.floor(stepTime / 1000);
+
+    dispatch(setCurrentLocation({ location: stepCoords, elapsedTime, route }));
   };
 
   return (
