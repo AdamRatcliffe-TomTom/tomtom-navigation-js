@@ -66,7 +66,11 @@ const ETA = ({
             <Text className={textClasses.primaryUnitsText}>{eta.meridiem}</Text>
           </Stack>
           {showTrafficDelay && (
-            <Stack horizontal tokens={{ childrenGap: 6 }}>
+            <Stack
+              horizontal
+              verticalAlign="center"
+              tokens={{ childrenGap: 6 }}
+            >
               <Text className={textClasses.secondaryText}>⸱</Text>
               <JamIcon color={theme.semanticColors.warningIcon} />
               <Text className={textClasses.warningText}>{delay}</Text>

@@ -14,7 +14,7 @@ const strings = new LocalizedStrings({
     ok: "OK",
     go: "Go",
     chooseMap: "Choose Map",
-    limit: "Limit"
+    limit: "Speed Limit"
   },
   de: {
     stops: "haltestellen",

@@ -7,10 +7,11 @@ import strings from "../../config/strings";
 const useStyles = makeStyles((theme) => ({
   shield: {
     position: "absolute",
-    bottom: 116,
+    bottom: 112,
     left: 20,
+    maxWidth: 50,
     background: "white",
-    padding: "4px 5px",
+    padding: "3px 5px",
     borderRadius: 6,
     border: "2.5px solid black",
     textAlign: "center",
@@ -18,15 +19,15 @@ const useStyles = makeStyles((theme) => ({
   },
   label: {
     color: "black",
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: 600,
-    lineHeight: "1.25",
+    lineHeight: "1.1",
     textTransform: "uppercase"
   },
   value: {
     color: "black",
     fontSize: 26,
-    lineHeight: "1",
+    lineHeight: "1.1",
     fontWeight: 500
   }
 }));
