@@ -9,20 +9,21 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     bottom: 112,
     left: 20,
-    maxWidth: 50,
     background: "white",
-    padding: "3px 5px",
+    padding: 3,
     borderRadius: 6,
     border: "2.5px solid black",
     textAlign: "center",
-    boxShadow: "white 0px 0px 0px 3.5px, 0 0 35px 0 rgba(0, 0, 0, 0.25)"
+    boxShadow: "white 0px 0px 0px 3px, 0 0 35px 0 rgba(0, 0, 0, 0.25)"
   },
   label: {
     color: "black",
     fontSize: 11,
     fontWeight: 600,
     lineHeight: "1.1",
-    textTransform: "uppercase"
+    textTransform: "uppercase",
+    wordWrap: "break-word",
+    maxWidth: 40
   },
   value: {
     color: "black",
