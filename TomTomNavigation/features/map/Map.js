@@ -5,6 +5,7 @@ import ReactMap from "react-tomtom-maps";
 import GeolocateControl from "./GeolocateControl";
 import CompassControl from "./CompassControl";
 import MapSwitcherControlAlt from "./MapSwitcherControlAlt";
+import SpeedLimit from "./SpeedLimit";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
 import LocationMarker from "./LocationMarker";
@@ -122,6 +123,8 @@ const Map = ({
     [mapStyle, isNavigating]
   );
 
+  const SpeedLimitControl = countryCode === "US" ? SpeedLimitUS : SpeedLimit;
+
   return (
     <ReactMap
       ref={mapRef}
@@ -166,9 +169,10 @@ const Map = ({
       <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
         <DeviceMarker coordinates={center} />
       </Fade>
-      {countryCode === "US" && (
-        <SpeedLimitUS value={speedLimit} visible={isNavigating && speedLimit} />
-      )}
+      <SpeedLimitControl
+        value={speedLimit}
+        visible={isNavigating && speedLimit}
+      />
       {children}
     </ReactMap>
   );
