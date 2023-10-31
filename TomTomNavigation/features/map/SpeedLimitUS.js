@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 6,
     border: "2.5px solid black",
     textAlign: "center",
-    boxShadow: "white 0px 0px 0px 3px, 0 0 35px 0 rgba(0, 0, 0, 0.25)"
+    boxShadow: "white 0px 0px 0px 2px, 0 0 35px 0 rgba(0, 0, 0, 0.25)"
   },
   label: {
     color: "black",
