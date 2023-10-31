@@ -55,11 +55,8 @@ const Navigation = ({ map }) => {
       const navigationRoute = tomtom2mapbox(route.features[0]);
       setNavigationRoute(navigationRoute);
 
-      const {
-        properties: {
-          summary: { lengthInMeters, travelTimeInSeconds }
-        }
-      } = route.features[0];
+      const { lengthInMeters, travelTimeInSeconds } =
+        route.features[0].properties.summary;
       const eta = add(new Date(), { seconds: travelTimeInSeconds });
 
       batch(() => {

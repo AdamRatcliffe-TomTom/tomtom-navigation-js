@@ -1,6 +1,5 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import CheapRuler from "cheap-ruler";
-import speedLimitByIndex from "../../functions/speedLimitByIndex";
 
 const initialState = {
   showNavigationPanel: true,
@@ -17,6 +16,20 @@ const initialState = {
 };
 
 let ruler;
+
+function speedLimitByIndex(route, index) {
+  const { sections } = route.properties;
+  const enclosingSection = sections.find(
+    (section) =>
+      section.sectionType === "SPEED_LIMIT" &&
+      index >= section.startPointIndex &&
+      index < section.endPointIndex
+  );
+  if (enclosingSection) {
+    return enclosingSection.maxSpeedLimitInKmh;
+  }
+  return undefined;
+}
 
 const navigationSlice = createSlice({
   name: "navigation",
