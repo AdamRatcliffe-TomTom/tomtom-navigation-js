@@ -11,7 +11,7 @@ const initialState = {
   movingMethod: "jumpTo",
   fitBoundsOptions: {
     padding: { top: 80, right: 40, bottom: 150, left: 40 },
-    animate: false
+    animate: true
   },
   animationOptions: { essential: true },
   routeOptions: {

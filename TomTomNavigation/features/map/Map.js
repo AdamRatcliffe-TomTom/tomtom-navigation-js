@@ -1,11 +1,5 @@
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  useMemo,
-  useCallback
-} from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useRef, useState, useEffect, useMemo } from "react";
+import { useSelector, useDispatch, batch } from "react-redux";
 import { useAppContext } from "../../app/AppContext";
 import ReactMap from "react-tomtom-maps";
 import GeolocateControl from "./GeolocateControl";
@@ -35,7 +29,8 @@ import {
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
   getUserLocation,
-  setBounds
+  setBounds,
+  setFitBoundsOptions
 } from "./mapSlice";
 
 import {
@@ -46,6 +41,8 @@ import {
 } from "../navigation/navigationSlice";
 
 const before = "Borders - Treaty label";
+
+const easing = (v) => v;
 
 const Map = ({
   enableGeolocation,
@@ -108,7 +105,10 @@ const Map = ({
 
     if (features) {
       const bounds = geoJsonBounds(features);
-      dispatch(setBounds(bounds));
+      batch(() => {
+        dispatch(setFitBoundsOptions({ animate: false }));
+        dispatch(setBounds(bounds));
+      });
     }
   }, [route, JSON.stringify(routeOptions.locations)]);
 
@@ -147,8 +147,6 @@ const Map = ({
   );
 
   const SpeedLimitControl = countryCode === "US" ? SpeedLimitUS : SpeedLimit;
-
-  const easing = useCallback((v) => v, []);
 
   return (
     <ReactMap
