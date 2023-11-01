@@ -22,7 +22,7 @@ const useStyles = ({ isPhone, isTablet }) =>
       }),
       ...(isPhone && {
         right: 0,
-        margin: `${theme.spacing.m} ${theme.spacing.m} 0`
+        margin: `${theme.spacing.s1} ${theme.spacing.s1} 0`
       })
     }
   }));
