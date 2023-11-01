@@ -76,7 +76,7 @@ const Navigation = ({ map }) => {
     const routeCoordinates = route.features[0].geometry.coordinates;
     const center = routeCoordinates[0];
     const movingMethod = shouldAnimateCamera(map.getBounds(), center)
-      ? "easeTo"
+      ? "flyTo"
       : "jumpTo";
 
     batch(() => {
@@ -130,6 +130,7 @@ const Navigation = ({ map }) => {
     batch(() => {
       dispatch(
         setCamera({
+          movingMethod: "easeTo",
           center: stepCoords,
           zoom,
           pitch,
