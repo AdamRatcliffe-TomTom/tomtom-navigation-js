@@ -1,4 +1,5 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
+import { featureCollection, lineString } from "@turf/helpers";
 import CheapRuler from "cheap-ruler";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
     point: undefined,
     speedLimit: undefined
   },
+  remainingRoute: undefined,
   distanceRemaining: undefined,
   timeRemaining: undefined,
   eta: undefined
@@ -57,12 +59,12 @@ const navigationSlice = createSlice({
         coordinates,
         location
       );
-      const part = ruler.lineSlice(
+      const remainingPart = ruler.lineSlice(
         point,
         coordinates[coordinates.length - 1],
         coordinates
       );
-      const distanceRemaining = ruler.lineDistance(part);
+      const distanceRemaining = ruler.lineDistance(remainingPart);
       const timeRemaining = travelTimeInSeconds - elapsedTime;
       const speedLimit = speedLimitByIndex(route.features[0], pointIndex);
 
@@ -71,12 +73,9 @@ const navigationSlice = createSlice({
         point,
         speedLimit
       };
+      state.remainingRoute = featureCollection([lineString(remainingPart)]);
       state.distanceRemaining = distanceRemaining;
       state.timeRemaining = timeRemaining;
-    },
-    clearCurrentLocation: (state) => {
-      state.currentLocation = initialState.currentLocation;
-      ruler = undefined;
     },
     setDistanceRemaining: (state, action) => {
       state.distanceRemaining = action.payload;
@@ -86,6 +85,17 @@ const navigationSlice = createSlice({
     },
     setEta: (state, action) => {
       state.eta = action.payload;
+    },
+    setRemainingRoute: (state, action) => {
+      state.remainingRoute = action.payload;
+    },
+    resetNavigation: (state) => {
+      state.isNavigating = false;
+      state.currentLocation = initialState.currentLocation;
+      state.routeProgress = undefined;
+      state.distanceRemaining = undefined;
+      state.remainingRoute = undefined;
+      ruler = undefined;
     }
   }
 });
@@ -124,6 +134,11 @@ const getTimeRemaining = createSelector(
 
 const getEta = createSelector(rootSelector, (state) => state.eta);
 
+const getRemainingRoute = createSelector(
+  rootSelector,
+  (state) => state.remainingRoute
+);
+
 export {
   getShowNavigationPanel,
   getIsNavigating,
@@ -131,7 +146,8 @@ export {
   getCurrentLocation,
   getDistanceRemaining,
   getTimeRemaining,
-  getEta
+  getEta,
+  getRemainingRoute
 };
 
 export const {
@@ -142,7 +158,8 @@ export const {
   setDistanceRemaining,
   setTimeRemaining,
   setEta,
-  clearCurrentLocation
+  setRemainingRoute,
+  resetNavigation
 } = navigationSlice.actions;
 
 export default navigationSlice.reducer;

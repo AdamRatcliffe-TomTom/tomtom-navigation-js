@@ -8,6 +8,7 @@ import MapSwitcherControlAlt from "./MapSwitcherControlAlt";
 import SpeedLimit from "./SpeedLimit";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
+import EnhancedRoute from "./EnhancedRoute";
 import LocationMarker from "./LocationMarker";
 import DeviceMarker from "./DeviceMarker";
 import WaypointMarker from "./WaypointMarker";
@@ -33,7 +34,8 @@ import {
 import {
   getIsNavigating,
   getNavigationModeTransitioning,
-  getCurrentLocation
+  getCurrentLocation,
+  getRemainingRoute
 } from "../navigation/navigationSlice";
 
 const before = "Borders - Treaty label";
@@ -62,6 +64,7 @@ const Map = ({
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
   );
+  const remainingRoute = useSelector(getRemainingRoute);
   const { speedLimit } = useSelector(getCurrentLocation);
   const center = useSelector(getCenter);
   const zoom = useSelector(getZoom);
@@ -173,10 +176,19 @@ const Map = ({
         onSelected={handleMapStyleSelected}
       />
       <CompassControl visible onClick={handleCompassControlClick} />
-      {showLocationMarker && userLocation && (
+      {showLocationMarker && userLocation && !isNavigating && (
         <LocationMarker coordinates={userLocation} />
       )}
-      {route && <Route before={before} data={route} />}
+      {route &&
+        (remainingRoute ? (
+          <EnhancedRoute
+            before={before}
+            data={route}
+            remainingRoute={remainingRoute}
+          />
+        ) : (
+          <Route before={before} data={route} />
+        ))}
       {waypoints}
       <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
         <DeviceMarker coordinates={center} />

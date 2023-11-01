@@ -6,7 +6,7 @@ export default function shouldAnimateCamera(bounds, feature) {
   if (Array.isArray(feature)) {
     feature = { type: "Point", coordinates: feature };
   }
-  const extendedBounds = expandBoundsByPercentage(bounds, 50);
+  const extendedBounds = expandBoundsByPercentage(bounds, 100);
   const extendedBoundsPoly = turfBboxPolygon(extendedBounds.toArray().flat());
   return turfBooleanContains(extendedBoundsPoly, feature);
 }

@@ -28,7 +28,8 @@ import {
   setDistanceRemaining,
   setTimeRemaining,
   setEta,
-  clearCurrentLocation
+  setRemainingRoute,
+  resetNavigation
 } from "../navigation/navigationSlice";
 
 const Navigation = ({ map }) => {
@@ -63,6 +64,7 @@ const Navigation = ({ map }) => {
         dispatch(setDistanceRemaining(lengthInMeters));
         dispatch(setTimeRemaining(travelTimeInSeconds));
         dispatch(setEta(eta));
+        dispatch(setRemainingRoute(route));
       });
     }
   }, [route]);
@@ -98,9 +100,8 @@ const Navigation = ({ map }) => {
     const bounds = geoJsonBounds(route);
 
     batch(() => {
-      dispatch(setIsNavigating(false));
+      dispatch(resetNavigation());
       dispatch(setNavigationModeTransitioning(true));
-      dispatch(clearCurrentLocation());
       dispatch(setFitBoundsOptions({ animate: true }));
       dispatch(
         setCamera({
