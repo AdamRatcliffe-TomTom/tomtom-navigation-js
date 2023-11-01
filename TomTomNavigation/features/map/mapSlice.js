@@ -13,6 +13,7 @@ const initialState = {
     padding: { top: 80, right: 40, bottom: 150, left: 40 },
     animate: false
   },
+  animationOptions: { essential: true },
   routeOptions: {
     travelMode: "car",
     traffic: true,
@@ -38,9 +39,10 @@ const mapSlice = createSlice({
         "zoom",
         "bearing",
         "pitch",
-        "movingMethod"
+        "movingMethod",
+        "animationOptions"
       ]);
-      return { ...state, bounds: undefined, ...cameraProps };
+      return _merge(state, cameraProps, { bounds: undefined });
     },
     setCenter: (state, action) => {
       state.center = action.payload;
@@ -61,6 +63,9 @@ const mapSlice = createSlice({
     },
     setMovingMethod: (state, action) => {
       state.movingMethod = action.payload;
+    },
+    setAnimationOptions: (state, action) => {
+      state.animationOptions = _merge(state.animationOptions, action.payload);
     },
     setRouteOptions: (state, action) => {
       state.routeOptions = { ...state.routeOptions, ...action.payload };
@@ -94,6 +99,11 @@ const getMovingMethod = createSelector(
   (state) => state.movingMethod
 );
 
+const getAnimationOptions = createSelector(
+  rootSelector,
+  (state) => state.animationOptions
+);
+
 const getRouteOptions = createSelector(
   rootSelector,
   (state) => state.routeOptions
@@ -121,6 +131,7 @@ export {
   getPitch,
   getBounds,
   getMovingMethod,
+  getAnimationOptions,
   getRouteOptions,
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
@@ -136,6 +147,7 @@ export const {
   setBounds,
   setMovingMethod,
   setRouteOptions,
+  setAnimationOptions,
   setAutomaticRouteCalculation,
   setFitBoundsOptions,
   setIsNavigating,

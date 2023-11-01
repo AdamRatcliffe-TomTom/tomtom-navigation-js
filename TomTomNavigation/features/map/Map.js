@@ -1,4 +1,10 @@
-import React, { useRef, useState, useEffect, useMemo } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback
+} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useAppContext } from "../../app/AppContext";
 import ReactMap from "react-tomtom-maps";
@@ -24,6 +30,7 @@ import {
   getPitch,
   getBounds,
   getMovingMethod,
+  getAnimationOptions,
   getRouteOptions,
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
@@ -72,6 +79,7 @@ const Map = ({
   const pitch = useSelector(getPitch);
   const bounds = useSelector(getBounds);
   const movingMethod = useSelector(getMovingMethod);
+  const animationOptions = useSelector(getAnimationOptions);
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const fitBoundsOptions = useSelector(getFitBoundsOptions);
@@ -140,6 +148,8 @@ const Map = ({
 
   const SpeedLimitControl = countryCode === "US" ? SpeedLimitUS : SpeedLimit;
 
+  const easing = useCallback((v) => v, []);
+
   return (
     <ReactMap
       ref={mapRef}
@@ -158,7 +168,7 @@ const Map = ({
       }}
       fitBoundsOptions={fitBoundsOptions}
       movingMethod={movingMethod}
-      animationOptions={{ essential: true }}
+      animationOptions={{ ...animationOptions, easing }}
       attributionControl={false}
       center={center}
       zoom={zoom}

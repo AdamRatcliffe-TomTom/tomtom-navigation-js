@@ -5,7 +5,7 @@ import { withMap } from "react-tomtom-maps";
 
 class Simulator extends Component {
   state = {
-    options: null
+    options: undefined
   };
 
   componentWillMount() {
@@ -45,7 +45,10 @@ class Simulator extends Component {
     const { map, route, onUpdate, onEnd, ...otherProps } = this.props;
 
     if (map && route) {
-      this.simulator = simulate(map, { route, ...otherProps });
+      this.simulator = simulate(map, {
+        route,
+        ...otherProps
+      });
       this.simulator.on("update", this.handleUpdate);
       this.simulator.on("end", onEnd);
     }
@@ -60,8 +63,12 @@ class Simulator extends Component {
   }
 
   handleUpdate = (data) => {
+    const { speed } = this.props;
+    const duration = 1000 / Number(speed.slice(0, speed.indexOf("x")));
+
     this.setState({ options: data.options });
-    this.props.onUpdate(data);
+
+    this.props.onUpdate({ duration, ...data });
   };
 
   render() {
@@ -77,6 +84,7 @@ Simulator.propTypes = {
   speed: PropTypes.string,
   spacing: PropTypes.string,
   maneuvers: PropTypes.array,
+  updateCamera: PropTypes.bool,
   onUpdate: PropTypes.func,
   onEnd: PropTypes.func
 };
@@ -87,6 +95,7 @@ Simulator.defaultProps = {
   time: "00mm00ss",
   speed: "1x",
   spacing: "constant",
+  updateCamera: true,
   paused: false,
   onUpdate: () => {},
   onEnd: () => {}

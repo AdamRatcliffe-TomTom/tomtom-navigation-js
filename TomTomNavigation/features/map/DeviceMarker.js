@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   }
 });
 
-const DeviceMarker = () => {
+const DeviceMarker = (props) => {
   const classes = useStyles();
 
   return (

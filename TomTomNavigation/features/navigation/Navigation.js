@@ -74,7 +74,7 @@ const Navigation = ({ map }) => {
     const routeCoordinates = route.features[0].geometry.coordinates;
     const center = routeCoordinates[0];
     const movingMethod = shouldAnimateCamera(map.getBounds(), center)
-      ? "flyTo"
+      ? "easeTo"
       : "jumpTo";
 
     batch(() => {
@@ -122,10 +122,23 @@ const Navigation = ({ map }) => {
     (map.__om._canvas.style.pointerEvents = interactive ? "all" : "none");
 
   const handleSimulatorUpdate = (event) => {
-    const { stepCoords, stepTime } = event;
+    const { pitch, zoom, stepCoords, stepBearing, stepTime, duration } = event;
     const elapsedTime = Math.floor(stepTime / 1000);
 
-    dispatch(setCurrentLocation({ location: stepCoords, elapsedTime, route }));
+    batch(() => {
+      dispatch(
+        setCamera({
+          center: stepCoords,
+          zoom,
+          pitch,
+          bearing: stepBearing,
+          animationOptions: { duration }
+        })
+      );
+      dispatch(
+        setCurrentLocation({ location: stepCoords, elapsedTime, route })
+      );
+    });
   };
 
   return (
@@ -161,6 +174,7 @@ const Navigation = ({ map }) => {
             }
           ]}
           spacing="acceldecel"
+          updateCamera={false}
           speed={simulationSpeed}
           onUpdate={handleSimulatorUpdate}
         />
