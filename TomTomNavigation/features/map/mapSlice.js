@@ -35,6 +35,7 @@ const mapSlice = createSlice({
   reducers: {
     setCamera: (state, action) => {
       const cameraProps = _pick(action.payload, [
+        "around",
         "center",
         "zoom",
         "bearing",
