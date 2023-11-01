@@ -43,7 +43,7 @@ const ETA = ({
   const { trafficDelayInSeconds } = summary;
   const duration = formatDuration(timeRemaining);
   const distance = formatDistance(distanceRemaining, measurementSystem);
-  const arrival = formatTime(eta);
+  const arrival = formatTime(new Date(eta));
   const delay = formatDuration(trafficDelayInSeconds);
   const showTrafficDelay = trafficDelayInSeconds >= 60;
 

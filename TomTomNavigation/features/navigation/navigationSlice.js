@@ -14,7 +14,7 @@ const initialState = {
   remainingRoute: undefined,
   distanceRemaining: undefined,
   timeRemaining: undefined,
-  eta: undefined
+  eta: null
 };
 
 let ruler;

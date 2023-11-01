@@ -58,7 +58,9 @@ const Navigation = ({ map }) => {
 
       const { lengthInMeters, travelTimeInSeconds } =
         route.features[0].properties.summary;
-      const eta = add(new Date(), { seconds: travelTimeInSeconds });
+      const eta = add(new Date(), {
+        seconds: travelTimeInSeconds
+      }).toISOString();
 
       batch(() => {
         dispatch(setDistanceRemaining(lengthInMeters));
