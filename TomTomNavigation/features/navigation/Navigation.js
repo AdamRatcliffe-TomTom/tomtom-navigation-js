@@ -161,7 +161,7 @@ const Navigation = ({ map }) => {
               type: ["arrive"],
               buffer: 0.0621371,
               zoom: 16,
-              pitch: 40
+              pitch: 0
             },
             {
               type: ["turn left", "turn right"],

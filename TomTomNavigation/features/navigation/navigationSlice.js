@@ -2,9 +2,12 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { featureCollection, lineString } from "@turf/helpers";
 import CheapRuler from "cheap-ruler";
 
+import { DESTINATION_ARRIVAL_THRESHOLD } from "../../config";
+
 const initialState = {
   showNavigationPanel: true,
   isNavigating: false,
+  hasReachedDestination: false,
   navigationModeTransitioning: false,
   currentLocation: {
     pointIndex: undefined,
@@ -67,7 +70,10 @@ const navigationSlice = createSlice({
       const distanceRemaining = ruler.lineDistance(remainingPart);
       const timeRemaining = travelTimeInSeconds - elapsedTime;
       const speedLimit = speedLimitByIndex(route.features[0], pointIndex);
+      const hasReachedDestination =
+        distanceRemaining <= DESTINATION_ARRIVAL_THRESHOLD;
 
+      state.hasReachedDestination = hasReachedDestination;
       state.currentLocation = {
         pointIndex,
         point,
@@ -91,6 +97,7 @@ const navigationSlice = createSlice({
     },
     resetNavigation: (state) => {
       state.isNavigating = false;
+      state.hasReachedDestination = false;
       state.currentLocation = initialState.currentLocation;
       state.routeProgress = undefined;
       state.distanceRemaining = undefined;
@@ -139,6 +146,11 @@ const getRemainingRoute = createSelector(
   (state) => state.remainingRoute
 );
 
+const getHasReachedDestination = createSelector(
+  rootSelector,
+  (state) => state.hasReachedDestination
+);
+
 export {
   getShowNavigationPanel,
   getIsNavigating,
@@ -147,7 +159,8 @@ export {
   getDistanceRemaining,
   getTimeRemaining,
   getEta,
-  getRemainingRoute
+  getRemainingRoute,
+  getHasReachedDestination
 };
 
 export const {

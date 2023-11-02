@@ -1,8 +1,10 @@
 import { makeStyles } from "@fluentui/react";
 import { useSelector } from "react-redux";
 import ETA from "./ETA";
+import Arrival from "./Arrival";
 import { useAppContext } from "../../app/AppContext";
-import { getIsNavigating } from "./navigationSlice";
+
+import { getIsNavigating, getHasReachedDestination } from "./navigationSlice";
 
 const useStyles = ({ isPhone, isTablet }) =>
   makeStyles((theme) => ({
@@ -31,16 +33,21 @@ const NavigationPanel = ({ route, onStartNavigation, onStopNavigation }) => {
   const { measurementSystem, isPhone, isTablet } = useAppContext();
   const classes = useStyles({ isPhone, isTablet })();
   const isNavigating = useSelector(getIsNavigating);
+  const hasReachedDestination = useSelector(getHasReachedDestination);
 
   return route ? (
     <div className={classes.root}>
-      <ETA
-        route={route}
-        measurementSystem={measurementSystem}
-        isNavigating={isNavigating}
-        onStartNavigation={onStartNavigation}
-        onStopNavigation={onStopNavigation}
-      />
+      {hasReachedDestination ? (
+        <Arrival onStopNavigation={onStopNavigation} />
+      ) : (
+        <ETA
+          route={route}
+          measurementSystem={measurementSystem}
+          isNavigating={isNavigating}
+          onStartNavigation={onStartNavigation}
+          onStopNavigation={onStopNavigation}
+        />
+      )}
     </div>
   ) : null;
 };

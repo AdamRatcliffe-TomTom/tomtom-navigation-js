@@ -13,6 +13,22 @@ const useButtonStyles = makeStyles((theme) => ({
   pillButton: {
     minWidth: 75,
     fontFamily: "Noto Sans",
+    fontSize: 16,
+    fontWeight: 400,
+    height: 48,
+    borderRadius: 24,
+    color: theme.palette.black,
+    ":hover": {
+      color: theme.palette.black
+    },
+    ":active": {
+      color: theme.palette.black,
+      backgroundColor: theme.semanticColors.buttonBackgroundPressed
+    }
+  },
+  pillButtonLarge: {
+    minWidth: 75,
+    fontFamily: "Noto Sans",
     fontSize: 18,
     fontWeight: 400,
     height: 56,

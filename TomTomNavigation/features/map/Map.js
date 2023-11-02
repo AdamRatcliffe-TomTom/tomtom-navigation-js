@@ -35,6 +35,7 @@ import {
 
 import {
   getIsNavigating,
+  getHasReachedDestination,
   getNavigationModeTransitioning,
   getCurrentLocation,
   getRemainingRoute
@@ -65,6 +66,7 @@ const Map = ({
     setMeasurementSystemAuto
   } = useAppContext();
   const isNavigating = useSelector(getIsNavigating);
+  const hasReachedDestination = useSelector(getHasReachedDestination);
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
   );
@@ -183,7 +185,10 @@ const Map = ({
         selected={mapStyle.name}
         onSelected={handleMapStyleSelected}
       />
-      <CompassControl visible onClick={handleCompassControlClick} />
+      <CompassControl
+        visible={!hasReachedDestination}
+        onClick={handleCompassControlClick}
+      />
       {showLocationMarker && userLocation && !isNavigating && (
         <LocationMarker coordinates={userLocation} />
       )}
@@ -203,7 +208,7 @@ const Map = ({
       </Fade>
       <SpeedLimitControl
         value={speedLimit}
-        visible={isNavigating && speedLimit}
+        visible={isNavigating && speedLimit && !hasReachedDestination}
       />
       {children}
     </ReactMap>

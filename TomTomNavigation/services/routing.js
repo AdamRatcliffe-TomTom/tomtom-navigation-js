@@ -2,7 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import objectToQueryString from "../functions/objectToQueryString";
 import routeToGeoJson from "../functions/routeToGeoJson";
 
-import { BASE_ROUTING_URL } from "../config/config";
+import { BASE_ROUTING_URL } from "../config";
 
 const calculateRoute = async (options) => {
   const { key, locations, supportingPoints, ...otherOptions } = options;

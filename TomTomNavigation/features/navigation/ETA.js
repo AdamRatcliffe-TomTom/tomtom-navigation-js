@@ -99,7 +99,7 @@ const ETA = ({
         />
       ) : (
         <DefaultButton
-          className={buttonClasses.pillButton}
+          className={buttonClasses.pillButtonLarge}
           text={strings.go}
           onClick={onStartNavigation}
         />

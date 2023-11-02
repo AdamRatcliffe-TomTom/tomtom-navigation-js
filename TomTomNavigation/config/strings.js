@@ -14,7 +14,9 @@ const strings = new LocalizedStrings({
     ok: "OK",
     go: "Go",
     chooseMap: "Choose Map",
-    limit: "Speed Limit"
+    limit: "Speed Limit",
+    arrived: "Arrived",
+    endRoute: "End Route"
   },
   de: {
     stops: "haltestellen",
@@ -26,7 +28,8 @@ const strings = new LocalizedStrings({
       "Ortungsdienste werden für dieses Gerät nicht unterstützt",
     locationServicesNotEnabled:
       "Ortungsdienste nicht aktiviert. Aktivieren Sie diese Option, um Ihren aktuellen Standort zu verwenden",
-    ok: "OK"
+    ok: "OK",
+    arrived: "Angekommen"
   },
   nl: {
     stops: "haltes",
@@ -38,7 +41,8 @@ const strings = new LocalizedStrings({
       "Locatieservices worden niet ondersteund voor dit apparaat",
     locationServicesNotEnabled:
       "Locatieservices zijn niet ingeschakeld. Schakel in om uw huidige locatie te gebruiken",
-    ok: "OK"
+    ok: "OK",
+    arrived: "Aangekomen"
   }
 });
 
