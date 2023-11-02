@@ -13,7 +13,7 @@ const initialState = {
     padding: { top: 80, right: 40, bottom: 150, left: 40 },
     animate: true
   },
-  animationOptions: { essential: true },
+  animationOptions: { duration: 500, essential: true },
   routeOptions: {
     travelMode: "car",
     traffic: true,

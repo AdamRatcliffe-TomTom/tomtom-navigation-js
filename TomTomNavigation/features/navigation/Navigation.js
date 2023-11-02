@@ -87,7 +87,8 @@ const Navigation = ({ map }) => {
           movingMethod,
           center,
           pitch: 60,
-          zoom: 18
+          zoom: 18,
+          animationOptions: { padding: { top: 400 } }
         })
       );
     });
@@ -108,7 +109,8 @@ const Navigation = ({ map }) => {
       dispatch(
         setCamera({
           pitch: 0,
-          zoom: undefined
+          zoom: undefined,
+          animationOptions: { duration: 500, padding: { top: 0 } }
         })
       );
       dispatch(setBounds(bounds));
@@ -117,7 +119,9 @@ const Navigation = ({ map }) => {
     // Restore map interaction
     setMapInteractive(true);
 
-    map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
+    map.once("moveend", () => {
+      dispatch(setNavigationModeTransitioning(false));
+    });
   };
 
   const setMapInteractive = (interactive) =>
@@ -135,7 +139,7 @@ const Navigation = ({ map }) => {
           zoom,
           pitch,
           bearing: stepBearing,
-          animationOptions: { duration }
+          animationOptions: { duration, padding: { top: 400 } }
         })
       );
       dispatch(
@@ -160,7 +164,7 @@ const Navigation = ({ map }) => {
             {
               type: ["arrive"],
               buffer: 0.0621371,
-              zoom: 16,
+              zoom: 17.5,
               pitch: 0
             },
             {
