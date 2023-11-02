@@ -4,17 +4,17 @@ import useTextStyles from "../../hooks/useTextStyles";
 import useButtonStyles from "../../hooks/useButtonStyles";
 import strings from "../../config/strings";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     textAlign: "center"
   },
   title: {
-    marginBottom: theme.spacing.s1
+    marginBottom: 8
   },
   address: {
-    marginBottom: theme.spacing.l1
+    marginBottom: 16
   }
-}));
+});
 
 const Arrival = ({ onStopNavigation = () => {} }) => {
   const classes = useStyles();
