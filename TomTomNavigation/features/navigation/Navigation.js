@@ -160,7 +160,7 @@ const Navigation = ({ map }) => {
             {
               type: ["arrive"],
               buffer: 0.0621371,
-              zoom: 14,
+              zoom: 16,
               pitch: 0
             },
             {
