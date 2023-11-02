@@ -5,10 +5,7 @@ const useButtonStyles = makeStyles((theme) => ({
     width: 56,
     height: 56,
     borderRadius: "50%",
-    minWidth: "auto",
-    ":active": {
-      backgroundColor: theme.semanticColors.buttonBackgroundPressed
-    }
+    minWidth: "auto"
   },
   pillButton: {
     minWidth: 75,
@@ -18,12 +15,8 @@ const useButtonStyles = makeStyles((theme) => ({
     height: 48,
     borderRadius: 24,
     color: theme.palette.black,
-    ":hover": {
-      color: theme.palette.black
-    },
-    ":active": {
-      color: theme.palette.black,
-      backgroundColor: theme.semanticColors.buttonBackgroundPressed
+    "&.ms-Button--primary": {
+      color: "white"
     }
   },
   pillButtonLarge: {
@@ -38,8 +31,10 @@ const useButtonStyles = makeStyles((theme) => ({
       color: theme.palette.black
     },
     ":active": {
-      color: theme.palette.black,
-      backgroundColor: theme.semanticColors.buttonBackgroundPressed
+      color: theme.palette.black
+    },
+    "&.ms-Button--primary": {
+      color: "white"
     }
   },
   mapControlButton: {
