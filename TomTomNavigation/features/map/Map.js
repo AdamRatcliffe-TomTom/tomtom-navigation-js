@@ -49,7 +49,6 @@ const Map = ({
   enableGeolocation,
   showTrafficFlow,
   showTrafficIncidents,
-  showPoi,
   showLocationMarker,
   showMapSwitcherControl,
   children
@@ -158,8 +157,7 @@ const Map = ({
       mapStyle={currentStyle}
       stylesVisibility={{
         trafficFlow: showTrafficFlow,
-        trafficIncidents: showTrafficIncidents,
-        poi: showPoi
+        trafficIncidents: showTrafficIncidents
       }}
       language={language}
       containerStyle={{

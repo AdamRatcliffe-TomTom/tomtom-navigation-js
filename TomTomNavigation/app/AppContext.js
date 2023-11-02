@@ -35,14 +35,14 @@ export default function AppContextProvider({
         street: {
           name: "street",
           label: strings.street,
-          style: `https://api.tomtom.com/style/1/style/24.4.0-0?map=10-test/basic_street-${theme}&traffic_flow=2/flow_relative-${theme}&traffic_incidents=2/incidents_${theme}&poi=2/poi_${theme}`,
-          styleDriving: `https://api.tomtom.com/style/1/style/24.4.0-0?map=10-test/basic_street-${theme}-driving&traffic_flow=2/flow_relative-${theme}&traffic_incidents=2/incidents_${theme}&poi=2/poi_${theme}`
+          style: `https://api.tomtom.com/maps/orbis/assets/styles/0.1.0-0/style.json?apiVersion=1&map=basic_street-${theme}&trafficFlow=flow_relative-${theme}&trafficIncidents=incidents_${theme}`,
+          styleDriving: `https://api.tomtom.com/maps/orbis/assets/styles/0.1.0-0/style.json?apiVersion=1&map=basic_street-${theme}-driving&trafficFlow=flow_relative-${theme}&trafficIncidents=incidents_${theme}`
         },
         satellite: {
           name: "satellite",
           label: strings.satellite,
           style:
-            "https://api.tomtom.com/style/1/style/24.*?map=2/basic_street-satellite&traffic_flow=2/flow_relative-light&traffic_incidents=2/incidents_light&poi=2/poi_light"
+            "https://api.tomtom.com/style/1/style/24.*?map=2/basic_street-satellite&traffic_flow=2/flow_relative-light&traffic_incidents=2/incidents_light"
         }
       },
       measurementSystem:
