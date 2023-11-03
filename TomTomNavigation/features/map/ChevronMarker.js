@@ -1,4 +1,5 @@
 import React from "react";
+import Fade from "../../components/Fade";
 import ChevronIcon from "../../icons/ChevronIcon";
 import { makeStyles } from "@fluentui/react";
 
@@ -12,13 +13,15 @@ const useStyles = makeStyles({
   }
 });
 
-const ChevronMarker = () => {
+const ChevronMarker = ({ visible }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <ChevronIcon />
-    </div>
+    <Fade show={visible} duration=".15s">
+      <div className={classes.root}>
+        <ChevronIcon />
+      </div>
+    </Fade>
   );
 };
 

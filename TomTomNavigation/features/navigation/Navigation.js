@@ -29,6 +29,7 @@ import {
   setTimeRemaining,
   setEta,
   setRemainingRoute,
+  setHasReachedDestination,
   resetNavigation
 } from "../navigation/navigationSlice";
 
@@ -112,13 +113,6 @@ const Navigation = ({ map }) => {
       dispatch(resetNavigation());
       dispatch(setNavigationModeTransitioning(true));
       dispatch(setFitBoundsOptions({ animate: true }));
-      dispatch(
-        setCamera({
-          pitch: 0,
-          zoom: undefined,
-          animationOptions: { duration: 500, padding: { top: 0 } }
-        })
-      );
       dispatch(setBounds(bounds));
     });
 
@@ -154,6 +148,22 @@ const Navigation = ({ map }) => {
     });
   };
 
+  const handleSimulatorEnd = () => {
+    const { coordinates } = route.features[0].geometry;
+    const lastCoordinate = coordinates[coordinates.length - 1];
+
+    batch(() => {
+      dispatch(setHasReachedDestination(true));
+      dispatch(
+        setCamera({
+          center: lastCoordinate,
+          zoom: 18,
+          animationOptions: { pitch: 0, duration: 500, padding: { top: 0 } }
+        })
+      );
+    });
+  };
+
   return (
     <>
       {showNavigationPanel && (
@@ -171,7 +181,7 @@ const Navigation = ({ map }) => {
               type: ["arrive"],
               buffer: 0.0621371,
               zoom: 17.5,
-              pitch: 0
+              pitch: 40
             },
             {
               type: ["turn left", "turn right"],
@@ -190,6 +200,7 @@ const Navigation = ({ map }) => {
           updateCamera={false}
           speed={simulationSpeed}
           onUpdate={handleSimulatorUpdate}
+          onEnd={handleSimulatorEnd}
         />
       )}
     </>

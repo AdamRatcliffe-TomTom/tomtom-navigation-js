@@ -12,7 +12,6 @@ import EnhancedRoute from "./EnhancedRoute";
 import LocationMarker from "./LocationMarker";
 import ChevronMarker from "./ChevronMarker";
 import DefaultMarker from "./DefaultMarker";
-import Fade from "../../components/Fade";
 import { useCalculateRouteQuery } from "../../services/routing";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
@@ -91,6 +90,15 @@ const Map = ({
     { skip: !automaticRouteCalculation }
   );
   const countryCode = countryCodeFromRoute(route);
+  const geolocateControlIsVisible = enableGeolocation && !isNavigating;
+  const mapSwitcherControlIsVisible = showMapSwitcherControl && !isNavigating;
+  const compassControlIsVisible = !hasReachedDestination;
+  const speedLimitControlIsVisible =
+    isNavigating && speedLimit && !hasReachedDestination;
+  const locationMarkerIsVisible =
+    showLocationMarker && userLocation && !isNavigating;
+  const chevronMarkerIsVisible =
+    isNavigating && !navigationModeTransitioning && !hasReachedDestination;
 
   useEffect(() => {
     setMeasurementSystemAuto(countryCode === "US" ? "imperial" : "metric");
@@ -176,20 +184,18 @@ const Map = ({
     >
       <GeolocateControl
         watchPosition={true}
-        visible={enableGeolocation && !isNavigating}
+        visible={geolocateControlIsVisible}
       />
       <MapSwitcherControlAlt
-        visible={showMapSwitcherControl && !isNavigating}
+        visible={mapSwitcherControlIsVisible}
         selected={mapStyle.name}
         onSelected={handleMapStyleSelected}
       />
       <CompassControl
-        visible={!hasReachedDestination}
+        visible={compassControlIsVisible}
         onClick={handleCompassControlClick}
       />
-      {showLocationMarker && userLocation && !isNavigating && (
-        <LocationMarker coordinates={userLocation} />
-      )}
+      {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
       {route &&
         (remainingRoute ? (
           <EnhancedRoute
@@ -201,12 +207,10 @@ const Map = ({
           <Route before={before} data={route} />
         ))}
       {waypoints}
-      <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
-        <ChevronMarker coordinates={center} />
-      </Fade>
+      <ChevronMarker visible={chevronMarkerIsVisible} coordinates={center} />
       <SpeedLimitControl
         value={speedLimit}
-        visible={isNavigating && speedLimit && !hasReachedDestination}
+        visible={speedLimitControlIsVisible}
       />
       {children}
     </ReactMap>
