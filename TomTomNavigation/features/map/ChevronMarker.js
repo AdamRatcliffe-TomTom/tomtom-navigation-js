@@ -7,7 +7,7 @@ const useStyles = makeStyles({
     position: "absolute",
     left: "50%",
     bottom: 185,
-    transform: "translate(-50%, 50%)",
+    transform: "translate(-50%, 40%)",
     zIndex: 10
   }
 });
