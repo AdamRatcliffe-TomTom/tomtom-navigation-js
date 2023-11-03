@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   }
 });
 
-const DeviceMarker = () => {
+const ChevronMarker = () => {
   const classes = useStyles();
 
   return (
@@ -22,4 +22,4 @@ const DeviceMarker = () => {
   );
 };
 
-export default DeviceMarker;
+export default ChevronMarker;

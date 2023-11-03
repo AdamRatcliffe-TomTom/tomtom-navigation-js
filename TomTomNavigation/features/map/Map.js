@@ -10,8 +10,8 @@ import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
 import EnhancedRoute from "./EnhancedRoute";
 import LocationMarker from "./LocationMarker";
-import DeviceMarker from "./DeviceMarker";
-import WaypointMarker from "./WaypointMarker";
+import ChevronMarker from "./ChevronMarker";
+import DefaultMarker from "./DefaultMarker";
 import Fade from "../../components/Fade";
 import { useCalculateRouteQuery } from "../../services/routing";
 import geoJsonBounds from "../../functions/geoJsonBounds";
@@ -135,7 +135,7 @@ const Map = ({
     if (!locations) return null;
 
     return locations.map((location) => (
-      <WaypointMarker key={location.toString()} coordinates={location} />
+      <DefaultMarker key={location.toString()} coordinates={location} />
     ));
   }, [routeOptions.locations]);
 
@@ -202,7 +202,7 @@ const Map = ({
         ))}
       {waypoints}
       <Fade show={isNavigating && !navigationModeTransitioning} duration=".15s">
-        <DeviceMarker coordinates={center} />
+        <ChevronMarker coordinates={center} />
       </Fade>
       <SpeedLimitControl
         value={speedLimit}

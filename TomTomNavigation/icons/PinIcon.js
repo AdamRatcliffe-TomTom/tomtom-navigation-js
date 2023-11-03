@@ -1,6 +1,6 @@
 import React from "react";
 
-const WaypointIcon = () => (
+const PinIcon = () => (
   <svg
     width="39"
     height="49"
@@ -73,4 +73,4 @@ const WaypointIcon = () => (
   </svg>
 );
 
-export default WaypointIcon;
+export default PinIcon;
