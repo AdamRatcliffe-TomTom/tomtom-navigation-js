@@ -50,7 +50,10 @@ const Navigation = ({ map }) => {
     { skip: !automaticRouteCalculation }
   );
   const [navigationRoute, setNavigationRoute] = useState();
-  const navigationPaddingTop = useMemo(() => height - 300, [height]);
+  const navigationPaddingTop = useMemo(
+    () => Math.max(height - 390, 0),
+    [height]
+  );
 
   useEffect(() => {
     if (route) {

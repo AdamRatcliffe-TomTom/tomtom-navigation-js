@@ -6,7 +6,7 @@ const useStyles = makeStyles({
   root: {
     position: "absolute",
     left: "50%",
-    bottom: 150,
+    bottom: 185,
     transform: "translate(-50%, 50%)",
     zIndex: 10
   }
