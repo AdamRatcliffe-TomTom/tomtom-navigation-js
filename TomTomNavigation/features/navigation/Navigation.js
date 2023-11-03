@@ -57,6 +57,8 @@ const Navigation = ({ map }) => {
 
   useEffect(() => {
     if (route) {
+      stopNavigation();
+
       const navigationRoute = tomtom2mapbox(route.features[0]);
       setNavigationRoute(navigationRoute);
 
@@ -75,7 +77,7 @@ const Navigation = ({ map }) => {
     }
   }, [route]);
 
-  const handleStartNavigation = () => {
+  const startNavigation = () => {
     // Center the map on the first coordinate of the route
     const routeCoordinates = route.features[0].geometry.coordinates;
     const center = routeCoordinates[0];
@@ -103,7 +105,7 @@ const Navigation = ({ map }) => {
     map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
   };
 
-  const handleStopNavigation = () => {
+  const stopNavigation = () => {
     const bounds = geoJsonBounds(route);
 
     batch(() => {
@@ -157,8 +159,8 @@ const Navigation = ({ map }) => {
       {showNavigationPanel && (
         <NavigationPanel
           route={route}
-          onStartNavigation={handleStartNavigation}
-          onStopNavigation={handleStopNavigation}
+          onStartNavigation={startNavigation}
+          onStopNavigation={stopNavigation}
         />
       )}
       {navigationRoute && isNavigating && !navigationModeTransitioning && (

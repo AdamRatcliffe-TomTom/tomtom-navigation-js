@@ -20,7 +20,10 @@ import {
   setMovingMethod
 } from "../features/map/mapSlice";
 
-import { setShowNavigationPanel } from "../features/navigation/navigationSlice";
+import {
+  setShowNavigationPanel,
+  resetNavigation
+} from "../features/navigation/navigationSlice";
 
 const useStyles = makeStyles({
   layerHost: {
@@ -55,6 +58,7 @@ function Wrapper({
   }, []);
 
   useEffect(() => {
+    dispatch(resetNavigation());
     dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
     dispatch(setRouteOptions(routeOptions));
     dispatch(setMovingMethod("jumpTo"));
