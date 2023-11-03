@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import add from "date-fns/add";
 import { withMap } from "react-tomtom-maps";
@@ -34,7 +34,7 @@ import {
 
 const Navigation = ({ map }) => {
   const dispatch = useDispatch();
-  const { apiKey, simulationSpeed } = useAppContext();
+  const { apiKey, simulationSpeed, height } = useAppContext();
   const showNavigationPanel = useSelector(getShowNavigationPanel);
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
@@ -50,6 +50,7 @@ const Navigation = ({ map }) => {
     { skip: !automaticRouteCalculation }
   );
   const [navigationRoute, setNavigationRoute] = useState();
+  const navigationPaddingTop = useMemo(() => height - 300, [height]);
 
   useEffect(() => {
     if (route) {
@@ -88,7 +89,7 @@ const Navigation = ({ map }) => {
           center,
           pitch: 60,
           zoom: 18,
-          animationOptions: { padding: { top: 400 } }
+          animationOptions: { padding: { top: navigationPaddingTop } }
         })
       );
     });
@@ -139,7 +140,7 @@ const Navigation = ({ map }) => {
           zoom,
           pitch,
           bearing: stepBearing,
-          animationOptions: { duration, padding: { top: 400 } }
+          animationOptions: { duration, padding: { top: navigationPaddingTop } }
         })
       );
       dispatch(
