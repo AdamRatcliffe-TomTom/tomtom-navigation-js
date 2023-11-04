@@ -39,7 +39,8 @@ const navigationSlice = createSlice({
       state.navigationModeTransitioning = action.payload;
     },
     setCurrentLocation: (state, action) => {
-      const { location, elapsedTime, route } = action.payload;
+      const { location, elapsedTime, route, measurementSystem } =
+        action.payload;
       const { travelTimeInSeconds } = route.features[0].properties.summary;
       const { coordinates } = route.features[0].geometry;
 
@@ -63,7 +64,11 @@ const navigationSlice = createSlice({
       let announcement;
 
       if (pointIndex !== state.currentLocation.pointIndex) {
-        announcement = announcementByIndex(route.features[0], pointIndex);
+        announcement = announcementByIndex(
+          route.features[0],
+          pointIndex,
+          measurementSystem
+        );
       }
 
       state.currentLocation = {

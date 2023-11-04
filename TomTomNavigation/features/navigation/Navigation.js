@@ -39,7 +39,8 @@ import {
 const Navigation = ({ map }) => {
   const dispatch = useDispatch();
   const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
-  const { apiKey, simulationSpeed, height, language } = useAppContext();
+  const { apiKey, simulationSpeed, height, language, measurementSystem } =
+    useAppContext();
   const showNavigationPanel = useSelector(getShowNavigationPanel);
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
@@ -155,7 +156,12 @@ const Navigation = ({ map }) => {
         })
       );
       dispatch(
-        setCurrentLocation({ location: stepCoords, elapsedTime, route })
+        setCurrentLocation({
+          location: stepCoords,
+          elapsedTime,
+          route,
+          measurementSystem
+        })
       );
     });
   };
