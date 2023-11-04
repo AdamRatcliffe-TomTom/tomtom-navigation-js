@@ -52,6 +52,7 @@ const Map = ({
   showTrafficIncidents,
   showLocationMarker,
   showMapSwitcherControl,
+  showMuteControl,
   children
 }) => {
   const dispatch = useDispatch();
@@ -94,7 +95,7 @@ const Map = ({
   );
   const countryCode = countryCodeFromRoute(route);
   const geolocateControlIsVisible = enableGeolocation && !isNavigating;
-  const muteControlVisible = isNavigating;
+  const muteControlVisible = showMuteControl && isNavigating;
   const mapSwitcherControlIsVisible = showMapSwitcherControl && !isNavigating;
   const compassControlIsVisible = !hasReachedDestination;
   const speedLimitControlIsVisible =

@@ -71,6 +71,7 @@ export class TomTomNavigation
       context,
       "showMapSwitcherControl"
     );
+    const showMuteControl = this.getRawParameter(context, "showMuteControl");
     const showNavigationPanel = this.getRawParameter(
       context,
       "showNavigationPanel"
@@ -100,7 +101,8 @@ export class TomTomNavigation
       showTrafficFlow,
       showTrafficIncidents,
       showLocationMarker,
-      showMapSwitcherControl
+      showMapSwitcherControl,
+      showMuteControl
     };
 
     const routeOptions = {

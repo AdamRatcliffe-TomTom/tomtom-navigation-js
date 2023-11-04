@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useTheme } from "@fluentui/react";
 import { withMap } from "react-tomtom-maps";
+import useSpeech from "../../hooks/useSpeech";
 import Fade from "../../components/Fade";
 import MapControl from "./MapControl";
 import MuteIcon from "../../icons/MuteIcon";
@@ -13,10 +14,17 @@ import { setVoiceAnnouncementsEnabled } from "../navigation/navigationSlice";
 const Mute = ({ visible, voiceAnnouncementsEnabled }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const { synth } = useSpeech();
   const buttonClasses = useButtonStyles();
 
   const handleClick = () => {
-    dispatch(setVoiceAnnouncementsEnabled(!voiceAnnouncementsEnabled));
+    const enabled = !voiceAnnouncementsEnabled;
+
+    if (!enabled) {
+      synth.cancel();
+    }
+
+    dispatch(setVoiceAnnouncementsEnabled(enabled));
   };
 
   const Icon = voiceAnnouncementsEnabled ? UnmuteIcon : MuteIcon;
