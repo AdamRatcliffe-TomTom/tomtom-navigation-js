@@ -30,6 +30,19 @@ function speedLimitByIndex(route, index) {
 function announcementByIndex(route, index, measurementSystem) {
   const { instructions } = route.properties.guidance;
 
+  const instruction = instructions.find(
+    (instruction) => instruction.pointIndex === index
+  );
+
+  // If there's an instruction message for this point index use that
+  if (instruction) {
+    return {
+      maneuver: instruction.maneuver,
+      text: instruction.message
+    };
+  }
+
+  // otherwise use any matching announcement
   for (const instruction of instructions) {
     const {
       earlyWarningAnnouncement,
