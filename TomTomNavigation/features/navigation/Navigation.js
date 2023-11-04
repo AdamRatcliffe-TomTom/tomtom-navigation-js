@@ -3,12 +3,14 @@ import { useSelector, useDispatch, batch } from "react-redux";
 import add from "date-fns/add";
 import { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
+import useSpeech from "../../hooks/useSpeech";
 import NavigationPanel from "./NavigationPanel";
 import Simulator from "./Simulator";
 import { useCalculateRouteQuery } from "../../services/routing";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import tomtom2mapbox from "../../functions/tomtom2mapbox";
+import strings from "../../config/strings";
 
 import {
   getRouteOptions,
@@ -22,6 +24,7 @@ import {
   getShowNavigationPanel,
   getIsNavigating,
   getNavigationModeTransitioning,
+  getCurrentLocation,
   setIsNavigating,
   setNavigationModeTransitioning,
   setCurrentLocation,
@@ -35,12 +38,14 @@ import {
 
 const Navigation = ({ map }) => {
   const dispatch = useDispatch();
-  const { apiKey, simulationSpeed, height } = useAppContext();
+  const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
+  const { apiKey, simulationSpeed, height, language } = useAppContext();
   const showNavigationPanel = useSelector(getShowNavigationPanel);
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
   );
+  const { announcement } = useSelector(getCurrentLocation);
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const { data: route } = useCalculateRouteQuery(
@@ -77,6 +82,13 @@ const Navigation = ({ map }) => {
       });
     }
   }, [route]);
+
+  useEffect(() => {
+    if (speechAvailable && announcement) {
+      const voice = getVoiceForLanguage(language);
+      speak({ voice, text: announcement.text });
+    }
+  }, [announcement]);
 
   const startNavigation = () => {
     // Center the map on the first coordinate of the route
@@ -162,6 +174,11 @@ const Navigation = ({ map }) => {
         })
       );
     });
+
+    if (speechAvailable) {
+      const voice = getVoiceForLanguage(language);
+      speak({ voice, text: strings.arrived });
+    }
   };
 
   return (

@@ -1,5 +1,9 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { featureCollection, lineString } from "@turf/helpers";
+import {
+  speedLimitByIndex,
+  announcementByIndex
+} from "../../functions/routeUtils";
 import CheapRuler from "cheap-ruler";
 
 const initialState = {
@@ -10,7 +14,8 @@ const initialState = {
   currentLocation: {
     pointIndex: undefined,
     point: undefined,
-    speedLimit: undefined
+    speedLimit: undefined,
+    announcement: undefined
   },
   remainingRoute: undefined,
   distanceRemaining: undefined,
@@ -19,20 +24,6 @@ const initialState = {
 };
 
 let ruler;
-
-function speedLimitByIndex(route, index) {
-  const { sections } = route.properties;
-  const enclosingSection = sections.find(
-    (section) =>
-      section.sectionType === "SPEED_LIMIT" &&
-      index >= section.startPointIndex &&
-      index < section.endPointIndex
-  );
-  if (enclosingSection) {
-    return enclosingSection.maxSpeedLimitInKmh;
-  }
-  return undefined;
-}
 
 const navigationSlice = createSlice({
   name: "navigation",
@@ -69,10 +60,17 @@ const navigationSlice = createSlice({
       const timeRemaining = travelTimeInSeconds - elapsedTime;
       const speedLimit = speedLimitByIndex(route.features[0], pointIndex);
 
+      let announcement;
+
+      if (pointIndex !== state.currentLocation.pointIndex) {
+        announcement = announcementByIndex(route.features[0], pointIndex);
+      }
+
       state.currentLocation = {
         pointIndex,
         point,
-        speedLimit
+        speedLimit,
+        announcement
       };
       state.remainingRoute = featureCollection([lineString(remainingPart)]);
       state.distanceRemaining = distanceRemaining;

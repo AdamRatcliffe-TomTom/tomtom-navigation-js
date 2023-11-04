@@ -1,0 +1,5 @@
+export default {
+  EARLY_WARNING: "EARLY_WARNING",
+  MAIN: "MAIN",
+  CONFIRMATION: "CONFIRMATION"
+};
