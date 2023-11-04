@@ -17,6 +17,7 @@ const strings = new LocalizedStrings({
     limit: "Speed Limit",
     arrived: "Arrived",
     endRoute: "End Route",
+    maeuverPhrase: "{0} in {1} {2}",
     ARRIVING: "You will arrive at your destination",
     ARRIVE: "You have arrived at your destination",
     ARRIVE_LEFT: "You have arrived. Your destination is on the left",

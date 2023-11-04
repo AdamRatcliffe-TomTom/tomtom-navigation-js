@@ -3,6 +3,7 @@ import { useSelector, useDispatch, batch } from "react-redux";
 import { useAppContext } from "../../app/AppContext";
 import ReactMap from "react-tomtom-maps";
 import GeolocateControl from "./GeolocateControl";
+import MuteControl from "./MuteControl";
 import CompassControl from "./CompassControl";
 import MapSwitcherControlAlt from "./MapSwitcherControlAlt";
 import SpeedLimit from "./SpeedLimit";
@@ -33,6 +34,7 @@ import {
 } from "./mapSlice";
 
 import {
+  getVoiceAnnouncementsEnabled,
   getIsNavigating,
   getHasReachedDestination,
   getNavigationModeTransitioning,
@@ -63,6 +65,7 @@ const Map = ({
     theme,
     setMeasurementSystemAuto
   } = useAppContext();
+  const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
   const isNavigating = useSelector(getIsNavigating);
   const hasReachedDestination = useSelector(getHasReachedDestination);
   const navigationModeTransitioning = useSelector(
@@ -91,6 +94,7 @@ const Map = ({
   );
   const countryCode = countryCodeFromRoute(route);
   const geolocateControlIsVisible = enableGeolocation && !isNavigating;
+  const muteControlVisible = isNavigating;
   const mapSwitcherControlIsVisible = showMapSwitcherControl && !isNavigating;
   const compassControlIsVisible = !hasReachedDestination;
   const speedLimitControlIsVisible =
@@ -185,6 +189,10 @@ const Map = ({
       <GeolocateControl
         watchPosition={true}
         visible={geolocateControlIsVisible}
+      />
+      <MuteControl
+        voiceAnnouncementsEnabled={voiceAnnouncementsEnabled}
+        visible={muteControlVisible}
       />
       <MapSwitcherControlAlt
         visible={mapSwitcherControlIsVisible}

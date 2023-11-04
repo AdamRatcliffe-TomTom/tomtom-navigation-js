@@ -103,7 +103,13 @@ function getAnnouncementText(type, announcement, measurementSystem = "metric") {
       distanceInMeters,
       measurementSystem
     );
-    return `${text} in ${value} ${expandUnits(value, units)}`;
+
+    return strings.formatString(
+      strings.maeuverPhrase,
+      text,
+      value,
+      expandUnits(value, units)
+    );
   } else {
     return text;
   }

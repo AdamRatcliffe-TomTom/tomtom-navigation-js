@@ -25,6 +25,7 @@ import {
   getIsNavigating,
   getNavigationModeTransitioning,
   getCurrentLocation,
+  getVoiceAnnouncementsEnabled,
   setIsNavigating,
   setNavigationModeTransitioning,
   setCurrentLocation,
@@ -47,6 +48,7 @@ const Navigation = ({ map }) => {
     getNavigationModeTransitioning
   );
   const { announcement } = useSelector(getCurrentLocation);
+  const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const { data: route } = useCalculateRouteQuery(
@@ -85,7 +87,7 @@ const Navigation = ({ map }) => {
   }, [route]);
 
   useEffect(() => {
-    if (speechAvailable && announcement) {
+    if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
       const voice = getVoiceForLanguage(language);
       speak({ voice, text: announcement.text });
     }
@@ -181,7 +183,7 @@ const Navigation = ({ map }) => {
       );
     });
 
-    if (speechAvailable) {
+    if (speechAvailable && voiceAnnouncementsEnabled) {
       const voice = getVoiceForLanguage(language);
       speak({ voice, text: strings.arrived });
     }

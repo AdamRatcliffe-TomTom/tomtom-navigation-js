@@ -7,6 +7,7 @@ import {
 import CheapRuler from "cheap-ruler";
 
 const initialState = {
+  voiceAnnouncementsEnabled: true,
   showNavigationPanel: true,
   isNavigating: false,
   hasReachedDestination: false,
@@ -96,6 +97,9 @@ const navigationSlice = createSlice({
     setHasReachedDestination: (state, action) => {
       state.hasReachedDestination = action.payload;
     },
+    setVoiceAnnouncementsEnabled: (state, action) => {
+      state.voiceAnnouncementsEnabled = action.payload;
+    },
     resetNavigation: (state) => {
       state.isNavigating = false;
       state.hasReachedDestination = false;
@@ -152,6 +156,11 @@ const getHasReachedDestination = createSelector(
   (state) => state.hasReachedDestination
 );
 
+const getVoiceAnnouncementsEnabled = createSelector(
+  rootSelector,
+  (state) => state.voiceAnnouncementsEnabled
+);
+
 export {
   getShowNavigationPanel,
   getIsNavigating,
@@ -161,7 +170,8 @@ export {
   getTimeRemaining,
   getEta,
   getRemainingRoute,
-  getHasReachedDestination
+  getHasReachedDestination,
+  getVoiceAnnouncementsEnabled
 };
 
 export const {
@@ -174,6 +184,7 @@ export const {
   setEta,
   setRemainingRoute,
   setHasReachedDestination,
+  setVoiceAnnouncementsEnabled,
   resetNavigation
 } = navigationSlice.actions;
 
