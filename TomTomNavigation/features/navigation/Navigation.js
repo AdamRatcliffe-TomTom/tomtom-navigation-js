@@ -91,7 +91,7 @@ const Navigation = ({ map }) => {
       const voice = getVoiceForLanguage(language);
       speak({ voice, text: announcement.text });
     }
-  }, [announcement]);
+  }, [announcement, voiceAnnouncementsEnabled]);
 
   const startNavigation = () => {
     // Center the map on the first coordinate of the route

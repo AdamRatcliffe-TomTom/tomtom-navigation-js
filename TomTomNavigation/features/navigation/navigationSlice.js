@@ -59,7 +59,7 @@ const navigationSlice = createSlice({
         coordinates
       );
       const distanceRemaining = ruler.lineDistance(remainingPart);
-      const timeRemaining = travelTimeInSeconds - elapsedTime;
+      const timeRemaining = Math.max(travelTimeInSeconds - elapsedTime, 0);
       const speedLimit = speedLimitByIndex(route.features[0], pointIndex);
 
       let announcement;

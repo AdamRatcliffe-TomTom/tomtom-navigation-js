@@ -30,21 +30,9 @@ function speedLimitByIndex(route, index) {
 function announcementByIndex(route, index, measurementSystem) {
   const { instructions } = route.properties.guidance;
 
-  const instruction = instructions.find(
-    (instruction) => instruction.pointIndex === index
-  );
-
-  // If there's an instruction message for this point index use that
-  if (instruction) {
-    return {
-      maneuver: instruction.maneuver,
-      text: instruction.message
-    };
-  }
-
-  // otherwise use any matching announcement
   for (const instruction of instructions) {
     const {
+      street,
       earlyWarningAnnouncement,
       mainAnnouncement,
       confirmationAnnouncement
@@ -68,6 +56,7 @@ function announcementByIndex(route, index, measurementSystem) {
         const announcementText = getAnnouncementText(
           announcementType,
           announcement,
+          street,
           measurementSystem
         );
         return { text: announcementText, type: announcementType };
@@ -78,9 +67,12 @@ function announcementByIndex(route, index, measurementSystem) {
   return null;
 }
 
-function getAnnouncementText(type, announcement, measurementSystem = "metric") {
-  let { maneuver, distanceInMeters } = announcement;
-
+function getAnnouncementText(
+  type,
+  { maneuver, distanceInMeters },
+  street,
+  measurementSystem = "metric"
+) {
   if (
     type === AnnouncementTypes.MAIN &&
     [Maneuvers.ARRIVE, Maneuvers.ARRIVE_LEFT, Maneuvers.ARRIVE_RIGHT].includes(
@@ -90,7 +82,11 @@ function getAnnouncementText(type, announcement, measurementSystem = "metric") {
     maneuver = "ARRIVING";
   }
 
-  const text = strings[maneuver];
+  const announcementTemplate = street
+    ? strings.guidanceAnnouncementOntoStreet
+    : strings.guidanceAnnouncement;
+
+  const maneuverText = strings[maneuver];
   const includeDistance =
     distanceInMeters > 0 &&
     maneuver !== Maneuvers.STRAIGHT &&
@@ -99,19 +95,19 @@ function getAnnouncementText(type, announcement, measurementSystem = "metric") {
     maneuver !== Maneuvers.ARRIVE_RIGHT;
 
   if (includeDistance) {
-    const { value, units } = formatDistance(
+    const { value: distance, units } = formatDistance(
       distanceInMeters,
       measurementSystem
     );
 
-    return strings.formatString(
-      strings.maeuverPhrase,
-      text,
-      value,
-      expandUnits(value, units)
-    );
+    return strings.formatString(announcementTemplate, {
+      maneuverText,
+      distance,
+      units: expandUnits(distance, units),
+      street
+    });
   } else {
-    return text;
+    return maneuverText;
   }
 }
 

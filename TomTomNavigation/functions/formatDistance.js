@@ -15,7 +15,7 @@ export default function formatDistance(meters, measurementSystem = "metric") {
           units: "km"
         };
   } else if (measurementSystem === "imperial") {
-    return meters < 160
+    return meters < 305
       ? {
           value: roundUp(
             metersToFeet(meters),

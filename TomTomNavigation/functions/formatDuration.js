@@ -10,7 +10,7 @@ const shortEnLocale = {
 };
 
 export default function (seconds) {
-  if (!seconds) {
+  if (seconds === undefined) {
     return null;
   } else if (seconds < 60) {
     return `${seconds} sec`;
