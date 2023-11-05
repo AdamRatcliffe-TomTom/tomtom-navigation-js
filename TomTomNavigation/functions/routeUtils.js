@@ -82,10 +82,6 @@ function getAnnouncementText(
     maneuver = "ARRIVING";
   }
 
-  const announcementTemplate = street
-    ? strings.guidanceAnnouncementOntoStreet
-    : strings.guidanceAnnouncement;
-
   const maneuverText = strings[maneuver];
   const includeDistance =
     distanceInMeters > 0 &&
@@ -95,6 +91,10 @@ function getAnnouncementText(
     maneuver !== Maneuvers.ARRIVE_RIGHT;
 
   if (includeDistance) {
+    const announcementTemplate = street
+      ? strings.guidanceAnnouncementOntoStreet
+      : strings.guidanceAnnouncement;
+
     const { value: distance, units } = formatDistance(
       distanceInMeters,
       measurementSystem
