@@ -78,6 +78,7 @@ function App({
   measurementSystem,
   width,
   height,
+  guidanceVoice,
   simulationSpeed,
   mapOptions,
   ...otherProps
@@ -104,6 +105,7 @@ function App({
           measurementSystem={measurementSystem}
           width={width}
           height={height}
+          guidanceVoice={guidanceVoice}
           simulationSpeed={simulationSpeed}
           theme={theme}
           layerHostId={layerHostId}

@@ -86,6 +86,7 @@ export class TomTomNavigation
     if (routeWaypoints instanceof tt.LngLat) {
       routeWaypoints = [routeWaypoints];
     }
+    const guidanceVoice = this.getRawParameter(context, "guidanceVoice");
     const simulationSpeed = this.getRawParameter(context, "simulationSpeed");
     const travelMode = this.getRawParameter(context, "travelMode");
     const traffic = this.getRawParameter(context, "traffic");
@@ -120,6 +121,7 @@ export class TomTomNavigation
       measurementSystem,
       width,
       height,
+      guidanceVoice,
       simulationSpeed,
       initialCenter,
       initialZoom,

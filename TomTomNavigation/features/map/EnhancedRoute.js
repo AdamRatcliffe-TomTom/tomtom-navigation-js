@@ -75,7 +75,7 @@ class Route extends PureComponent {
         lineWidthMinPixels: 7,
         lineWidthMaxPixels: 16,
         lineWidthUnits: "meters",
-        lineCapRounded: true,
+        lineCapRounded: false,
         lineJointRounded: true
       }),
       new GeoJsonLayer({
@@ -89,7 +89,7 @@ class Route extends PureComponent {
         lineWidthMinPixels: 4,
         lineWidthMaxPixels: 13,
         lineWidthUnits: "meters",
-        lineCapRounded: true,
+        lineCapRounded: false,
         lineJointRounded: true
       })
     ];

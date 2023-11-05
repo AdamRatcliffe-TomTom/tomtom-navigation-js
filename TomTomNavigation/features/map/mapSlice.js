@@ -16,6 +16,7 @@ const initialState = {
   animationOptions: { duration: 500, essential: true },
   routeOptions: {
     travelMode: "car",
+    coordinatePrecision: "full",
     traffic: true,
     locations: [],
     supportingPoints: undefined,

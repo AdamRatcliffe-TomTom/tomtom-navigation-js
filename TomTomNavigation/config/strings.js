@@ -24,7 +24,7 @@ const strings = new LocalizedStrings({
     ARRIVE: "You have arrived at your destination",
     ARRIVE_LEFT: "You have arrived. Your destination is on the left",
     ARRIVE_RIGHT: "You have arrived. Your destination is on the right",
-    DEPART: "Leave",
+    DEPART: "Start driving",
     STRAIGHT: "Keep straight on",
     KEEP_RIGHT: "Keep right",
     BEAR_RIGHT: "Bear right",

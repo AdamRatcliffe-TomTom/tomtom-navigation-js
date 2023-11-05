@@ -39,9 +39,15 @@ import {
 
 const Navigation = ({ map }) => {
   const dispatch = useDispatch();
-  const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
-  const { apiKey, simulationSpeed, height, language, measurementSystem } =
-    useAppContext();
+  const { speechAvailable, voices, getVoiceForLanguage, speak } = useSpeech();
+  const {
+    apiKey,
+    simulationSpeed,
+    height,
+    language,
+    measurementSystem,
+    guidanceVoice
+  } = useAppContext();
   const showNavigationPanel = useSelector(getShowNavigationPanel);
   const isNavigating = useSelector(getIsNavigating);
   const navigationModeTransitioning = useSelector(
@@ -88,7 +94,7 @@ const Navigation = ({ map }) => {
 
   useEffect(() => {
     if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
-      const voice = getVoiceForLanguage(language);
+      const voice = getGuidanceVoice();
       speak({ voice, text: announcement.text });
     }
   }, [announcement, voiceAnnouncementsEnabled]);
@@ -184,9 +190,19 @@ const Navigation = ({ map }) => {
     });
 
     if (speechAvailable && voiceAnnouncementsEnabled) {
-      const voice = getVoiceForLanguage(language);
+      const voice = getGuidanceVoice();
       speak({ voice, text: strings.arrived });
     }
+  };
+
+  const getGuidanceVoice = () => {
+    let voice;
+
+    if (guidanceVoice) {
+      voice = voices.find((voice) => voice.name === guidanceVoice);
+    }
+
+    return voice || getVoiceForLanguage(language);
   };
 
   return (
@@ -201,6 +217,7 @@ const Navigation = ({ map }) => {
       {navigationRoute && isNavigating && !navigationModeTransitioning && (
         <Simulator
           route={navigationRoute}
+          zoom={17}
           maneuvers={[
             {
               type: ["arrive"],
