@@ -46,7 +46,9 @@ const useSpeech = () => {
   };
 
   const speak = ({ text, voice, volume = 1 }) => {
-    if (voices && !synth.speaking) {
+    if (voicesAvailable) {
+      synth.cancel();
+
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.voice = voice || getDefaultVoice();
       utterance.volume = volume;
