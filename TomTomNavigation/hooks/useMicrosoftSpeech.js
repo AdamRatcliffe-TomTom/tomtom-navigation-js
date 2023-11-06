@@ -12,6 +12,8 @@ import {
   MS_SPEECH_SERVICE_SUBSCRIPTION_KEY
 } from "../config";
 
+const defaultVoice = "en-US-JennyNeural";
+
 const useMicrosoftSpeech = () => {
   const [voices, setVoices] = useState();
   const [activePlayer, setActivePlayer] = useState();
@@ -43,10 +45,10 @@ const useMicrosoftSpeech = () => {
       voice.privLocale.startsWith(lang + "-")
     );
 
-    return languageMatch.privShortName || voices[0].privShortName;
+    return languageMatch?.privShortName || defaultVoice;
   };
 
-  const speak = ({ text, voice = "en-US-JennyNeural" }) => {
+  const speak = ({ text, voice = defaultVoice }) => {
     if (activePlayer) {
       activePlayer.pause();
     }
