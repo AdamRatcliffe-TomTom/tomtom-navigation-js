@@ -3,7 +3,7 @@ import { useSelector, useDispatch, batch } from "react-redux";
 import add from "date-fns/add";
 import { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
-import useSpeech from "../../hooks/useSpeech";
+import useMicrosoftSpeech from "../../hooks/useMicrosoftSpeech";
 import NavigationPanel from "./NavigationPanel";
 import Simulator from "./Simulator";
 import { useCalculateRouteQuery } from "../../services/routing";
@@ -39,7 +39,7 @@ import {
 
 const Navigation = ({ map }) => {
   const dispatch = useDispatch();
-  const { speechAvailable, voices, getVoiceForLanguage, speak } = useSpeech();
+  const { getVoiceForLanguage, speak } = useMicrosoftSpeech();
   const {
     apiKey,
     simulationSpeed,
@@ -93,7 +93,7 @@ const Navigation = ({ map }) => {
   }, [route]);
 
   useEffect(() => {
-    if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
+    if (voiceAnnouncementsEnabled && announcement) {
       const voice = getGuidanceVoice();
       speak({ voice, text: announcement.text });
     }
@@ -189,21 +189,14 @@ const Navigation = ({ map }) => {
       );
     });
 
-    if (speechAvailable && voiceAnnouncementsEnabled) {
+    if (voiceAnnouncementsEnabled) {
       const voice = getGuidanceVoice();
       speak({ voice, text: strings.arrived });
     }
   };
 
-  const getGuidanceVoice = () => {
-    let voice;
-
-    if (guidanceVoice) {
-      voice = voices.find((voice) => voice.name === guidanceVoice);
-    }
-
-    return voice || getVoiceForLanguage(language);
-  };
+  const getGuidanceVoice = () =>
+    guidanceVoice || getVoiceForLanguage(language) || "en-US-JennyNeural";
 
   return (
     <>
