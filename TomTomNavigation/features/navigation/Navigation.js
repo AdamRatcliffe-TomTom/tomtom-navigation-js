@@ -231,7 +231,7 @@ const Navigation = ({ map }) => {
               pitch: 40
             }
           ]}
-          spacing="constant"
+          spacing="acceldecel"
           updateCamera={false}
           speed={simulationSpeed}
           onUpdate={handleSimulatorUpdate}
