@@ -49,8 +49,11 @@ const useMicrosoftSpeech = () => {
   };
 
   const speak = ({ text, voice = defaultVoice }) => {
+    // API has no method for canceling any existing utterance. Achieve that
+    // by pausing and closing the active player
     if (activePlayer) {
       activePlayer.pause();
+      activePlayer.close();
     }
 
     const player = new SpeakerAudioDestination();
@@ -61,8 +64,19 @@ const useMicrosoftSpeech = () => {
 
     const audioConfig = AudioConfig.fromSpeakerOutput(player);
 
-    const speechSynthesizer = new SpeechSynthesizer(speechConfig, audioConfig);
-    speechSynthesizer.speakTextAsync(text);
+    let speechSynthesizer = new SpeechSynthesizer(speechConfig, audioConfig);
+    speechSynthesizer.speakTextAsync(
+      text,
+      () => {
+        speechSynthesizer.close();
+        speechSynthesizer = undefined;
+      },
+      (error) => {
+        console.log(error);
+        speechSynthesizer.close();
+        speechSynthesizer = undefined;
+      }
+    );
   };
 
   return {
