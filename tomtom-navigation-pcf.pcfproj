@@ -11,6 +11,7 @@
     <Name>tomtom-navigation-pcf</Name>
     <ProjectGuid>61b1374e-bdf1-4e26-bbb2-0d06d818d0bd</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
+    <PcfBuildMode>production</PcfBuildMode>
   </PropertyGroup>
 
   <PropertyGroup>
