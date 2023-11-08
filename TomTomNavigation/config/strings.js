@@ -2,6 +2,7 @@ import LocalizedStrings from "react-localization";
 
 const strings = new LocalizedStrings({
   "en-US": {
+    noApiKey: "Set the API key property to view map",
     stops: "stops",
     exit: "Exit",
     street: "Street",

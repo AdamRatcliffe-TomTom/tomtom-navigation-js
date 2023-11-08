@@ -6,6 +6,7 @@ import { Provider as StoreProvider } from "react-redux";
 import { useGeolocated } from "react-geolocated";
 import { store } from "./store";
 import AppContextProvider from "./AppContext";
+import NoApiKeyMessage from "../features/map/NoAPIKeyMessage";
 import Map from "../features/map/Map";
 import Navigation from "../features/navigation/Navigation";
 import LocationDialog from "../components/LocationDialog";
@@ -26,6 +27,9 @@ import {
 } from "../features/navigation/navigationSlice";
 
 const useStyles = makeStyles({
+  wrapper: {
+    position: "relative"
+  },
   layerHost: {
     position: "absolute",
     top: 0,
@@ -49,6 +53,7 @@ function Wrapper({
   children
 }) {
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   useEffect(() => {
     batch(() => {
@@ -68,7 +73,9 @@ function Wrapper({
     dispatch(setShowNavigationPanel(showNavigationPanel));
   }, [showNavigationPanel]);
 
-  return <div className="TomTomNavigation">{children}</div>;
+  return (
+    <div className={`TomTomNavigation ${classes.wrapper}`}>{children}</div>
+  );
 }
 
 function App({
@@ -119,6 +126,7 @@ function App({
                 id={layerHostId}
               />
             </Map>
+            {!apiKey && <NoApiKeyMessage />}
           </Wrapper>
           <LocationDialog
             isGeolocationAvailable={isGeolocationAvailable}
