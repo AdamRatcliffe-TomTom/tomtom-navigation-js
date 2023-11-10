@@ -15,6 +15,7 @@
   "dependencies": {
     "@fluentui/react": "8.29.0",
     "@reduxjs/toolkit": "^1.9.7",
+    "@tomtom-international/web-sdk-maps": "^6.25.0",
     "@tomtom-international/web-sdk-services": "^6.25.0",
     "@turf/bbox": "^6.5.0",
     "@turf/bbox-polygon": "^6.5.0",
