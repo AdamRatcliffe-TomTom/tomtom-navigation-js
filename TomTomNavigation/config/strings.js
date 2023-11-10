@@ -14,7 +14,7 @@ const strings = new LocalizedStrings({
       "Location services not enabled. Enable to use your current location",
     ok: "OK",
     go: "Go",
-    chooseMap: "Choose Map",
+    chooseMap: "Choose map style",
     limit: "Speed Limit",
     arrived: "Arrived",
     endRoute: "End Route",
