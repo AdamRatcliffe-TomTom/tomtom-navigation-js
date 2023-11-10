@@ -39,7 +39,7 @@ import {
 
 const Navigation = ({ map }) => {
   const dispatch = useDispatch();
-  const { getVoiceForLanguage, speak } = useMicrosoftSpeech();
+  const { speechAvailable, getVoiceForLanguage, speak } = useMicrosoftSpeech();
   const {
     apiKey,
     simulationSpeed,
@@ -93,7 +93,7 @@ const Navigation = ({ map }) => {
   }, [route]);
 
   useEffect(() => {
-    if (voiceAnnouncementsEnabled && announcement) {
+    if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
       const voice = getGuidanceVoice();
       speak({ voice, text: announcement.text });
     }
@@ -189,7 +189,7 @@ const Navigation = ({ map }) => {
       );
     });
 
-    if (voiceAnnouncementsEnabled) {
+    if (speechAvailable && voiceAnnouncementsEnabled) {
       const voice = getGuidanceVoice();
       speak({ voice, text: strings.arrived });
     }

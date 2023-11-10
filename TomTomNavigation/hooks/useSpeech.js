@@ -45,13 +45,28 @@ const useSpeech = () => {
     return null;
   };
 
+  const getVoiceByName = (name) => {
+    if (voicesAvailable) {
+      return voices.find((voice) => voice.name === name);
+    }
+    return null;
+  };
+
   const speak = ({ text, voice, volume = 1 }) => {
     if (voicesAvailable) {
       synth.cancel();
 
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.voice = voice || getDefaultVoice();
+      const voiceObject = voice
+        ? typeof voice === "string"
+          ? getVoiceByName(voice)
+          : voice
+        : getDefaultVoice();
+      utterance.voice = voiceObject;
       utterance.volume = volume;
+      utterance.onerror = (error) => {
+        console.error("Speech synthesis error: ", error);
+      };
 
       synth.speak(utterance);
     }
@@ -63,8 +78,9 @@ const useSpeech = () => {
     synth,
     voices,
     speak,
-    getVoiceForLanguage,
-    getDefaultVoice
+    getDefaultVoice,
+    getVoiceByName,
+    getVoiceForLanguage
   };
 };
 

@@ -6,7 +6,7 @@ import { Provider as StoreProvider } from "react-redux";
 import { useGeolocated } from "react-geolocated";
 import { store } from "./store";
 import AppContextProvider from "./AppContext";
-import NoApiKeyMessage from "../features/map/NoAPIKeyMessage";
+import NoApiKeyMessage from "./NoApiKeyMessage";
 import Map from "../features/map/Map";
 import Navigation from "../features/navigation/Navigation";
 import LocationDialog from "../components/LocationDialog";

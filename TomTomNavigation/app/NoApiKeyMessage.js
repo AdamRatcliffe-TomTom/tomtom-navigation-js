@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles, Text } from "@fluentui/react";
-import strings from "../../config/strings";
+import strings from "../config/strings";
 
 const useStyles = makeStyles((theme) => ({
   root: {
