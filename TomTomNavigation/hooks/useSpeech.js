@@ -72,12 +72,17 @@ const useSpeech = () => {
     }
   };
 
+  const cancelSpeech = () => {
+    synth.cancel();
+  };
+
   return {
     speechAvailable: Boolean(synth),
     voicesAvailable,
     synth,
     voices,
     speak,
+    cancelSpeech,
     getDefaultVoice,
     getVoiceByName,
     getVoiceForLanguage

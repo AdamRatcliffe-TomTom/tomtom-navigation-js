@@ -71,12 +71,7 @@ const useMicrosoftSpeech = () => {
 
   const speak = ({ text, voice, volume = 1 }) => {
     if (voicesAvailable) {
-      // API has no method for canceling any existing utterance. Achieve that
-      // by pausing and closing the active player
-      if (activePlayer) {
-        activePlayer.pause();
-        activePlayer.close();
-      }
+      cancelSpeech();
 
       const player = new SpeakerAudioDestination();
       player.volume = volume;
@@ -107,11 +102,21 @@ const useMicrosoftSpeech = () => {
     }
   };
 
+  // API has no method for canceling any existing utterance. Achieve that
+  // by pausing and closing the active player
+  const cancelSpeech = () => {
+    if (activePlayer) {
+      activePlayer.pause();
+      activePlayer.close();
+    }
+  };
+
   return {
     speechAvailable: audioSupported,
     voicesAvailable,
     voices,
     speak,
+    cancelSpeech,
     getDefaultVoice,
     getVoiceByName,
     getVoiceForLanguage

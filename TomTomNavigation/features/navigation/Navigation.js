@@ -10,6 +10,7 @@ import { useCalculateRouteQuery } from "../../services/routing";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import tomtom2mapbox from "../../functions/tomtom2mapbox";
+import NavigationPerspectives from "../../constants/NavigationPerspectives";
 import strings from "../../config/strings";
 
 import {
@@ -24,6 +25,7 @@ import {
   getShowNavigationPanel,
   getIsNavigating,
   getNavigationModeTransitioning,
+  getNavigationPerspective,
   getCurrentLocation,
   getVoiceAnnouncementsEnabled,
   setIsNavigating,
@@ -53,6 +55,7 @@ const Navigation = ({ map }) => {
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
   );
+  const navigationPerspective = useSelector(getNavigationPerspective);
   const { announcement } = useSelector(getCurrentLocation);
   const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
   const routeOptions = useSelector(getRouteOptions);
@@ -153,16 +156,21 @@ const Navigation = ({ map }) => {
     const elapsedTime = Math.floor(stepTime / 1000);
 
     batch(() => {
-      dispatch(
-        setCamera({
-          movingMethod: "easeTo",
-          center: stepCoords,
-          zoom,
-          pitch,
-          bearing: stepBearing,
-          animationOptions: { duration, padding: { top: navigationPaddingTop } }
-        })
-      );
+      if (navigationPerspective === NavigationPerspectives.DRIVING) {
+        dispatch(
+          setCamera({
+            movingMethod: "easeTo",
+            center: stepCoords,
+            zoom,
+            pitch,
+            bearing: stepBearing,
+            animationOptions: {
+              duration,
+              padding: { top: navigationPaddingTop }
+            }
+          })
+        );
+      }
       dispatch(
         setCurrentLocation({
           location: stepCoords,

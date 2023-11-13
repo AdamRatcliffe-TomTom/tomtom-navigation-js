@@ -1,15 +1,18 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { featureCollection, lineString } from "@turf/helpers";
+import CheapRuler from "cheap-ruler";
 import {
   speedLimitByIndex,
   announcementByIndex
 } from "../../functions/routeUtils";
-import CheapRuler from "cheap-ruler";
+
+import NavigationPerspectives from "../../constants/NavigationPerspectives";
 
 const initialState = {
   voiceAnnouncementsEnabled: true,
   showNavigationPanel: true,
   isNavigating: false,
+  navigationPerspective: NavigationPerspectives.DRIVING,
   hasReachedDestination: false,
   navigationModeTransitioning: false,
   currentLocation: {
@@ -38,6 +41,9 @@ const navigationSlice = createSlice({
     },
     setNavigationModeTransitioning: (state, action) => {
       state.navigationModeTransitioning = action.payload;
+    },
+    setNavigationPerspective: (state, action) => {
+      state.navigationPerspective = action.payload;
     },
     setCurrentLocation: (state, action) => {
       const { location, elapsedTime, route, measurementSystem } =
@@ -129,6 +135,11 @@ const getNavigationModeTransitioning = createSelector(
   (state) => state.navigationModeTransitioning
 );
 
+const getNavigationPerspective = createSelector(
+  rootSelector,
+  (state) => state.navigationPerspective
+);
+
 const getCurrentLocation = createSelector(
   rootSelector,
   (state) => state.currentLocation
@@ -165,6 +176,7 @@ export {
   getShowNavigationPanel,
   getIsNavigating,
   getNavigationModeTransitioning,
+  getNavigationPerspective,
   getCurrentLocation,
   getDistanceRemaining,
   getTimeRemaining,
@@ -178,6 +190,7 @@ export const {
   setShowNavigationPanel,
   setIsNavigating,
   setNavigationModeTransitioning,
+  setNavigationPerspective,
   setCurrentLocation,
   setDistanceRemaining,
   setTimeRemaining,

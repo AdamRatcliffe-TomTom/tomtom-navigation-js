@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles, Text } from "@fluentui/react";
 import Map, { withMap } from "react-tomtom-maps";
 import MapControl from "./MapControl";
-import { useAppContext } from "../../app/AppContext";
+import { useAppContext } from "../../../app/AppContext";
 
 const useStyles = makeStyles((theme) => ({
   control: {

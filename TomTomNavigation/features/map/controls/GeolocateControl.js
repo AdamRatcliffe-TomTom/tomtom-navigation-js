@@ -1,15 +1,11 @@
 import React, { useEffect } from "react";
-import { useDispatch, batch } from "react-redux";
 import { useTheme } from "@fluentui/react";
 import { useGeolocated } from "react-geolocated";
 import { withMap } from "react-tomtom-maps";
-import Fade from "../../components/Fade";
+import Fade from "../../../components/Fade";
 import MapControl from "./MapControl";
-import CrosshairIcon from "../../icons/CrosshairIcon";
-import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
-import useButtonStyles from "../../hooks/useButtonStyles";
-
-import { setUserLocation, setCenter, setMovingMethod } from "./mapSlice";
+import CrosshairIcon from "../../../icons/CrosshairIcon";
+import useButtonStyles from "../../../hooks/useButtonStyles";
 
 const defaultPositionOptions = {
   enableHighAccuracy: true,
@@ -18,12 +14,12 @@ const defaultPositionOptions = {
 };
 
 const Geolocate = ({
-  map,
   watchPosition = false,
   positionOptions = defaultPositionOptions,
-  visible
+  visible,
+  onClick = () => {},
+  onLocationChange = () => {}
 }) => {
-  const dispatch = useDispatch();
   const theme = useTheme();
   const buttonClasses = useButtonStyles();
   const { coords, isGeolocationEnabled } = useGeolocated({
@@ -32,25 +28,11 @@ const Geolocate = ({
   });
 
   useEffect(() => {
-    if (coords) {
-      const { longitude, latitude } = coords;
-      dispatch(setUserLocation([longitude, latitude]));
-    }
+    onLocationChange(coords);
   }, [coords]);
 
   const handleClick = () => {
-    if (coords) {
-      const { longitude, latitude } = coords;
-      const center = [longitude, latitude];
-      const movingMethod = shouldAnimateCamera(map.getBounds(), center)
-        ? "flyTo"
-        : "jumpTo";
-
-      batch(() => {
-        dispatch(setMovingMethod(movingMethod));
-        dispatch(setCenter(center));
-      });
-    }
+    onClick(coords);
   };
 
   return isGeolocationEnabled ? (

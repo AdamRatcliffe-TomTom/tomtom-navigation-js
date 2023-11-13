@@ -2,20 +2,24 @@ import React, { useRef, useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import { useAppContext } from "../../app/AppContext";
 import ReactMap from "react-tomtom-maps";
-import GeolocateControl from "./GeolocateControl";
-import MuteControl from "./MuteControl";
-import CompassControl from "./CompassControl";
-import MapSwitcherControlAlt from "./MapSwitcherControlAlt";
+import GeolocateControl from "./controls/GeolocateControl";
+import MuteControl from "./controls/MuteControl";
+import CompassControl from "./controls/CompassControl";
+import MapSwitcherControlAlt from "./controls/MapSwitcherControlAlt";
+import RouteOverviewControl from "./controls/RouteOverviewControl";
 import SpeedLimit from "./SpeedLimit";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
 import EnhancedRoute from "./EnhancedRoute";
 import LocationMarker from "./LocationMarker";
 import ChevronMarker from "./ChevronMarker";
+import Chevron2DMarker from "./Chevron2DMarker";
 import DefaultMarker from "./DefaultMarker";
 import { useCalculateRouteQuery } from "../../services/routing";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
+import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
+import NavigationPerspectives from "../../constants/NavigationPerspectives";
 
 import {
   getCenter,
@@ -29,8 +33,11 @@ import {
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
   getUserLocation,
+  setCenter,
   setBounds,
-  setFitBoundsOptions
+  setFitBoundsOptions,
+  setMovingMethod,
+  setUserLocation
 } from "./mapSlice";
 
 import {
@@ -38,8 +45,10 @@ import {
   getIsNavigating,
   getHasReachedDestination,
   getNavigationModeTransitioning,
+  getNavigationPerspective,
   getCurrentLocation,
-  getRemainingRoute
+  getRemainingRoute,
+  setVoiceAnnouncementsEnabled
 } from "../navigation/navigationSlice";
 
 const before = "Borders - Treaty label";
@@ -72,6 +81,7 @@ const Map = ({
   const navigationModeTransitioning = useSelector(
     getNavigationModeTransitioning
   );
+  const navigationPerspective = useSelector(getNavigationPerspective);
   const remainingRoute = useSelector(getRemainingRoute);
   const { speedLimit } = useSelector(getCurrentLocation);
   const center = useSelector(getCenter);
@@ -100,10 +110,19 @@ const Map = ({
   const compassControlIsVisible = !hasReachedDestination;
   const speedLimitControlIsVisible =
     isNavigating && speedLimit && !hasReachedDestination;
+  const routeOverviewControlIsVisible = isNavigating && !hasReachedDestination;
   const locationMarkerIsVisible =
     showLocationMarker && userLocation && !isNavigating;
   const chevronMarkerIsVisible =
-    isNavigating && !navigationModeTransitioning && !hasReachedDestination;
+    isNavigating &&
+    !navigationModeTransitioning &&
+    !hasReachedDestination &&
+    navigationPerspective === NavigationPerspectives.DRIVING;
+  const chevron2DMarkerIsVisible =
+    isNavigating &&
+    !navigationModeTransitioning &&
+    !hasReachedDestination &&
+    navigationPerspective === NavigationPerspectives.ROUTE_OVERVIEW;
 
   useEffect(() => {
     setMeasurementSystemAuto(countryCode === "US" ? "imperial" : "metric");
@@ -130,6 +149,33 @@ const Map = ({
     const map = mapRef.current.getMap();
     map?.resize();
   }, [width, height]);
+
+  const handleGeolocationControlClick = (coords) => {
+    if (coords) {
+      const map = mapRef.current.getMap();
+      const { longitude, latitude } = coords;
+      const center = [longitude, latitude];
+      const movingMethod = shouldAnimateCamera(map.getBounds(), center)
+        ? "flyTo"
+        : "jumpTo";
+
+      batch(() => {
+        dispatch(setMovingMethod(movingMethod));
+        dispatch(setCenter(center));
+      });
+    }
+  };
+
+  const handleUserLocationChange = (coords) => {
+    if (coords) {
+      const { longitude, latitude } = coords;
+      dispatch(setUserLocation([longitude, latitude]));
+    }
+  };
+
+  const handleMuteControlClick = (enabled) => {
+    dispatch(setVoiceAnnouncementsEnabled(enabled));
+  };
 
   const handleCompassControlClick = () => {
     if (isNavigating) return;
@@ -190,10 +236,14 @@ const Map = ({
       <GeolocateControl
         watchPosition={true}
         visible={geolocateControlIsVisible}
+        onClick={handleGeolocationControlClick}
+        onLocationChange={handleUserLocationChange}
       />
+      <RouteOverviewControl visible={routeOverviewControlIsVisible} />
       <MuteControl
         voiceAnnouncementsEnabled={voiceAnnouncementsEnabled}
         visible={muteControlVisible}
+        onClick={handleMuteControlClick}
       />
       <MapSwitcherControlAlt
         visible={mapSwitcherControlIsVisible}
@@ -216,7 +266,11 @@ const Map = ({
           <Route before={before} data={route} />
         ))}
       {waypoints}
-      <ChevronMarker visible={chevronMarkerIsVisible} coordinates={center} />
+      <ChevronMarker visible={chevronMarkerIsVisible} />
+      <Chevron2DMarker
+        visible={chevron2DMarkerIsVisible}
+        coordinates={center}
+      />
       <SpeedLimitControl
         value={speedLimit}
         visible={speedLimitControlIsVisible}

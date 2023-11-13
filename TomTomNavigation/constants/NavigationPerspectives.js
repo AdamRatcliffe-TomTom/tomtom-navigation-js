@@ -1,0 +1,4 @@
+export default {
+  DRIVING: "DRIVING",
+  ROUTE_OVERVIEW: "ROUTE_OVERVIEW"
+};

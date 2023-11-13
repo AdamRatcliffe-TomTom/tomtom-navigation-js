@@ -10,11 +10,11 @@ import {
 } from "@fluentui/react";
 import { withMap } from "react-tomtom-maps";
 import MapControl from "./MapControl";
-import LayersIcon from "../../icons/LayersIcon";
-import Fade from "../../components/Fade";
-import { useAppContext } from "../../app/AppContext";
-import useButtonStyles from "../../hooks/useButtonStyles";
-import strings from "../../config/strings";
+import LayersIcon from "../../../icons/LayersIcon";
+import Fade from "../../../components/Fade";
+import { useAppContext } from "../../../app/AppContext";
+import useButtonStyles from "../../../hooks/useButtonStyles";
+import strings from "../../../config/strings";
 
 const useStyles = (props) =>
   makeStyles((theme) => ({
@@ -148,7 +148,7 @@ const MapSwitcher = ({
 }) => {
   const theme = useTheme();
   const { layerHostId } = useAppContext();
-  const buttonStyles = useButtonStyles();
+  const buttonClasses = useButtonStyles();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const showModal = () => {
@@ -162,7 +162,7 @@ const MapSwitcher = ({
   return (
     <>
       <Fade show={visible} duration="0.3s">
-        <div className={buttonStyles.mapControlButton} onClick={showModal}>
+        <div className={buttonClasses.mapControlButton} onClick={showModal}>
           <LayersIcon color={theme.palette.black} />
         </div>
       </Fade>
