@@ -36,7 +36,7 @@ const Geolocate = ({
   };
 
   return isGeolocationEnabled ? (
-    <Fade show={visible} duration="0.3s">
+    <Fade show={visible} duration="0.15s">
       <div className={buttonClasses.mapControlButton} onClick={handleClick}>
         <CrosshairIcon color={theme.palette.black} />
       </div>

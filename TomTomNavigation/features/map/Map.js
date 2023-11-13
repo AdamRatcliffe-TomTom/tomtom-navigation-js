@@ -6,7 +6,7 @@ import GeolocateControl from "./controls/GeolocateControl";
 import MuteControl from "./controls/MuteControl";
 import CompassControl from "./controls/CompassControl";
 import MapSwitcherControlAlt from "./controls/MapSwitcherControlAlt";
-import RouteOverviewControl from "./controls/RouteOverviewControl";
+import NavigationPerspectiveControl from "./controls/NavigationPerspectiveControl";
 import SpeedLimit from "./SpeedLimit";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
@@ -36,6 +36,7 @@ import {
   setCenter,
   setBounds,
   setFitBoundsOptions,
+  setPitch,
   setMovingMethod,
   setUserLocation
 } from "./mapSlice";
@@ -48,7 +49,9 @@ import {
   getNavigationPerspective,
   getCurrentLocation,
   getRemainingRoute,
-  setVoiceAnnouncementsEnabled
+  setVoiceAnnouncementsEnabled,
+  setNavigationPerspective,
+  setNavigationModeTransitioning
 } from "../navigation/navigationSlice";
 
 const before = "Borders - Treaty label";
@@ -83,7 +86,11 @@ const Map = ({
   );
   const navigationPerspective = useSelector(getNavigationPerspective);
   const remainingRoute = useSelector(getRemainingRoute);
-  const { speedLimit } = useSelector(getCurrentLocation);
+  const {
+    point: currentLocation,
+    bearing: currentLocationBearing,
+    speedLimit
+  } = useSelector(getCurrentLocation);
   const center = useSelector(getCenter);
   const zoom = useSelector(getZoom);
   const bearing = useSelector(getBearing);
@@ -110,7 +117,8 @@ const Map = ({
   const compassControlIsVisible = !hasReachedDestination;
   const speedLimitControlIsVisible =
     isNavigating && speedLimit && !hasReachedDestination;
-  const routeOverviewControlIsVisible = isNavigating && !hasReachedDestination;
+  const navigationPerspectiveControlIsVisible =
+    isNavigating && !hasReachedDestination;
   const locationMarkerIsVisible =
     showLocationMarker && userLocation && !isNavigating;
   const chevronMarkerIsVisible =
@@ -122,7 +130,8 @@ const Map = ({
     isNavigating &&
     !navigationModeTransitioning &&
     !hasReachedDestination &&
-    navigationPerspective === NavigationPerspectives.ROUTE_OVERVIEW;
+    navigationPerspective === NavigationPerspectives.ROUTE_OVERVIEW &&
+    currentLocation;
 
   useEffect(() => {
     setMeasurementSystemAuto(countryCode === "US" ? "imperial" : "metric");
@@ -133,22 +142,27 @@ const Map = ({
   }, [theme]);
 
   useEffect(() => {
-    const features =
-      route || (routeOptions.locations?.length && routeOptions.locations);
-
-    if (features) {
-      const bounds = geoJsonBounds(features);
-      batch(() => {
-        dispatch(setFitBoundsOptions({ animate: false }));
-        dispatch(setBounds(bounds));
-      });
-    }
+    fitRoute(false);
   }, [route, JSON.stringify(routeOptions.locations)]);
 
   useEffect(() => {
     const map = mapRef.current.getMap();
     map?.resize();
   }, [width, height]);
+
+  const fitRoute = (animate = true) => {
+    const features =
+      route || (routeOptions.locations?.length && routeOptions.locations);
+
+    if (features) {
+      const bounds = geoJsonBounds(features);
+      batch(() => {
+        dispatch(setPitch(0));
+        dispatch(setFitBoundsOptions({ animate, duration: 500 }));
+        dispatch(setBounds(bounds));
+      });
+    }
+  };
 
   const handleGeolocationControlClick = (coords) => {
     if (coords) {
@@ -175,6 +189,21 @@ const Map = ({
 
   const handleMuteControlClick = (enabled) => {
     dispatch(setVoiceAnnouncementsEnabled(enabled));
+  };
+
+  const handleNavigationPerspectiveControlClick = (perspective) => {
+    batch(() => {
+      dispatch(setNavigationModeTransitioning(true));
+      dispatch(setNavigationPerspective(perspective));
+      if (perspective === NavigationPerspectives.ROUTE_OVERVIEW) {
+        fitRoute();
+      }
+    });
+
+    const map = mapRef.current.getMap();
+    map.once("moveend", () => {
+      setTimeout(() => dispatch(setNavigationModeTransitioning(false)), 500);
+    });
   };
 
   const handleCompassControlClick = () => {
@@ -239,7 +268,11 @@ const Map = ({
         onClick={handleGeolocationControlClick}
         onLocationChange={handleUserLocationChange}
       />
-      <RouteOverviewControl visible={routeOverviewControlIsVisible} />
+      <NavigationPerspectiveControl
+        navigationPerspective={navigationPerspective}
+        visible={navigationPerspectiveControlIsVisible}
+        onClick={handleNavigationPerspectiveControlClick}
+      />
       <MuteControl
         voiceAnnouncementsEnabled={voiceAnnouncementsEnabled}
         visible={muteControlVisible}
@@ -269,7 +302,8 @@ const Map = ({
       <ChevronMarker visible={chevronMarkerIsVisible} />
       <Chevron2DMarker
         visible={chevron2DMarkerIsVisible}
-        coordinates={center}
+        coordinates={currentLocation}
+        bearing={currentLocationBearing}
       />
       <SpeedLimitControl
         value={speedLimit}

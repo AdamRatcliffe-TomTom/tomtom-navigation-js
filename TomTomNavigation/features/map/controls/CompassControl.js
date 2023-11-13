@@ -50,7 +50,7 @@ function Compass({ map, visible = true, onClick = () => {} }) {
   };
 
   return (
-    <Fade show={visible && bearing !== 0} duration="0.3s">
+    <Fade show={visible && bearing !== 0} duration="0.15s">
       <div className={classes.control} onClick={onClick}>
         <div className={classes.icon} style={iconStyle} />
       </div>

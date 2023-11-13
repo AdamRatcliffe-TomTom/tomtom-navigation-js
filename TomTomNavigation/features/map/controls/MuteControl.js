@@ -26,7 +26,7 @@ const Mute = ({ visible, voiceAnnouncementsEnabled, onClick = () => {} }) => {
   const Icon = voiceAnnouncementsEnabled ? UnmuteIcon : MuteIcon;
 
   return (
-    <Fade show={visible} duration="0.3s">
+    <Fade show={visible} duration="0.15s">
       <div className={buttonClasses.mapControlButton} onClick={handleClick}>
         <Icon color={theme.palette.black} />
       </div>

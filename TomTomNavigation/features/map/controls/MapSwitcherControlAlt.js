@@ -161,7 +161,7 @@ const MapSwitcher = ({
 
   return (
     <>
-      <Fade show={visible} duration="0.3s">
+      <Fade show={visible} duration="0.15s">
         <div className={buttonClasses.mapControlButton} onClick={showModal}>
           <LayersIcon color={theme.palette.black} />
         </div>

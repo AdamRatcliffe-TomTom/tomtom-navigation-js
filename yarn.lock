@@ -1995,9 +1995,9 @@
   resolved "https://registry.npmjs.org/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
-"@tomtom-international/web-sdk-maps@^6.15.0", "@tomtom-international/web-sdk-maps@latest", "@tomtom-international/web-sdk-maps@next":
+"@tomtom-international/web-sdk-maps@^6.15.0", "@tomtom-international/web-sdk-maps@^6.25.0":
   version "6.25.0"
-  resolved "https://registry.npmjs.org/@tomtom-international/web-sdk-maps/-/web-sdk-maps-6.25.0.tgz"
+  resolved "https://registry.yarnpkg.com/@tomtom-international/web-sdk-maps/-/web-sdk-maps-6.25.0.tgz#bf0929264351e43838b5af97a8893eb280c77d73"
   integrity sha512-9LHuebnvEZJqDegC3+rd1xhevORAymrFpVq5Vqtz9xCcA3Y55fKEIEpK330keDT8oGaJSWj5hX5Tzgox2hxnqQ==
   dependencies:
     "@mapbox/mapbox-gl-rtl-text" "0.2.3"
@@ -2009,9 +2009,9 @@
     regenerator-runtime "0.12.1"
     uuid "3.3.3"
 
-"@tomtom-international/web-sdk-maps@^6.25.0":
+"@tomtom-international/web-sdk-maps@latest", "@tomtom-international/web-sdk-maps@next":
   version "6.25.0"
-  resolved "https://registry.yarnpkg.com/@tomtom-international/web-sdk-maps/-/web-sdk-maps-6.25.0.tgz#bf0929264351e43838b5af97a8893eb280c77d73"
+  resolved "https://registry.npmjs.org/@tomtom-international/web-sdk-maps/-/web-sdk-maps-6.25.0.tgz"
   integrity sha512-9LHuebnvEZJqDegC3+rd1xhevORAymrFpVq5Vqtz9xCcA3Y55fKEIEpK330keDT8oGaJSWj5hX5Tzgox2hxnqQ==
   dependencies:
     "@mapbox/mapbox-gl-rtl-text" "0.2.3"
@@ -7393,7 +7393,7 @@ guidance-replay@^0.1.4:
 
 "guidance-sim@ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git":
   version "0.1.7"
-  resolved "git+ssh://git@github.com/AdamRatcliffe-TomTom/guidance-sim.git#47c854c921132122c11177dfe32d06a06fd8261a"
+  resolved "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git#8f5ac8c83d2f77de680c0daadfa365e812f8f59e"
   dependencies:
     browserify "^13.0.0"
     budo "^8.1.0"

@@ -7,12 +7,22 @@ import ChevronOutlineIcon from "../../../icons/ChevronOutlineIcon";
 import useButtonStyles from "../../../hooks/useButtonStyles";
 import NavigationPerspectives from "../../../constants/NavigationPerspectives";
 
-const RouteOverview = ({
+const NavigationPerspective = ({
   visible,
-  navigationPerspective = NavigationPerspectives.DRIVING
+  navigationPerspective = NavigationPerspectives.DRIVING,
+  onClick = () => {}
 }) => {
   const theme = useTheme();
   const buttonClasses = useButtonStyles();
+
+  const handleClick = () => {
+    const perspective =
+      navigationPerspective === NavigationPerspectives.DRIVING
+        ? NavigationPerspectives.ROUTE_OVERVIEW
+        : NavigationPerspectives.DRIVING;
+
+    onClick(perspective);
+  };
 
   const Icon =
     navigationPerspective === NavigationPerspectives.DRIVING
@@ -20,20 +30,23 @@ const RouteOverview = ({
       : ChevronOutlineIcon;
 
   return (
-    <Fade show={visible}>
-      <div className={buttonClasses.mapControlButton}>
+    <Fade show={visible} duration="0.15s">
+      <div className={buttonClasses.mapControlButton} onClick={handleClick}>
         <Icon color={theme.palette.black} />
       </div>
     </Fade>
   );
 };
 
-const RouteOverviewControl = ({ position = "top-right", ...otherProps }) => {
+const NavigationPerspectiveControl = ({
+  position = "top-right",
+  ...otherProps
+}) => {
   return (
     <MapControl position={position}>
-      <RouteOverview {...otherProps} />
+      <NavigationPerspective {...otherProps} />
     </MapControl>
   );
 };
 
-export default RouteOverviewControl;
+export default NavigationPerspectiveControl;

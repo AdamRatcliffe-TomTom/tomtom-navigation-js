@@ -18,6 +18,7 @@ const initialState = {
   currentLocation: {
     pointIndex: undefined,
     point: undefined,
+    bearing: undefined,
     speedLimit: undefined,
     announcement: undefined
   },
@@ -46,7 +47,7 @@ const navigationSlice = createSlice({
       state.navigationPerspective = action.payload;
     },
     setCurrentLocation: (state, action) => {
-      const { location, elapsedTime, route, measurementSystem } =
+      const { location, bearing, elapsedTime, route, measurementSystem } =
         action.payload;
       const { travelTimeInSeconds } = route.features[0].properties.summary;
       const { coordinates } = route.features[0].geometry;
@@ -81,6 +82,7 @@ const navigationSlice = createSlice({
       state.currentLocation = {
         pointIndex,
         point,
+        bearing,
         speedLimit,
         announcement
       };

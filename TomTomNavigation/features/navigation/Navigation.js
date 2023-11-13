@@ -110,6 +110,15 @@ const Navigation = ({ map }) => {
       ? "flyTo"
       : "jumpTo";
 
+    // Make map non-interactive when navigating
+    setMapInteractive(false);
+
+    map.once("moveend", () => {
+      setTimeout(() => {
+        dispatch(setNavigationModeTransitioning(false));
+      }, 500);
+    });
+
     batch(() => {
       dispatch(setIsNavigating(true));
       dispatch(setNavigationModeTransitioning(true));
@@ -123,11 +132,6 @@ const Navigation = ({ map }) => {
         })
       );
     });
-
-    // Make map non-interactive when navigating
-    setMapInteractive(false);
-
-    map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
   };
 
   const stopNavigation = () => {
@@ -171,9 +175,11 @@ const Navigation = ({ map }) => {
           })
         );
       }
+
       dispatch(
         setCurrentLocation({
           location: stepCoords,
+          bearing: stepBearing,
           elapsedTime,
           route,
           measurementSystem
@@ -215,7 +221,7 @@ const Navigation = ({ map }) => {
           onStopNavigation={stopNavigation}
         />
       )}
-      {navigationRoute && isNavigating && !navigationModeTransitioning && (
+      {navigationRoute && isNavigating && (
         <Simulator
           route={navigationRoute}
           zoom={17}
