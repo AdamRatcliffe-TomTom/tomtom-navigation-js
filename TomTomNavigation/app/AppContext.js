@@ -44,9 +44,7 @@ export default function AppContextProvider({
           name: "satellite",
           label: strings.satellite,
           style:
-            "https://api.tomtom.com/maps/orbis/assets/styles/0.2.0-0/style.json?apiVersion=1&map=basic_street-satellite&trafficFlow=flow_relative-light&trafficIncidents=incidents_light",
-          styleDriving:
-            "https://api.tomtom.com/maps/orbis/assets/styles/0.2.0-0/style.json?apiVersion=1&map=hillshade-satellite&trafficFlow=flow_relative-light&trafficIncidents=incidents_light"
+            "https://api.tomtom.com/style/1/style/25.2.0-1?map=2/basic_street-satellite&traffic_flow=2/flow_relative-light&traffic_incidents=2/incidents_light&poi=2/poi_light"
         }
       },
       measurementSystem:
