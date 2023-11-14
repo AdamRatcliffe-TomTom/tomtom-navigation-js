@@ -63,6 +63,7 @@ export class TomTomNavigation
       context,
       "showTrafficIncidents"
     );
+    const showPoi = this.getRawParameter(context, "showPoi");
     const showLocationMarker = this.getRawParameter(
       context,
       "showLocationMarker"
@@ -101,6 +102,7 @@ export class TomTomNavigation
       enableGeolocation,
       showTrafficFlow,
       showTrafficIncidents,
+      showPoi,
       showLocationMarker,
       showMapSwitcherControl,
       showMuteControl
