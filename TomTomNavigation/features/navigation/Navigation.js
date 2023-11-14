@@ -72,10 +72,13 @@ const Navigation = ({ map }) => {
     () => Math.max(height - 390, 0),
     [height]
   );
+  const simulatorIsActive = navigationRoute && isNavigating;
 
   useEffect(() => {
     if (route) {
-      stopNavigation();
+      if (isNavigating) {
+        stopNavigation();
+      }
 
       const navigationRoute = tomtom2mapbox(route.features[0]);
       setNavigationRoute(navigationRoute);
@@ -113,11 +116,7 @@ const Navigation = ({ map }) => {
     // Make map non-interactive when navigating
     setMapInteractive(false);
 
-    map.once("moveend", () => {
-      setTimeout(() => {
-        dispatch(setNavigationModeTransitioning(false));
-      }, 500);
-    });
+    map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
 
     batch(() => {
       dispatch(setIsNavigating(true));
@@ -137,6 +136,8 @@ const Navigation = ({ map }) => {
   const stopNavigation = () => {
     const bounds = geoJsonBounds(route);
 
+    map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
+
     batch(() => {
       dispatch(resetNavigation());
       dispatch(setNavigationModeTransitioning(true));
@@ -146,16 +147,16 @@ const Navigation = ({ map }) => {
 
     // Restore map interaction
     setMapInteractive(true);
-
-    map.once("moveend", () => {
-      dispatch(setNavigationModeTransitioning(false));
-    });
   };
 
   const setMapInteractive = (interactive) =>
     (map.__om._canvas.style.pointerEvents = interactive ? "all" : "none");
 
   const handleSimulatorUpdate = (event) => {
+    if (navigationModeTransitioning) {
+      return;
+    }
+
     const { pitch, zoom, stepCoords, stepBearing, stepTime, duration } = event;
     const elapsedTime = Math.floor(stepTime / 1000);
 
@@ -221,7 +222,7 @@ const Navigation = ({ map }) => {
           onStopNavigation={stopNavigation}
         />
       )}
-      {navigationRoute && isNavigating && (
+      {simulatorIsActive && (
         <Simulator
           route={navigationRoute}
           zoom={17}

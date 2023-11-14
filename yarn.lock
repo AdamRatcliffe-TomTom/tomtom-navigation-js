@@ -1995,7 +1995,7 @@
   resolved "https://registry.npmjs.org/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
-"@tomtom-international/web-sdk-maps@^6.15.0", "@tomtom-international/web-sdk-maps@^6.25.0":
+"@tomtom-international/web-sdk-maps@^6.25.0":
   version "6.25.0"
   resolved "https://registry.yarnpkg.com/@tomtom-international/web-sdk-maps/-/web-sdk-maps-6.25.0.tgz#bf0929264351e43838b5af97a8893eb280c77d73"
   integrity sha512-9LHuebnvEZJqDegC3+rd1xhevORAymrFpVq5Vqtz9xCcA3Y55fKEIEpK330keDT8oGaJSWj5hX5Tzgox2hxnqQ==
@@ -2037,9 +2037,9 @@
   dependencies:
     "@tomtom-international/web-sdk-maps" latest
 
-"@tomtom-international/web-sdk-plugin-searchbox@^3.1.11":
+"@tomtom-international/web-sdk-plugin-searchbox@^3.2.0":
   version "3.2.0"
-  resolved "https://registry.npmjs.org/@tomtom-international/web-sdk-plugin-searchbox/-/web-sdk-plugin-searchbox-3.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/@tomtom-international/web-sdk-plugin-searchbox/-/web-sdk-plugin-searchbox-3.2.0.tgz#5baa31ae013541119d7839e76ae174c928717386"
   integrity sha512-H6QqT3kGa+XrJ88KNkxnGWMohPvxPte1+ftKA7By+4Ks5Sc3JvxaR/UUX7cRCBB7FsBtrQ3nEoplSQuabCh2Eg==
   dependencies:
     "@tomtom-international/web-sdk-maps" latest
@@ -2053,7 +2053,7 @@
   dependencies:
     "@tomtom-international/web-sdk-maps" next
 
-"@tomtom-international/web-sdk-services@^6.15.0", "@tomtom-international/web-sdk-services@^6.25.0", "@tomtom-international/web-sdk-services@latest":
+"@tomtom-international/web-sdk-services@^6.25.0", "@tomtom-international/web-sdk-services@latest":
   version "6.25.0"
   resolved "https://registry.npmjs.org/@tomtom-international/web-sdk-services/-/web-sdk-services-6.25.0.tgz"
   integrity sha512-owpr/OToUdmHv5Ojyey5jj/gQZ1cBoNBNgr/cWKdtBYWl6aWtF7wBWH//DrHVCH/14sM5FQuiRUyqXON+PxzMA==
@@ -7393,7 +7393,7 @@ guidance-replay@^0.1.4:
 
 "guidance-sim@ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git":
   version "0.1.7"
-  resolved "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git#8f5ac8c83d2f77de680c0daadfa365e812f8f59e"
+  resolved "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git#1a114196b80e1c652c3367b418715577dfad0a84"
   dependencies:
     browserify "^13.0.0"
     budo "^8.1.0"
@@ -10836,15 +10836,15 @@ react-redux@^8.1.3:
     use-sync-external-store "^1.0.0"
 
 "react-tomtom-maps@ssh://git@github.com:AdamRatcliffe-TomTom/react-tomtom-maps.git":
-  version "2.8.1"
-  resolved "git+ssh://git@github.com/AdamRatcliffe-TomTom/react-tomtom-maps.git#01f629cdb7c40386997e699c8af7d470ded40f15"
+  version "2.8.2"
+  resolved "ssh://git@github.com:AdamRatcliffe-TomTom/react-tomtom-maps.git#37a1e2036d488e6904d2d217beddffeb2796ed72"
   dependencies:
-    "@tomtom-international/web-sdk-maps" "^6.15.0"
+    "@tomtom-international/web-sdk-maps" "^6.25.0"
     "@tomtom-international/web-sdk-plugin-minimap" "^2.1.6"
     "@tomtom-international/web-sdk-plugin-pancontrols" "^2.1.6"
-    "@tomtom-international/web-sdk-plugin-searchbox" "^3.1.11"
+    "@tomtom-international/web-sdk-plugin-searchbox" "^3.2.0"
     "@tomtom-international/web-sdk-plugin-zoomcontrols" "^2.1.6"
-    "@tomtom-international/web-sdk-services" "^6.15.0"
+    "@tomtom-international/web-sdk-services" "^6.25.0"
     "@turf/bbox" "^6.0.1"
     "@turf/bbox-polygon" "^6.0.1"
     "@turf/buffer" "^5.1.5"
@@ -10858,6 +10858,11 @@ react-redux@^8.1.3:
     react-fast-compare "^2.0.4"
     simple-statistics "^7.0.5"
     uuid "^3.3.3"
+
+react-usestateref@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-usestateref/-/react-usestateref-1.0.8.tgz#b40519af0d6f3b3822c70eb5db80f7d47f1b1ff5"
+  integrity sha512-whaE6H0XGarFKwZ3EYbpHBsRRCLZqdochzg/C7e+b6VFMTA3LS3K4ZfpI4NT40iy83jG89rGXrw70P9iDfOdsA==
 
 react@16.8.4:
   version "16.8.4"

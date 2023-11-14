@@ -5,7 +5,9 @@ import { withMap } from "react-tomtom-maps";
 
 class Simulator extends Component {
   state = {
-    options: undefined
+    options: {
+      updateCamera: true
+    }
   };
 
   componentWillMount() {
@@ -17,7 +19,7 @@ class Simulator extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { route, speed, paused, updateCamera } = this.props;
+    const { route, speed, paused } = this.props;
     const speedChanged = prevProps.speed !== speed;
     const restarted = prevProps.paused && !paused;
 
@@ -32,7 +34,7 @@ class Simulator extends Component {
         this.simulator,
         this.simulator.interval,
         newSpeed,
-        { ...this.state.options, updateCamera }
+        { ...this.state.options }
       );
     }
 

@@ -192,17 +192,17 @@ const Map = ({
   };
 
   const handleNavigationPerspectiveControlClick = (perspective) => {
+    const map = mapRef.current.getMap();
+    map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
+
     batch(() => {
       dispatch(setNavigationModeTransitioning(true));
       dispatch(setNavigationPerspective(perspective));
-      if (perspective === NavigationPerspectives.ROUTE_OVERVIEW) {
+      if (perspective === NavigationPerspectives.DRIVING) {
+        dispatch(setCenter(currentLocation));
+      } else {
         fitRoute();
       }
-    });
-
-    const map = mapRef.current.getMap();
-    map.once("moveend", () => {
-      setTimeout(() => dispatch(setNavigationModeTransitioning(false)), 500);
     });
   };
 
