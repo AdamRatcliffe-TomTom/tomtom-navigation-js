@@ -73,8 +73,6 @@ const Navigation = ({ map }) => {
   );
   const simulatorIsActive = navigationRoute && isNavigating;
 
-  let lastCoord;
-
   useEffect(() => {
     if (route) {
       if (isNavigating) {
@@ -165,8 +163,6 @@ const Navigation = ({ map }) => {
 
     const { pitch, zoom, stepCoords, stepBearing, stepTime, duration } = event;
     const elapsedTime = Math.floor(stepTime / 1000);
-
-    lastCoord = stepCoords;
 
     batch(() => {
       if (navigationPerspective === NavigationPerspectives.DRIVING) {
