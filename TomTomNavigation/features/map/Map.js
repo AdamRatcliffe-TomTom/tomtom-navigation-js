@@ -45,13 +45,13 @@ import {
   getVoiceAnnouncementsEnabled,
   getIsNavigating,
   getHasReachedDestination,
-  getNavigationModeTransitioning,
+  getNavigationTransitioning,
   getNavigationPerspective,
   getCurrentLocation,
   getRemainingRoute,
   setVoiceAnnouncementsEnabled,
   setNavigationPerspective,
-  setNavigationModeTransitioning
+  setNavigationTransitioning
 } from "../navigation/navigationSlice";
 
 const before = "Borders - Treaty label";
@@ -82,9 +82,7 @@ const Map = ({
   const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
   const isNavigating = useSelector(getIsNavigating);
   const hasReachedDestination = useSelector(getHasReachedDestination);
-  const navigationModeTransitioning = useSelector(
-    getNavigationModeTransitioning
-  );
+  const navigationTransitioning = useSelector(getNavigationTransitioning);
   const navigationPerspective = useSelector(getNavigationPerspective);
   const remainingRoute = useSelector(getRemainingRoute);
   const {
@@ -124,12 +122,12 @@ const Map = ({
     showLocationMarker && userLocation && !isNavigating;
   const chevronMarkerIsVisible =
     isNavigating &&
-    !navigationModeTransitioning &&
+    !navigationTransitioning &&
     !hasReachedDestination &&
     navigationPerspective === NavigationPerspectives.DRIVING;
   const chevron2DMarkerIsVisible =
     isNavigating &&
-    !navigationModeTransitioning &&
+    !navigationTransitioning &&
     !hasReachedDestination &&
     navigationPerspective === NavigationPerspectives.ROUTE_OVERVIEW &&
     currentLocation;
@@ -194,14 +192,19 @@ const Map = ({
 
   const handleNavigationPerspectiveControlClick = (perspective) => {
     const map = mapRef.current.getMap();
-    map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
+    map.once("moveend", () => dispatch(setNavigationTransitioning(false)));
 
     batch(() => {
-      dispatch(setNavigationModeTransitioning(true));
+      dispatch(setNavigationTransitioning(true));
       dispatch(setNavigationPerspective(perspective));
+
       if (perspective === NavigationPerspectives.DRIVING) {
         dispatch(setCenter(currentLocation));
       } else {
+        // Map's field of view padding needs to be reset before fitting to
+        // the route bounds
+        map.__om.setPadding({ top: 0 });
+
         fitRoute();
       }
     });

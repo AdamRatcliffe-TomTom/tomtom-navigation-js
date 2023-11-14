@@ -14,7 +14,7 @@ const initialState = {
   isNavigating: false,
   navigationPerspective: NavigationPerspectives.DRIVING,
   hasReachedDestination: false,
-  navigationModeTransitioning: false,
+  navigationTransitioning: false,
   currentLocation: {
     pointIndex: undefined,
     point: undefined,
@@ -40,8 +40,8 @@ const navigationSlice = createSlice({
     setIsNavigating: (state, action) => {
       state.isNavigating = action.payload;
     },
-    setNavigationModeTransitioning: (state, action) => {
-      state.navigationModeTransitioning = action.payload;
+    setNavigationTransitioning: (state, action) => {
+      state.navigationTransitioning = action.payload;
     },
     setNavigationPerspective: (state, action) => {
       state.navigationPerspective = action.payload;
@@ -132,9 +132,9 @@ const getIsNavigating = createSelector(
   (state) => state.isNavigating
 );
 
-const getNavigationModeTransitioning = createSelector(
+const getNavigationTransitioning = createSelector(
   rootSelector,
-  (state) => state.navigationModeTransitioning
+  (state) => state.navigationTransitioning
 );
 
 const getNavigationPerspective = createSelector(
@@ -177,7 +177,7 @@ const getVoiceAnnouncementsEnabled = createSelector(
 export {
   getShowNavigationPanel,
   getIsNavigating,
-  getNavigationModeTransitioning,
+  getNavigationTransitioning,
   getNavigationPerspective,
   getCurrentLocation,
   getDistanceRemaining,
@@ -191,7 +191,7 @@ export {
 export const {
   setShowNavigationPanel,
   setIsNavigating,
-  setNavigationModeTransitioning,
+  setNavigationTransitioning,
   setNavigationPerspective,
   setCurrentLocation,
   setDistanceRemaining,

@@ -18,18 +18,19 @@ import {
   getAutomaticRouteCalculation,
   setCamera,
   setBounds,
+  setPitch,
   setFitBoundsOptions
 } from "../map/mapSlice";
 
 import {
   getShowNavigationPanel,
   getIsNavigating,
-  getNavigationModeTransitioning,
+  getNavigationTransitioning,
   getNavigationPerspective,
   getCurrentLocation,
   getVoiceAnnouncementsEnabled,
   setIsNavigating,
-  setNavigationModeTransitioning,
+  setNavigationTransitioning,
   setCurrentLocation,
   setDistanceRemaining,
   setTimeRemaining,
@@ -52,9 +53,7 @@ const Navigation = ({ map }) => {
   } = useAppContext();
   const showNavigationPanel = useSelector(getShowNavigationPanel);
   const isNavigating = useSelector(getIsNavigating);
-  const navigationModeTransitioning = useSelector(
-    getNavigationModeTransitioning
-  );
+  const navigationTransitioning = useSelector(getNavigationTransitioning);
   const navigationPerspective = useSelector(getNavigationPerspective);
   const { announcement } = useSelector(getCurrentLocation);
   const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
@@ -73,6 +72,8 @@ const Navigation = ({ map }) => {
     [height]
   );
   const simulatorIsActive = navigationRoute && isNavigating;
+
+  let lastCoord;
 
   useEffect(() => {
     if (route) {
@@ -116,11 +117,11 @@ const Navigation = ({ map }) => {
     // Make map non-interactive when navigating
     setMapInteractive(false);
 
-    map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
+    map.once("moveend", () => dispatch(setNavigationTransitioning(false)));
 
     batch(() => {
       dispatch(setIsNavigating(true));
-      dispatch(setNavigationModeTransitioning(true));
+      dispatch(setNavigationTransitioning(true));
       dispatch(
         setCamera({
           movingMethod,
@@ -136,11 +137,16 @@ const Navigation = ({ map }) => {
   const stopNavigation = () => {
     const bounds = geoJsonBounds(route);
 
-    map.once("moveend", () => dispatch(setNavigationModeTransitioning(false)));
+    map.once("moveend", () => dispatch(setNavigationTransitioning(false)));
+
+    // Map's field of view padding needs to be reset before fitting to
+    // the route bounds
+    map.__om.setPadding({ top: 0 });
 
     batch(() => {
       dispatch(resetNavigation());
-      dispatch(setNavigationModeTransitioning(true));
+      dispatch(setNavigationTransitioning(true));
+      dispatch(setPitch(0));
       dispatch(setFitBoundsOptions({ animate: true }));
       dispatch(setBounds(bounds));
     });
@@ -153,12 +159,14 @@ const Navigation = ({ map }) => {
     (map.__om._canvas.style.pointerEvents = interactive ? "all" : "none");
 
   const handleSimulatorUpdate = (event) => {
-    if (navigationModeTransitioning) {
+    if (navigationTransitioning) {
       return;
     }
 
     const { pitch, zoom, stepCoords, stepBearing, stepTime, duration } = event;
     const elapsedTime = Math.floor(stepTime / 1000);
+
+    lastCoord = stepCoords;
 
     batch(() => {
       if (navigationPerspective === NavigationPerspectives.DRIVING) {
