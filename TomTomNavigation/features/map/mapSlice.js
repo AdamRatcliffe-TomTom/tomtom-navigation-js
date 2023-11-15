@@ -14,6 +14,7 @@ const initialState = {
     animate: true
   },
   animationOptions: { duration: 500, essential: true },
+  padding: undefined, // the map's field of view padding
   routeOptions: {
     travelMode: "car",
     coordinatePrecision: "full",
@@ -42,7 +43,8 @@ const mapSlice = createSlice({
         "bearing",
         "pitch",
         "movingMethod",
-        "animationOptions"
+        "animationOptions",
+        "padding"
       ]);
       return _merge(state, cameraProps, { bounds: undefined });
     },
@@ -68,6 +70,9 @@ const mapSlice = createSlice({
     },
     setAnimationOptions: (state, action) => {
       state.animationOptions = _merge(state.animationOptions, action.payload);
+    },
+    setPadding: (state, action) => {
+      state.padding = action.payload;
     },
     setRouteOptions: (state, action) => {
       state.routeOptions = { ...state.routeOptions, ...action.payload };
@@ -106,6 +111,8 @@ const getAnimationOptions = createSelector(
   (state) => state.animationOptions
 );
 
+const getPadding = createSelector(rootSelector, (state) => state.padding);
+
 const getRouteOptions = createSelector(
   rootSelector,
   (state) => state.routeOptions
@@ -134,6 +141,7 @@ export {
   getBounds,
   getMovingMethod,
   getAnimationOptions,
+  getPadding,
   getRouteOptions,
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
@@ -148,6 +156,7 @@ export const {
   setPitch,
   setBounds,
   setMovingMethod,
+  setPadding,
   setRouteOptions,
   setAnimationOptions,
   setAutomaticRouteCalculation,

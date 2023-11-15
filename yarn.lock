@@ -10837,7 +10837,7 @@ react-redux@^8.1.3:
 
 "react-tomtom-maps@ssh://git@github.com:AdamRatcliffe-TomTom/react-tomtom-maps.git":
   version "2.8.2"
-  resolved "ssh://git@github.com:AdamRatcliffe-TomTom/react-tomtom-maps.git#37a1e2036d488e6904d2d217beddffeb2796ed72"
+  resolved "ssh://git@github.com:AdamRatcliffe-TomTom/react-tomtom-maps.git#99788024972669411aaa75963c3309bb93fb5788"
   dependencies:
     "@tomtom-international/web-sdk-maps" "^6.25.0"
     "@tomtom-international/web-sdk-plugin-minimap" "^2.1.6"

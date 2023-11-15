@@ -19,7 +19,8 @@ import {
   setCamera,
   setBounds,
   setPitch,
-  setFitBoundsOptions
+  setFitBoundsOptions,
+  setPadding
 } from "../map/mapSlice";
 
 import {
@@ -137,11 +138,8 @@ const Navigation = ({ map }) => {
 
     map.once("moveend", () => dispatch(setNavigationTransitioning(false)));
 
-    // Map's field of view padding needs to be reset before fitting to
-    // the route bounds
-    map.__om.setPadding({ top: 0 });
-
     batch(() => {
+      dispatch(setPadding({ top: 0 }));
       dispatch(resetNavigation());
       dispatch(setNavigationTransitioning(true));
       dispatch(setPitch(0));

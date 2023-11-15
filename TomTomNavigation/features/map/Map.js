@@ -29,6 +29,7 @@ import {
   getBounds,
   getMovingMethod,
   getAnimationOptions,
+  getPadding,
   getRouteOptions,
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
@@ -37,6 +38,7 @@ import {
   setBounds,
   setFitBoundsOptions,
   setPitch,
+  setPadding,
   setMovingMethod,
   setUserLocation
 } from "./mapSlice";
@@ -97,6 +99,7 @@ const Map = ({
   const bounds = useSelector(getBounds);
   const movingMethod = useSelector(getMovingMethod);
   const animationOptions = useSelector(getAnimationOptions);
+  const padding = useSelector(getPadding);
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const fitBoundsOptions = useSelector(getFitBoundsOptions);
@@ -201,10 +204,7 @@ const Map = ({
       if (perspective === NavigationPerspectives.DRIVING) {
         dispatch(setCenter(currentLocation));
       } else {
-        // Map's field of view padding needs to be reset before fitting to
-        // the route bounds
-        map.__om.setPadding({ top: 0 });
-
+        dispatch(setPadding({ top: 0 }));
         fitRoute();
       }
     });
@@ -260,6 +260,7 @@ const Map = ({
       fitBoundsOptions={fitBoundsOptions}
       movingMethod={movingMethod}
       animationOptions={{ ...animationOptions, easing }}
+      padding={padding}
       attributionControl={false}
       center={center}
       zoom={zoom}
