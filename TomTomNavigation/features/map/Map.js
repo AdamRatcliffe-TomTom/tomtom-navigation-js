@@ -5,7 +5,7 @@ import ReactMap from "react-tomtom-maps";
 import GeolocateControl from "./controls/GeolocateControl";
 import MuteControl from "./controls/MuteControl";
 import CompassControl from "./controls/CompassControl";
-import MapSwitcherControlAlt from "./controls/MapSwitcherControlAlt";
+import MapSwitcherControl from "./controls/MapSwitcherControl";
 import NavigationPerspectiveControl from "./controls/NavigationPerspectiveControl";
 import SpeedLimit from "./SpeedLimit";
 import SpeedLimitUS from "./SpeedLimitUS";
@@ -284,7 +284,7 @@ const Map = ({
         visible={muteControlVisible}
         onClick={handleMuteControlClick}
       />
-      <MapSwitcherControlAlt
+      <MapSwitcherControl
         visible={mapSwitcherControlIsVisible}
         selected={mapStyle.name}
         onSelected={handleMapStyleSelected}

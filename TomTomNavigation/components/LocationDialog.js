@@ -34,7 +34,7 @@ const LocationDialog = ({
       hidden={hidden}
     >
       <DialogFooter>
-        <PrimaryButton onClick={onToggleHide}>OK</PrimaryButton>
+        <PrimaryButton onClick={onToggleHide}>{strings.ok}</PrimaryButton>
       </DialogFooter>
     </Dialog>
   );

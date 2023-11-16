@@ -16,8 +16,7 @@ export default function AppContextProvider({
   height,
   simulationSpeed,
   theme,
-  guidanceVoice,
-  layerHostId
+  guidanceVoice
 }) {
   const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
 
@@ -32,7 +31,6 @@ export default function AppContextProvider({
       isTablet: width > 428,
       theme,
       guidanceVoice,
-      layerHostId,
       mapStyles: {
         street: {
           name: "street",
@@ -62,8 +60,7 @@ export default function AppContextProvider({
       height,
       simulationSpeed,
       theme,
-      guidanceVoice,
-      layerHostId
+      guidanceVoice
     ]
   );
 

@@ -4,7 +4,6 @@ const strings = new LocalizedStrings({
   "en-US": {
     noApiKey: "Set the API key property to view map",
     stops: "stops",
-    exit: "Exit",
     street: "Street",
     satellite: "Satellite",
     location: "Location",
@@ -14,8 +13,7 @@ const strings = new LocalizedStrings({
       "Location services not enabled. Enable to use your current location",
     ok: "OK",
     go: "Go",
-    chooseMap: "Choose map style",
-    limit: "Speed Limit",
+    speedLimit: "Speed Limit",
     arrived: "Arrived",
     endRoute: "End Route",
     guidanceAnnouncement: "{maneuverText} in {distance} {units}",
@@ -68,7 +66,6 @@ const strings = new LocalizedStrings({
   },
   de: {
     stops: "haltestellen",
-    exit: "Ende",
     street: "Straße",
     satellite: "Satellit",
     location: "Standort",
@@ -81,7 +78,6 @@ const strings = new LocalizedStrings({
   },
   nl: {
     stops: "haltes",
-    exit: "Stop",
     street: "Straat",
     satellite: "Satelliet",
     location: "Plaats",

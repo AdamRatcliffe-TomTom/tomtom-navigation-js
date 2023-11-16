@@ -40,7 +40,7 @@ const SpeedLimitUS = ({ value, visible }) => {
   return (
     <Fade show={visible} duration="0.3s">
       <div className={classes.shield}>
-        <div className={classes.label}>{strings.limit}</div>
+        <div className={classes.label}>{strings.speedLimit}</div>
         <div className={classes.value}>{speedLimit}</div>
       </div>
     </Fade>

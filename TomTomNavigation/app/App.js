@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, batch } from "react-redux";
-import { ThemeProvider, LayerHost, makeStyles } from "@fluentui/react";
+import { ThemeProvider, makeStyles } from "@fluentui/react";
 import { useBoolean } from "@fluentui/react-hooks";
 import { Provider as StoreProvider } from "react-redux";
 import { useGeolocated } from "react-geolocated";
@@ -40,8 +40,6 @@ const useStyles = makeStyles({
     pointerEvents: "none"
   }
 });
-
-const layerHostId = "map-layer-host";
 
 // Use the wrapper to save shared state to the store
 function Wrapper({
@@ -115,16 +113,10 @@ function App({
           guidanceVoice={guidanceVoice}
           simulationSpeed={simulationSpeed}
           theme={theme}
-          layerHostId={layerHostId}
         >
           <Wrapper {...otherProps}>
             <Map {...mapOptions}>
               <Navigation />
-              <LayerHost
-                style={{ width, height }}
-                className={classes.layerHost}
-                id={layerHostId}
-              />
             </Map>
             {!apiKey && <NoApiKeyMessage />}
           </Wrapper>
