@@ -17,15 +17,17 @@ const Chevron2DMarker = ({
 
   return (
     <Fade show={visible} duration=".15s">
-      <Marker
-        className="Chevron2DMarker"
-        style={style}
-        coordinates={coordinates}
-        anchor="center"
-        {...otherProps}
-      >
-        <Chevron2DIcon />
-      </Marker>
+      {coordinates && (
+        <Marker
+          className="Chevron2DMarker"
+          style={style}
+          coordinates={coordinates}
+          anchor="center"
+          {...otherProps}
+        >
+          <Chevron2DIcon />
+        </Marker>
+      )}
     </Fade>
   );
 };

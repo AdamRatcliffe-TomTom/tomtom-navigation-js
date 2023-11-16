@@ -19,8 +19,7 @@ import {
   setCamera,
   setBounds,
   setPitch,
-  setFitBoundsOptions,
-  setPadding
+  setFitBoundsOptions
 } from "../map/mapSlice";
 
 import {
@@ -137,13 +136,13 @@ const Navigation = ({ map }) => {
     const bounds = geoJsonBounds(route);
 
     map.once("moveend", () => dispatch(setNavigationTransitioning(false)));
+    map.__om.setPadding({ top: 0 });
 
     batch(() => {
       dispatch(resetNavigation());
       dispatch(setNavigationTransitioning(true));
       dispatch(setPitch(0));
       dispatch(setFitBoundsOptions({ animate: true }));
-      dispatch(setPadding({ top: 0 }));
       dispatch(setBounds(bounds));
     });
 
