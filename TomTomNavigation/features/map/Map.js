@@ -114,7 +114,8 @@ const Map = ({
   );
   const countryCode = countryCodeFromRoute(route);
   const geolocateControlIsVisible = enableGeolocation && !isNavigating;
-  const muteControlVisible = showMuteControl && isNavigating;
+  const muteControlVisible =
+    showMuteControl && isNavigating && !hasReachedDestination;
   const mapSwitcherControlIsVisible = showMapSwitcherControl && !isNavigating;
   const compassControlIsVisible = !hasReachedDestination;
   const speedLimitControlIsVisible =

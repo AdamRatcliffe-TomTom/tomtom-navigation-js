@@ -13,7 +13,8 @@ const useStyles = (props) =>
     popup: {
       backgroundColor: theme.palette.white,
       borderRadius: theme.spacing.m,
-      padding: theme.spacing.m
+      padding: theme.spacing.m,
+      boxShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)"
     },
     item: {
       display: "flex",
