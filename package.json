@@ -13,6 +13,7 @@
     "refreshTypes": "pcf-scripts refreshTypes"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.26.2",
     "@fluentui/react": "8.29.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@tomtom-international/web-sdk-maps": "^6.25.0",

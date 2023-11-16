@@ -1,45 +1,19 @@
-import React, { useState, useMemo } from "react";
-import {
-  useTheme,
-  makeStyles,
-  Modal,
-  Stack,
-  IconButton,
-  Text,
-  Image
-} from "@fluentui/react";
+import React, { useEffect, useState, useMemo } from "react";
+import { useTheme, makeStyles, Stack, Text, Image } from "@fluentui/react";
+import { useFloating, offset } from "@floating-ui/react";
 import { withMap } from "react-tomtom-maps";
 import MapControl from "./MapControl";
 import LayersIcon from "../../../icons/LayersIcon";
 import Fade from "../../../components/Fade";
 import { useAppContext } from "../../../app/AppContext";
 import useButtonStyles from "../../../hooks/useButtonStyles";
-import strings from "../../../config/strings";
 
 const useStyles = (props) =>
   makeStyles((theme) => ({
-    modal: {
-      position: "auto",
-      minHeight: 100
-    },
-    title: {
-      padding: `${theme.spacing.s1} ${theme.spacing.s1} ${theme.spacing.m} ${theme.spacing.m}`
-    },
-    titleText: {
-      fontFamily: "Noto Sans",
-      fontWeight: 500
-    },
-    items: {
-      padding: `${theme.spacing.s2} ${theme.spacing.m} ${theme.spacing.m}`
-    },
-    closeButton: {
-      color: theme.palette.neutralSecondary,
-      ":hover": {
-        background: "none"
-      },
-      ":active": {
-        background: "none"
-      }
+    popup: {
+      backgroundColor: theme.palette.white,
+      borderRadius: theme.spacing.m,
+      padding: theme.spacing.m
     },
     item: {
       display: "flex",
@@ -87,96 +61,76 @@ const MapItem = ({ mapStyle, selected, onSelected }) => {
   );
 };
 
-const MapStylesModal = ({ selected, onSelected, onDismiss, ...otherProps }) => {
-  const theme = useTheme();
-  const classes = useStyles()();
-  const { mapStyles } = useAppContext();
+const MapStylesPopup = React.forwardRef(
+  ({ isOpen, selected, onSelected, onDismiss, ...otherProps }, ref) => {
+    const theme = useTheme();
+    const classes = useStyles()();
+    const { mapStyles } = useAppContext();
 
-  const items = useMemo(
-    () =>
-      Object.keys(mapStyles).map((name) => {
-        const mapStyle = mapStyles[name];
-        return (
-          <MapItem
-            key={name}
-            mapStyle={mapStyle}
-            selected={name === selected}
-            onSelected={onSelected}
-          />
-        );
-      }),
-    [mapStyles, selected]
-  );
+    const items = useMemo(
+      () =>
+        Object.keys(mapStyles).map((name) => {
+          const mapStyle = mapStyles[name];
+          return (
+            <MapItem
+              key={name}
+              mapStyle={mapStyle}
+              selected={name === selected}
+              onSelected={onSelected}
+            />
+          );
+        }),
+      [mapStyles, selected]
+    );
 
-  return (
-    <Modal
-      className={classes.modal}
-      modalProps={{
-        isBlocking: false
-      }}
-      onDismiss={onDismiss}
-      {...otherProps}
-    >
-      <Stack
-        className={classes.title}
-        horizontal
-        horizontalAlign="space-between"
-        verticalAlign="center"
-      >
-        <Text className={classes.titleText} variant="mediumPlus">
-          {strings.chooseMap}
-        </Text>
-        <IconButton
-          className={classes.closeButton}
-          iconProps={{ iconName: "Cancel" }}
-          onClick={onDismiss}
-        />
-      </Stack>
-      <div className={classes.items}>
-        <Stack tokens={{ childrenGap: theme.spacing.m }} horizontal>
-          {items}
-        </Stack>
+    return isOpen ? (
+      <div ref={ref} className={classes.popup} {...otherProps}>
+        <Stack tokens={{ childrenGap: theme.spacing.s1 }}>{items}</Stack>
       </div>
-    </Modal>
-  );
-};
+    ) : null;
+  }
+);
 
 const MapSwitcher = ({
+  map,
   selected = "street",
   onSelected = () => {},
   visible = true
 }) => {
   const theme = useTheme();
-  const { layerHostId } = useAppContext();
   const buttonClasses = useButtonStyles();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { refs, floatingStyles } = useFloating({
+    placement: "left-start",
+    middleware: [offset({ mainAxis: 12 })]
+  });
+  const [popupIsOpen, setPopupIsOpen] = useState(false);
 
-  const showModal = () => {
-    setModalIsOpen(true);
-  };
+  useEffect(() => {
+    map.on("click", hidePopup);
+    return () => map.off("click", hidePopup);
+  }, []);
 
-  const hideModal = () => {
-    setModalIsOpen(false);
-  };
+  const showPopup = () => setPopupIsOpen(true);
+
+  const hidePopup = () => setPopupIsOpen(false);
 
   return (
     <>
       <Fade show={visible} duration="0.15s">
-        <div className={buttonClasses.mapControlButton} onClick={showModal}>
+        <div
+          className={buttonClasses.mapControlButton}
+          ref={refs.setReference}
+          onClick={showPopup}
+        >
           <LayersIcon color={theme.palette.black} />
         </div>
       </Fade>
-      <MapStylesModal
-        isOpen={modalIsOpen}
-        onDismiss={hideModal}
-        layerProps={{
-          styles: {
-            position: "absolute"
-          },
-          hostId: layerHostId
-        }}
+      <MapStylesPopup
+        ref={refs.setFloating}
+        style={floatingStyles}
         selected={selected}
         onSelected={onSelected}
+        isOpen={popupIsOpen}
       />
     </>
   );

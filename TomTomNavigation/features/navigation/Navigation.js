@@ -139,11 +139,11 @@ const Navigation = ({ map }) => {
     map.once("moveend", () => dispatch(setNavigationTransitioning(false)));
 
     batch(() => {
-      dispatch(setPadding({ top: 0 }));
       dispatch(resetNavigation());
       dispatch(setNavigationTransitioning(true));
       dispatch(setPitch(0));
       dispatch(setFitBoundsOptions({ animate: true }));
+      dispatch(setPadding({ top: 0 }));
       dispatch(setBounds(bounds));
     });
 
