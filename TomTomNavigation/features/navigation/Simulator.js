@@ -27,8 +27,7 @@ class Simulator extends Component {
       this.unbind();
       this.initialize();
     } else if (route && (speedChanged || restarted)) {
-      const frequency = 1000;
-      const newSpeed = frequency / Number(speed.slice(0, speed.indexOf("x")));
+      const newSpeed = 1000 / Number(speed.slice(0, speed.indexOf("x")));
 
       this.simulator.interval = setSpeed(
         this.simulator,

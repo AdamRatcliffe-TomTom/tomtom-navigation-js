@@ -195,7 +195,7 @@ const Map = ({
 
   const handleNavigationPerspectiveControlClick = (perspective) => {
     const map = mapRef.current.getMap();
-    map.once("moveend", () => dispatch(setNavigationTransitioning(false)));
+    map.once("zoomend", () => dispatch(setNavigationTransitioning(false)));
 
     batch(() => {
       dispatch(setNavigationTransitioning(true));
@@ -310,6 +310,7 @@ const Map = ({
         visible={chevron2DMarkerIsVisible}
         coordinates={currentLocation}
         bearing={currentLocationBearing}
+        animationDuration={animationOptions.duration}
       />
       <SpeedLimitControl
         value={speedLimit}
