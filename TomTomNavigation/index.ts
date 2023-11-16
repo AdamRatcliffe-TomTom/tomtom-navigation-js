@@ -1,9 +1,28 @@
 import * as React from "react";
-import * as tt from "@tomtom-international/web-sdk-maps";
+import _isNil from "lodash.isnil";
+import { v4 as uuid } from "uuid";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import App from "./app/App";
 import parseCoordinateString from "./functions/parseCoordinateString";
 import detectColorScheme from "./functions/detectColorScheme";
+
+import { MAX_WAYPOINTS } from "./config";
+
+// eslint-disable-next-line no-undef
+import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+
+type DataSet = ComponentFramework.PropertyTypes.DataSet;
+
+type Waypoint = {
+  id: string;
+  lat: number;
+  lng: number;
+  name: string;
+  iconUrl: string;
+  iconWidth: number;
+  iconHeight: number;
+  iconAnchor: string;
+};
 
 export class TomTomNavigation
   implements ComponentFramework.ReactControl<IInputs, IOutputs>
@@ -81,12 +100,6 @@ export class TomTomNavigation
       context,
       "automaticRouteCalculation"
     );
-    let routeWaypoints: any = parseCoordinateString(
-      this.getRawParameter(context, "routeWaypoints")
-    );
-    if (routeWaypoints instanceof tt.LngLat) {
-      routeWaypoints = [routeWaypoints];
-    }
     const guidanceVoice = this.getRawParameter(context, "guidanceVoice");
     const simulationSpeed = this.getRawParameter(context, "simulationSpeed");
     const travelMode = this.getRawParameter(context, "travelMode");
@@ -95,6 +108,10 @@ export class TomTomNavigation
       context,
       "arrivalSidePreference"
     );
+
+    const dataset = context.parameters.routeWaypoints;
+    const waypoints = this.getWaypointsFromDataSet(dataset);
+
     const width = context.mode.allocatedWidth;
     const height = context.mode.allocatedHeight;
 
@@ -113,7 +130,7 @@ export class TomTomNavigation
       travelMode,
       traffic,
       arrivalSidePreference,
-      locations: routeWaypoints
+      locations: waypoints
     };
 
     return React.createElement(App, {
@@ -132,6 +149,41 @@ export class TomTomNavigation
       showNavigationPanel,
       automaticRouteCalculation
     });
+  }
+
+  private getWaypointsFromDataSet(dataset: DataSet): Waypoint[] {
+    if (dataset.loading) {
+      return [];
+    }
+
+    const records = dataset.sortedRecordIds
+      .slice(0, Math.min(MAX_WAYPOINTS, dataset.sortedRecordIds.length))
+      .map((recordId: string) => dataset.records[recordId]);
+
+    const waypoints: Waypoint[] = [];
+
+    records.forEach((record: DataSetInterfaces.EntityRecord) => {
+      const lat = record.getValue("latitude") as number;
+      const lng = record.getValue("longitude") as number;
+      const haveCoords = !_isNil(lat) && !_isNil(lng);
+
+      if (haveCoords) {
+        waypoints.push({
+          id: uuid(),
+          lat,
+          lng,
+          name: record.getValue("name") as string,
+          iconUrl: record.getValue("iconUrl") as string,
+          iconWidth: record.getValue("iconWidth") as number,
+          iconHeight: record.getValue("iconHeight") as number,
+          iconAnchor: record.getValue("iconAnchor") as string
+        });
+      }
+    });
+
+    console.log("waypoints: ", waypoints);
+
+    return waypoints;
   }
 
   private getRawParameter(

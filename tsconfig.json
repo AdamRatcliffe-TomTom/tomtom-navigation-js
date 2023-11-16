@@ -2,6 +2,7 @@
   "extends": "./node_modules/pcf-scripts/tsconfig_base.json",
   "compilerOptions": {
     "allowJs": true,
+    "esModuleInterop": true,
     "typeRoots": ["node_modules/@types"]
   }
 }

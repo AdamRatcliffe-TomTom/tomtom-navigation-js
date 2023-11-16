@@ -28,9 +28,27 @@ Available component properties:
 | showMuteControl    | `TwoOptions`                                                                                           | true                | Show the mute control.                                                                                                                                                                                                                          |
 | showNavigationPanel       | `TwoOptions`                                                                                           | true                 | Show the navigation panel.                                                                                                                                                                                                                              |
 | automaticRouteCalculation | `TwoOptions`                                                                                           | false                | Automatically calculates a route when more than 1 waypoint is provided.                                                                                                                                                                                 |
-| routeWaypoints            | `SingleLine.Text`                                                                                      |                      | A list of coordinate pairs, where each coordinate is specified in the format "latitude,longitude" and the pairs are separated with a semicolon character ";".                                                                                           |
+| routeWaypoints            | `DataSet`                                                                                      |                      | References a `DataSet` containing records for each of the route's waypoints. See description of the `Waypoint` record below.                                                                                           |
 | travelMode                | `Enum` possible values are "car", "truck", "taxi", "bus", "van", "motorcycle", "bicycle", "pedestrian" | "car"                | The travel mode used for the route calculation.                                                                                                                                                                                                         |
 | traffic                   | `TwoOptions`                                                                                           | true                 | Calculates the route using live traffic.                                                                                                                                                                                                                |
 | arrivalSidePreference     | `Enum` possible values are "anySide", "curbSide"                                                       | "anySide"            | Specifies the preference of roadside on arrival to waypoints and destination. Stop on the road has to be set at least two meters to the preferred side, otherwise the behavior will default to "anySide".                                               |
 | guidanceVoice                    | `SingleLine.Text`                                                                                      |                      | The name of a text-to-speech voice provided by the Microsoft Speech Service. Available voices can be found [here](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=tts#standard-voices).                                                                                                                                                                                                                                     |
 | simulationSpeed           | `Enum` possible values are "1x", "2x", "3x", "4x", "5x"                                                | "3x"                 | The navigation simulation speed.                                                                                                                                                                                                                        |
+
+## Route Waypoints
+
+The navigation component sources the route waypoints from a `DataSet`. A record must have `lng` and `lat` properties, other properties are optional.
+
+| Name       | Type     | Required | Description |
+|------------|----------|----------|-------------|
+| lat           | `Decimal`         | Yes         | The latitude value.            |
+| lng           | `Decimal`         | Yes         | The longitude value.            |
+| name           | `SingleLine.Text`         | No         | A human readable name for the location.            |
+| iconUrl       | `SingleLine.Text`          | No         | Url for an image to use to represent the location on the map. |
+| iconWidth     | `Whole.None`               | No         | Width of the icon in pixels. |
+| iconHeight    | `Whole.None`               | No         | Height of the icon in pixels. |      
+| iconAnchor    | `SingeLine.Text`           | No         | A string indicating the part of the icon that should be positioned closest to the coordinate. Options are  'center' ,  'top' , 'bottom' ,  'left' ,  'right' ,  'top-left' ,  'top-right' ,  'bottom-left' , and  'bottom-right'. |
+
+
+
+

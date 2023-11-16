@@ -16,6 +16,7 @@ import ChevronMarker from "./ChevronMarker";
 import Chevron2DMarker from "./Chevron2DMarker";
 import DefaultMarker from "./DefaultMarker";
 import { useCalculateRouteQuery } from "../../services/routing";
+import coordinatesToGeoJson from "../../functions/coordinatesToGeoJson";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
@@ -154,11 +155,15 @@ const Map = ({
   }, [width, height]);
 
   const fitRoute = (animate = true) => {
-    const features =
-      route || (routeOptions.locations?.length && routeOptions.locations);
+    const geojson =
+      route ||
+      (routeOptions.locations?.length
+        ? coordinatesToGeoJson(routeOptions.locations)
+        : null);
 
-    if (features) {
-      const bounds = geoJsonBounds(features);
+    if (geojson) {
+      const bounds = geoJsonBounds(geojson);
+
       batch(() => {
         dispatch(setPitch(0));
         dispatch(setFitBoundsOptions({ animate, duration: 500 }));
@@ -228,7 +233,7 @@ const Map = ({
     if (!locations) return null;
 
     return locations.map((location) => (
-      <DefaultMarker key={location.toString()} coordinates={location} />
+      <DefaultMarker key={location.id} coordinates={location} />
     ));
   }, [routeOptions.locations]);
 

@@ -42,13 +42,8 @@
   margin-bottom: 0;
 }
 
-.ms-Modal {
-  position: absolute;
-}
-
-.TomTomNavigation .ms-Dialog-main {
-  border-radius: 8px;
-  min-height: 150px;
+.TomTomNavigation .mapboxgl-marker {
+  line-height: 0;
 }
 
 @keyframes TomTomNavigation__fade-in {
