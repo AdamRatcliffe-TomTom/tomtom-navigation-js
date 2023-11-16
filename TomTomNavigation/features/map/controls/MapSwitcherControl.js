@@ -110,6 +110,12 @@ const MapSwitcher = ({
     return () => map.off("click", hidePopup);
   }, []);
 
+  useEffect(() => {
+    if (!visible) {
+      setPopupIsOpen(false);
+    }
+  }, [visible]);
+
   const showPopup = () => setPopupIsOpen(true);
 
   const hidePopup = () => setPopupIsOpen(false);
