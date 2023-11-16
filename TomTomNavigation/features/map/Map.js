@@ -14,7 +14,7 @@ import EnhancedRoute from "./EnhancedRoute";
 import LocationMarker from "./LocationMarker";
 import ChevronMarker from "./ChevronMarker";
 import Chevron2DMarker from "./Chevron2DMarker";
-import DefaultMarker from "./DefaultMarker";
+import MarkerFactory from "./MarkerFactory";
 import { useCalculateRouteQuery } from "../../services/routing";
 import coordinatesToGeoJson from "../../functions/coordinatesToGeoJson";
 import geoJsonBounds from "../../functions/geoJsonBounds";
@@ -229,9 +229,7 @@ const Map = ({
 
     if (!locations) return null;
 
-    return locations.map((location) => (
-      <DefaultMarker key={location.id} coordinates={location} />
-    ));
+    return locations.map((location) => MarkerFactory.createMarker(location));
   }, [routeOptions.locations]);
 
   const currentStyle = useMemo(
