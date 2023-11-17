@@ -49,6 +49,8 @@ The navigation component sources the route waypoints from a `DataSet`. A record 
 | iconWidth     | `Whole.None`               | No         | Width of the icon in pixels. |
 | iconHeight    | `Whole.None`               | No         | Height of the icon in pixels. |      
 | iconAnchor    | `SingeLine.Text`           | No         | A string indicating the part of the icon that should be positioned closest to the coordinate. Options are  'center' ,  'top' , 'bottom' ,  'left' ,  'right' ,  'top-left' ,  'top-right' ,  'bottom-left' , and  'bottom-right'. |
+| iconOffsetX   | `Whole.None`               | No         | The horizontal offset in pixels to apply relative to the icon's center. A negative value indicates left. |
+| iconOffsetY   | `Whole.None`               | No         | The vertical offset in pixels to apply relative to the icon's center. A negative value indicates up.|
 
 
 

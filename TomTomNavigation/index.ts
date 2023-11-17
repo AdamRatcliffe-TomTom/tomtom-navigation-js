@@ -13,14 +13,19 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
+type Icon = {
+  url: string;
+  width: number;
+  height: number;
+  anchor: string;
+  offset: [number, number];
+};
+
 type Waypoint = {
   id: string;
   coordinates: [number, number];
   name: string;
-  iconUrl: string;
-  iconWidth: number;
-  iconHeight: number;
-  iconAnchor: string;
+  icon?: Icon;
 };
 
 export class TomTomNavigation
@@ -162,24 +167,34 @@ export class TomTomNavigation
     const waypoints: Waypoint[] = [];
 
     records.forEach((record: DataSetInterfaces.EntityRecord) => {
-      const lat = record.getValue("latitude") as number;
-      const lng = record.getValue("longitude") as number;
-      const haveCoords = !_isNil(lat) && !_isNil(lng);
+      const latitude = record.getValue("latitude") as number;
+      const longitude = record.getValue("longitude") as number;
+      const coordinates = [longitude, latitude] as [number, number];
+      const name = record.getValue("name") as string;
+      const url = record.getValue("iconUrl") as string;
+      const haveCoords = !_isNil(latitude) && !_isNil(longitude);
+      const haveIcon = !_isNil(url) && url.length;
 
       if (haveCoords) {
         waypoints.push({
           id: uuid(),
-          coordinates: [lng, lat],
-          name: record.getValue("name") as string,
-          iconUrl: record.getValue("iconUrl") as string,
-          iconWidth: record.getValue("iconWidth") as number,
-          iconHeight: record.getValue("iconHeight") as number,
-          iconAnchor: record.getValue("iconAnchor") as string
+          coordinates,
+          name,
+          ...(haveIcon && {
+            icon: {
+              url,
+              width: record.getValue("iconWidth") as number,
+              height: record.getValue("iconHeight") as number,
+              anchor: record.getValue("iconAnchor") as string,
+              offset: [
+                (record.getValue("iconOffsetX") as number) || 0,
+                (record.getValue("iconOffsetY") as number) || 0
+              ]
+            }
+          })
         });
       }
     });
-
-    console.log("waypoints: ", waypoints);
 
     return waypoints;
   }

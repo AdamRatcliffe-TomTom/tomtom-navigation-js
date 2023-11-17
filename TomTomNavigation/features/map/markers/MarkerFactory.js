@@ -2,10 +2,12 @@ import DefaultMarker from "./DefaultMarker";
 import ImageMarker from "./ImageMarker";
 
 function createMarker(props) {
-  const { id, coordinates, ...otherProps } = props;
-  const Marker = otherProps.iconUrl ? ImageMarker : DefaultMarker;
+  const { id, icon } = props;
+  const Marker = icon ? ImageMarker : DefaultMarker;
 
-  return <Marker key={id} coordinates={coordinates} {...otherProps} />;
+  console.log("props: ", props);
+
+  return <Marker key={id} {...props} />;
 }
 
 export default {

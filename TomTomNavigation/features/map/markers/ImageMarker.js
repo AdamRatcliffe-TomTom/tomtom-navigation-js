@@ -2,20 +2,23 @@ import React from "react";
 import { Marker } from "react-tomtom-maps";
 import { Image } from "@fluentui/react";
 
-const ImageMarker = ({
-  coordinates,
-  iconUrl,
-  iconWidth = 48,
-  iconHeight = 48,
-  iconAnchor = "bottom"
-}) => {
+const ImageMarker = ({ coordinates, icon }) => {
+  const {
+    url,
+    width = 48,
+    height = 48,
+    anchor = "bottom",
+    offset = [0, 0]
+  } = icon;
+
   return (
     <Marker
       className="ImageMarker"
-      anchor={iconAnchor}
       coordinates={coordinates}
+      anchor={anchor}
+      offset={offset}
     >
-      <Image src={iconUrl} width={iconWidth} height={iconHeight} />
+      <Image src={url} width={width} height={height} />
     </Marker>
   );
 };
