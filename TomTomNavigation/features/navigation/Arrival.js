@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { makeStyles, Stack, Text, PrimaryButton } from "@fluentui/react";
 import useTextStyles from "../../hooks/useTextStyles";
 import useButtonStyles from "../../hooks/useButtonStyles";
 import strings from "../../config/strings";
+
+import { getRouteOptions } from "../map/mapSlice";
 
 const useStyles = makeStyles({
   root: {
@@ -20,6 +23,8 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
   const classes = useStyles();
   const textClasses = useTextStyles();
   const buttonClasses = useButtonStyles();
+  const { locations } = useSelector(getRouteOptions);
+  const destination = locations.at(-1);
 
   return (
     <div className={classes.root}>
@@ -31,7 +36,7 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
           {strings.arrived}
         </Text>
         <Text className={`${textClasses.secondaryText} ${classes.address}`}>
-          Address goes here
+          {destination.name}
         </Text>
         <PrimaryButton
           className={buttonClasses.pillButton}
