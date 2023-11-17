@@ -4,6 +4,8 @@ const useButtonStyles = makeStyles((theme) => ({
   circleButton: {
     width: 56,
     height: 56,
+    borderColor: "#29495A",
+    borderWidth: 2,
     borderRadius: "50%",
     minWidth: "auto"
   },
@@ -13,7 +15,9 @@ const useButtonStyles = makeStyles((theme) => ({
     fontSize: 16,
     fontWeight: 400,
     height: 48,
+    borderWidth: 2,
     borderRadius: 24,
+    borderColor: "#29495A",
     color: theme.palette.black,
     "&.ms-Button--primary": {
       color: "white"
@@ -25,6 +29,8 @@ const useButtonStyles = makeStyles((theme) => ({
     fontSize: 18,
     fontWeight: 400,
     height: 56,
+    borderWidth: 2,
+    borderColor: "#29495A",
     borderRadius: 28,
     color: theme.palette.black,
     ":hover": {
