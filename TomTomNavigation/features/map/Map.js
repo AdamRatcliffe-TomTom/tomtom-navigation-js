@@ -155,7 +155,9 @@ const Map = ({
     const geojson =
       route ||
       (routeOptions.locations?.length
-        ? coordinatesToGeoJson(routeOptions.locations)
+        ? coordinatesToGeoJson(
+            routeOptions.locations.map((location) => location.coordinates)
+          )
         : null);
 
     if (geojson) {

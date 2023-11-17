@@ -15,8 +15,7 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 type Waypoint = {
   id: string;
-  lat: number;
-  lng: number;
+  coordinates: [number, number];
   name: string;
   iconUrl: string;
   iconWidth: number;
@@ -170,8 +169,7 @@ export class TomTomNavigation
       if (haveCoords) {
         waypoints.push({
           id: uuid(),
-          lat,
-          lng,
+          coordinates: [lng, lat],
           name: record.getValue("name") as string,
           iconUrl: record.getValue("iconUrl") as string,
           iconWidth: record.getValue("iconWidth") as number,

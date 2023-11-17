@@ -35,7 +35,8 @@ const lngLatsToSupportingPoints = (coords) => {
   return { supportingPoints };
 };
 
-const locationToString = ({ lng, lat }) => `${lat},${lng}`;
+const locationToString = ({ coordinates }) =>
+  `${coordinates[1]},${coordinates[0]}`;
 
 const routeBaseQuery = async (args) => {
   try {
