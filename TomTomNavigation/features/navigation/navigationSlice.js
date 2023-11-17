@@ -110,6 +110,7 @@ const navigationSlice = createSlice({
     },
     resetNavigation: (state) => {
       state.isNavigating = false;
+      state.navigationPerspective = NavigationPerspectives.DRIVING;
       state.hasReachedDestination = false;
       state.currentLocation = initialState.currentLocation;
       state.routeProgress = undefined;
