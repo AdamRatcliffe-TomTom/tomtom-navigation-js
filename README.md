@@ -44,7 +44,8 @@ The navigation component sources the route waypoints from a `DataSet`. A record 
 |------------|----------|----------|-------------|
 | lat           | `Decimal`         | Yes         | The latitude value.            |
 | lng           | `Decimal`         | Yes         | The longitude value.            |
-| name           | `SingleLine.Text`         | No         | A human readable name for the location.            |
+| name           | `SingleLine.Text`         | No         | The location name.            |
+| address           | `SingleLine.Text`         | No         | The location address.            |
 | iconUrl       | `SingleLine.Text`          | No         | Url for an image to use to represent the location on the map. |
 | iconWidth     | `Whole.None`               | No         | Width of the icon in pixels. |
 | iconHeight    | `Whole.None`               | No         | Height of the icon in pixels. |      

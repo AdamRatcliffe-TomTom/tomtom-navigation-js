@@ -24,7 +24,8 @@ type Icon = {
 type Waypoint = {
   id: string;
   coordinates: [number, number];
-  name: string;
+  name?: string;
+  address?: string;
   icon?: Icon;
 };
 
@@ -171,6 +172,7 @@ export class TomTomNavigation
       const longitude = record.getValue("longitude") as number;
       const coordinates = [longitude, latitude] as [number, number];
       const name = record.getValue("name") as string;
+      const address = record.getValue("address") as string;
       const url = record.getValue("iconUrl") as string;
       const haveCoords = !_isNil(latitude) && !_isNil(longitude);
       const haveIcon = !_isNil(url) && url.length;
@@ -180,6 +182,7 @@ export class TomTomNavigation
           id: uuid(),
           coordinates,
           name,
+          address,
           ...(haveIcon && {
             icon: {
               url,

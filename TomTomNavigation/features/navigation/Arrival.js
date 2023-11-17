@@ -11,6 +11,7 @@ import Divider from "../../components/Divider";
 import CrossIcon from "../../icons/CrossIcon";
 import useTextStyles from "../../hooks/useTextStyles";
 import useButtonStyles from "../../hooks/useButtonStyles";
+import breakAfterFirstWord from "../../functions/breakAfterFirstWord";
 import strings from "../../config/strings";
 
 import { getRouteOptions } from "../map/mapSlice";
@@ -31,10 +32,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: `-${theme.spacing.s1}`
   },
   content: {
-    padding: `${theme.spacing.m} ${theme.spacing.l1}`
+    padding: theme.spacing.m
+  },
+  name: {
+    lineHeight: "1.5"
   },
   address: {
-    marginBottom: 16
+    lineHeight: "1.5"
   }
 }));
 
@@ -52,6 +56,7 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
   const { maneuver } = useSelector(getCurrentInstruction);
   const { locations } = useSelector(getRouteOptions);
   const destination = locations.at(-1);
+  const { name, address } = destination;
   const arrivalMessage = arrivalMessages[maneuver];
 
   return (
@@ -67,7 +72,7 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
             className={`${textClasses.primaryText} ${classes.title}`}
             variant="large"
           >
-            {arrivalMessage}
+            {breakAfterFirstWord(arrivalMessage)}
           </Text>
           <DefaultButton
             className={`${buttonClasses.circleButton} ${classes.closeButton}`}
@@ -76,11 +81,21 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
           />
         </Stack>
         <Divider />
-        <div className={classes.content}>
-          <Text className={`${textClasses.secondaryText} ${classes.address}`}>
-            {destination.name}
-          </Text>
-        </div>
+        <Stack
+          className={classes.content}
+          tokens={{ childrenGap: theme.spacing.s2 }}
+        >
+          {name && (
+            <Text className={`${textClasses.primaryText} ${classes.name}`}>
+              {name}
+            </Text>
+          )}
+          {address && (
+            <Text className={`${textClasses.secondaryText} ${classes.address}`}>
+              {address}
+            </Text>
+          )}
+        </Stack>
       </Stack>
     </div>
   );
