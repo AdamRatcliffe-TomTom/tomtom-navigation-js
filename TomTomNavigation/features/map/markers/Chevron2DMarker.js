@@ -1,7 +1,7 @@
 import React from "react";
 import { Marker } from "react-tomtom-maps";
-import Fade from "../../components/Fade";
-import Chevron2DIcon from "../../icons/Chevron2DIcon";
+import Fade from "../../../components/Fade";
+import Chevron2DIcon from "../../../icons/Chevron2DIcon";
 
 const Chevron2DMarker = ({
   visible,

@@ -1,6 +1,6 @@
 import React from "react";
-import Fade from "../../components/Fade";
-import ChevronIcon from "../../icons/ChevronIcon";
+import Fade from "../../../components/Fade";
+import ChevronIcon from "../../../icons/ChevronIcon";
 import { makeStyles } from "@fluentui/react";
 
 const useStyles = makeStyles({
