@@ -2,8 +2,8 @@ import React from "react";
 
 const Chevron2DIcon = () => (
   <svg
-    width="40.5"
-    height="41"
+    width="54"
+    height="54"
     viewBox="0 0 81 82"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
