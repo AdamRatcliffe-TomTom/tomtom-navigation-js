@@ -8,7 +8,7 @@ A navigation PCF component implemented with React and Fluent UI.
 2. From the project root directory run `yarn` to install project dependencies.
 3. Run `yarn start:watch` to run component in a local sandbox.
 
-## Properties
+## Component Properties
 
 Available component properties:
 
