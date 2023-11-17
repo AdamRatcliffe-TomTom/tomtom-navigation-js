@@ -3,6 +3,7 @@ import { featureCollection, lineString } from "@turf/helpers";
 import CheapRuler from "cheap-ruler";
 import {
   speedLimitByIndex,
+  instructionByIndex,
   announcementByIndex
 } from "../../functions/routeUtils";
 
@@ -22,6 +23,7 @@ const initialState = {
     speedLimit: undefined,
     announcement: undefined
   },
+  currentInstruction: undefined,
   remainingRoute: undefined,
   distanceRemaining: undefined,
   timeRemaining: undefined,
@@ -68,6 +70,7 @@ const navigationSlice = createSlice({
       const distanceRemaining = ruler.lineDistance(remainingPart);
       const timeRemaining = Math.max(travelTimeInSeconds - elapsedTime, 0);
       const speedLimit = speedLimitByIndex(route.features[0], pointIndex);
+      const instruction = instructionByIndex(route.features[0], pointIndex);
 
       let announcement;
 
@@ -86,6 +89,7 @@ const navigationSlice = createSlice({
         speedLimit,
         announcement
       };
+      state.currentInstruction = instruction;
       state.remainingRoute = featureCollection([lineString(remainingPart)]);
       state.distanceRemaining = distanceRemaining;
       state.timeRemaining = timeRemaining;
@@ -148,6 +152,11 @@ const getCurrentLocation = createSelector(
   (state) => state.currentLocation
 );
 
+const getCurrentInstruction = createSelector(
+  rootSelector,
+  (state) => state.currentInstruction
+);
+
 const getDistanceRemaining = createSelector(
   rootSelector,
   (state) => state.distanceRemaining
@@ -180,6 +189,7 @@ export {
   getIsNavigating,
   getNavigationTransitioning,
   getNavigationPerspective,
+  getCurrentInstruction,
   getCurrentLocation,
   getDistanceRemaining,
   getTimeRemaining,

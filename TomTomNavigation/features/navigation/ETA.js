@@ -19,11 +19,12 @@ import {
   getEta
 } from "./navigationSlice";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%"
+    width: "100%",
+    padding: theme.spacing.l1
   }
-});
+}));
 
 const ETA = ({
   route,

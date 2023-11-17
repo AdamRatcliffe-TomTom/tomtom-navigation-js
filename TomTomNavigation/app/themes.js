@@ -7,7 +7,7 @@ export const lightTheme = {
     black: "#263543",
     neutralSecondary: "#727c85"
   },
-  floatingElementShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)"
+  floatingElementShadow: "0 0 35px 0 rgba(0, 0, 0, 0.2)"
 };
 
 export const darkTheme = {
@@ -22,5 +22,5 @@ export const darkTheme = {
     black: "#fff",
     neutralSecondary: "#abafb3"
   },
-  floatingElementShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)"
+  floatingElementShadow: "0 0 35px 0 rgba(0, 0, 0, 0.2)"
 };

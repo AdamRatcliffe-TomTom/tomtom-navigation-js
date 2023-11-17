@@ -13,7 +13,6 @@ const useStyles = ({ isPhone, isTablet }) =>
       bottom: 0,
       left: 0,
       margin: `${theme.spacing.m} ${theme.spacing.m} 0`,
-      padding: theme.spacing.l1,
       background: theme.palette.white,
       borderTopLeftRadius: theme.spacing.m,
       borderTopRightRadius: theme.spacing.m,

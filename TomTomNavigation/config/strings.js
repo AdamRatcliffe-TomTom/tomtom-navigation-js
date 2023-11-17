@@ -19,6 +19,9 @@ const strings = new LocalizedStrings({
     guidanceAnnouncement: "{maneuverText} in {distance} {units}",
     guidanceAnnouncementOntoStreet:
       "{maneuverText} in {distance} {units} onto {street}",
+    arrivalStraightAhead: "Destination is straight ahead",
+    arrivalLeft: "Destination on the left",
+    arrivalRight: "Destination on the right",
     ARRIVING: "You will arrive at your destination",
     ARRIVE: "You have arrived at your destination",
     ARRIVE_LEFT: "You have arrived. Your destination is on the left",
