@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.white,
     width: 56,
     height: 56,
-    boxShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)",
+    boxShadow: theme.floatingElementShadow,
     borderRadius: "50%",
     overflow: "hidden",
     transition: "opacity 0.3s ease-out",

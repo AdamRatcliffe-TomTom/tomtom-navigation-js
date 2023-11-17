@@ -17,7 +17,7 @@ const useStyles = ({ isPhone, isTablet }) =>
       background: theme.palette.white,
       borderTopLeftRadius: theme.spacing.m,
       borderTopRightRadius: theme.spacing.m,
-      boxShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)",
+      boxShadow: theme.floatingElementShadow,
       zIndex: 10,
       ...(isTablet && {
         width: 380

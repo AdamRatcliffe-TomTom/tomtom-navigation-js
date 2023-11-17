@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@fluentui/react";
 import Fade from "../../components/Fade";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   shield: {
     display: "flex",
     alignItems: "center",
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     height: 56,
     borderRadius: "50%",
     border: "4px solid #f84545",
-    boxShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)"
+    boxShadow: theme.floatingElementShadow
   },
   value: {
     color: "black",
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     lineHeight: "1",
     fontWeight: 500
   }
-});
+}));
 
 const SpeedLimit = ({ value, visible }) => {
   const classes = useStyles();

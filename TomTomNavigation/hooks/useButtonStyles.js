@@ -45,7 +45,7 @@ const useButtonStyles = makeStyles((theme) => ({
     height: 56,
     borderRadius: "50%",
     backgroundColor: theme.palette.white,
-    boxShadow: "0 0 35px 0 rgba(0, 0, 0, 0.25)",
+    boxShadow: theme.floatingElementShadow,
     userSelect: "none",
     cursor: "pointer",
     ":active": {

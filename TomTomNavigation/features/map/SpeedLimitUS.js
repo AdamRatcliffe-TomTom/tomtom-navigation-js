@@ -4,7 +4,7 @@ import Fade from "../../components/Fade";
 import metersToMiles from "../../functions/metersToMiles";
 import strings from "../../config/strings";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   shield: {
     position: "absolute",
     bottom: 112,
@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     borderRadius: 6,
     border: "2.5px solid black",
     textAlign: "center",
-    boxShadow: "white 0px 0px 0px 2px, 0 0 35px 0 rgba(0, 0, 0, 0.25)"
+    boxShadow: `white 0px 0px 0px 2px, ${theme.floatingElementShadow}`
   },
   label: {
     color: "black",
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     lineHeight: "1.1",
     fontWeight: 500
   }
-});
+}));
 
 const SpeedLimitUS = ({ value, visible }) => {
   const classes = useStyles();
