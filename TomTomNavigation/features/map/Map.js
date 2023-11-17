@@ -163,7 +163,7 @@ const Map = ({
 
       batch(() => {
         dispatch(setPitch(0));
-        dispatch(setFitBoundsOptions({ animate, duration: 500 }));
+        dispatch(setFitBoundsOptions({ animate, duration: 500, maxZoom: 16 }));
         dispatch(setBounds(bounds));
       });
     }
