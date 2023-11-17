@@ -1,5 +1,6 @@
 export const lightTheme = {
   semanticColors: {
+    buttonBorder: "#ABAFB3",
     buttonBackgroundHovered: "none",
     warningIcon: "#F84545"
   },
@@ -13,6 +14,7 @@ export const lightTheme = {
 export const darkTheme = {
   semanticColors: {
     bodyText: "#fff",
+    buttonBorder: "#727C85",
     buttonBackgroundHovered: "none",
     buttonBackgroundPressed: "#202C37",
     warningIcon: "#f84545"
