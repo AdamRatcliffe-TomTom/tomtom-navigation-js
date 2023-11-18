@@ -1,5 +1,6 @@
 import * as React from "react";
 import _isNil from "lodash.isnil";
+import _isEmpty from "lodash.isempty";
 import { v4 as uuid } from "uuid";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import App from "./app/App";
@@ -175,7 +176,7 @@ export class TomTomNavigation
       const address = record.getValue("address") as string;
       const url = record.getValue("iconUrl") as string;
       const haveCoords = !_isNil(latitude) && !_isNil(longitude);
-      const haveIcon = !_isNil(url) && url.length;
+      const haveIcon = !_isEmpty(url);
 
       if (haveCoords) {
         waypoints.push({

@@ -171,6 +171,11 @@ const Map = ({
     }
   };
 
+  const handleMapLoad = (map) => {
+    const control = map.getAttributionControl();
+    map.removeControl(control);
+  };
+
   const handleGeolocationControlClick = (coords) => {
     if (coords) {
       const map = mapRef.current.getMap();
@@ -269,6 +274,7 @@ const Map = ({
       bounds={bounds}
       bearing={bearing}
       pitch={pitch}
+      onLoad={handleMapLoad}
     >
       <GeolocateControl
         watchPosition={true}
