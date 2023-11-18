@@ -174,7 +174,7 @@ export class TomTomNavigation
       const coordinates = [longitude, latitude] as [number, number];
       const name = record.getValue("name") as string;
       const address = record.getValue("address") as string;
-      const url = record.getValue("iconUrl") as string;
+      const url = record.getValue("icon_url") as string;
       const haveCoords = !_isNil(latitude) && !_isNil(longitude);
       const haveIcon = !_isEmpty(url);
 
@@ -187,12 +187,12 @@ export class TomTomNavigation
           ...(haveIcon && {
             icon: {
               url,
-              width: record.getValue("iconWidth") as number,
-              height: record.getValue("iconHeight") as number,
-              anchor: record.getValue("iconAnchor") as string,
+              width: record.getValue("icon_width") as number,
+              height: record.getValue("icon_height") as number,
+              anchor: record.getValue("icon_anchor") as string,
               offset: [
-                (record.getValue("iconOffsetX") as number) || 0,
-                (record.getValue("iconOffsetY") as number) || 0
+                (record.getValue("icon_offset_x") as number) || 0,
+                (record.getValue("icon_offset_y") as number) || 0
               ]
             }
           })
