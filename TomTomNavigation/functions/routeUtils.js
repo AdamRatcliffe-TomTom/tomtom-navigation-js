@@ -76,13 +76,20 @@ function getAnnouncementText(
   street,
   measurementSystem = "metric"
 ) {
+  // Announcement points for the ARRIVE maneuver variants are typically provided before the destination
+  // is reached. Replace the maneuver type with the ARRIVING maneuver so an appropriate
+  // announcement is used
+  if (
+    [Maneuvers.ARRIVE, Maneuvers.ARRIVE_LEFT, Maneuvers.ARRIVE_RIGHT].includes(
+      maneuver
+    )
+  ) {
+    maneuver = Maneuvers.ARRIVING;
+  }
+
   const maneuverText = strings[maneuver];
   const includeDistance =
-    distanceInMeters > 0 &&
-    maneuver !== Maneuvers.STRAIGHT &&
-    maneuver !== Maneuvers.ARRIVE &&
-    maneuver !== Maneuvers.ARRIVE_LEFT &&
-    maneuver !== Maneuvers.ARRIVE_RIGHT;
+    distanceInMeters > 0 && maneuver !== Maneuvers.STRAIGHT;
 
   if (includeDistance) {
     const announcementTemplate = street

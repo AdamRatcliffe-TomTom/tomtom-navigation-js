@@ -3,6 +3,7 @@ import { useSelector, useDispatch, batch } from "react-redux";
 import add from "date-fns/add";
 import { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
+import useSelectorRef from "../../hooks/useSelectorRef";
 import useSpeech from "../../hooks/useMicrosoftSpeech";
 import NavigationPanel from "./NavigationPanel";
 import Simulator from "./Simulator";
@@ -28,6 +29,7 @@ import {
   getNavigationTransitioning,
   getNavigationPerspective,
   getCurrentLocation,
+  getLastInstruction,
   getVoiceAnnouncementsEnabled,
   setIsNavigating,
   setNavigationTransitioning,
@@ -56,7 +58,9 @@ const Navigation = ({ map }) => {
   const navigationTransitioning = useSelector(getNavigationTransitioning);
   const navigationPerspective = useSelector(getNavigationPerspective);
   const { announcement } = useSelector(getCurrentLocation);
-  const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
+  const [_, lastInstructionRef] = useSelectorRef(getLastInstruction);
+  const [voiceAnnouncementsEnabled, voiceAnnouncementsEnabledRef] =
+    useSelectorRef(getVoiceAnnouncementsEnabled);
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const { data: route } = useCalculateRouteQuery(
@@ -205,9 +209,14 @@ const Navigation = ({ map }) => {
       );
     });
 
-    if (speechAvailable && voiceAnnouncementsEnabled) {
+    if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
       const voice = getGuidanceVoice();
-      speak({ voice, text: strings.arrived });
+      const instruction = lastInstructionRef?.current;
+
+      if (instruction) {
+        const announcement = strings[instruction.maneuver];
+        speak({ voice, text: announcement });
+      }
     }
   };
 
