@@ -53,6 +53,10 @@ The navigation component sources the route waypoints from a `DataSet`. A record 
 | iconOffsetX   | `Whole.None`               | No         | The horizontal offset in pixels to apply relative to the icon's center. A negative value indicates left. |
 | iconOffsetY   | `Whole.None`               | No         | The vertical offset in pixels to apply relative to the icon's center. A negative value indicates up.|
 
+## Testing
+
+Route test data can be found in the [data](data) directory.
+
 
 
 
