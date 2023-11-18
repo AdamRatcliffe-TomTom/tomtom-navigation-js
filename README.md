@@ -38,7 +38,7 @@ Available component properties:
 
 ## Route Waypoints
 
-The navigation component sources the route waypoints from a `DataSet`. A record must have `lng` and `lat` properties, other properties are optional.
+The navigation component sources the route waypoints from a `DataSet`. The dataset must have `lng` and `lat` columns, other columns are optional.
 
 | Name       | Type     | Required | Description |
 |------------|----------|----------|-------------|
