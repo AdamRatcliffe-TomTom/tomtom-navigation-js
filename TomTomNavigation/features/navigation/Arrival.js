@@ -7,6 +7,7 @@ import {
   Text,
   DefaultButton
 } from "@fluentui/react";
+import _isEmpty from "lodash.isempty";
 import Divider from "../../components/Divider";
 import CrossIcon from "../../icons/CrossIcon";
 import useTextStyles from "../../hooks/useTextStyles";
@@ -15,7 +16,7 @@ import breakAfterFirstWord from "../../functions/breakAfterFirstWord";
 import strings from "../../config/strings";
 
 import { getRouteOptions } from "../map/mapSlice";
-import { getCurrentInstruction } from "./navigationSlice";
+import { getLastInstruction } from "./navigationSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,11 +54,12 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
   const classes = useStyles();
   const textClasses = useTextStyles();
   const buttonClasses = useButtonStyles();
-  const { maneuver } = useSelector(getCurrentInstruction);
+  const { maneuver } = useSelector(getLastInstruction);
   const { locations } = useSelector(getRouteOptions);
   const destination = locations.at(-1);
-  const { name, address } = destination;
+  const { name, address, coordinates } = destination;
   const arrivalMessage = arrivalMessages[maneuver];
+  const haveNameAddress = !_isEmpty(name) || !_isEmpty(address);
 
   return (
     <div className={classes.root}>
@@ -85,15 +87,34 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
           className={classes.content}
           tokens={{ childrenGap: theme.spacing.s2 }}
         >
-          {name && (
-            <Text className={`${textClasses.primaryText} ${classes.name}`}>
-              {name}
-            </Text>
-          )}
-          {address && (
-            <Text className={`${textClasses.secondaryText} ${classes.address}`}>
-              {address}
-            </Text>
+          {haveNameAddress ? (
+            <>
+              {name && (
+                <Text className={`${textClasses.primaryText} ${classes.name}`}>
+                  {name}
+                </Text>
+              )}
+              {address && (
+                <Text
+                  className={`${textClasses.secondaryText} ${classes.address}`}
+                >
+                  {address}
+                </Text>
+              )}
+            </>
+          ) : (
+            <>
+              <Text className={`${textClasses.primaryText} ${classes.name}`}>
+                {strings.markedLocation}
+              </Text>
+              <Text
+                className={`${textClasses.secondaryText} ${classes.address}`}
+              >
+                {`${coordinates[1].toFixed(6)} N`}
+                <br />
+                {`${coordinates[0].toFixed(6)} E`}
+              </Text>
+            </>
           )}
         </Stack>
       </Stack>

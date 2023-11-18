@@ -4,6 +4,11 @@ import formatDistance from "./formatDistance";
 import expandUnits from "./expandUnits";
 import strings from "../config/strings";
 
+function lastInstruction(route) {
+  const { instructions } = route.properties.guidance;
+  return instructions.at(-1);
+}
+
 function instructionByIndex(route, index) {
   const { instructions } = route.properties.guidance;
 
@@ -111,4 +116,9 @@ function getAnnouncementText(
   }
 }
 
-export { instructionByIndex, speedLimitByIndex, announcementByIndex };
+export {
+  lastInstruction,
+  instructionByIndex,
+  speedLimitByIndex,
+  announcementByIndex
+};

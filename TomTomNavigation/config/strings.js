@@ -22,6 +22,7 @@ const strings = new LocalizedStrings({
     arrivalStraightAhead: "Destination is straight ahead",
     arrivalLeft: "Destination on the left",
     arrivalRight: "Destination on the right",
+    markedLocation: "Marked location",
     ARRIVING: "You will arrive at your destination",
     ARRIVE: "You have arrived at your destination",
     ARRIVE_LEFT: "You have arrived. Your destination is on the left",

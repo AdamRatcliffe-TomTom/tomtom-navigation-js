@@ -2,8 +2,9 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { featureCollection, lineString } from "@turf/helpers";
 import CheapRuler from "cheap-ruler";
 import {
-  speedLimitByIndex,
+  lastInstruction,
   instructionByIndex,
+  speedLimitByIndex,
   announcementByIndex
 } from "../../functions/routeUtils";
 
@@ -24,6 +25,7 @@ const initialState = {
     announcement: undefined
   },
   currentInstruction: undefined,
+  lastInstruction: undefined,
   remainingRoute: undefined,
   distanceRemaining: undefined,
   timeRemaining: undefined,
@@ -93,6 +95,10 @@ const navigationSlice = createSlice({
       state.remainingRoute = featureCollection([lineString(remainingPart)]);
       state.distanceRemaining = distanceRemaining;
       state.timeRemaining = timeRemaining;
+
+      if (!state.lastInstruction) {
+        state.lastInstruction = lastInstruction(route.features[0]);
+      }
     },
     setDistanceRemaining: (state, action) => {
       state.distanceRemaining = action.payload;
@@ -117,6 +123,8 @@ const navigationSlice = createSlice({
       state.navigationPerspective = NavigationPerspectives.DRIVING;
       state.hasReachedDestination = false;
       state.currentLocation = initialState.currentLocation;
+      state.currentInstruction = undefined;
+      state.lastInstruction = undefined;
       state.routeProgress = undefined;
       state.distanceRemaining = undefined;
       state.remainingRoute = undefined;
@@ -150,6 +158,11 @@ const getNavigationPerspective = createSelector(
 const getCurrentLocation = createSelector(
   rootSelector,
   (state) => state.currentLocation
+);
+
+const getLastInstruction = createSelector(
+  rootSelector,
+  (state) => state.lastInstruction
 );
 
 const getCurrentInstruction = createSelector(
@@ -190,6 +203,7 @@ export {
   getNavigationTransitioning,
   getNavigationPerspective,
   getCurrentInstruction,
+  getLastInstruction,
   getCurrentLocation,
   getDistanceRemaining,
   getTimeRemaining,
