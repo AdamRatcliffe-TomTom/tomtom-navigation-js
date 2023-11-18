@@ -10,7 +10,6 @@ import NavigationPerspectiveControl from "./controls/NavigationPerspectiveContro
 import SpeedLimit from "./SpeedLimit";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
-import EnhancedRoute from "./EnhancedRoute";
 import LocationMarker from "./markers/LocationMarker";
 import ChevronMarker from "./markers/ChevronMarker";
 import Chevron2DMarker from "./markers/Chevron2DMarker";
@@ -302,16 +301,9 @@ const Map = ({
         onClick={handleCompassControlClick}
       />
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
-      {route &&
-        (remainingRoute ? (
-          <EnhancedRoute
-            before={before}
-            data={route}
-            remainingRoute={remainingRoute}
-          />
-        ) : (
-          <Route before={before} data={route} />
-        ))}
+      {route && (
+        <Route before={before} data={route} remainingRoute={remainingRoute} />
+      )}
       {waypoints}
       <ChevronMarker visible={chevronMarkerIsVisible} />
       <Chevron2DMarker
