@@ -59,7 +59,6 @@ function announcementByIndex(route, index, measurementSystem) {
 
       if (announcement && announcement.pointIndex === index) {
         const announcementText = getAnnouncementText(
-          announcementType,
           announcement,
           street,
           measurementSystem
@@ -73,20 +72,10 @@ function announcementByIndex(route, index, measurementSystem) {
 }
 
 function getAnnouncementText(
-  type,
   { maneuver, distanceInMeters },
   street,
   measurementSystem = "metric"
 ) {
-  if (
-    type === AnnouncementTypes.MAIN &&
-    [Maneuvers.ARRIVE, Maneuvers.ARRIVE_LEFT, Maneuvers.ARRIVE_RIGHT].includes(
-      maneuver
-    )
-  ) {
-    maneuver = "ARRIVING";
-  }
-
   const maneuverText = strings[maneuver];
   const includeDistance =
     distanceInMeters > 0 &&
@@ -102,7 +91,8 @@ function getAnnouncementText(
 
     const { value: distance, units } = formatDistance(
       distanceInMeters,
-      measurementSystem
+      measurementSystem,
+      true
     );
 
     return strings.formatString(announcementTemplate, {
