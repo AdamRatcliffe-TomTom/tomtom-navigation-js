@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from "@fluentui/react";
 import { withMap } from "react-tomtom-maps";
-import useSpeech from "../../../hooks/useSpeech";
+import useSpeech from "../../../hooks/useMicrosoftSpeech";
 import Fade from "../../../components/Fade";
 import MapControl from "./MapControl";
 import MuteIcon from "../../../icons/MuteIcon";

@@ -3,7 +3,7 @@ import { useSelector, useDispatch, batch } from "react-redux";
 import add from "date-fns/add";
 import { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
-import useMicrosoftSpeech from "../../hooks/useMicrosoftSpeech";
+import useSpeech from "../../hooks/useMicrosoftSpeech";
 import NavigationPanel from "./NavigationPanel";
 import Simulator from "./Simulator";
 import { useCalculateRouteQuery } from "../../services/routing";
@@ -42,7 +42,7 @@ import {
 
 const Navigation = ({ map }) => {
   const dispatch = useDispatch();
-  const { speechAvailable, getVoiceForLanguage, speak } = useMicrosoftSpeech();
+  const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
   const {
     apiKey,
     simulationSpeed,

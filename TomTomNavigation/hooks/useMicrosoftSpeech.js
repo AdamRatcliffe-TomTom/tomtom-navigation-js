@@ -15,10 +15,12 @@ import {
 const defaultVoiceName = "en-US-JennyNeural";
 const audioSupported = typeof Audio !== "undefined";
 
+let activePlayer;
+
 const useMicrosoftSpeech = () => {
   const [voices, setVoices] = useState();
   const [voicesAvailable, setVoicesAvailable] = useState(false);
-  const [activePlayer, setActivePlayer] = useState();
+  // const [activePlayer, setActivePlayer] = useState();
 
   const getSpeechConfig = () =>
     SpeechConfig.fromSubscription(
@@ -75,7 +77,8 @@ const useMicrosoftSpeech = () => {
 
       const player = new SpeakerAudioDestination();
       player.volume = volume;
-      setActivePlayer(player);
+      // setActivePlayer(player);
+      activePlayer = player;
 
       const speechConfig = getSpeechConfig();
       const voiceName =
