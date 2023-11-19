@@ -1,9 +1,9 @@
 import React from "react";
 import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
 import { useAppContext } from "../../app/AppContext";
-import KeepLeft from "../../icons/arrows/KeepLeft";
 import useTextStyles from "../../hooks/useTextStyles";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
+import getNextInstructionIcon from "../../functions/getNextInstructionIcon";
 
 const useStyles = ({ isPhone, isTablet, countryCode }) =>
   makeStyles((theme) => ({
@@ -11,23 +11,23 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
       position: "absolute",
       top: 0,
       left: 0,
-      margin: theme.spacing.m,
+      margin: `${theme.spacing.m} ${theme.spacing.m} 0`,
       padding: theme.spacing.l1,
       height: 175,
       borderRadius: theme.spacing.m,
-      background:
+      backgroundColor:
         countryCode === "US"
           ? theme.semanticColors.nipUSBackground
           : theme.semanticColors.nipEUBackground,
       boxShadow: theme.floatingElementShadow,
-      zIndex: 10,
       ...(isTablet && {
         width: 380
       }),
       ...(isPhone && {
         right: 0,
         margin: `${theme.spacing.s1} ${theme.spacing.s1} 0`
-      })
+      }),
+      transition: "background-color 0.15s"
     },
     distance: {
       color: "white"
@@ -40,11 +40,12 @@ const NIP = ({ route }) => {
   const countryCode = countryCodeFromRoute(route);
   const classes = useStyles({ isPhone, isTablet, countryCode })();
   const textClasses = useTextStyles();
+  const nextInstructionIcon = getNextInstructionIcon("KEEP_LEFT");
 
   return (
     <div className={`NIP ${classes.root}`}>
       <Stack tokens={{ childrenGap: theme.spacing.s1 }} horizontal>
-        <KeepLeft />
+        {nextInstructionIcon}
         <Text className={`${textClasses.primaryText} ${classes.distance}`}>
           600 ft
         </Text>

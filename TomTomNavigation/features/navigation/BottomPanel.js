@@ -17,7 +17,6 @@ const useStyles = ({ isPhone, isTablet }) =>
       borderTopLeftRadius: theme.spacing.m,
       borderTopRightRadius: theme.spacing.m,
       boxShadow: theme.floatingElementShadow,
-      zIndex: 10,
       ...(isTablet && {
         width: 380
       }),
