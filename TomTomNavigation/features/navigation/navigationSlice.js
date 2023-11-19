@@ -12,7 +12,8 @@ import NavigationPerspectives from "../../constants/NavigationPerspectives";
 
 const initialState = {
   voiceAnnouncementsEnabled: true,
-  showNavigationPanel: true,
+  showBottomPanel: true,
+  showNIP: true,
   isNavigating: false,
   navigationPerspective: NavigationPerspectives.DRIVING,
   hasReachedDestination: false,
@@ -38,8 +39,11 @@ const navigationSlice = createSlice({
   name: "navigation",
   initialState,
   reducers: {
-    setShowNavigationPanel: (state, action) => {
-      state.showNavigationPanel = action.payload;
+    setShowBottomPanel: (state, action) => {
+      state.showBottomPanel = action.payload;
+    },
+    setShowNIP: (state, action) => {
+      state.showNIP = action.payload;
     },
     setIsNavigating: (state, action) => {
       state.isNavigating = action.payload;
@@ -135,10 +139,12 @@ const navigationSlice = createSlice({
 
 const rootSelector = (state) => state.navigation;
 
-const getShowNavigationPanel = createSelector(
+const getShowBottomPanel = createSelector(
   rootSelector,
-  (state) => state.showNavigationPanel
+  (state) => state.showBottomPanel
 );
+
+const getShowNIP = createSelector(rootSelector, (state) => state.showNIP);
 
 const getIsNavigating = createSelector(
   rootSelector,
@@ -198,7 +204,8 @@ const getVoiceAnnouncementsEnabled = createSelector(
 );
 
 export {
-  getShowNavigationPanel,
+  getShowBottomPanel,
+  getShowNIP,
   getIsNavigating,
   getNavigationTransitioning,
   getNavigationPerspective,
@@ -214,7 +221,8 @@ export {
 };
 
 export const {
-  setShowNavigationPanel,
+  setShowBottomPanel,
+  setShowNIP,
   setIsNavigating,
   setNavigationTransitioning,
   setNavigationPerspective,

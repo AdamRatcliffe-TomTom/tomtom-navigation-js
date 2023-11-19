@@ -13,7 +13,7 @@ const useStyles = (props) =>
     popup: {
       backgroundColor: theme.palette.white,
       borderRadius: theme.spacing.m,
-      padding: theme.spacing.m,
+      padding: `${theme.spacing.m} ${theme.spacing.m} 12px`,
       boxShadow: theme.floatingElementShadow
     },
     item: {

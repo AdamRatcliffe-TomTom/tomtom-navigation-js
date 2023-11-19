@@ -5,12 +5,17 @@ import { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
 import useSelectorRef from "../../hooks/useSelectorRef";
 import useSpeech from "../../hooks/useMicrosoftSpeech";
-import NavigationPanel from "./NavigationPanel";
+import BottomPanel from "./BottomPanel";
+import NIP from "./NIP";
 import Simulator from "./Simulator";
 import { useCalculateRouteQuery } from "../../services/routing";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import tomtom2mapbox from "../../functions/tomtom2mapbox";
+import {
+  addStyleToDocument,
+  removeStyleFromDocument
+} from "../../functions/styles";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
 import strings from "../../config/strings";
 
@@ -24,7 +29,8 @@ import {
 } from "../map/mapSlice";
 
 import {
-  getShowNavigationPanel,
+  getShowBottomPanel,
+  getShowNIP,
   getIsNavigating,
   getNavigationTransitioning,
   getNavigationPerspective,
@@ -51,9 +57,11 @@ const Navigation = ({ map }) => {
     height,
     language,
     measurementSystem,
-    guidanceVoice
+    guidanceVoice,
+    isPhone
   } = useAppContext();
-  const showNavigationPanel = useSelector(getShowNavigationPanel);
+  const showBottomPanel = useSelector(getShowBottomPanel);
+  const showNIP = useSelector(getShowNIP);
   const isNavigating = useSelector(getIsNavigating);
   const navigationTransitioning = useSelector(getNavigationTransitioning);
   const navigationPerspective = useSelector(getNavigationPerspective);
@@ -100,6 +108,17 @@ const Navigation = ({ map }) => {
       });
     }
   }, [route]);
+
+  useEffect(() => {
+    if (isPhone && showNIP) {
+      addStyleToDocument(
+        "nip-margin-adjustment",
+        `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {margin-top: 183px}`
+      );
+    } else {
+      removeStyleFromDocument("nip-margin-adjustment");
+    }
+  }, [showNIP, isPhone]);
 
   useEffect(() => {
     if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
@@ -225,8 +244,9 @@ const Navigation = ({ map }) => {
 
   return (
     <>
-      {showNavigationPanel && (
-        <NavigationPanel
+      {showNIP && <NIP route={route} />}
+      {showBottomPanel && (
+        <BottomPanel
           route={route}
           onStartNavigation={startNavigation}
           onStopNavigation={stopNavigation}

@@ -22,22 +22,14 @@ import {
 } from "../features/map/mapSlice";
 
 import {
-  setShowNavigationPanel,
+  setShowBottomPanel,
+  setShowNIP,
   resetNavigation
 } from "../features/navigation/navigationSlice";
 
 const useStyles = makeStyles({
   wrapper: {
     position: "relative"
-  },
-  layerHost: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    zIndex: 1000,
-    pointerEvents: "none"
   }
 });
 
@@ -47,7 +39,8 @@ function Wrapper({
   initialZoom,
   routeOptions,
   automaticRouteCalculation,
-  showNavigationPanel,
+  showBottomPanel,
+  showNIP,
   children
 }) {
   const dispatch = useDispatch();
@@ -68,8 +61,12 @@ function Wrapper({
   }, [automaticRouteCalculation, JSON.stringify(routeOptions)]);
 
   useEffect(() => {
-    dispatch(setShowNavigationPanel(showNavigationPanel));
-  }, [showNavigationPanel]);
+    dispatch(setShowBottomPanel(showBottomPanel));
+  }, [showBottomPanel]);
+
+  useEffect(() => {
+    dispatch(setShowNIP(showNIP));
+  }, [showNIP]);
 
   return (
     <div className={`TomTomNavigation ${classes.wrapper}`}>{children}</div>
@@ -90,7 +87,6 @@ function App({
 }) {
   strings.setLanguage(language);
 
-  const classes = useStyles();
   const { isGeolocationAvailable, isGeolocationEnabled } = useGeolocated();
   const [hideLocationDialog, { toggle: toggleHideLocationDialog }] =
     useBoolean(true);

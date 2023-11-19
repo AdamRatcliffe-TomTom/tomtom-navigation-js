@@ -2,7 +2,9 @@ export const lightTheme = {
   semanticColors: {
     buttonBorder: "#ABAFB3",
     buttonBackgroundHovered: "none",
-    warningIcon: "#F84545"
+    warningIcon: "#F84545",
+    nipUSBackground: "#357B68",
+    nipEUBackground: "#184681"
   },
   palette: {
     black: "#263543",
@@ -17,7 +19,9 @@ export const darkTheme = {
     buttonBorder: "#727C85",
     buttonBackgroundHovered: "none",
     buttonBackgroundPressed: "#202C37",
-    warningIcon: "#f84545"
+    warningIcon: "#f84545",
+    nipUSBackground: "#357B68",
+    nipEUBackground: "#184681"
   },
   palette: {
     white: "#18212a",

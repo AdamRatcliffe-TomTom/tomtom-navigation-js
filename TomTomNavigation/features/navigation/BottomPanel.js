@@ -28,7 +28,7 @@ const useStyles = ({ isPhone, isTablet }) =>
     }
   }));
 
-const NavigationPanel = ({ route, onStartNavigation, onStopNavigation }) => {
+const BottomPanel = ({ route, onStartNavigation, onStopNavigation }) => {
   const { measurementSystem, isPhone, isTablet } = useAppContext();
   const classes = useStyles({ isPhone, isTablet })();
   const isNavigating = useSelector(getIsNavigating);
@@ -51,4 +51,4 @@ const NavigationPanel = ({ route, onStartNavigation, onStopNavigation }) => {
   ) : null;
 };
 
-export default NavigationPanel;
+export default BottomPanel;
