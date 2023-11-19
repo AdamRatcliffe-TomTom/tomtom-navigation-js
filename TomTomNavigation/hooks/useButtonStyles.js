@@ -6,7 +6,8 @@ const useButtonStyles = makeStyles((theme) => ({
     height: 56,
     borderWidth: 2,
     borderRadius: "50%",
-    minWidth: "auto"
+    minWidth: "auto",
+    padding: 0
   },
   pillButton: {
     minWidth: 75,
