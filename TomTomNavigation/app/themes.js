@@ -4,7 +4,8 @@ export const lightTheme = {
     buttonBackgroundHovered: "none",
     warningIcon: "#F84545",
     nipUSBackground: "#357B68",
-    nipEUBackground: "#184681"
+    nipEUBackground: "#184681",
+    alert: "#F7B84F"
   },
   palette: {
     black: "#263543",
@@ -21,7 +22,8 @@ export const darkTheme = {
     buttonBackgroundPressed: "#202C37",
     warningIcon: "#f84545",
     nipUSBackground: "#357B68",
-    nipEUBackground: "#184681"
+    nipEUBackground: "#184681",
+    alert: "#F7B84F"
   },
   palette: {
     white: "#18212a",

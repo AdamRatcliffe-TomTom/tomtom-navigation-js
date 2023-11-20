@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
 import { useAppContext } from "../../app/AppContext";
 import useTextStyles from "../../hooks/useTextStyles";
+import ExitNumber from "./ExitNumber";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import getNextInstructionIcon from "../../functions/getNextInstructionIcon";
 import {
@@ -35,6 +36,10 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
     },
     distance: {
       color: "white"
+    },
+    street: {
+      color: "white",
+      lineHeight: "1.5"
     }
   }));
 
@@ -47,10 +52,6 @@ const NextInstructionPanel = ({ route }) => {
   const nextInstructionIcon = getNextInstructionIcon("KEEP_LEFT");
 
   useEffect(() => {
-    return () => removeStyleFromDocument("nip-margin-adjustment");
-  }, []);
-
-  useEffect(() => {
     if (isPhone) {
       addStyleToDocument(
         "nip-margin-adjustment",
@@ -59,15 +60,28 @@ const NextInstructionPanel = ({ route }) => {
     } else {
       removeStyleFromDocument("nip-margin-adjustment");
     }
+    return () => removeStyleFromDocument("nip-margin-adjustment");
   }, [isPhone]);
 
   return (
     <div className={`NextInstructionPanel ${classes.root}`}>
-      <Stack tokens={{ childrenGap: theme.spacing.s1 }} horizontal>
+      <Stack
+        tokens={{ childrenGap: theme.spacing.m }}
+        verticalAlign="start"
+        horizontal
+      >
         {nextInstructionIcon}
-        <Text className={`${textClasses.primaryText} ${classes.distance}`}>
-          600 ft
-        </Text>
+        <Stack
+          verticalAlign="center"
+          horizontalAlign="space-between"
+          grow="1"
+          horizontal
+        >
+          <Text className={`${textClasses.primaryText} ${classes.distance}`}>
+            600 ft
+          </Text>
+          <ExitNumber />
+        </Stack>
       </Stack>
     </div>
   );
