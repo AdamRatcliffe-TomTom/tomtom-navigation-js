@@ -114,8 +114,8 @@ export class TomTomNavigation
     );
 
     const dataset = context.parameters.routeWaypoints;
-    // const waypoints = this.getWaypointsFromDataSet(dataset);
-    const waypoints = this.getTestWaypoints();
+    const waypoints = this.getWaypointsFromDataSet(dataset);
+    // const waypoints = this.getTestWaypoints();
 
     const width = context.mode.allocatedWidth;
     const height = context.mode.allocatedHeight;
