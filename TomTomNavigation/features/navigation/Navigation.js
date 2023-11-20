@@ -80,8 +80,8 @@ const Navigation = ({ map }) => {
     () => Math.max(height - 390, 0),
     [height]
   );
-  // const nipIsVisible = showNIP && isNavigating && !hasReachedDestination;
-  const nipIsVisible = true;
+  const nipIsVisible = showNIP && isNavigating && !hasReachedDestination;
+  // const nipIsVisible = true;
   const simulatorIsActive = navigationRoute && isNavigating;
 
   useEffect(() => {

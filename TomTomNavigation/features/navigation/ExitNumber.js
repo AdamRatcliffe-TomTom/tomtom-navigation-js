@@ -4,20 +4,16 @@ import strings from "../../config/strings";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: "2px 8px",
+    padding: `0 ${theme.spacing.s1}`,
     color: "#18212a",
     backgroundColor: theme.semanticColors.alert,
-    fontSize: 18,
+    fontFamily: "Noto Sans",
+    fontSize: 16,
+    lineHeight: "1.5",
     borderRadius: 4,
     textTransform: "uppercase"
   },
-  exitNumberLabel: {
-    fontFamily: "Noto Sans",
-    fontSize: 16
-  },
   exitNumber: {
-    fontFamily: "Noto Sans",
-    fontSize: 16,
     fontWeight: 600
   }
 }));
@@ -34,7 +30,7 @@ const ExitNumber = () => {
       horizontal
       disableShrink
     >
-      <span className={classes.exitNumberLabel}>{strings.exit}</span>
+      <span>{strings.exit}</span>
       <span className={classes.exitNumber}>82A-B-C</span>
     </Stack>
   );
