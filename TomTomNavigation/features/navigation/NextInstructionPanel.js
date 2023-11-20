@@ -47,6 +47,10 @@ const NextInstructionPanel = ({ route }) => {
   const nextInstructionIcon = getNextInstructionIcon("KEEP_LEFT");
 
   useEffect(() => {
+    return () => removeStyleFromDocument("nip-margin-adjustment");
+  }, []);
+
+  useEffect(() => {
     if (isPhone) {
       addStyleToDocument(
         "nip-margin-adjustment",
