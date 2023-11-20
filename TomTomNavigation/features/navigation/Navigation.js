@@ -78,6 +78,7 @@ const Navigation = ({ map }) => {
     () => Math.max(height - 390, 0),
     [height]
   );
+  const nipIsVisible = showNIP && isNavigating;
   const simulatorIsActive = navigationRoute && isNavigating;
 
   useEffect(() => {
@@ -228,7 +229,7 @@ const Navigation = ({ map }) => {
 
   return (
     <>
-      {showNIP && <NextInstructionPanel route={route} />}
+      {nipIsVisible && <NextInstructionPanel route={route} />}
       {showBottomPanel && (
         <BottomPanel
           route={route}

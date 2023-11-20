@@ -150,7 +150,7 @@ const Map = ({
     map?.resize();
   }, [width, height]);
 
-  const fitRoute = (animate = true) => {
+  const fitRoute = (fitBoundsOptions) => {
     const geojson =
       route ||
       (routeOptions.locations?.length
@@ -164,7 +164,13 @@ const Map = ({
 
       batch(() => {
         dispatch(setPitch(0));
-        dispatch(setFitBoundsOptions({ animate, duration: 500, maxZoom: 16 }));
+        dispatch(
+          setFitBoundsOptions({
+            duration: 500,
+            maxZoom: 16,
+            ...fitBoundsOptions
+          })
+        );
         dispatch(setBounds(bounds));
       });
     }
@@ -214,7 +220,10 @@ const Map = ({
         dispatch(setCenter(currentLocation));
       } else {
         map.__om.setPadding({ top: 0 });
-        fitRoute();
+        fitRoute({
+          animate: true,
+          padding: { top: 200 }
+        });
       }
     });
   };
