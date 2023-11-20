@@ -35,9 +35,12 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
       transition: "background-color 0.15s"
     },
     distance: {
+      fontSize: 28,
       color: "white"
     },
     street: {
+      fontFamily: "Noto Sans",
+      fontSize: 18,
       color: "white",
       lineHeight: "1.5"
     }
@@ -49,7 +52,7 @@ const NextInstructionPanel = ({ route }) => {
   const countryCode = countryCodeFromRoute(route);
   const classes = useStyles({ isPhone, isTablet, countryCode })();
   const textClasses = useTextStyles();
-  const nextInstructionIcon = getNextInstructionIcon("KEEP_LEFT");
+  const nextInstructionIcon = getNextInstructionIcon("KEEP_RIGHT");
 
   useEffect(() => {
     if (isPhone) {
@@ -71,16 +74,22 @@ const NextInstructionPanel = ({ route }) => {
         horizontal
       >
         {nextInstructionIcon}
-        <Stack
-          verticalAlign="center"
-          horizontalAlign="space-between"
-          grow="1"
-          horizontal
-        >
-          <Text className={`${textClasses.primaryText} ${classes.distance}`}>
-            600 ft
+        <Stack tokens={{ childrenGap: theme.spacing.s1 }} grow="1">
+          <Stack
+            verticalAlign="center"
+            horizontalAlign="space-between"
+            horizontal
+          >
+            <Text className={`${textClasses.primaryText} ${classes.distance}`}>
+              600 ft
+            </Text>
+            <ExitNumber />
+          </Stack>
+          <Text className={classes.street}>
+            Walter P Chrysler Freeway
+            <br />
+            Detroit, Michigan
           </Text>
-          <ExitNumber />
         </Stack>
       </Stack>
     </div>

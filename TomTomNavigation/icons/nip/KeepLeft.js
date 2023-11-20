@@ -1,6 +1,6 @@
 import React from "react";
 
-const KeepLeft = ({ size = 48, color = "white" }) => (
+const KeepLeft = ({ size = 56, color = "white" }) => (
   <svg
     width={size}
     height={size}
