@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
 import { useAppContext } from "../../app/AppContext";
 import useTextStyles from "../../hooks/useTextStyles";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import getNextInstructionIcon from "../../functions/getNextInstructionIcon";
+import {
+  addStyleToDocument,
+  removeStyleFromDocument
+} from "../../functions/styles";
 
 const useStyles = ({ isPhone, isTablet, countryCode }) =>
   makeStyles((theme) => ({
@@ -41,6 +45,17 @@ const NIP = ({ route }) => {
   const classes = useStyles({ isPhone, isTablet, countryCode })();
   const textClasses = useTextStyles();
   const nextInstructionIcon = getNextInstructionIcon("KEEP_LEFT");
+
+  useEffect(() => {
+    if (isPhone) {
+      addStyleToDocument(
+        "nip-margin-adjustment",
+        `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {margin-top: 183px}`
+      );
+    } else {
+      removeStyleFromDocument("nip-margin-adjustment");
+    }
+  }, [isPhone]);
 
   return (
     <div className={`NIP ${classes.root}`}>

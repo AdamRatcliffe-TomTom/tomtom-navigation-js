@@ -12,10 +12,6 @@ import { useCalculateRouteQuery } from "../../services/routing";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import tomtom2mapbox from "../../functions/tomtom2mapbox";
-import {
-  addStyleToDocument,
-  removeStyleFromDocument
-} from "../../functions/styles";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
 import strings from "../../config/strings";
 
@@ -57,8 +53,7 @@ const Navigation = ({ map }) => {
     height,
     language,
     measurementSystem,
-    guidanceVoice,
-    isPhone
+    guidanceVoice
   } = useAppContext();
   const showBottomPanel = useSelector(getShowBottomPanel);
   const showNIP = useSelector(getShowNIP);
@@ -108,17 +103,6 @@ const Navigation = ({ map }) => {
       });
     }
   }, [route]);
-
-  useEffect(() => {
-    if (isPhone && showNIP) {
-      addStyleToDocument(
-        "nip-margin-adjustment",
-        `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {margin-top: 183px}`
-      );
-    } else {
-      removeStyleFromDocument("nip-margin-adjustment");
-    }
-  }, [showNIP, isPhone]);
 
   useEffect(() => {
     if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
