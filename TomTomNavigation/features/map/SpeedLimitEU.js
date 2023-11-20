@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SpeedLimit = ({ value, visible }) => {
+const SpeedLimitEU = ({ value, visible }) => {
   const classes = useStyles();
 
   return (
@@ -37,4 +37,4 @@ const SpeedLimit = ({ value, visible }) => {
   );
 };
 
-export default SpeedLimit;
+export default SpeedLimitEU;

@@ -6,7 +6,7 @@ import { useAppContext } from "../../app/AppContext";
 import useSelectorRef from "../../hooks/useSelectorRef";
 import useSpeech from "../../hooks/useMicrosoftSpeech";
 import BottomPanel from "./BottomPanel";
-import NIP from "./NIP";
+import NextInstructionPanel from "./NextInstructionPanel";
 import Simulator from "./Simulator";
 import { useCalculateRouteQuery } from "../../services/routing";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
@@ -228,7 +228,7 @@ const Navigation = ({ map }) => {
 
   return (
     <>
-      {showNIP && <NIP route={route} />}
+      {showNIP && <NextInstructionPanel route={route} />}
       {showBottomPanel && (
         <BottomPanel
           route={route}

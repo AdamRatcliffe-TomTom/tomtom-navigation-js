@@ -7,7 +7,7 @@ import MuteControl from "./controls/MuteControl";
 import CompassControl from "./controls/CompassControl";
 import MapSwitcherControl from "./controls/MapSwitcherControl";
 import NavigationPerspectiveControl from "./controls/NavigationPerspectiveControl";
-import SpeedLimit from "./SpeedLimit";
+import SpeedLimitEU from "./SpeedLimitEU";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
 import LocationMarker from "./markers/LocationMarker";
@@ -246,7 +246,7 @@ const Map = ({
     [mapStyle, isNavigating]
   );
 
-  const SpeedLimitControl = countryCode === "US" ? SpeedLimitUS : SpeedLimit;
+  const SpeedLimitControl = countryCode === "US" ? SpeedLimitUS : SpeedLimitEU;
 
   return (
     <ReactMap

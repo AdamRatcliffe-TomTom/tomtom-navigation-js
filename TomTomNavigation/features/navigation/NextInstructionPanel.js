@@ -38,7 +38,7 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
     }
   }));
 
-const NIP = ({ route }) => {
+const NextInstructionPanel = ({ route }) => {
   const theme = useTheme();
   const { isPhone, isTablet } = useAppContext();
   const countryCode = countryCodeFromRoute(route);
@@ -58,7 +58,7 @@ const NIP = ({ route }) => {
   }, [isPhone]);
 
   return (
-    <div className={`NIP ${classes.root}`}>
+    <div className={`NextInstructionPanel ${classes.root}`}>
       <Stack tokens={{ childrenGap: theme.spacing.s1 }} horizontal>
         {nextInstructionIcon}
         <Text className={`${textClasses.primaryText} ${classes.distance}`}>
@@ -69,4 +69,4 @@ const NIP = ({ route }) => {
   );
 };
 
-export default NIP;
+export default NextInstructionPanel;
