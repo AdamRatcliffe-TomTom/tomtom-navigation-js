@@ -1,7 +1,7 @@
 import { makeStyles } from "@fluentui/react";
 import { useSelector } from "react-redux";
-import ETA from "./ETA";
-import Arrival from "./Arrival";
+import ETAPanel from "./ETAPanel";
+import ArrivalPanel from "./ArrivalPanel";
 import { useAppContext } from "../../app/AppContext";
 
 import { getIsNavigating, getHasReachedDestination } from "./navigationSlice";
@@ -36,9 +36,9 @@ const BottomPanel = ({ route, onStartNavigation, onStopNavigation }) => {
   return route ? (
     <div className={classes.root}>
       {hasReachedDestination ? (
-        <Arrival onStopNavigation={onStopNavigation} />
+        <ArrivalPanel onStopNavigation={onStopNavigation} />
       ) : (
-        <ETA
+        <ETAPanel
           route={route}
           measurementSystem={measurementSystem}
           isNavigating={isNavigating}
