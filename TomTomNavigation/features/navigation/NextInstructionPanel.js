@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
 import { useAppContext } from "../../app/AppContext";
 import useTextStyles from "../../hooks/useTextStyles";
-import ExitNumber from "./ExitNumber";
+import ExitShieldUS from "./ExitShieldUS";
+import ExitShieldEU from "./ExitShieldEU";
 import RoadShield from "./RoadShield";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import getNextInstructionIcon from "../../functions/getNextInstructionIcon";
@@ -53,7 +54,8 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
 const NextInstructionPanel = ({ route }) => {
   const theme = useTheme();
   const { isPhone, isTablet } = useAppContext();
-  const countryCode = countryCodeFromRoute(route);
+  // const countryCode = countryCodeFromRoute(route);
+  const countryCode = "de";
   const classes = useStyles({ isPhone, isTablet, countryCode })();
   const textClasses = useTextStyles();
   const nextInstructionIcon = getNextInstructionIcon("KEEP_RIGHT");
@@ -69,6 +71,8 @@ const NextInstructionPanel = ({ route }) => {
     }
     return () => removeStyleFromDocument("nip-margin-adjustment");
   }, [isPhone]);
+
+  const ExitShield = countryCode === "US" ? ExitShieldUS : ExitShieldEU;
 
   return (
     <div className={`NextInstructionPanel ${classes.root}`}>
@@ -88,7 +92,7 @@ const NextInstructionPanel = ({ route }) => {
             <Text className={`${textClasses.primaryText} ${classes.distance}`}>
               600 ft
             </Text>
-            <ExitNumber />
+            <ExitShield />
           </Stack>
           <Text className={classes.street}>
             Walter P Chrysler Freeway

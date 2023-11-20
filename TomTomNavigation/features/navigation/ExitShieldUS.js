@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ExitNumber = () => {
+const ExitShield = () => {
   const theme = useTheme();
   const classes = useStyles();
 
@@ -36,4 +36,4 @@ const ExitNumber = () => {
   );
 };
 
-export default ExitNumber;
+export default ExitShield;
