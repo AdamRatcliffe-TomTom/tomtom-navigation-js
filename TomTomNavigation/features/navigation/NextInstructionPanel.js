@@ -3,6 +3,7 @@ import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
 import { useAppContext } from "../../app/AppContext";
 import useTextStyles from "../../hooks/useTextStyles";
 import ExitNumber from "./ExitNumber";
+import RoadShield from "./RoadShield";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import getNextInstructionIcon from "../../functions/getNextInstructionIcon";
 import {
@@ -18,7 +19,6 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
       left: 0,
       margin: `${theme.spacing.m} ${theme.spacing.m} 0`,
       padding: theme.spacing.l1,
-      height: 175,
       borderRadius: theme.spacing.m,
       backgroundColor:
         countryCode === "US"
@@ -34,6 +34,9 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
       }),
       transition: "background-color 0.15s"
     },
+    distanceContainer: {
+      marginBottom: theme.spacing.s1
+    },
     distance: {
       fontSize: 28,
       color: "white"
@@ -42,7 +45,8 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
       fontFamily: "Noto Sans",
       fontSize: 18,
       color: "white",
-      lineHeight: "1.5"
+      lineHeight: "1.5",
+      marginBottom: theme.spacing.s2
     }
   }));
 
@@ -74,8 +78,9 @@ const NextInstructionPanel = ({ route }) => {
         horizontal
       >
         {nextInstructionIcon}
-        <Stack tokens={{ childrenGap: theme.spacing.s1 }} grow="1">
+        <Stack grow="1">
           <Stack
+            className={classes.distanceContainer}
             verticalAlign="center"
             horizontalAlign="space-between"
             horizontal
@@ -90,6 +95,9 @@ const NextInstructionPanel = ({ route }) => {
             <br />
             Detroit, Michigan
           </Text>
+          <Stack horizontal>
+            <RoadShield />
+          </Stack>
         </Stack>
       </Stack>
     </div>

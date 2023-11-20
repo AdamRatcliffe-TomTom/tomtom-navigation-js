@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Noto Sans",
     fontSize: 16,
     lineHeight: "1.5",
-    borderRadius: 4,
+    borderRadius: 3,
     textTransform: "uppercase"
   },
   exitNumber: {
