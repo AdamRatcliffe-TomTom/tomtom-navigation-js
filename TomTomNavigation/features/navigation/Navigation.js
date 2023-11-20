@@ -30,6 +30,7 @@ import {
   getIsNavigating,
   getNavigationTransitioning,
   getNavigationPerspective,
+  getHasReachedDestination,
   getCurrentLocation,
   getLastInstruction,
   getVoiceAnnouncementsEnabled,
@@ -60,6 +61,7 @@ const Navigation = ({ map }) => {
   const isNavigating = useSelector(getIsNavigating);
   const navigationTransitioning = useSelector(getNavigationTransitioning);
   const navigationPerspective = useSelector(getNavigationPerspective);
+  const hasReachedDestination = useSelector(getHasReachedDestination);
   const { announcement } = useSelector(getCurrentLocation);
   const [_, lastInstructionRef] = useSelectorRef(getLastInstruction);
   const [voiceAnnouncementsEnabled, voiceAnnouncementsEnabledRef] =
@@ -78,7 +80,7 @@ const Navigation = ({ map }) => {
     () => Math.max(height - 390, 0),
     [height]
   );
-  const nipIsVisible = showNIP && isNavigating;
+  const nipIsVisible = showNIP && isNavigating && !hasReachedDestination;
   const simulatorIsActive = navigationRoute && isNavigating;
 
   useEffect(() => {
