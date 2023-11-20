@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
+import useMeasure from "react-use-measure";
 import { useAppContext } from "../../app/AppContext";
 import useTextStyles from "../../hooks/useTextStyles";
 import ExitShieldUS from "./ExitShieldUS";
@@ -51,31 +52,37 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
     }
   }));
 
+const styleId = "nip-ctrl-margin-adjustment";
+
 const NextInstructionPanel = ({ route }) => {
   const theme = useTheme();
+  const [nipRef, bounds] = useMeasure();
   const { isPhone, isTablet } = useAppContext();
-  // const countryCode = countryCodeFromRoute(route);
-  const countryCode = "de";
+  const countryCode = countryCodeFromRoute(route);
   const classes = useStyles({ isPhone, isTablet, countryCode })();
   const textClasses = useTextStyles();
   const nextInstructionIcon = getNextInstructionIcon("KEEP_RIGHT");
+  const nipHeight = bounds.height;
 
   useEffect(() => {
     if (isPhone) {
+      removeStyleFromDocument(styleId);
       addStyleToDocument(
-        "nip-margin-adjustment",
-        `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {margin-top: 183px}`
+        styleId,
+        `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {margin-top: ${
+          nipHeight + 8
+        }px}`
       );
     } else {
-      removeStyleFromDocument("nip-margin-adjustment");
+      removeStyleFromDocument(styleId);
     }
-    return () => removeStyleFromDocument("nip-margin-adjustment");
-  }, [isPhone]);
+    return () => removeStyleFromDocument(styleId);
+  }, [isPhone, nipHeight]);
 
   const ExitShield = countryCode === "US" ? ExitShieldUS : ExitShieldEU;
 
   return (
-    <div className={`NextInstructionPanel ${classes.root}`}>
+    <div ref={nipRef} className={`NextInstructionPanel ${classes.root}`}>
       <Stack
         tokens={{ childrenGap: theme.spacing.m }}
         verticalAlign="start"

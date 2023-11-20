@@ -71,7 +71,7 @@ const useMicrosoftSpeech = () => {
     return null;
   };
 
-  const speak = ({ text, voice, volume = 1 }) => {
+  const speak = ({ text, voice, volume = 0.5 }) => {
     if (voicesAvailable) {
       if (isSpeaking) return;
 
