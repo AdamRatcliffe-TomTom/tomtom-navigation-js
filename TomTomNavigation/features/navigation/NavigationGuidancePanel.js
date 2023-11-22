@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@fluentui/react";
 import useMeasure from "react-use-measure";
 import { useAppContext } from "../../app/AppContext";
@@ -9,6 +10,8 @@ import {
   addStyleToDocument,
   removeStyleFromDocument
 } from "../../functions/styles";
+
+import { getNextInstruction } from "./navigationSlice";
 
 const useStyles = ({ isPhone, isTablet, countryCode }) =>
   makeStyles((theme) => ({
@@ -43,7 +46,8 @@ const NavigationGuidancePanel = ({ route }) => {
   const countryCode = countryCodeFromRoute(route);
   const classes = useStyles({ isPhone, isTablet, countryCode })();
   const nipHeight = bounds.height;
-  const showLaneGuidance = true;
+  const nextInstruction = useSelector(getNextInstruction);
+  const laneGuidancePanelIsVisible = false;
 
   useEffect(() => {
     if (isPhone) {
@@ -60,10 +64,15 @@ const NavigationGuidancePanel = ({ route }) => {
     return () => removeStyleFromDocument(styleId);
   }, [isPhone, nipHeight]);
 
+  // Navigation guidance cannot be shown if there's no next instruction
+  if (!nextInstruction) {
+    return null;
+  }
+
   return (
     <div ref={guidanceRef} className={classes.root}>
-      <NextInstructionPanel route={route} />
-      {showLaneGuidance && <LaneGuidancePanel />}
+      <NextInstructionPanel route={route} nextInstruction={nextInstruction} />
+      {laneGuidancePanelIsVisible && <LaneGuidancePanel />}
     </div>
   );
 };

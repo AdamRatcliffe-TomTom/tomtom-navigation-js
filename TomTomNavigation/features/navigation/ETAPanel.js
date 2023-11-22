@@ -43,9 +43,12 @@ const ETA = ({
   const { summary } = route.features[0].properties;
   const { trafficDelayInSeconds } = summary;
   const duration = formatDuration(timeRemaining);
-  const distance = formatDistance(distanceRemaining, measurementSystem);
-  const arrival = formatTime(new Date(eta));
-  const delay = formatDuration(trafficDelayInSeconds);
+  const formattedDistanceRemaining = formatDistance(
+    distanceRemaining,
+    measurementSystem
+  );
+  const formattedArrival = formatTime(new Date(eta));
+  const formattedDelay = formatDuration(trafficDelayInSeconds);
   const showTrafficDelay = trafficDelayInSeconds >= 60;
 
   return (
@@ -67,9 +70,11 @@ const ETA = ({
             verticalAlign="baseline"
             tokens={{ childrenGap: 3 }}
           >
-            <Text className={textClasses.primaryText}>{arrival.time}</Text>
+            <Text className={textClasses.primaryText}>
+              {formattedArrival.time}
+            </Text>
             <Text className={textClasses.primaryUnitsText}>
-              {arrival.meridiem}
+              {formattedArrival.meridiem}
             </Text>
           </Stack>
           {showTrafficDelay && (
@@ -80,14 +85,14 @@ const ETA = ({
             >
               <Text className={textClasses.secondaryText}>⸱</Text>
               <JamIcon color={theme.semanticColors.warningIcon} />
-              <Text className={textClasses.warningText}>{delay}</Text>
+              <Text className={textClasses.warningText}>{formattedDelay}</Text>
             </Stack>
           )}
         </Stack>
         <Stack horizontal tokens={{ childrenGap: theme.spacing.s1 }}>
           <Text
             className={textClasses.secondaryText}
-          >{`${distance.value} ${distance.units}`}</Text>
+          >{`${formattedDistanceRemaining.value} ${formattedDistanceRemaining.units}`}</Text>
           <Text className={textClasses.secondaryText}>⸱</Text>
           <Text className={textClasses.secondaryText}>{duration}</Text>
         </Stack>

@@ -25,7 +25,7 @@ const initialState = {
     speedLimit: undefined,
     announcement: undefined
   },
-  currentInstruction: undefined,
+  nextInstruction: undefined,
   lastInstruction: undefined,
   remainingRoute: undefined,
   distanceRemaining: undefined,
@@ -78,8 +78,17 @@ const navigationSlice = createSlice({
       const speedLimit = speedLimitByIndex(route.features[0], pointIndex);
       const instruction = instructionByIndex(route.features[0], pointIndex);
 
-      let announcement;
+      let distanceToNextManeuver = 0;
+      if (instruction) {
+        const remainingManeuverPart = ruler.lineSlice(
+          point,
+          coordinates[instruction.pointIndex],
+          coordinates
+        );
+        distanceToNextManeuver = ruler.lineDistance(remainingManeuverPart);
+      }
 
+      let announcement;
       if (pointIndex !== state.currentLocation.pointIndex) {
         announcement = announcementByIndex(
           route.features[0],
@@ -95,9 +104,10 @@ const navigationSlice = createSlice({
         speedLimit,
         announcement
       };
-      state.currentInstruction = instruction;
+      state.nextInstruction = instruction;
       state.remainingRoute = featureCollection([lineString(remainingPart)]);
       state.distanceRemaining = distanceRemaining;
+      state.distanceToNextManeuver = distanceToNextManeuver;
       state.timeRemaining = timeRemaining;
 
       if (!state.lastInstruction) {
@@ -127,7 +137,7 @@ const navigationSlice = createSlice({
       state.navigationPerspective = NavigationPerspectives.DRIVING;
       state.hasReachedDestination = false;
       state.currentLocation = initialState.currentLocation;
-      state.currentInstruction = undefined;
+      state.nextInstruction = undefined;
       state.lastInstruction = undefined;
       state.routeProgress = undefined;
       state.distanceRemaining = undefined;
@@ -174,14 +184,19 @@ const getLastInstruction = createSelector(
   (state) => state.lastInstruction
 );
 
-const getCurrentInstruction = createSelector(
+const getNextInstruction = createSelector(
   rootSelector,
-  (state) => state.currentInstruction
+  (state) => state.nextInstruction
 );
 
 const getDistanceRemaining = createSelector(
   rootSelector,
   (state) => state.distanceRemaining
+);
+
+const getDistanceToNextManeuver = createSelector(
+  rootSelector,
+  (state) => state.distanceToNextManeuver
 );
 
 const getTimeRemaining = createSelector(
@@ -212,10 +227,11 @@ export {
   getIsNavigating,
   getNavigationTransitioning,
   getNavigationPerspective,
-  getCurrentInstruction,
+  getNextInstruction,
   getLastInstruction,
   getCurrentLocation,
   getDistanceRemaining,
+  getDistanceToNextManeuver,
   getTimeRemaining,
   getEta,
   getRemainingRoute,

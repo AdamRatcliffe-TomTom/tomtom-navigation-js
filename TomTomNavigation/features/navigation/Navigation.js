@@ -145,6 +145,12 @@ const Navigation = ({ map }) => {
         })
       );
     });
+
+    if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
+      const voice = getGuidanceVoice();
+      const announcement = strings.DEPART;
+      speak({ voice, text: announcement });
+    }
   };
 
   const stopNavigation = () => {

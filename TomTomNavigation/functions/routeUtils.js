@@ -13,7 +13,7 @@ function instructionByIndex(route, index) {
   const { instructions } = route.properties.guidance;
 
   const instruction = instructions.find(
-    (instruction) => instruction.pointIndex >= index
+    (instruction) => instruction.pointIndex > index
   );
   return instruction || instructions[instructions.length - 1];
 }
