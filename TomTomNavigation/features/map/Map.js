@@ -142,7 +142,7 @@ const Map = ({
   }, [theme]);
 
   useEffect(() => {
-    fitRoute(false);
+    fitRoute({ animate: false });
   }, [route, JSON.stringify(routeOptions.locations)]);
 
   useEffect(() => {
