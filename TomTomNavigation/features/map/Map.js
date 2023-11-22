@@ -210,7 +210,6 @@ const Map = ({
 
   const handleNavigationPerspectiveControlClick = (perspective) => {
     const map = mapRef.current.getMap();
-    map.once("zoomend", () => dispatch(setNavigationTransitioning(false)));
 
     batch(() => {
       dispatch(setNavigationTransitioning(true));
@@ -226,6 +225,8 @@ const Map = ({
         });
       }
     });
+
+    map.once("zoomend", () => dispatch(setNavigationTransitioning(false)));
   };
 
   const handleCompassControlClick = () => {
