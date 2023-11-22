@@ -11,14 +11,14 @@ import UTurnIcon from "../icons/nip/UTurnIcon";
 
 export default function getLaneIcon(direction) {
   return {
-    STRAIGHT: <StraightIcon />,
-    SLIGHT_LEFT: <BearLeftIcon />,
-    LEFT: <TurnLeftIcon />,
-    SHARP_LEFT: <SharpLeftIcon />,
-    SLIGHT_RIGHT: <BearRightIcon />,
-    RIGHT: <TurnRightIcon />,
-    SHARP_RIGHT: <SharpRightIcon />,
-    LEFT_UTURN: <UTurnIcon />,
-    RIGHT_UTURN: <UTurnIcon />
+    STRAIGHT: <StraightIcon size={48} />,
+    SLIGHT_LEFT: <BearLeftIcon size={48} />,
+    LEFT: <TurnLeftIcon size={48} />,
+    SHARP_LEFT: <SharpLeftIcon size={48} />,
+    SLIGHT_RIGHT: <BearRightIcon size={48} />,
+    RIGHT: <TurnRightIcon size={48} />,
+    SHARP_RIGHT: <SharpRightIcon size={48} />,
+    LEFT_UTURN: <UTurnIcon size={48} />,
+    RIGHT_UTURN: <UTurnIcon size={48} />
   }[direction];
 }

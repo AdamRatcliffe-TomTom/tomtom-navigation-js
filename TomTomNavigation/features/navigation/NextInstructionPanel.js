@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing.s1
   },
   distance: {
-    fontSize: 28,
+    // fontSize: 28,
     color: "white"
   },
   street: {

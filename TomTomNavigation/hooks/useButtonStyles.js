@@ -14,7 +14,7 @@ const useButtonStyles = makeStyles((theme) => ({
     fontFamily: "Noto Sans",
     fontSize: 16,
     fontWeight: 400,
-    height: 48,
+    height: 56,
     borderWidth: 2,
     borderRadius: 24,
     color: theme.palette.black,

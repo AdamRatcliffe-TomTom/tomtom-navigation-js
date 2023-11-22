@@ -4,7 +4,6 @@ import useMeasure from "react-use-measure";
 import { useAppContext } from "../../app/AppContext";
 import NextInstructionPanel from "./NextInstructionPanel";
 import LaneGuidancePanel from "./LaneGuidancePanel";
-import Divider from "../../components/Divider";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import {
   addStyleToDocument,
@@ -44,7 +43,7 @@ const NavigationGuidancePanel = ({ route }) => {
   const countryCode = countryCodeFromRoute(route);
   const classes = useStyles({ isPhone, isTablet, countryCode })();
   const nipHeight = bounds.height;
-  const showLaneGuidance = false;
+  const showLaneGuidance = true;
 
   useEffect(() => {
     if (isPhone) {
@@ -64,12 +63,7 @@ const NavigationGuidancePanel = ({ route }) => {
   return (
     <div ref={guidanceRef} className={classes.root}>
       <NextInstructionPanel route={route} />
-      {showLaneGuidance && (
-        <>
-          <Divider />
-          <LaneGuidancePanel />
-        </>
-      )}
+      {showLaneGuidance && <LaneGuidancePanel />}
     </div>
   );
 };

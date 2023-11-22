@@ -1,15 +1,44 @@
 import React from "react";
 import _isNil from "lodash.isnil";
 import { makeStyles } from "@fluentui/react";
+import Divider from "../../components/Divider";
 import getLaneIcon from "../../functions/getLaneIcon";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing.m
+    marginTop: theme.spacing.m
+  },
+  lanesContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: 18,
+    paddingTop: theme.spacing.m
   }
 }));
 
-const LaneGuidancePanel = ({ lanes }) => {
+const LaneGuidancePanel = ({
+  lanes = [
+    {
+      directions: ["STRAIGHT"],
+      follow: "STRAIGHT"
+    },
+    {
+      directions: ["STRAIGHT"],
+      follow: "STRAIGHT"
+    },
+    {
+      directions: ["STRAIGHT"],
+      follow: "STRAIGHT"
+    },
+    {
+      directions: ["STRAIGHT"],
+      follow: "STRAIGHT"
+    },
+    {
+      directions: ["SLIGHT_RIGHT"]
+    }
+  ]
+}) => {
   const classes = useStyles();
 
   if (!lanes) return null;
@@ -35,7 +64,12 @@ const LaneGuidancePanel = ({ lanes }) => {
     });
   };
 
-  return <div className={classes.root}>{renderLanes()}</div>;
+  return (
+    <div className={classes.root}>
+      <Divider />
+      <div className={classes.lanesContainer}>{renderLanes()}</div>
+    </div>
+  );
 };
 
 export default LaneGuidancePanel;
