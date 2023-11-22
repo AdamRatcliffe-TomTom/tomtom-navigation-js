@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: "1.5"
   },
   closeButton: {
-    marginRight: `-${theme.spacing.s1}`
+    marginRight: -8
   },
   content: {
     padding: theme.spacing.m
