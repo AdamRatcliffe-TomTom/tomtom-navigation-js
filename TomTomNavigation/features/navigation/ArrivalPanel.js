@@ -8,8 +8,10 @@ import {
   DefaultButton
 } from "@fluentui/react";
 import _isEmpty from "lodash.isempty";
+import ArrivalPanelBackgroundImages from "./ArrivalPanelBackgroundImages";
 import Divider from "../../components/Divider";
 import CrossIcon from "../../icons/CrossIcon";
+import Maneuvers from "../../constants/Maneuvers";
 import useTextStyles from "../../hooks/useTextStyles";
 import useButtonStyles from "../../hooks/useButtonStyles";
 import breakAfterFirstWord from "../../functions/breakAfterFirstWord";
@@ -23,7 +25,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left"
   },
   header: {
-    padding: `${theme.spacing.m} ${theme.spacing.l1}`
+    padding: `${theme.spacing.m} ${theme.spacing.l1}`,
+    borderTopLeftRadius: theme.spacing.m,
+    borderTopRightRadius: theme.spacing.m,
+    backgroundRepeat: "no-repeat"
   },
   title: {
     fontSize: 22,
@@ -61,11 +66,23 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
   const arrivalMessage = arrivalMessages[maneuver];
   const haveNameAddress = !_isEmpty(name) || !_isEmpty(address);
 
+  const headerStyle =
+    maneuver === Maneuvers.ARRIVE_LEFT
+      ? {
+          backgroundImage: `url(data:image/svg+xml;base64,${ArrivalPanelBackgroundImages.left})`,
+          backgroundPosition: "left"
+        }
+      : {
+          backgroundImage: `url(data:image/svg+xml;base64,${ArrivalPanelBackgroundImages.right})`,
+          backgroundPosition: "right"
+        };
+
   return (
     <div className={classes.root}>
       <Stack>
         <Stack
           className={classes.header}
+          style={headerStyle}
           horizontal
           horizontalAlign="space-between"
           verticalAlign="center"

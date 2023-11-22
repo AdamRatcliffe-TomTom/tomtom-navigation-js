@@ -1,6 +1,6 @@
 import React from "react";
 
-const KeepLeft = ({ size = 56, color = "white" }) => (
+const KeepLeftIcon = ({ size = 56, color = "white" }) => (
   <svg
     width={size}
     height={size}
@@ -22,4 +22,4 @@ const KeepLeft = ({ size = 56, color = "white" }) => (
   </svg>
 );
 
-export default KeepLeft;
+export default KeepLeftIcon;

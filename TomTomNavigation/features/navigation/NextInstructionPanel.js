@@ -61,7 +61,7 @@ const NextInstructionPanel = ({ route }) => {
   const countryCode = countryCodeFromRoute(route);
   const classes = useStyles({ isPhone, isTablet, countryCode })();
   const textClasses = useTextStyles();
-  const nextInstructionIcon = getNextInstructionIcon("KEEP_RIGHT");
+  const nextInstructionIcon = getNextInstructionIcon("STRAIGHT");
   const nipHeight = bounds.height;
 
   useEffect(() => {
