@@ -28,7 +28,7 @@
     "cheap-ruler": "^3.0.2",
     "date-fns": "^2.30.0",
     "deck.gl": "^8.9.31",
-    "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git",
+    "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim",
     "lodash.isempty": "^4.4.0",
     "lodash.isnil": "^4.0.0",
     "lodash.merge": "^4.6.2",

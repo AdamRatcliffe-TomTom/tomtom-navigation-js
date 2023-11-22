@@ -60,10 +60,13 @@ const Navigation = ({ map }) => {
   const showNIP = useSelector(getShowNIP);
   const isNavigating = useSelector(getIsNavigating);
   const navigationTransitioning = useSelector(getNavigationTransitioning);
-  const navigationPerspective = useSelector(getNavigationPerspective);
+  const [navigationPerspective, navigationPerspectiveRef] = useSelectorRef(
+    getNavigationPerspective
+  );
   const hasReachedDestination = useSelector(getHasReachedDestination);
   const { announcement } = useSelector(getCurrentLocation);
-  const [_, lastInstructionRef] = useSelectorRef(getLastInstruction);
+  const [lastInstruction, lastInstructionRef] =
+    useSelectorRef(getLastInstruction);
   const [voiceAnnouncementsEnabled, voiceAnnouncementsEnabledRef] =
     useSelectorRef(getVoiceAnnouncementsEnabled);
   const routeOptions = useSelector(getRouteOptions);
@@ -173,7 +176,7 @@ const Navigation = ({ map }) => {
     const elapsedTime = Math.floor(stepTime / 1000);
 
     batch(() => {
-      if (navigationPerspective === NavigationPerspectives.DRIVING) {
+      if (navigationPerspectiveRef.current === NavigationPerspectives.DRIVING) {
         dispatch(
           setCamera({
             movingMethod: "easeTo",
