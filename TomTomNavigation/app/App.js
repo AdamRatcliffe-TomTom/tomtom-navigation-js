@@ -23,7 +23,7 @@ import {
 
 import {
   setShowBottomPanel,
-  setShowNIP,
+  setShowGuidancePanel,
   resetNavigation
 } from "../features/navigation/navigationSlice";
 
@@ -40,7 +40,7 @@ function Wrapper({
   routeOptions,
   automaticRouteCalculation,
   showBottomPanel,
-  showNIP,
+  showGuidancePanel,
   children
 }) {
   const dispatch = useDispatch();
@@ -65,8 +65,8 @@ function Wrapper({
   }, [showBottomPanel]);
 
   useEffect(() => {
-    dispatch(setShowNIP(showNIP));
-  }, [showNIP]);
+    dispatch(setShowGuidancePanel(showGuidancePanel));
+  }, [showGuidancePanel]);
 
   return (
     <div className={`TomTomNavigation ${classes.wrapper}`}>{children}</div>

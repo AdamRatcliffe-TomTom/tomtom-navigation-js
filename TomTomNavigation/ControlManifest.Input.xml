@@ -42,7 +42,7 @@
 		<property name="showMapSwitcherControl" display-name-key="Show map switcher control" description-key="showMapSwitcherControl_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="showMuteControl" display-name-key="Show mute control" description-key="showMuteControl_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="showBottomPanel" display-name-key="Show bottom panel" description-key="showBottomPanel_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
-		<property name="showNIP" display-name-key="Show next instruction panel" description-key="showNIP_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
+		<property name="showGuidancePanel" display-name-key="Show guidance panel" description-key="showGuidance_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="automaticRouteCalculation" display-name-key="Automatic route calculation" description-key="automaticRouteCalculation_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="false" />
 		<data-set name="routeWaypoints" description-key="routeWaypoints-Desc_Key" display-name-key="Route waypoints dataset">
 	  </data-set>

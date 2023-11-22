@@ -6,7 +6,7 @@ import { useAppContext } from "../../app/AppContext";
 import useSelectorRef from "../../hooks/useSelectorRef";
 import useSpeech from "../../hooks/useMicrosoftSpeech";
 import BottomPanel from "./BottomPanel";
-import NextInstructionPanel from "./NextInstructionPanel";
+import NavigationGuidancePanel from "./NavigationGuidancePanel";
 import Simulator from "./Simulator";
 import { useCalculateRouteQuery } from "../../services/routing";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
@@ -26,7 +26,7 @@ import {
 
 import {
   getShowBottomPanel,
-  getShowNIP,
+  getShowGuidancePanel,
   getIsNavigating,
   getNavigationTransitioning,
   getNavigationPerspective,
@@ -57,7 +57,7 @@ const Navigation = ({ map }) => {
     guidanceVoice
   } = useAppContext();
   const showBottomPanel = useSelector(getShowBottomPanel);
-  const showNIP = useSelector(getShowNIP);
+  const showGuidancePanel = useSelector(getShowGuidancePanel);
   const isNavigating = useSelector(getIsNavigating);
   const navigationTransitioning = useSelector(getNavigationTransitioning);
   const [navigationPerspective, navigationPerspectiveRef] = useSelectorRef(
@@ -83,8 +83,9 @@ const Navigation = ({ map }) => {
     () => Math.max(height - 390, 0),
     [height]
   );
-  const nipIsVisible = showNIP && isNavigating && !hasReachedDestination;
-  // const nipIsVisible = true;
+  const guidancePanelIsVisible =
+    showGuidancePanel && isNavigating && !hasReachedDestination;
+  // const guidancePanelIsVisible = true;
   const simulatorIsActive = navigationRoute && isNavigating;
 
   useEffect(() => {
@@ -235,7 +236,7 @@ const Navigation = ({ map }) => {
 
   return (
     <>
-      {nipIsVisible && <NextInstructionPanel route={route} />}
+      {guidancePanelIsVisible && <NavigationGuidancePanel route={route} />}
       {showBottomPanel && (
         <BottomPanel
           route={route}
