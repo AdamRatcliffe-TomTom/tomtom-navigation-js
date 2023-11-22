@@ -72,10 +72,12 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
           backgroundImage: `url(data:image/svg+xml;base64,${ArrivalPanelBackgroundImages.left})`,
           backgroundPosition: "left"
         }
-      : {
+      : maneuver === Maneuvers.ARRIVE_RIGHT
+      ? {
           backgroundImage: `url(data:image/svg+xml;base64,${ArrivalPanelBackgroundImages.right})`,
           backgroundPosition: "right"
-        };
+        }
+      : null;
 
   return (
     <div className={classes.root}>
