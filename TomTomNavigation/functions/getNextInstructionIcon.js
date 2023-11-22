@@ -10,8 +10,10 @@ import BearRightIcon from "../icons/nip/BearRightIcon";
 import SharpRightIcon from "../icons/nip/SharpRightIcon";
 import UTurnIcon from "../icons/nip/UTurnIcon";
 import FerryIcon from "../icons/nip/FerryIcon";
+import RoundaboutCrossIcon from "../icons/nip/RoundaboutCrossIcon";
 import RoundaboutLeftIcon from "../icons/nip/RoundaboutLeftIcon";
 import RoundaboutRightIcon from "../icons/nip/RoundaboutRightIcon";
+import RoundaboutAround from "../icons/nip/RoundaboutAround";
 
 export default function getNextInstructionIcon(maneuver) {
   return {
@@ -25,8 +27,12 @@ export default function getNextInstructionIcon(maneuver) {
     [Maneuvers.BEAR_RIGHT]: <BearRightIcon />,
     [Maneuvers.SHARP_RIGHT]: <SharpRightIcon />,
     [Maneuvers.MAKE_UTURN]: <UTurnIcon />,
+    [Maneuvers.TRY_MAKE_UTURN]: <UTurnIcon />,
     [Maneuvers.TAKE_FERRY]: <FerryIcon />,
+    [Maneuvers.ROUNDABOUT_CROSS]: <RoundaboutCrossIcon />,
     [Maneuvers.ROUNDABOUT_LEFT]: <RoundaboutLeftIcon />,
-    [Maneuvers.ROUNDABOUT_RIGHT]: <RoundaboutRightIcon />
+    [Maneuvers.ROUNDABOUT_RIGHT]: <RoundaboutRightIcon />,
+    [Maneuvers.ROUNDABOUT_BACK]: <RoundaboutAround />,
+    [Maneuvers.FOLLOW]: <StraightIcon />
   }[maneuver];
 }
