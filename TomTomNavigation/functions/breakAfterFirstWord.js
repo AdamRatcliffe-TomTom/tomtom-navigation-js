@@ -1,9 +1,11 @@
+import React from "react";
+
 export default function breakAfterFirstWord(text) {
   const words = text.split(/\s/);
   return words.map((word, i) => (
-    <span key={i}>
+    <React.Fragment key={i}>
       {word}
       {i === 0 ? <br /> : " "}
-    </span>
+    </React.Fragment>
   ));
 }
