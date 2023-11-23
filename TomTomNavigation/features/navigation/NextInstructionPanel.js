@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
+import { makeStyles, Stack, Text } from "@fluentui/react";
 import { useAppContext } from "../../app/AppContext";
 import useTextStyles from "../../hooks/useTextStyles";
 import ExitShieldUS from "./ExitShieldUS";
@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateColumns: "56px 1fr",
     gap: theme.spacing.m
   },
-  iconContainer: {
-    width: 56
-  },
   distanceContainer: {
     marginBottom: theme.spacing.s1
   },
@@ -37,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NextInstructionPanel = ({ route, nextInstruction }) => {
-  const theme = useTheme();
   const { measurementSystem } = useAppContext();
   const countryCode = countryCodeFromRoute(route);
   const classes = useStyles();
