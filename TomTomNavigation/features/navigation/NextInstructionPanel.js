@@ -13,6 +13,11 @@ import formatDistance from "../../functions/formatDistance";
 import { getDistanceToNextManeuver } from "./navigationSlice";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "grid",
+    gridTemplateColumns: "56px 1fr",
+    gap: theme.spacing.m
+  },
   iconContainer: {
     width: 56
   },
@@ -53,13 +58,8 @@ const NextInstructionPanel = ({ route, nextInstruction }) => {
   const ExitShield = countryCode === "US" ? ExitShieldUS : ExitShieldEU;
 
   return (
-    <Stack
-      className="NextInstructionPanel"
-      tokens={{ childrenGap: theme.spacing.m }}
-      verticalAlign="start"
-      horizontal
-    >
-      <div className={classes.iconContainer}>{nextInstructionIcon}</div>
+    <div className={`NextInstructionPanel ${classes.root}`}>
+      {nextInstructionIcon}
       <Stack grow="1">
         <Stack
           className={classes.distanceContainer}
@@ -77,7 +77,7 @@ const NextInstructionPanel = ({ route, nextInstruction }) => {
           <RoadShield />
         </Stack>
       </Stack>
-    </Stack>
+    </div>
   );
 };
 

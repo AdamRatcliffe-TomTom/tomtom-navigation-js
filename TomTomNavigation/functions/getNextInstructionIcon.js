@@ -14,6 +14,9 @@ import RoundaboutCrossIcon from "../icons/nip/RoundaboutCrossIcon";
 import RoundaboutLeftIcon from "../icons/nip/RoundaboutLeftIcon";
 import RoundaboutRightIcon from "../icons/nip/RoundaboutRightIcon";
 import RoundaboutAround from "../icons/nip/RoundaboutAround";
+import DestinationIcon from "../icons/nip/DestinationIcon";
+import DestinationLeftIcon from "../icons/nip/DestinationLeftIcon";
+import DestinationRightIcon from "../icons/nip/DestinationRightIcon";
 
 export default function getNextInstructionIcon(maneuver) {
   return {
@@ -35,6 +38,9 @@ export default function getNextInstructionIcon(maneuver) {
     [Maneuvers.ROUNDABOUT_LEFT]: <RoundaboutLeftIcon />,
     [Maneuvers.ROUNDABOUT_RIGHT]: <RoundaboutRightIcon />,
     [Maneuvers.ROUNDABOUT_BACK]: <RoundaboutAround />,
-    [Maneuvers.FOLLOW]: <StraightIcon />
+    [Maneuvers.FOLLOW]: <StraightIcon />,
+    [Maneuvers.ARRIVE]: <DestinationIcon />,
+    [Maneuvers.ARRIVE_LEFT]: <DestinationLeftIcon />,
+    [Maneuvers.ARRIVE_RIGHT]: <DestinationRightIcon />
   }[maneuver];
 }
