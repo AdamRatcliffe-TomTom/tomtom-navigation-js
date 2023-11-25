@@ -53,7 +53,34 @@ const NextInstructionPanel = ({ route, nextInstruction }) => {
   );
   const { maneuver, street, signpostText } = nextInstruction;
   const nextInstructionIcon = getNextInstructionIcon(maneuver);
-  const roadShield = getRoadShieldForInstruction(nextInstruction);
+
+  const renderRoadShields = () => {
+    const { roadShieldReferences } = nextInstruction;
+
+    if (roadShieldReferences) {
+      return roadShieldReferences.map((ref) => {
+        const { reference, shieldContent, affixes } = ref;
+        const icon = getRoadShield(reference, shieldContent);
+
+        return (
+          <Stack
+            tokens={{ childrenGap: theme.spacing.s2 }}
+            verticalAlign="center"
+            horizontal
+          >
+            {icon}
+            {affixes && affixes.length > 0 && (
+              <Text className={classes.affixes}>
+                {affixes.map(expandDirectionAbbreviation).join(" ")}
+              </Text>
+            )}
+          </Stack>
+        );
+      });
+    }
+
+    return null;
+  };
 
   const ExitShield = countryCode === "US" ? ExitShieldUS : ExitShieldEU;
 
@@ -73,34 +100,16 @@ const NextInstructionPanel = ({ route, nextInstruction }) => {
           <ExitShield />
         </Stack>
         <Text className={classes.street}>{street || signpostText}</Text>
-        {roadShield && (
-          <Stack
-            tokens={{ childrenGap: theme.spacing.s2 }}
-            verticalAlign="center"
-            horizontal
-          >
-            {roadShield.icon}
-            {roadShield.affixes && roadShield.affixes.length > 0 && (
-              <Text className={classes.affixes}>
-                {roadShield.affixes.map(expandDirectionAbbreviation).join(" ")}
-              </Text>
-            )}
-          </Stack>
-        )}
+        <Stack
+          tokens={{ childrenGap: theme.spacing.m }}
+          horizontal
+          verticalAlign="center"
+        >
+          {renderRoadShields()}
+        </Stack>
       </Stack>
     </div>
   );
 };
-
-function getRoadShieldForInstruction(instruction) {
-  const { roadShieldReferences } = instruction;
-
-  if (roadShieldReferences) {
-    const { reference, shieldContent, affixes } = roadShieldReferences[0];
-    return { icon: getRoadShield(reference, shieldContent), affixes };
-  }
-
-  return null;
-}
 
 export default NextInstructionPanel;
