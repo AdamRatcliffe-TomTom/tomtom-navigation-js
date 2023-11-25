@@ -14,13 +14,13 @@ const useTextStyles = makeStyles((theme) => ({
   secondaryText: {
     fontFamily: "Noto Sans",
     color: theme.palette.neutralSecondary,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 400
   },
   warningText: {
     fontFamily: "Noto Sans",
     color: theme.semanticColors.warningIcon,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 500
   }
 }));

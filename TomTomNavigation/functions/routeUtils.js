@@ -2,6 +2,7 @@ import Maneuvers from "../constants/Maneuvers";
 import AnnouncementTypes from "../constants/AnnouncementTypes";
 import formatDistance from "./formatDistance";
 import expandUnits from "./expandUnits";
+import expandDirectionAbbreviation from "./expandDirectionAbbreviation";
 import strings from "../config/strings";
 
 function lastInstruction(route) {
@@ -106,7 +107,7 @@ function getAnnouncementText(
       maneuverText,
       distance,
       units: expandUnits(distance, units),
-      street
+      street: expandDirectionAbbreviation(street)
     });
   } else {
     return maneuverText;

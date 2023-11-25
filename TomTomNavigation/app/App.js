@@ -9,7 +9,7 @@ import AppContextProvider from "./AppContext";
 import NoApiKeyMessage from "./NoApiKeyMessage";
 import Map from "../features/map/Map";
 import Navigation from "../features/navigation/Navigation";
-import LocationDialog from "../components/LocationDialog";
+import LocationDialog from "./LocationDialog";
 import { lightTheme, darkTheme } from "./themes";
 import strings from "../config/strings";
 

@@ -59,7 +59,7 @@ const ETA = ({
       horizontalAlign="space-between"
       verticalAlign="center"
     >
-      <Stack tokens={{ childrenGap: theme.spacing.s1 }}>
+      <Stack tokens={{ childrenGap: 12 }}>
         <Stack
           horizontal
           verticalAlign="baseline"
