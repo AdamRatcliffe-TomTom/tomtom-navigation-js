@@ -86,7 +86,9 @@ const NextInstructionPanel = ({ route, nextInstruction }) => {
 
   return (
     <div className={`NextInstructionPanel ${classes.root}`}>
-      {nextInstructionIcon}
+      <Stack horizontalAlign="center" horizontal>
+        {nextInstructionIcon}
+      </Stack>
       <Stack grow="1">
         <Stack
           className={classes.distanceContainer}
