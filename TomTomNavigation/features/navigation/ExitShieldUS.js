@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ExitShield = () => {
+const ExitShield = ({ text }) => {
   const theme = useTheme();
   const classes = useStyles();
 
@@ -31,7 +31,7 @@ const ExitShield = () => {
       disableShrink
     >
       <span>{strings.exit}</span>
-      <span className={classes.exitNumber}>82A-B-C</span>
+      <span className={classes.exitNumber}>{text}</span>
     </Stack>
   );
 };

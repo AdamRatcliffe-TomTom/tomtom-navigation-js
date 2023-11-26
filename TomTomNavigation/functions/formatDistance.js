@@ -12,10 +12,11 @@ export default function formatDistance(
   useFriendlyImperial = false
 ) {
   if (measurementSystem === "metric") {
-    return Math.abs(meters) < 1000
-      ? { value: roundUp(meters, meters < 100 ? 10 : 100), units: "m" }
+    const roundedMeters = roundUp(meters, meters < 100 ? 10 : 100);
+    return Math.abs(roundedMeters) < 1000
+      ? { value: roundedMeters, units: "m" }
       : {
-          value: numberFormat.format(metersToKilometers(meters)),
+          value: numberFormat.format(metersToKilometers(roundedMeters)),
           units: "km"
         };
   } else if (measurementSystem === "imperial") {

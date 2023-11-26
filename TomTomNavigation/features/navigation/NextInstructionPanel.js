@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Noto Sans",
     fontSize: 20,
     color: "white",
-    lineHeight: "1.5"
+    lineHeight: "1.5",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap"
   },
   affixes: {
     fontFamily: "Noto Sans",
@@ -51,8 +54,10 @@ const NextInstructionPanel = ({ route, nextInstruction }) => {
     measurementSystem
   );
   const { maneuver, street, signpostText } = nextInstruction;
-  const { roadShieldReferences } = nextInstruction;
+  const { roadShieldReferences, exitNumber } = nextInstruction;
   const nextInstructionIcon = getNextInstructionIcon(maneuver);
+  const hasRoadShields = !!roadShieldReferences;
+  const haveExitNumber = !!exitNumber;
 
   const renderRoadShields = () => {
     if (roadShieldReferences) {
@@ -97,10 +102,10 @@ const NextInstructionPanel = ({ route, nextInstruction }) => {
           <Text className={`${textClasses.primaryText} ${classes.distance}`}>
             {`${formattedDistanceToNextManeuver.value} ${formattedDistanceToNextManeuver.units}`}
           </Text>
-          <ExitShield />
+          {haveExitNumber && <ExitShield text={exitNumber} />}
         </Stack>
         <Text className={classes.street}>{street || signpostText}</Text>
-        {roadShieldReferences && (
+        {hasRoadShields && (
           <Stack
             tokens={{ childrenGap: theme.spacing.m }}
             horizontal

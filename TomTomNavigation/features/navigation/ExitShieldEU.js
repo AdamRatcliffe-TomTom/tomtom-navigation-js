@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ExitShieldEU = () => {
+const ExitShieldEU = ({ text }) => {
   const theme = useTheme();
   const classes = useStyles();
 
@@ -29,7 +29,7 @@ const ExitShieldEU = () => {
       disableShrink
     >
       <ExitRightIcon />
-      <span>32a</span>
+      <span>{text}</span>
     </Stack>
   );
 };
