@@ -22,7 +22,8 @@ export default function getRoadShield(name, text) {
         width={width}
         height={height}
         style={{
-          transform: "scale(0.85)"
+          transform: "scale(0.85)",
+          transformOrigin: "top left"
         }}
       >
         <div

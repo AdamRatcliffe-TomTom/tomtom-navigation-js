@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
     color: "white",
     lineHeight: "1.5",
-    marginBottom: 2
+    marginBottom: theme.spacing.s2
   },
   affixes: {
     fontFamily: "Noto Sans",

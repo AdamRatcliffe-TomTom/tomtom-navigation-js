@@ -41,9 +41,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing.m
   },
   name: {
+    fontSize: 18,
     lineHeight: "1.5"
   },
   address: {
+    fontSize: 18,
     lineHeight: "1.5"
   }
 }));
