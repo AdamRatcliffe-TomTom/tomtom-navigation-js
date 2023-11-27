@@ -17,9 +17,10 @@ const strings = new LocalizedStrings({
     speedLimit: "Speed Limit",
     arrived: "Arrived",
     endRoute: "End Route",
-    guidanceAnnouncement: "{maneuverText} in {distance} {units}",
-    guidanceAnnouncementOntoStreet:
+    guidanceAnnouncementTemplate: "{maneuverText} in {distance} {units}",
+    guidanceAnnouncementOntoStreetTemplate:
       "{maneuverText} in {distance} {units} onto {street}",
+    consecutiveInstructionTemplate: "Then {maneuverText}",
     arrivalStraightAhead: "Destination is straight ahead",
     arrivalLeft: "Destination on the left",
     arrivalRight: "Destination on the right",

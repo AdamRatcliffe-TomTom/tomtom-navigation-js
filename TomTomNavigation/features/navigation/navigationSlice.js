@@ -26,6 +26,7 @@ const initialState = {
     announcement: undefined
   },
   nextInstruction: undefined,
+  consecutiveInstruction: undefined,
   lastInstruction: undefined,
   remainingRoute: undefined,
   distanceRemaining: undefined,
@@ -64,7 +65,7 @@ const navigationSlice = createSlice({
         ruler = new CheapRuler(coordinates[0][1], "meters");
       }
 
-      const { point, index: pointIndex } = ruler.pointOnLine(
+      const { point, index: currentPointIndex } = ruler.pointOnLine(
         coordinates,
         location
       );
@@ -75,8 +76,26 @@ const navigationSlice = createSlice({
       );
       const distanceRemaining = ruler.lineDistance(remainingPart);
       const timeRemaining = Math.max(travelTimeInSeconds - elapsedTime, 0);
-      const speedLimit = speedLimitByIndex(route.features[0], pointIndex);
-      const instruction = instructionByIndex(route.features[0], pointIndex);
+      const speedLimit = speedLimitByIndex(
+        route.features[0],
+        currentPointIndex
+      );
+      const instruction = instructionByIndex(
+        route.features[0],
+        currentPointIndex
+      );
+      const { possibleCombineWithNext } = instruction;
+
+      let consecutiveInstruction;
+
+      if (possibleCombineWithNext) {
+        consecutiveInstruction = instructionByIndex(
+          route.features[0],
+          instruction.pointIndex + 1
+        );
+      } else {
+        consecutiveInstruction = undefined;
+      }
 
       let distanceToNextManeuver = 0;
       if (instruction) {
@@ -89,22 +108,23 @@ const navigationSlice = createSlice({
       }
 
       let announcement;
-      if (pointIndex !== state.currentLocation.pointIndex) {
+      if (currentPointIndex !== state.currentLocation?.pointIndex) {
         announcement = announcementByIndex(
           route.features[0],
-          pointIndex,
+          currentPointIndex,
           measurementSystem
         );
       }
 
       state.currentLocation = {
-        pointIndex,
+        pointIndex: currentPointIndex,
         point,
         bearing,
         speedLimit,
         announcement
       };
       state.nextInstruction = instruction;
+      state.consecutiveInstruction = consecutiveInstruction;
       state.remainingRoute = featureCollection([lineString(remainingPart)]);
       state.distanceRemaining = distanceRemaining;
       state.distanceToNextManeuver = distanceToNextManeuver;
@@ -179,14 +199,19 @@ const getCurrentLocation = createSelector(
   (state) => state.currentLocation
 );
 
-const getLastInstruction = createSelector(
-  rootSelector,
-  (state) => state.lastInstruction
-);
-
 const getNextInstruction = createSelector(
   rootSelector,
   (state) => state.nextInstruction
+);
+
+const getConsecutiveInstruction = createSelector(
+  rootSelector,
+  (state) => state.consecutiveInstruction
+);
+
+const getLastInstruction = createSelector(
+  rootSelector,
+  (state) => state.lastInstruction
 );
 
 const getDistanceRemaining = createSelector(
@@ -228,6 +253,7 @@ export {
   getNavigationTransitioning,
   getNavigationPerspective,
   getNextInstruction,
+  getConsecutiveInstruction,
   getLastInstruction,
   getCurrentLocation,
   getDistanceRemaining,

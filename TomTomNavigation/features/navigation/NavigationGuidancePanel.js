@@ -3,7 +3,9 @@ import { useSelector } from "react-redux";
 import { makeStyles } from "@fluentui/react";
 import useMeasure from "react-use-measure";
 import { useAppContext } from "../../app/AppContext";
+import Stack, { StackItem } from "../../components/Stack";
 import NextInstructionPanel from "./NextInstructionPanel";
+import ConsecutiveInstructionPanel from "./ConsecutiveInstructionPanel";
 import LaneGuidancePanel from "./LaneGuidancePanel";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import {
@@ -11,7 +13,10 @@ import {
   removeStyleFromDocument
 } from "../../functions/styles";
 
-import { getNextInstruction } from "./navigationSlice";
+import {
+  getNextInstruction,
+  getConsecutiveInstruction
+} from "./navigationSlice";
 
 const useStyles = ({ isPhone, isTablet, countryCode }) =>
   makeStyles((theme) => ({
@@ -20,20 +25,26 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
       top: 0,
       left: 0,
       margin: `${theme.spacing.m} ${theme.spacing.m} 0`,
-      padding: theme.spacing.l1,
-      borderRadius: theme.spacing.m,
-      backgroundColor:
-        countryCode === "US"
-          ? theme.semanticColors.nipUSBackground
-          : theme.semanticColors.nipEUBackground,
-      boxShadow: theme.floatingElementShadow,
       ...(isTablet && {
         width: 380
       }),
       ...(isPhone && {
         right: 0,
         margin: `${theme.spacing.s1} ${theme.spacing.s1} 0`
-      }),
+      })
+    },
+    nip: {
+      backgroundColor:
+        countryCode === "US"
+          ? theme.semanticColors.nipUSBackground
+          : theme.semanticColors.nipEUBackground,
+      transition: "background-color 0.15s"
+    },
+    consecutiveInstruction: {
+      backgroundColor:
+        countryCode === "US"
+          ? theme.semanticColors.nipUSHighlight
+          : theme.semanticColors.nipEUHighlight,
       transition: "background-color 0.15s"
     }
   }));
@@ -47,7 +58,9 @@ const NavigationGuidancePanel = ({ route }) => {
   const classes = useStyles({ isPhone, isTablet, countryCode })();
   const nipHeight = bounds.height;
   const nextInstruction = useSelector(getNextInstruction);
-  const laneGuidancePanelIsVisible = false;
+  const consecutiveInstruction = useSelector(getConsecutiveInstruction);
+  const haveLaneGuidance = false;
+  const haveConsecutiveInstruction = !!consecutiveInstruction;
 
   useEffect(() => {
     if (isPhone) {
@@ -70,10 +83,17 @@ const NavigationGuidancePanel = ({ route }) => {
   }
 
   return (
-    <div ref={guidanceRef} className={classes.root}>
-      <NextInstructionPanel route={route} nextInstruction={nextInstruction} />
-      {laneGuidancePanelIsVisible && <LaneGuidancePanel />}
-    </div>
+    <Stack ref={guidanceRef} className={classes.root}>
+      <StackItem className={classes.nip}>
+        <NextInstructionPanel route={route} instruction={nextInstruction} />
+        {haveLaneGuidance && <LaneGuidancePanel />}
+      </StackItem>
+      {haveConsecutiveInstruction && (
+        <StackItem className={classes.consecutiveInstruction}>
+          <ConsecutiveInstructionPanel instruction={consecutiveInstruction} />
+        </StackItem>
+      )}
+    </Stack>
   );
 };
 

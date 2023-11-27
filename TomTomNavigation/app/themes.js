@@ -5,13 +5,15 @@ export const lightTheme = {
     warningIcon: "#F84545",
     nipUSBackground: "#357B68",
     nipEUBackground: "#184681",
+    nipUSHighlight: "#1B3E34",
+    nipEUHighlight: "#0C2341",
     alert: "#F7B84F"
   },
   palette: {
     black: "#263543",
     neutralSecondary: "#727c85"
   },
-  floatingElementShadow: "0 0 25px 0 rgba(0, 0, 0, 0.2)"
+  floatingElementShadow: "0 0 25px 0 rgba(0, 0, 0, 0.15)"
 };
 
 export const darkTheme = {
@@ -23,6 +25,8 @@ export const darkTheme = {
     warningIcon: "#f84545",
     nipUSBackground: "#357B68",
     nipEUBackground: "#184681",
+    nipUSHighlight: "#1B3E34",
+    nipEUHighlight: "#0C2341",
     alert: "#F7B84F"
   },
   palette: {
@@ -30,5 +34,5 @@ export const darkTheme = {
     black: "#fff",
     neutralSecondary: "#abafb3"
   },
-  floatingElementShadow: "0 0 25px 0 rgba(0, 0, 0, 0.2)"
+  floatingElementShadow: "0 0 25px 0 rgba(0, 0, 0, 0.15)"
 };

@@ -7,7 +7,7 @@ import ExitShieldUS from "./ExitShieldUS";
 import ExitShieldEU from "./ExitShieldEU";
 import getRoadShield from "./roadshield/getRoadShield";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
-import getNextInstructionIcon from "../../functions/getNextInstructionIcon";
+import getManeuverIcon from "../../functions/getManeuverIcon";
 import formatDistance from "../../functions/formatDistance";
 import expandDirectionAbbreviation from "../../functions/expandDirectionAbbreviation";
 
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NextInstructionPanel = ({ route, nextInstruction }) => {
+const NextInstructionPanel = ({ route, instruction }) => {
   const theme = useTheme();
   const { measurementSystem } = useAppContext();
   const countryCode = countryCodeFromRoute(route);
@@ -53,20 +53,21 @@ const NextInstructionPanel = ({ route, nextInstruction }) => {
     distanceToNextManeuver,
     measurementSystem
   );
-  const { maneuver, street, signpostText } = nextInstruction;
-  const { roadShieldReferences, exitNumber } = nextInstruction;
-  const nextInstructionIcon = getNextInstructionIcon(maneuver);
+  const { maneuver, street, signpostText, roadShieldReferences, exitNumber } =
+    instruction;
+  const maneuverIcon = getManeuverIcon(maneuver);
   const hasRoadShields = !!roadShieldReferences;
   const haveExitNumber = !!exitNumber;
 
   const renderRoadShields = () => {
     if (roadShieldReferences) {
-      return roadShieldReferences.map((ref) => {
+      return roadShieldReferences.map((ref, index) => {
         const { reference, shieldContent, affixes } = ref;
         const icon = getRoadShield(reference, shieldContent);
 
         return (
           <Stack
+            key={index}
             tokens={{ childrenGap: theme.spacing.s2 }}
             verticalAlign="center"
             horizontal
@@ -90,7 +91,7 @@ const NextInstructionPanel = ({ route, nextInstruction }) => {
   return (
     <div className={`NextInstructionPanel ${classes.root}`}>
       <Stack horizontalAlign="center" horizontal>
-        {nextInstructionIcon}
+        {maneuverIcon}
       </Stack>
       <Stack grow="1">
         <Stack

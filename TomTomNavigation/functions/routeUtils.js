@@ -94,8 +94,8 @@ function getAnnouncementText(
 
   if (includeDistance) {
     const announcementTemplate = street
-      ? strings.guidanceAnnouncementOntoStreet
-      : strings.guidanceAnnouncement;
+      ? strings.guidanceAnnouncementOntoStreetTemplate
+      : strings.guidanceAnnouncementTemplate;
 
     const { value: distance, units } = formatDistance(
       distanceInMeters,
@@ -107,7 +107,7 @@ function getAnnouncementText(
       maneuverText,
       distance,
       units: expandUnits(distance, units),
-      street: expandDirectionAbbreviation(street)
+      street: street ? expandDirectionAbbreviation(street) : null
     });
   } else {
     return maneuverText;
