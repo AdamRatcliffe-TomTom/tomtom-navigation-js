@@ -1,10 +1,18 @@
 import React from "react";
-import sprite from "./sprite.json";
 
-const SpriteImage = ({ className, x, y, width, height, style, children }) => {
+const SpriteImage = ({
+  className,
+  image,
+  x,
+  y,
+  width,
+  height,
+  style,
+  children
+}) => {
   style = {
     position: "relative",
-    backgroundImage: `url(${sprite.image})`,
+    backgroundImage: `url(${image})`,
     backgroundPosition: `${x * -1}px ${y * -1}px`,
     backgroundRepeat: "no-repeat",
     width,

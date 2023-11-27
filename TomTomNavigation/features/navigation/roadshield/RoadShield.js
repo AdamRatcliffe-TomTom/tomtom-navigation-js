@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
-import expandDirectionAbbreviation from "../../functions/expandDirectionAbbreviation";
+import expandDirectionAbbreviation from "../../../functions/expandDirectionAbbreviation";
 
 const useStyles = makeStyles({
   affixes: {

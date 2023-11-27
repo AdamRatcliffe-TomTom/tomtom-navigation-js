@@ -5,7 +5,7 @@ import { useAppContext } from "../../app/AppContext";
 import useTextStyles from "../../hooks/useTextStyles";
 import ExitShieldUS from "./ExitShieldUS";
 import ExitShieldEU from "./ExitShieldEU";
-import RoadShield from "./RoadShield";
+import RoadShield from "./roadshield/RoadShield";
 import getRoadShield from "./roadshield/getRoadShield";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import getManeuverIcon from "../../functions/getManeuverIcon";

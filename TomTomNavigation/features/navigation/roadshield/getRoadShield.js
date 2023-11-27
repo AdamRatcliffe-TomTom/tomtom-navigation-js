@@ -1,5 +1,5 @@
 import React from "react";
-import SpriteImage from "./SpriteImage";
+import SpriteImage from "../../../components/SpriteImage";
 import sprite from "./sprite.json";
 
 export default function getRoadShield(name, text) {
@@ -17,6 +17,7 @@ export default function getRoadShield(name, text) {
     return (
       <SpriteImage
         className="RoadShield"
+        image={sprite.image}
         x={x}
         y={y}
         width={width}
