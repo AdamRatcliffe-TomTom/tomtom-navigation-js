@@ -7,6 +7,7 @@ import Stack, { StackItem } from "../../components/Stack";
 import NextInstructionPanel from "./NextInstructionPanel";
 import ConsecutiveInstructionPanel from "./ConsecutiveInstructionPanel";
 import LaneGuidancePanel from "./LaneGuidancePanel";
+import Maneuvers from "../../constants/Maneuvers";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import {
   addStyleToDocument,
@@ -26,7 +27,7 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
       left: 0,
       margin: `${theme.spacing.m} ${theme.spacing.m} 0`,
       ...(isTablet && {
-        width: 380
+        width: 390
       }),
       ...(isPhone && {
         right: 0,
@@ -60,7 +61,11 @@ const NavigationGuidancePanel = ({ route }) => {
   const nextInstruction = useSelector(getNextInstruction);
   const consecutiveInstruction = useSelector(getConsecutiveInstruction);
   const haveLaneGuidance = false;
-  const haveConsecutiveInstruction = !!consecutiveInstruction;
+  const haveConsecutiveInstruction =
+    !!consecutiveInstruction &&
+    ![Maneuvers.ARRIVE, Maneuvers.ARRIVE_LEFT, Maneuvers.ARRIVE_RIGHT].includes(
+      consecutiveInstruction.maneuver
+    );
 
   useEffect(() => {
     if (isPhone) {
