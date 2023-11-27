@@ -5,11 +5,11 @@ import { useAppContext } from "../../app/AppContext";
 import useTextStyles from "../../hooks/useTextStyles";
 import ExitShieldUS from "./ExitShieldUS";
 import ExitShieldEU from "./ExitShieldEU";
+import RoadShield from "./RoadShield";
 import getRoadShield from "./roadshield/getRoadShield";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import getManeuverIcon from "../../functions/getManeuverIcon";
 import formatDistance from "../../functions/formatDistance";
-import expandDirectionAbbreviation from "../../functions/expandDirectionAbbreviation";
 
 import { getDistanceToNextManeuver } from "./navigationSlice";
 
@@ -64,25 +64,9 @@ const NextInstructionPanel = ({ route, instruction }) => {
       return roadShieldReferences.map((ref, index) => {
         const { reference, shieldContent, affixes } = ref;
         const icon = getRoadShield(reference, shieldContent);
-
-        return (
-          <Stack
-            key={index}
-            tokens={{ childrenGap: theme.spacing.s2 }}
-            verticalAlign="center"
-            horizontal
-          >
-            {icon}
-            {affixes && affixes.length > 0 && (
-              <Text className={classes.affixes}>
-                {affixes.map(expandDirectionAbbreviation).join(" ")}
-              </Text>
-            )}
-          </Stack>
-        );
+        return <RoadShield key={index} icon={icon} affixes={affixes} />;
       });
     }
-
     return null;
   };
 
