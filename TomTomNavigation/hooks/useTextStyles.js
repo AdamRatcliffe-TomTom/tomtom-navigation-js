@@ -3,7 +3,7 @@ import { makeStyles } from "@fluentui/react";
 const useTextStyles = makeStyles((theme) => ({
   primaryText: {
     fontFamily: "Noto Sans",
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: 500
   },
   primaryUnitsText: {
