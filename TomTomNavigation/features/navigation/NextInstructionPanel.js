@@ -43,6 +43,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NextInstructionPanel = ({ route, instruction }) => {
+  if (!route || !instruction) {
+    return null;
+  }
+
   const theme = useTheme();
   const { measurementSystem } = useAppContext();
   const countryCode = countryCodeFromRoute(route);
@@ -60,14 +64,11 @@ const NextInstructionPanel = ({ route, instruction }) => {
   const haveExitNumber = !!exitNumber;
 
   const renderRoadShields = () => {
-    if (roadShieldReferences) {
-      return roadShieldReferences.map((ref, index) => {
-        const { reference, shieldContent, affixes } = ref;
-        const icon = getRoadShield(reference, shieldContent);
-        return <RoadShield key={index} icon={icon} affixes={affixes} />;
-      });
-    }
-    return null;
+    return roadShieldReferences.map((ref, index) => {
+      const { reference, shieldContent, affixes } = ref;
+      const icon = getRoadShield(reference, shieldContent);
+      return <RoadShield key={index} icon={icon} affixes={affixes} />;
+    });
   };
 
   const ExitShield = countryCode === "US" ? ExitShieldUS : ExitShieldEU;

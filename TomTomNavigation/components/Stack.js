@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const StackItem = ({ className, children, zIndex, ...otherProps }) => {
+const Item = ({ className, children, zIndex, ...otherProps }) => {
   const classes = useStyles();
   return (
     <div
@@ -62,6 +62,6 @@ const Stack = React.forwardRef(
   }
 );
 
-export { StackItem };
+Stack.Item = Item;
 
 export default Stack;

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { makeStyles } from "@fluentui/react";
 import useMeasure from "react-use-measure";
 import { useAppContext } from "../../app/AppContext";
-import Stack, { StackItem } from "../../components/Stack";
+import Stack from "../../components/Stack";
 import NextInstructionPanel from "./NextInstructionPanel";
 import ConsecutiveInstructionPanel from "./ConsecutiveInstructionPanel";
 import LaneGuidancePanel from "./LaneGuidancePanel";
@@ -19,7 +19,9 @@ import {
   getConsecutiveInstruction
 } from "./navigationSlice";
 
-const useStyles = ({ isPhone, isTablet, countryCode }) =>
+import { TABLET_GUIDANCE_PANEL_WIDTH } from "../../config";
+
+const useStyles = ({ appTheme, isPhone, isTablet, countryCode }) =>
   makeStyles((theme) => ({
     root: {
       position: "absolute",
@@ -27,25 +29,29 @@ const useStyles = ({ isPhone, isTablet, countryCode }) =>
       left: 0,
       margin: `${theme.spacing.m} ${theme.spacing.m} 0`,
       ...(isTablet && {
-        width: 390
+        width: TABLET_GUIDANCE_PANEL_WIDTH
       }),
       ...(isPhone && {
         right: 0,
         margin: `${theme.spacing.s1} ${theme.spacing.s1} 0`
       })
     },
-    nip: {
+    nipPanel: {
       backgroundColor:
         countryCode === "US"
           ? theme.semanticColors.nipUSBackground
           : theme.semanticColors.nipEUBackground,
       transition: "background-color 0.15s"
     },
-    consecutiveInstruction: {
+    consecutiveInstructionPanel: {
       backgroundColor:
         countryCode === "US"
-          ? theme.semanticColors.nipUSHighlight
-          : theme.semanticColors.nipEUHighlight,
+          ? appTheme === "dark"
+            ? theme.semanticColors.nipUSHighlight
+            : theme.semanticColors.nipUSEmphasis
+          : appTheme === "dark"
+          ? theme.semanticColors.nipEUHighlight
+          : theme.semanticColors.nipEUEmphasis,
       transition: "background-color 0.15s"
     }
   }));
@@ -54,9 +60,9 @@ const styleId = "guidance-ctrl-margin-adjustment";
 
 const NavigationGuidancePanel = ({ route }) => {
   const [guidanceRef, bounds] = useMeasure();
-  const { isPhone, isTablet } = useAppContext();
+  const { theme: appTheme, isPhone, isTablet } = useAppContext();
   const countryCode = countryCodeFromRoute(route);
-  const classes = useStyles({ isPhone, isTablet, countryCode })();
+  const classes = useStyles({ appTheme, isPhone, isTablet, countryCode })();
   const nipHeight = bounds.height;
   const nextInstruction = useSelector(getNextInstruction);
   const consecutiveInstruction = useSelector(getConsecutiveInstruction);
@@ -89,14 +95,14 @@ const NavigationGuidancePanel = ({ route }) => {
 
   return (
     <Stack ref={guidanceRef} className={classes.root}>
-      <StackItem className={classes.nip}>
+      <Stack.Item className={classes.nipPanel}>
         <NextInstructionPanel route={route} instruction={nextInstruction} />
         {haveLaneGuidance && <LaneGuidancePanel />}
-      </StackItem>
+      </Stack.Item>
       {haveConsecutiveInstruction && (
-        <StackItem className={classes.consecutiveInstruction}>
+        <Stack.Item className={classes.consecutiveInstructionPanel}>
           <ConsecutiveInstructionPanel instruction={consecutiveInstruction} />
-        </StackItem>
+        </Stack.Item>
       )}
     </Stack>
   );
