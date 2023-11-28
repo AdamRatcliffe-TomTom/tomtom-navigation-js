@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing.s1
   },
   distance: {
+    fontSize: 28,
     color: "white"
   },
   street: {
@@ -48,7 +49,7 @@ const NextInstructionPanel = ({ route, instruction }) => {
   }
 
   const theme = useTheme();
-  const { measurementSystem } = useAppContext();
+  const { landscapeMinimal, measurementSystem } = useAppContext();
   const countryCode = countryCodeFromRoute(route);
   const classes = useStyles();
   const textClasses = useTextStyles();
@@ -62,6 +63,7 @@ const NextInstructionPanel = ({ route, instruction }) => {
   const maneuverIcon = getManeuverIcon(maneuver);
   const hasRoadShields = !!roadShieldReferences;
   const haveExitNumber = !!exitNumber;
+  const haveStreet = !landscapeMinimal && (street || signpostText);
 
   const renderRoadShields = () => {
     return roadShieldReferences.map((ref, index) => {
@@ -90,7 +92,9 @@ const NextInstructionPanel = ({ route, instruction }) => {
           </Text>
           {haveExitNumber && <ExitShield text={exitNumber} />}
         </Stack>
-        <Text className={classes.street}>{street || signpostText}</Text>
+        {haveStreet && (
+          <Text className={classes.street}>{street || signpostText}</Text>
+        )}
         {hasRoadShields && (
           <Stack
             tokens={{ childrenGap: theme.spacing.m }}

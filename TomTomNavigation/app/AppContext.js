@@ -29,6 +29,7 @@ export default function AppContextProvider({
       simulationSpeed,
       isPhone: width <= 428,
       isTablet: width > 428,
+      landscapeMinimal: height < 500,
       theme,
       guidanceVoice,
       mapStyles: {

@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     padding: theme.spacing.l1
+  },
+  button: {
+    marginRight: -8
   }
 }));
 
@@ -77,6 +80,24 @@ const ETA = ({
               {formattedArrival.meridiem}
             </Text>
           </Stack>
+          {/* {showTrafficDelay && (
+            <Stack
+              horizontal
+              verticalAlign="center"
+              tokens={{ childrenGap: 6 }}
+            >
+              <Text className={textClasses.secondaryText}>⸱</Text>
+              <JamIcon color={theme.semanticColors.warningIcon} />
+              <Text className={textClasses.warningText}>{formattedDelay}</Text>
+            </Stack>
+          )} */}
+        </Stack>
+        <Stack horizontal tokens={{ childrenGap: theme.spacing.s1 }}>
+          <Text
+            className={textClasses.secondaryText}
+          >{`${formattedDistanceRemaining.value} ${formattedDistanceRemaining.units}`}</Text>
+          <Text className={textClasses.secondaryText}>⸱</Text>
+          <Text className={textClasses.secondaryText}>{duration}</Text>
           {showTrafficDelay && (
             <Stack
               horizontal
@@ -89,23 +110,16 @@ const ETA = ({
             </Stack>
           )}
         </Stack>
-        <Stack horizontal tokens={{ childrenGap: theme.spacing.s1 }}>
-          <Text
-            className={textClasses.secondaryText}
-          >{`${formattedDistanceRemaining.value} ${formattedDistanceRemaining.units}`}</Text>
-          <Text className={textClasses.secondaryText}>⸱</Text>
-          <Text className={textClasses.secondaryText}>{duration}</Text>
-        </Stack>
       </Stack>
       {isNavigating ? (
         <DefaultButton
-          className={buttonClasses.circleButton}
+          className={`${buttonClasses.circleButton} ${classes.button}`}
           onRenderIcon={() => <CrossIcon color={theme.palette.black} />}
           onClick={onStopNavigation}
         />
       ) : (
         <DefaultButton
-          className={buttonClasses.pillButtonLarge}
+          className={`${buttonClasses.pillButtonLarge} ${classes.button}`}
           text={strings.go}
           onClick={onStartNavigation}
         />

@@ -10,7 +10,7 @@ const useButtonStyles = makeStyles((theme) => ({
     padding: 0
   },
   pillButton: {
-    minWidth: 75,
+    minWidth: 65,
     fontFamily: "Noto Sans",
     fontSize: 16,
     fontWeight: 400,
@@ -23,7 +23,7 @@ const useButtonStyles = makeStyles((theme) => ({
     }
   },
   pillButtonLarge: {
-    minWidth: 75,
+    minWidth: 70,
     fontFamily: "Noto Sans",
     fontSize: 18,
     fontWeight: 400,

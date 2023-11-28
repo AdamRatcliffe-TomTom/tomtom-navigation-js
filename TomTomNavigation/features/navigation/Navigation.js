@@ -60,13 +60,12 @@ const Navigation = ({ map }) => {
   const showGuidancePanel = useSelector(getShowGuidancePanel);
   const isNavigating = useSelector(getIsNavigating);
   const navigationTransitioning = useSelector(getNavigationTransitioning);
-  const [navigationPerspective, navigationPerspectiveRef] = useSelectorRef(
-    getNavigationPerspective
+  const navigationPerspectiveRef = useSelectorRef(getNavigationPerspective).at(
+    1
   );
   const hasReachedDestination = useSelector(getHasReachedDestination);
   const { announcement } = useSelector(getCurrentLocation);
-  const [lastInstruction, lastInstructionRef] =
-    useSelectorRef(getLastInstruction);
+  const lastInstructionRef = useSelectorRef(getLastInstruction).at(1);
   const [voiceAnnouncementsEnabled, voiceAnnouncementsEnabledRef] =
     useSelectorRef(getVoiceAnnouncementsEnabled);
   const routeOptions = useSelector(getRouteOptions);
@@ -85,7 +84,6 @@ const Navigation = ({ map }) => {
   );
   const guidancePanelIsVisible =
     showGuidancePanel && isNavigating && !hasReachedDestination;
-  // const guidancePanelIsVisible = true;
   const simulatorIsActive = navigationRoute && isNavigating;
 
   useEffect(() => {
