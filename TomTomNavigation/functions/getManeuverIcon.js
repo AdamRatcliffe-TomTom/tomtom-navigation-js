@@ -17,6 +17,10 @@ import RoundaboutAround from "../icons/nip/RoundaboutAround";
 import DestinationIcon from "../icons/nip/DestinationIcon";
 import DestinationLeftIcon from "../icons/nip/DestinationLeftIcon";
 import DestinationRightIcon from "../icons/nip/DestinationRightIcon";
+import MotorwayIcon from "../icons/nip/MotorwayIcon";
+import WaypointIcon from "../icons/nip/WaypointIcon";
+import WaypointLeftIcon from "../icons/nip/WaypointLeftIcon";
+import WaypointRightIcon from "../icons/nip/WaypointRightIcon";
 
 export default function getManeuverIcon(
   maneuver,
@@ -52,6 +56,19 @@ export default function getManeuverIcon(
     [Maneuvers.FOLLOW]: <StraightIcon size={size} color={color} />,
     [Maneuvers.ARRIVE]: <DestinationIcon size={size} color={color} />,
     [Maneuvers.ARRIVE_LEFT]: <DestinationLeftIcon size={size} color={color} />,
-    [Maneuvers.ARRIVE_RIGHT]: <DestinationRightIcon size={size} color={color} />
+    [Maneuvers.ARRIVE_RIGHT]: (
+      <DestinationRightIcon size={size} color={color} />
+    ),
+    [Maneuvers.ENTER_FREEWAY]: <MotorwayIcon size={size} color={color} />,
+    [Maneuvers.ENTER_MOTORWAY]: <MotorwayIcon size={size} color={color} />,
+    [Maneuvers.AHEAD_EXIT_LEFT]: <KeepLeftIcon size={size} color={color} />,
+    [Maneuvers.AHEAD_EXIT_RIGHT]: <KeepRightIcon size={size} color={color} />,
+    [Maneuvers.MOTORWAY_EXIT_LEFT]: <KeepLeftIcon size={size} color={color} />,
+    [Maneuvers.MOTORWAY_EXIT_RIGHT]: (
+      <KeepRightIcon size={size} color={color} />
+    ),
+    [Maneuvers.WAYPOINT_REACHED]: <WaypointIcon size={size} color={color} />,
+    [Maneuvers.WAYPOINT_LEFT]: <WaypointLeftIcon size={size} color={color} />,
+    [Maneuvers.WAYPOINT_RIGHT]: <WaypointRightIcon size={size} color={color} />
   }[maneuver];
 }
