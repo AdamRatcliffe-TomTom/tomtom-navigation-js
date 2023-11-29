@@ -24,6 +24,7 @@ import {
 import {
   setShowBottomPanel,
   setShowGuidancePanel,
+  setShowArrivalPanel,
   resetNavigation
 } from "../features/navigation/navigationSlice";
 
@@ -41,6 +42,7 @@ function Wrapper({
   automaticRouteCalculation,
   showBottomPanel,
   showGuidancePanel,
+  showArrivalPanel,
   children
 }) {
   const dispatch = useDispatch();
@@ -67,6 +69,10 @@ function Wrapper({
   useEffect(() => {
     dispatch(setShowGuidancePanel(showGuidancePanel));
   }, [showGuidancePanel]);
+
+  useEffect(() => {
+    dispatch(setShowArrivalPanel(showArrivalPanel));
+  }, [showArrivalPanel]);
 
   return (
     <div className={`TomTomNavigation ${classes.wrapper}`}>{children}</div>

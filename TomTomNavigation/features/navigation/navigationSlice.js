@@ -13,7 +13,8 @@ import NavigationPerspectives from "../../constants/NavigationPerspectives";
 const initialState = {
   voiceAnnouncementsEnabled: true,
   showBottomPanel: true,
-  showGuidance: true,
+  showGuidancePanel: true,
+  showArrivalPanel: true,
   isNavigating: false,
   navigationPerspective: NavigationPerspectives.DRIVING,
   hasReachedDestination: false,
@@ -44,7 +45,10 @@ const navigationSlice = createSlice({
       state.showBottomPanel = action.payload;
     },
     setShowGuidancePanel: (state, action) => {
-      state.showGuidance = action.payload;
+      state.showGuidancePanel = action.payload;
+    },
+    setShowArrivalPanel: (state, action) => {
+      state.showArrivalPanel = action.payload;
     },
     setIsNavigating: (state, action) => {
       state.isNavigating = action.payload;
@@ -177,7 +181,12 @@ const getShowBottomPanel = createSelector(
 
 const getShowGuidancePanel = createSelector(
   rootSelector,
-  (state) => state.showGuidance
+  (state) => state.showGuidancePanel
+);
+
+const getShowArrivalPanel = createSelector(
+  rootSelector,
+  (state) => state.showArrivalPanel
 );
 
 const getIsNavigating = createSelector(
@@ -250,6 +259,7 @@ const getVoiceAnnouncementsEnabled = createSelector(
 export {
   getShowBottomPanel,
   getShowGuidancePanel,
+  getShowArrivalPanel,
   getIsNavigating,
   getNavigationTransitioning,
   getNavigationPerspective,
@@ -269,6 +279,7 @@ export {
 export const {
   setShowBottomPanel,
   setShowGuidancePanel,
+  setShowArrivalPanel,
   setIsNavigating,
   setNavigationTransitioning,
   setNavigationPerspective,

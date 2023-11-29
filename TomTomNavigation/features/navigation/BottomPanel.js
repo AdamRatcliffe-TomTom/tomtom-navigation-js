@@ -4,7 +4,11 @@ import ETAPanel from "./ETAPanel";
 import ArrivalPanel from "./ArrivalPanel";
 import { useAppContext } from "../../app/AppContext";
 
-import { getIsNavigating, getHasReachedDestination } from "./navigationSlice";
+import {
+  getIsNavigating,
+  getHasReachedDestination,
+  getShowArrivalPanel
+} from "./navigationSlice";
 
 const useStyles = ({ isPhone, isTablet }) =>
   makeStyles((theme) => ({
@@ -31,12 +35,15 @@ const BottomPanel = ({ route, onStartNavigation, onStopNavigation }) => {
   const { measurementSystem, isPhone, isTablet } = useAppContext();
   const classes = useStyles({ isPhone, isTablet })();
   const isNavigating = useSelector(getIsNavigating);
+  const showArrivalPanel = useSelector(getShowArrivalPanel);
   const hasReachedDestination = useSelector(getHasReachedDestination);
 
   return route ? (
     <div className={classes.root}>
       {hasReachedDestination ? (
-        <ArrivalPanel onStopNavigation={onStopNavigation} />
+        showArrivalPanel ? (
+          <ArrivalPanel onStopNavigation={onStopNavigation} />
+        ) : null
       ) : (
         <ETAPanel
           route={route}
