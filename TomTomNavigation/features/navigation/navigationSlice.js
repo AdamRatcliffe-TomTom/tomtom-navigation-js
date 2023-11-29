@@ -158,6 +158,7 @@ const navigationSlice = createSlice({
       state.hasReachedDestination = false;
       state.currentLocation = initialState.currentLocation;
       state.nextInstruction = undefined;
+      state.consecutiveInstruction = undefined;
       state.lastInstruction = undefined;
       state.routeProgress = undefined;
       state.distanceRemaining = undefined;
