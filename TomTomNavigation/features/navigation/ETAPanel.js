@@ -80,24 +80,6 @@ const ETA = ({
               {formattedArrival.meridiem}
             </Text>
           </Stack>
-          {/* {showTrafficDelay && (
-            <Stack
-              horizontal
-              verticalAlign="center"
-              tokens={{ childrenGap: 6 }}
-            >
-              <Text className={textClasses.secondaryText}>⸱</Text>
-              <JamIcon color={theme.semanticColors.warningIcon} />
-              <Text className={textClasses.warningText}>{formattedDelay}</Text>
-            </Stack>
-          )} */}
-        </Stack>
-        <Stack horizontal tokens={{ childrenGap: theme.spacing.s1 }}>
-          <Text
-            className={textClasses.secondaryText}
-          >{`${formattedDistanceRemaining.value} ${formattedDistanceRemaining.units}`}</Text>
-          <Text className={textClasses.secondaryText}>⸱</Text>
-          <Text className={textClasses.secondaryText}>{duration}</Text>
           {showTrafficDelay && (
             <Stack
               horizontal
@@ -109,6 +91,24 @@ const ETA = ({
               <Text className={textClasses.warningText}>{formattedDelay}</Text>
             </Stack>
           )}
+        </Stack>
+        <Stack horizontal tokens={{ childrenGap: theme.spacing.s1 }}>
+          <Text
+            className={textClasses.secondaryText}
+          >{`${formattedDistanceRemaining.value} ${formattedDistanceRemaining.units}`}</Text>
+          <Text className={textClasses.secondaryText}>⸱</Text>
+          <Text className={textClasses.secondaryText}>{duration}</Text>
+          {/* {showTrafficDelay && (
+            <Stack
+              horizontal
+              verticalAlign="center"
+              tokens={{ childrenGap: 6 }}
+            >
+              <Text className={textClasses.secondaryText}>⸱</Text>
+              <JamIcon color={theme.semanticColors.warningIcon} />
+              <Text className={textClasses.warningText}>{formattedDelay}</Text>
+            </Stack>
+          )} */}
         </Stack>
       </Stack>
       {isNavigating ? (
