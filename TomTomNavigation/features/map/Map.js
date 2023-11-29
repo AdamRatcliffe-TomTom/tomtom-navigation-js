@@ -19,6 +19,8 @@ import coordinatesToGeoJson from "../../functions/coordinatesToGeoJson";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
+import fireEvent from "../../functions/fireEvent";
+import ComponentEvents from "../../constants/ComponentEvents";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
 
 import {
@@ -142,7 +144,14 @@ const Map = ({
   }, [theme]);
 
   useEffect(() => {
-    fitRoute({ animate: false });
+    if (route) {
+      fitRoute({ animate: false });
+
+      fireEvent(
+        ComponentEvents.route_calculated,
+        route.features[0].properties.summary
+      );
+    }
   }, [route, JSON.stringify(routeOptions.locations)]);
 
   useEffect(() => {

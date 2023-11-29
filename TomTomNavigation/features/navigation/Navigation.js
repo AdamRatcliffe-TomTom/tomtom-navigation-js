@@ -12,7 +12,9 @@ import { useCalculateRouteQuery } from "../../services/routing";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import tomtom2mapbox from "../../functions/tomtom2mapbox";
+import fireEvent from "../../functions/fireEvent";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
+import ComponentEvents from "../../constants/ComponentEvents";
 import strings from "../../config/strings";
 
 import {
@@ -149,6 +151,8 @@ const Navigation = ({ map }) => {
       const announcement = strings.DEPART;
       speak({ voice, text: announcement });
     }
+
+    fireEvent(ComponentEvents.navigation_started);
   };
 
   const stopNavigation = () => {
@@ -167,6 +171,8 @@ const Navigation = ({ map }) => {
 
     // Restore map interaction
     setMapInteractive(true);
+
+    fireEvent(ComponentEvents.navigation_stopped);
   };
 
   const setMapInteractive = (interactive) =>
@@ -233,6 +239,8 @@ const Navigation = ({ map }) => {
         speak({ voice, text: announcement });
       }
     }
+
+    fireEvent(ComponentEvents.destination_reached);
   };
 
   const getGuidanceVoice = () =>

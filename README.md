@@ -54,6 +54,64 @@ The navigation component sources the route waypoints from a `DataSet`. The datas
 | icon_offset_x | `Whole.None`      | No       | The horizontal offset in pixels to apply relative to the icon's center. A negative value indicates left.                                                                                                                  |
 | icon_offset_y | `Whole.None`      | No       | The vertical offset in pixels to apply relative to the icon's center. A negative value indicates up.                                                                                                                      |
 
+## Component Events
+
+The navigation component uses the `window.postMessage()` method to communicate state changes. To listen for events dispatched by the component add an event listener to the `window` for the "message" event e.g.
+
+````
+window.addEventListener(
+  "message",
+  (event) => {
+	 const {data} = event;
+	 ...
+  },
+  false,
+);
+````
+
+The `data` property of the event contains the message data sent by the component. The message data has a `type` property which identifies the message as having been by the navigation component and the particular state change that has occurred.
+
+The possible messages sent by the component are:
+
+### TomTomNavigation.route_calculated
+
+Fired when a route has been calculated for the provided waypoints.
+
+#### Message Properties
+
+| Name    | Value                               | Description          |
+| ------- | ----------------------------------- | -------------------- |
+| `type`  | "TomTomNavigation.route_calculated" | The message type.    |
+| `lengthInMeters` | `number`                   | The route length in meters. |
+| `travelTimeInSeconds` | `number`              | The route travel time in seconds. |
+| `trafficDelayInSeconds` | `number`            | The traffic delay in seconds. |
+| `departureTime` | `number` | The estimated departure time for the route. |
+| `arrivalTime` | `number` | The estimated arrival time for the route. |
+
+### TomTomNavigation.navigation_started
+
+Fired when navigation is started.
+
+| Name    | Value                               | Description          |
+| ------- | ----------------------------------- | -------------------- |
+| `type`  | "TomTomNavigation.navigation_started" | The message type.    |
+
+### TomTomNavigation.navigation_stopped
+
+Fired when navigation is stopped.
+
+| Name    | Value                               | Description          |
+| ------- | ----------------------------------- | -------------------- |
+| `type`  | "TomTomNavigation.navigation_stopped" | The message type.    |
+
+### TomTomNavigation.destination_reached
+
+Fired when the destination is reached.
+
+| Name    | Value                               | Description          |
+| ------- | ----------------------------------- | -------------------- |
+| `type`  | "TomTomNavigation.destination_reached" | The message type.    |
+
 ## Testing
 
 Route test data can be found in the [data](data) directory.
