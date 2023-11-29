@@ -145,12 +145,11 @@ const Map = ({
 
   useEffect(() => {
     if (route) {
+      const summary = route.features[0].properties.summary;
+
       fitRoute({ animate: false });
 
-      fireEvent(
-        ComponentEvents.route_calculated,
-        route.features[0].properties.summary
-      );
+      fireEvent(ComponentEvents.route_calculated, { summary });
     }
   }, [route, JSON.stringify(routeOptions.locations)]);
 

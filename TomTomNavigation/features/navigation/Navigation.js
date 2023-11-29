@@ -72,6 +72,7 @@ const Navigation = ({ map }) => {
   const [voiceAnnouncementsEnabled, voiceAnnouncementsEnabledRef] =
     useSelectorRef(getVoiceAnnouncementsEnabled);
   const routeOptions = useSelector(getRouteOptions);
+  const destination = routeOptions.locations.at(-1);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const { data: route } = useCalculateRouteQuery(
     {
@@ -241,7 +242,7 @@ const Navigation = ({ map }) => {
       }
     }
 
-    fireEvent(ComponentEvents.destination_reached);
+    fireEvent(ComponentEvents.destination_reached, { destination });
   };
 
   const getGuidanceVoice = () =>

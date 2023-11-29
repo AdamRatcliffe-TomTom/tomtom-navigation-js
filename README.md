@@ -82,11 +82,12 @@ Fired when a route has been calculated for the provided waypoints.
 | Name    | Value                               | Description          |
 | ------- | ----------------------------------- | -------------------- |
 | `type`  | "TomTomNavigation.route_calculated" | The message type.    |
-| `lengthInMeters` | `number`                   | The route length in meters. |
-| `travelTimeInSeconds` | `number`              | The route travel time in seconds. |
-| `trafficDelayInSeconds` | `number`            | The traffic delay in seconds. |
-| `departureTime` | `number` | The estimated departure time for the route. |
-| `arrivalTime` | `number` | The estimated arrival time for the route. |
+| `summary` | `Object`                          | Route summary data.  |
+| `summary.lengthInMeters` | `number`                   | The route length in meters. |
+| `summary.travelTimeInSeconds` | `number`              | The route travel time in seconds. |
+| `summary.trafficDelayInSeconds` | `number`            | The traffic delay in seconds. |
+| `summary.departureTime` | `number` | The estimated departure time for the route. |
+| `summary.arrivalTime` | `number` | The estimated arrival time for the route. |
 
 ### TomTomNavigation.navigation_started
 
@@ -111,6 +112,12 @@ Fired when the destination is reached.
 | Name    | Value                               | Description          |
 | ------- | ----------------------------------- | -------------------- |
 | `type`  | "TomTomNavigation.destination_reached" | The message type.    |
+| `id`    | `string`                               | Internal ID for the record. |
+| `destination` | `Object` | Route destination record. |
+| `destination.coordinates` | `Array` | The destination coordinates in the format [`longitude`, `latitude`] |
+| `destination.name` | `string` | The destination name (if provided). |
+| `destination.address` | `string` | The destination address (if provided). |
+| `destination.icon` | `Object` | Properties specifying the icon for the record (if provided). |
 
 ## Testing
 
