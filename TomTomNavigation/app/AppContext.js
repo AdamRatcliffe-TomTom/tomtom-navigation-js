@@ -16,7 +16,8 @@ export default function AppContextProvider({
   height,
   simulationSpeed,
   theme,
-  guidanceVoice
+  guidanceVoice,
+  guidanceVoiceVolume
 }) {
   const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
 
@@ -32,6 +33,7 @@ export default function AppContextProvider({
       landscapeMinimal: height < 500,
       theme,
       guidanceVoice,
+      guidanceVoiceVolume,
       mapStyles: {
         street: {
           name: "street",
@@ -61,7 +63,8 @@ export default function AppContextProvider({
       height,
       simulationSpeed,
       theme,
-      guidanceVoice
+      guidanceVoice,
+      guidanceVoiceVolume
     ]
   );
 

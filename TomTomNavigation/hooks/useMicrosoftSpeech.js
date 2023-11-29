@@ -73,7 +73,9 @@ const useMicrosoftSpeech = () => {
 
   const speak = ({ text, voice, volume = 0.5 }) => {
     if (voicesAvailable) {
-      if (isSpeaking) return;
+      if (isSpeaking) {
+        return;
+      }
 
       const player = new SpeakerAudioDestination();
       player.volume = volume;

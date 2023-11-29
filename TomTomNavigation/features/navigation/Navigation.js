@@ -56,7 +56,8 @@ const Navigation = ({ map }) => {
     height,
     language,
     measurementSystem,
-    guidanceVoice
+    guidanceVoice,
+    guidanceVoiceVolume
   } = useAppContext();
   const showBottomPanel = useSelector(getShowBottomPanel);
   const showGuidancePanel = useSelector(getShowGuidancePanel);
@@ -115,7 +116,7 @@ const Navigation = ({ map }) => {
   useEffect(() => {
     if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
       const voice = getGuidanceVoice();
-      speak({ voice, text: announcement.text });
+      speak({ voice, text: announcement.text, volume: guidanceVoiceVolume });
     }
   }, [announcement, voiceAnnouncementsEnabled]);
 
@@ -149,7 +150,7 @@ const Navigation = ({ map }) => {
     if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
       const voice = getGuidanceVoice();
       const announcement = strings.DEPART;
-      speak({ voice, text: announcement });
+      speak({ voice, text: announcement, volume: guidanceVoiceVolume });
     }
 
     fireEvent(ComponentEvents.navigation_started);
@@ -236,7 +237,7 @@ const Navigation = ({ map }) => {
 
       if (instruction) {
         const announcement = strings[instruction.maneuver];
-        speak({ voice, text: announcement });
+        speak({ voice, text: announcement, volume: guidanceVoiceVolume });
       }
     }
 

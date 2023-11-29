@@ -87,6 +87,7 @@ function App({
   width,
   height,
   guidanceVoice,
+  guidanceVoiceVolume,
   simulationSpeed,
   mapOptions,
   ...otherProps
@@ -113,6 +114,7 @@ function App({
           width={width}
           height={height}
           guidanceVoice={guidanceVoice}
+          guidanceVoiceVolume={guidanceVoiceVolume}
           simulationSpeed={simulationSpeed}
           theme={theme}
         >

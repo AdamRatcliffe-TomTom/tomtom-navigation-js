@@ -109,6 +109,10 @@ export class TomTomNavigation
       "automaticRouteCalculation"
     );
     const guidanceVoice = this.getRawParameter(context, "guidanceVoice");
+    const guidanceVoiceVolume = this.getRawParameter(
+      context,
+      "guidanceVoiceVolume"
+    );
     const simulationSpeed = this.getRawParameter(context, "simulationSpeed");
     const travelMode = this.getRawParameter(context, "travelMode");
     const traffic = this.getRawParameter(context, "traffic");
@@ -150,6 +154,7 @@ export class TomTomNavigation
       width,
       height,
       guidanceVoice,
+      guidanceVoiceVolume,
       simulationSpeed,
       initialCenter,
       initialZoom,

@@ -63,6 +63,7 @@
 			<value name="curbSide" display-name-key="Curb side">curbSide</value>			
 		</property>
 		<property name="guidanceVoice" display-name-key="Guidance voice" description-key="guidanceVoice_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="guidanceVoiceVolume" display-name-key="Guidance voice volume" description-key="guidanceVoiceVolume_Desc_Key" of-type="Decimal" usage="input" required="false" default-value="0.5" />
 		<property name="simulationSpeed" display-name-key="Simulation speed" description-key="simulationSpeed_Desc_Key" of-type="Enum" usage="input" required="true" default-value="2x">
 			<value name="1x" display-name-key="1x">1x</value>
 			<value name="2x" display-name-key="2x">2x</value>
