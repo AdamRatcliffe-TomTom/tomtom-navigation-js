@@ -42,7 +42,6 @@ import {
   setDistanceRemaining,
   setTimeRemaining,
   setEta,
-  setRemainingRoute,
   setHasReachedDestination,
   resetNavigation
 } from "../navigation/navigationSlice";
@@ -74,7 +73,7 @@ const Navigation = ({ map }) => {
   const routeOptions = useSelector(getRouteOptions);
   const destination = routeOptions.locations.at(-1);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
-  const { data: route } = useCalculateRouteQuery(
+  const { data: { route } = {} } = useCalculateRouteQuery(
     {
       key: apiKey,
       ...routeOptions
@@ -109,7 +108,6 @@ const Navigation = ({ map }) => {
         dispatch(setDistanceRemaining(lengthInMeters));
         dispatch(setTimeRemaining(travelTimeInSeconds));
         dispatch(setEta(eta));
-        dispatch(setRemainingRoute(route));
       });
     }
   }, [route]);

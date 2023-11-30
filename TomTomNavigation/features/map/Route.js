@@ -4,7 +4,6 @@ import _isNil from "lodash.isnil";
 import { withMap } from "react-tomtom-maps";
 import { MapboxOverlay } from "@deck.gl/mapbox";
 import { GeoJsonLayer } from "@deck.gl/layers";
-import { PathStyleExtension } from "@deck.gl/extensions";
 import { v4 as uuid } from "uuid";
 
 class Route extends PureComponent {
@@ -33,53 +32,15 @@ class Route extends PureComponent {
   }
 
   createLayers() {
-    let { data, remainingRoute, before } = this.props;
+    let { data, progress, before } = this.props;
 
     if (!data) return null;
-
-    if (_isNil(remainingRoute)) {
-      remainingRoute = data;
-    }
 
     const layers = [
       new GeoJsonLayer({
         id: `${this.id}--Casing`,
         beforeId: before,
         data,
-        filled: true,
-        stroked: true,
-        getLineColor: [26, 60, 80, 191],
-        getLineWidth: 9,
-        lineWidthMinPixels: 9,
-        lineWidthMaxPixels: 16,
-        lineWidthUnits: "meters",
-        lineCapRounded: true,
-        lineJointRounded: true
-        // getDashArray: [3, 2],
-        // dashJustified: true,
-        // extensions: [new PathStyleExtension({ dash: true })]
-      }),
-      new GeoJsonLayer({
-        id: `${this.id}--Line`,
-        beforeId: before,
-        data: data,
-        filled: true,
-        stroked: true,
-        getLineColor: [33, 75, 100, 191],
-        getLineWidth: 6,
-        lineWidthMinPixels: 6,
-        lineWidthMaxPixels: 13,
-        lineWidthUnits: "meters",
-        lineCapRounded: true,
-        lineJointRounded: true
-        // getDashArray: [3, 2],
-        // dashJustified: true,
-        // extensions: [new PathStyleExtension({ dash: true })]
-      }),
-      new GeoJsonLayer({
-        id: `${this.id}--Remaining`,
-        beforeId: before,
-        data: remainingRoute,
         filled: true,
         stroked: true,
         getLineColor: [5, 104, 168, 255],
@@ -89,30 +50,69 @@ class Route extends PureComponent {
         lineWidthUnits: "meters",
         lineCapRounded: true,
         lineJointRounded: true
-        // getDashArray: [1, 4],
-        // dashJustified: true,
-        // extensions: [new PathStyleExtension({ dash: true })]
       }),
       new GeoJsonLayer({
-        id: `${this.id}--Remaining-Line`,
+        id: `${this.id}--Line`,
         beforeId: before,
-        data: remainingRoute,
+        data,
         filled: true,
         stroked: true,
-        getLineColor: [59, 174, 227, 255],
+        getLineColor: this.getLineColor,
         getLineWidth: 6,
         lineWidthMinPixels: 6,
         lineWidthMaxPixels: 13,
         lineWidthUnits: "meters",
         lineCapRounded: true,
         lineJointRounded: true
-        // getDashArray: [1, 4],
-        // dashJustified: true,
-        // extensions: [new PathStyleExtension({ dash: true })]
+      }),
+      new GeoJsonLayer({
+        id: `${this.id}--Progress_Casing`,
+        beforeId: before,
+        data: progress,
+        filled: true,
+        stroked: true,
+        getLineColor: [33, 75, 100, 255],
+        getLineWidth: 9,
+        lineWidthMinPixels: 9,
+        lineWidthMaxPixels: 16,
+        lineWidthUnits: "meters",
+        lineCapRounded: true,
+        lineJointRounded: true
+      }),
+      new GeoJsonLayer({
+        id: `${this.id}--Progress_Line`,
+        beforeId: before,
+        data: progress,
+        filled: true,
+        stroked: true,
+        getLineColor: [33, 75, 100, 255],
+        getLineWidth: 6,
+        lineWidthMinPixels: 6,
+        lineWidthMaxPixels: 13,
+        lineWidthUnits: "meters",
+        lineCapRounded: true,
+        lineJointRounded: true
       })
     ];
 
     return layers;
+  }
+
+  getLineColor(feature) {
+    const {
+      properties: { magnitudeOfDelay }
+    } = feature;
+
+    switch (magnitudeOfDelay) {
+      case 1:
+        return [241, 191, 64, 255];
+      case 2:
+        return [241, 130, 55, 255];
+      case 3:
+        return [231, 7, 4, 255];
+      default:
+        return [59, 174, 227, 255];
+    }
   }
 
   render() {

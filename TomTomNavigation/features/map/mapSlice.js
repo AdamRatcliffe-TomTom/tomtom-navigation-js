@@ -21,7 +21,7 @@ const initialState = {
     traffic: true,
     locations: [],
     supportingPoints: undefined,
-    sectionType: ["speedLimit", "lanes"],
+    sectionType: ["speedLimit", "lanes", "traffic"],
     instructionsType: "text",
     instructionAnnouncementPoints: "all",
     instructionRoadShieldReferences: "all",

@@ -4,6 +4,7 @@ import formatDistance from "./formatDistance";
 import expandUnits from "./expandUnits";
 import expandDirectionAbbreviation from "./expandDirectionAbbreviation";
 import strings from "../config/strings";
+import SectionTypes from "../constants/SectionTypes";
 
 function lastInstruction(route) {
   const { instructions } = route.properties.guidance;
@@ -118,7 +119,7 @@ export default function laneGuidanceByIndex(route, index) {
   const { sections } = route.properties;
   return sections.find(
     (section) =>
-      section.sectionType === "LANES" &&
+      section.sectionType === SectionTypes.LANES &&
       index >= section.startPointIndex &&
       index <= section.endPointIndex
   );

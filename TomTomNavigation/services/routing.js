@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import objectToQueryString from "../functions/objectToQueryString";
 import routeToGeoJson from "../functions/routeToGeoJson";
+import createSectionedRoute from "../functions/createSectionedRoute";
 
 import { BASE_ROUTING_URL } from "../config";
 
@@ -41,10 +42,12 @@ const locationToString = ({ coordinates }) =>
 const routeBaseQuery = async (args) => {
   try {
     // work around for resetApiState not resetting the data in the useQuery hook
-    if (args.locations?.length < 2) return { data: null };
+    if (args.locations?.length < 2) return { data: { route: null } };
 
-    const data = await calculateRoute(args);
-    return { data };
+    const route = await calculateRoute(args);
+    const sectionedRoute = createSectionedRoute(route);
+
+    return { data: { route, sectionedRoute } };
   } catch (error) {
     return { error: { status: 500, data: "Route calculation failed" } };
   }

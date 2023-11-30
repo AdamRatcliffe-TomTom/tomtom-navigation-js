@@ -31,7 +31,7 @@ const initialState = {
   nextInstruction: undefined,
   consecutiveInstruction: undefined,
   lastInstruction: undefined,
-  remainingRoute: undefined,
+  routeProgress: undefined,
   distanceRemaining: undefined,
   timeRemaining: undefined,
   eta: null
@@ -75,6 +75,12 @@ const navigationSlice = createSlice({
         coordinates,
         location
       );
+
+      const traveledPart = ruler.lineSlice(coordinates[0], point, coordinates);
+      if (traveledPart.length === 1) {
+        traveledPart.push(coordinates[0]);
+      }
+
       const remainingPart = ruler.lineSlice(
         point,
         coordinates[coordinates.length - 1],
@@ -137,7 +143,7 @@ const navigationSlice = createSlice({
       };
       state.nextInstruction = instruction;
       state.consecutiveInstruction = consecutiveInstruction;
-      state.remainingRoute = featureCollection([lineString(remainingPart)]);
+      state.routeProgress = featureCollection([lineString(traveledPart)]);
       state.distanceRemaining = distanceRemaining;
       state.distanceToNextManeuver = distanceToNextManeuver;
       state.timeRemaining = timeRemaining;
@@ -155,9 +161,9 @@ const navigationSlice = createSlice({
     setEta: (state, action) => {
       state.eta = action.payload;
     },
-    setRemainingRoute: (state, action) => {
-      state.remainingRoute = action.payload;
-    },
+    // setRemainingRoute: (state, action) => {
+    //   state.remainingRoute = action.payload;
+    // },
     setHasReachedDestination: (state, action) => {
       state.hasReachedDestination = action.payload;
     },
@@ -249,9 +255,9 @@ const getTimeRemaining = createSelector(
 
 const getEta = createSelector(rootSelector, (state) => state.eta);
 
-const getRemainingRoute = createSelector(
+const getRouteProgress = createSelector(
   rootSelector,
-  (state) => state.remainingRoute
+  (state) => state.routeProgress
 );
 
 const getHasReachedDestination = createSelector(
@@ -279,7 +285,7 @@ export {
   getDistanceToNextManeuver,
   getTimeRemaining,
   getEta,
-  getRemainingRoute,
+  getRouteProgress,
   getHasReachedDestination,
   getVoiceAnnouncementsEnabled
 };

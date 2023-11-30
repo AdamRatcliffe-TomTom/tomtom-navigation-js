@@ -50,7 +50,7 @@ import {
   getNavigationTransitioning,
   getNavigationPerspective,
   getCurrentLocation,
-  getRemainingRoute,
+  getRouteProgress,
   setVoiceAnnouncementsEnabled,
   setNavigationPerspective,
   setNavigationTransitioning
@@ -86,7 +86,7 @@ const Map = ({
   const hasReachedDestination = useSelector(getHasReachedDestination);
   const navigationTransitioning = useSelector(getNavigationTransitioning);
   const navigationPerspective = useSelector(getNavigationPerspective);
-  const remainingRoute = useSelector(getRemainingRoute);
+  const routeProgress = useSelector(getRouteProgress);
   const {
     point: currentLocation,
     bearing: currentLocationBearing,
@@ -104,7 +104,7 @@ const Map = ({
   const fitBoundsOptions = useSelector(getFitBoundsOptions);
   const userLocation = useSelector(getUserLocation);
   const [mapStyle, setMapStyle] = useState(mapStyles.street);
-  const { data: route } = useCalculateRouteQuery(
+  const { data: { route, sectionedRoute } = {} } = useCalculateRouteQuery(
     {
       key: apiKey,
       ...routeOptions
@@ -322,7 +322,7 @@ const Map = ({
       />
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
       {route && (
-        <Route before={before} data={route} remainingRoute={remainingRoute} />
+        <Route before={before} data={sectionedRoute} progress={routeProgress} />
       )}
       {waypoints}
       <ChevronMarker visible={chevronMarkerIsVisible} />

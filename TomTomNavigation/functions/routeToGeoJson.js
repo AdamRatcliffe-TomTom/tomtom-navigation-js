@@ -1,4 +1,5 @@
 import { featureCollection, feature } from "@turf/helpers";
+import SectionTypes from "../constants/SectionTypes";
 
 export default function routeToGeoJson(route, properties) {
   const { summary, sections, guidance, legs } = route;
@@ -26,9 +27,11 @@ export default function routeToGeoJson(route, properties) {
   ]);
 }
 
+// As the simulation is typically run faster than real-time, show the lane guidance earlier
+// by advancing the startPointIndex
 function processSections(sections) {
   return sections.map((section) => {
-    if (section.sectionType === "LANES") {
+    if (section.sectionType === SectionTypes.LANES) {
       return {
         ...section,
         startPointIndex: Math.max(section.startPointIndex - 3, 0)
