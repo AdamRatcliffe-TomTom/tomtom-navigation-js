@@ -15,6 +15,7 @@ import {
 } from "../../functions/styles";
 
 import {
+  getCurrentLocation,
   getNextInstruction,
   getConsecutiveInstruction
 } from "./navigationSlice";
@@ -64,9 +65,10 @@ const NavigationGuidancePanel = ({ route }) => {
   const countryCode = countryCodeFromRoute(route);
   const classes = useStyles({ appTheme, isPhone, isTablet, countryCode })();
   const nipHeight = bounds.height;
+  const { laneGuidance } = useSelector(getCurrentLocation);
   const nextInstruction = useSelector(getNextInstruction);
   const consecutiveInstruction = useSelector(getConsecutiveInstruction);
-  const haveLaneGuidance = false;
+  const haveLaneGuidance = !!laneGuidance;
   const haveConsecutiveInstruction =
     !!consecutiveInstruction &&
     ![Maneuvers.ARRIVE, Maneuvers.ARRIVE_LEFT, Maneuvers.ARRIVE_RIGHT].includes(
@@ -97,7 +99,7 @@ const NavigationGuidancePanel = ({ route }) => {
     <Stack ref={guidanceRef} className={classes.root}>
       <Stack.Item className={classes.nipPanel}>
         <NextInstructionPanel route={route} instruction={nextInstruction} />
-        {haveLaneGuidance && <LaneGuidancePanel />}
+        {haveLaneGuidance && <LaneGuidancePanel lanes={laneGuidance.lanes} />}
       </Stack.Item>
       {haveConsecutiveInstruction && (
         <Stack.Item className={classes.consecutiveInstructionPanel}>

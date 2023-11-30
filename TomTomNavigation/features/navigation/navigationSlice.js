@@ -5,7 +5,8 @@ import {
   lastInstruction,
   instructionByIndex,
   speedLimitByIndex,
-  announcementByIndex
+  announcementByIndex,
+  laneGuidanceByIndex
 } from "../../functions/routeUtils";
 
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
@@ -24,7 +25,8 @@ const initialState = {
     point: undefined,
     bearing: undefined,
     speedLimit: undefined,
-    announcement: undefined
+    announcement: undefined,
+    laneGuidance: undefined
   },
   nextInstruction: undefined,
   consecutiveInstruction: undefined,
@@ -120,12 +122,18 @@ const navigationSlice = createSlice({
         );
       }
 
+      const laneGuidance = laneGuidanceByIndex(
+        route.features[0],
+        currentPointIndex
+      );
+
       state.currentLocation = {
         pointIndex: currentPointIndex,
         point,
         bearing,
         speedLimit,
-        announcement
+        announcement,
+        laneGuidance
       };
       state.nextInstruction = instruction;
       state.consecutiveInstruction = consecutiveInstruction;

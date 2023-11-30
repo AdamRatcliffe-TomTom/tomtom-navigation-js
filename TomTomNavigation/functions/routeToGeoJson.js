@@ -8,6 +8,7 @@ export default function routeToGeoJson(route, properties) {
       return points.map((point) => [point.longitude, point.latitude]);
     })
     .flat();
+
   return featureCollection([
     feature(
       {
@@ -17,10 +18,22 @@ export default function routeToGeoJson(route, properties) {
       {
         summary,
         legs,
-        sections,
+        sections: processSections(sections),
         guidance,
         ...properties
       }
     )
   ]);
+}
+
+function processSections(sections) {
+  return sections.map((section) => {
+    if (section.sectionType === "LANES") {
+      return {
+        ...section,
+        startPointIndex: Math.max(section.startPointIndex - 3, 0)
+      };
+    }
+    return section;
+  });
 }

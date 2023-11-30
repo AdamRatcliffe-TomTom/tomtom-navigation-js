@@ -251,7 +251,9 @@ const Map = ({
   const waypoints = useMemo(() => {
     const { locations } = routeOptions;
 
-    if (!locations) return null;
+    if (!locations) {
+      return null;
+    }
 
     return locations.map((location) => MarkerFactory.createMarker(location));
   }, [routeOptions.locations]);

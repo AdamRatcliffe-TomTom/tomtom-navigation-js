@@ -13,6 +13,10 @@
     "refreshTypes": "pcf-scripts refreshTypes"
   },
   "dependencies": {
+    "@deck.gl/core": "^8.9.32",
+    "@deck.gl/extensions": "^8.9.32",
+    "@deck.gl/layers": "^8.9.32",
+    "@deck.gl/mapbox": "^8.9.32",
     "@floating-ui/react": "^0.26.2",
     "@fluentui/react": "8.29.0",
     "@reduxjs/toolkit": "^1.9.7",
@@ -27,7 +31,6 @@
     "@types/lodash.isempty": "^4.4.9",
     "cheap-ruler": "^3.0.2",
     "date-fns": "^2.30.0",
-    "deck.gl": "^8.9.31",
     "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim",
     "lodash.isempty": "^4.4.0",
     "lodash.isnil": "^4.0.0",

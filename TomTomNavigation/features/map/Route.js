@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import _isNil from "lodash.isnil";
 import { withMap } from "react-tomtom-maps";
 import { MapboxOverlay } from "@deck.gl/mapbox";
-import { GeoJsonLayer } from "deck.gl";
+import { GeoJsonLayer } from "@deck.gl/layers";
+import { PathStyleExtension } from "@deck.gl/extensions";
 import { v4 as uuid } from "uuid";
 
 class Route extends PureComponent {
@@ -44,7 +45,7 @@ class Route extends PureComponent {
       new GeoJsonLayer({
         id: `${this.id}--Casing`,
         beforeId: before,
-        data: data,
+        data,
         filled: true,
         stroked: true,
         getLineColor: [26, 60, 80, 191],
@@ -54,6 +55,9 @@ class Route extends PureComponent {
         lineWidthUnits: "meters",
         lineCapRounded: true,
         lineJointRounded: true
+        // getDashArray: [3, 2],
+        // dashJustified: true,
+        // extensions: [new PathStyleExtension({ dash: true })]
       }),
       new GeoJsonLayer({
         id: `${this.id}--Line`,
@@ -68,9 +72,12 @@ class Route extends PureComponent {
         lineWidthUnits: "meters",
         lineCapRounded: true,
         lineJointRounded: true
+        // getDashArray: [3, 2],
+        // dashJustified: true,
+        // extensions: [new PathStyleExtension({ dash: true })]
       }),
       new GeoJsonLayer({
-        id: `${this.id}--Remaining-Casing`,
+        id: `${this.id}--Remaining`,
         beforeId: before,
         data: remainingRoute,
         filled: true,
@@ -82,6 +89,9 @@ class Route extends PureComponent {
         lineWidthUnits: "meters",
         lineCapRounded: true,
         lineJointRounded: true
+        // getDashArray: [1, 4],
+        // dashJustified: true,
+        // extensions: [new PathStyleExtension({ dash: true })]
       }),
       new GeoJsonLayer({
         id: `${this.id}--Remaining-Line`,
@@ -96,6 +106,9 @@ class Route extends PureComponent {
         lineWidthUnits: "meters",
         lineCapRounded: true,
         lineJointRounded: true
+        // getDashArray: [1, 4],
+        // dashJustified: true,
+        // extensions: [new PathStyleExtension({ dash: true })]
       })
     ];
 

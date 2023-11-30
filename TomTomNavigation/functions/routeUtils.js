@@ -114,9 +114,20 @@ function getAnnouncementText(
   }
 }
 
+export default function laneGuidanceByIndex(route, index) {
+  const { sections } = route.properties;
+  return sections.find(
+    (section) =>
+      section.sectionType === "LANES" &&
+      index >= section.startPointIndex &&
+      index <= section.endPointIndex
+  );
+}
+
 export {
   lastInstruction,
   instructionByIndex,
   speedLimitByIndex,
-  announcementByIndex
+  announcementByIndex,
+  laneGuidanceByIndex
 };

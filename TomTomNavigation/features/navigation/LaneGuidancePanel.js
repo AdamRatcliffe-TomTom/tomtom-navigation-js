@@ -16,29 +16,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const LaneGuidancePanel = ({
-  lanes = [
-    {
-      directions: ["STRAIGHT"],
-      follow: "STRAIGHT"
-    },
-    {
-      directions: ["STRAIGHT"],
-      follow: "STRAIGHT"
-    },
-    {
-      directions: ["STRAIGHT"],
-      follow: "STRAIGHT"
-    },
-    {
-      directions: ["STRAIGHT"],
-      follow: "STRAIGHT"
-    },
-    {
-      directions: ["SLIGHT_RIGHT"]
-    }
-  ]
-}) => {
+const LaneGuidancePanel = ({ lanes }) => {
   const classes = useStyles();
 
   if (!lanes) return null;
