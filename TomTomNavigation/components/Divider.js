@@ -1,17 +1,19 @@
 import React from "react";
-import { makeStyles } from "@fluentui/react";
+import { makeStyles, useTheme } from "@fluentui/react";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    height: 1.5,
-    background: theme.palette.black,
-    opacity: 0.15
-  }
-}));
+const useStyles = ({ color }) =>
+  makeStyles({
+    root: {
+      width: "100%",
+      height: 1.5,
+      background: color,
+      opacity: 0.15
+    }
+  });
 
-const Divider = () => {
-  const classes = useStyles();
+const Divider = ({ color = useTheme().palette.black }) => {
+  const classes = useStyles({ color })();
+
   return <div className={`Divider ${classes.root}`} />;
 };
 

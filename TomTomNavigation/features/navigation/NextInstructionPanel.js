@@ -35,6 +35,15 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     whiteSpace: "nowrap"
   },
+  towards: {
+    fontFamily: "Noto Sans",
+    fontSize: 20,
+    color: "white",
+    lineHeight: "1.5",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap"
+  },
   affixes: {
     fontFamily: "Noto Sans",
     fontSize: 20,
@@ -63,7 +72,8 @@ const NextInstructionPanel = ({ route, instruction }) => {
   const maneuverIcon = getManeuverIcon(maneuver);
   const hasRoadShields = !!roadShieldReferences;
   const haveExitNumber = !!exitNumber;
-  const haveStreet = !landscapeMinimal && (street || signpostText);
+  const haveStreet = !landscapeMinimal && !!street;
+  const haveTowards = !!signpostText;
 
   const renderRoadShields = () => {
     return roadShieldReferences.map((ref, index) => {
@@ -92,9 +102,8 @@ const NextInstructionPanel = ({ route, instruction }) => {
           </Text>
           {haveExitNumber && <ExitShield text={exitNumber} />}
         </Stack>
-        {haveStreet && (
-          <Text className={classes.street}>{street || signpostText}</Text>
-        )}
+        {haveStreet && <Text className={classes.street}>{street}</Text>}
+        {haveTowards && <Text className={classes.towards}>{signpostText}</Text>}
         {hasRoadShields && (
           <Stack
             tokens={{ childrenGap: theme.spacing.m }}

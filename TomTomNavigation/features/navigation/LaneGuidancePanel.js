@@ -44,7 +44,7 @@ const LaneGuidancePanel = ({ lanes }) => {
 
   return (
     <div className={classes.root}>
-      <Divider />
+      <Divider color="white" />
       <div className={classes.lanesContainer}>{renderLanes()}</div>
     </div>
   );
