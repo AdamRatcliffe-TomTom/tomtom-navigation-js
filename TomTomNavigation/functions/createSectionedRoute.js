@@ -53,12 +53,10 @@ export default function createSectionedRoute(geojson) {
       sectionedFeatures.push(afterTrafficLine);
     }
   } else {
-    sectionedFeatures.push(lineString(route.geometry));
+    return route;
   }
 
   const sectionedRoute = featureCollection(sectionedFeatures);
-
-  console.log(JSON.stringify(sectionedRoute));
 
   return sectionedRoute;
 }
