@@ -14,8 +14,8 @@ export default function parseCoordinateString(
     const match = pair.match(regex);
 
     if (match) {
-      const latitude = parseFloat(match[1]);
-      const longitude = parseFloat(match[3]);
+      const longitude = parseFloat(match[1]);
+      const latitude = parseFloat(match[3]);
       coordinates.push([longitude, latitude]);
     }
   }

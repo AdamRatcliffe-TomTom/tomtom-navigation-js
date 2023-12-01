@@ -213,6 +213,14 @@ const Navigation = ({ map }) => {
         })
       );
     });
+
+    fireEvent(ComponentEvents.progress_update, {
+      progress: {
+        coordinates: stepCoords,
+        bearing: stepBearing,
+        elapsedTime
+      }
+    });
   };
 
   const handleSimulatorEnd = () => {

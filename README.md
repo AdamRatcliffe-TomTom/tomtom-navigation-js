@@ -21,7 +21,7 @@ Available component properties:
 | showTrafficFlow           | `TwoOptions`                                                                                           | false                | Show the traffic flow layer.                                                                                                                                                                                                                            |
 | showTrafficIncidents      | `TwoOptions`                                                                                           | false                | Show the traffic incidents layer.                                                                                                                                                                                                                       |
 | showPoi                   | `TwoOptions`                                                                                           | false                | Show the POI layer.                                                                                                                                                                                                                                     |
-| initialCenter             | `SingleLine.Text`                                                                                      |                      | Initial map center specifed in the format "latitude,longitude". This is set once when the component is mounted.                                                                                                                                         |
+| initialCenter             | `SingleLine.Text`                                                                                      |                      | Initial map center specifed in the format "longitude,latitude". This is set once when the component is mounted.                                                                                                                                         |
 | initialZoom               | `Decimal`                                                                                              | 12                   | Initial zoom level. This is set once when the component is mounted.                                                                                                                                                                                     |
 | showLocationMarker        | `TwoOptions`                                                                                           | true                 | Show a location marker for the user's current location.                                                                                                                                                                                                 |
 |                           |
@@ -104,6 +104,19 @@ Fired when navigation is stopped.
 | Name    | Value                               | Description          |
 | ------- | ----------------------------------- | -------------------- |
 | `type`  | "TomTomNavigation.navigation_stopped" | The message type.    |
+
+
+### TomTomNavigation.progress_update
+
+Fired each time a location update occurs during navigation.
+
+| Name    | Value                               | Description          |
+| ------- | ----------------------------------- | -------------------- |
+| `type`  | "TomTomNavigation.progress_update" | The message type.    |
+| `progress` | `Object`                        | Progress data. |
+| `progress.coordinates` | [`longitude`,`latitude`] | Current location coordinates. |
+| `progress.bearing` | `number` | Current location bearing. |
+| `progress.elapsedTime` | `number` | The elapsed time in secconds. |
 
 ### TomTomNavigation.destination_reached
 
