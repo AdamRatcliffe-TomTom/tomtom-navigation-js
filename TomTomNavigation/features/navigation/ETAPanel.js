@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useTheme, DefaultButton } from "@fluentui/react";
+import { useTheme, DefaultButton, PrimaryButton } from "@fluentui/react";
 import { makeStyles } from "@fluentui/react";
 import { Stack } from "@fluentui/react/lib/Stack";
 import { Text } from "@fluentui/react/lib/Text";
@@ -118,7 +118,7 @@ const ETA = ({
           onClick={onStopNavigation}
         />
       ) : (
-        <DefaultButton
+        <PrimaryButton
           className={`${buttonClasses.pillButtonLarge} ${classes.button}`}
           text={strings.go}
           onClick={onStartNavigation}

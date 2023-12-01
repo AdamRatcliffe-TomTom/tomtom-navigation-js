@@ -116,7 +116,7 @@ const Map = ({
   const muteControlVisible =
     showMuteControl && isNavigating && !hasReachedDestination;
   const mapSwitcherControlIsVisible = showMapSwitcherControl && !isNavigating;
-  const compassControlIsVisible = !hasReachedDestination;
+  const compassControlIsVisible = !isNavigating;
   const speedLimitControlIsVisible =
     isNavigating && speedLimit && !hasReachedDestination;
   const navigationPerspectiveControlIsVisible =
