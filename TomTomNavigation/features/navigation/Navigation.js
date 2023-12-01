@@ -209,7 +209,8 @@ const Navigation = ({ map }) => {
           bearing: stepBearing,
           elapsedTime,
           route,
-          measurementSystem
+          measurementSystem,
+          language
         })
       );
     });

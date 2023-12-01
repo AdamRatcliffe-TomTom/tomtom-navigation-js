@@ -34,7 +34,7 @@ function speedLimitByIndex(route, index) {
   return undefined;
 }
 
-function announcementByIndex(route, index, measurementSystem) {
+function announcementByIndex(route, index, measurementSystem, language) {
   const { instructions } = route.properties.guidance;
 
   for (const instruction of instructions) {
@@ -63,7 +63,8 @@ function announcementByIndex(route, index, measurementSystem) {
         const announcementText = getAnnouncementText(
           announcement,
           street,
-          measurementSystem
+          measurementSystem,
+          language
         );
         return { text: announcementText, type: announcementType };
       }
@@ -76,7 +77,8 @@ function announcementByIndex(route, index, measurementSystem) {
 function getAnnouncementText(
   { maneuver, distanceInMeters },
   street,
-  measurementSystem = "metric"
+  measurementSystem = "metric",
+  language
 ) {
   // Announcement points for the ARRIVE maneuver variants are typically provided before the destination
   // is reached. Replace the maneuver type with the ARRIVING maneuver so an appropriate
@@ -107,7 +109,7 @@ function getAnnouncementText(
     return strings.formatString(announcementTemplate, {
       maneuverText,
       distance,
-      units: expandUnits(distance, units),
+      units: expandUnits(distance, units, language),
       street: street ? expandDirectionAbbreviation(street) : null
     });
   } else {

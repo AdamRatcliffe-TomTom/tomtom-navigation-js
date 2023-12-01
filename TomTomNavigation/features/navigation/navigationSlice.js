@@ -62,8 +62,14 @@ const navigationSlice = createSlice({
       state.navigationPerspective = action.payload;
     },
     setCurrentLocation: (state, action) => {
-      const { location, bearing, elapsedTime, route, measurementSystem } =
-        action.payload;
+      const {
+        location,
+        bearing,
+        elapsedTime,
+        route,
+        measurementSystem,
+        language
+      } = action.payload;
       const { travelTimeInSeconds } = route.features[0].properties.summary;
       const { coordinates } = route.features[0].geometry;
 
@@ -124,7 +130,8 @@ const navigationSlice = createSlice({
         announcement = announcementByIndex(
           route.features[0],
           currentPointIndex,
-          measurementSystem
+          measurementSystem,
+          language
         );
       }
 

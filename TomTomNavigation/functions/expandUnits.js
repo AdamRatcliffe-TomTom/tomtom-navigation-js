@@ -1,9 +1,11 @@
-export default function expandUnits(value, units) {
+export default function expandUnits(value, units, language = "en") {
   switch (units) {
     case "km":
-      return value === 1 ? "kilometer" : "kilometers";
+      return value === 1 || language.startsWith("nl")
+        ? "kilometer"
+        : "kilometers";
     case "m":
-      return value === 1 ? "meter" : "meters";
+      return value === 1 || language.startsWith("nl") ? "meter" : "meters";
     case "mi":
       return value === 1 || typeof value === "string" ? "mile" : "miles";
     case "ft":

@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     padding: `${theme.spacing.m} ${theme.spacing.l1}`,
     borderTopLeftRadius: theme.spacing.m,
     borderTopRightRadius: theme.spacing.m,
+    backgroundPosition: "right center",
     backgroundRepeat: "no-repeat"
   },
   title: {
@@ -70,13 +71,11 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
   const headerStyle =
     maneuver === Maneuvers.ARRIVE_LEFT
       ? {
-          backgroundImage: `url(data:image/svg+xml;base64,${ArrivalPanelBackgroundImages.left})`,
-          backgroundPosition: "left"
+          backgroundImage: `url(data:image/svg+xml;base64,${ArrivalPanelBackgroundImages.left})`
         }
       : maneuver === Maneuvers.ARRIVE_RIGHT
       ? {
-          backgroundImage: `url(data:image/svg+xml;base64,${ArrivalPanelBackgroundImages.right})`,
-          backgroundPosition: "right"
+          backgroundImage: `url(data:image/svg+xml;base64,${ArrivalPanelBackgroundImages.right})`
         }
       : null;
 
