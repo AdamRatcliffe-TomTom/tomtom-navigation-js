@@ -10,6 +10,8 @@ import {
   getShowArrivalPanel
 } from "./navigationSlice";
 
+import { TABLET_GUIDANCE_PANEL_WIDTH } from "../../config";
+
 const useStyles = ({ isPhone, isTablet }) =>
   makeStyles((theme) => ({
     root: {
@@ -22,7 +24,7 @@ const useStyles = ({ isPhone, isTablet }) =>
       borderTopRightRadius: theme.spacing.m,
       boxShadow: theme.floatingElementShadow,
       ...(isTablet && {
-        width: 380
+        width: TABLET_GUIDANCE_PANEL_WIDTH
       }),
       ...(isPhone && {
         right: 0,
