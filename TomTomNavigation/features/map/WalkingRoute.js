@@ -1,22 +1,35 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
+import useState from "react-usestateref";
 import { MapboxLayer } from "@deck.gl/mapbox";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import { PathStyleExtension } from "@deck.gl/extensions";
 import { withMap } from "react-tomtom-maps";
 import { v4 as uuid } from "uuid";
+import usePrevPropValue from "../../hooks/usePrevPropValue";
 
-const WalkingRoute = ({ map, data, before }) => {
-  const [mapIsReady, setMapIsReady] = useState(false);
-  const [layer, setLayer] = useState();
+const WalkingRoute = ({ map, data, before, mapStyle }) => {
+  const idRef = useRef(`WalkingRoute-${uuid()}`);
+  const [_, setLayers, layersRef] = useState();
+  const prevMapStyle = usePrevPropValue(mapStyle);
 
   useEffect(() => {
-    map.on("load", () => setMapIsReady(true));
+    addLayers();
   }, []);
 
   useEffect(() => {
+    if (mapStyle !== prevMapStyle) {
+      function onStyleData() {
+        removeLayers();
+        addLayers();
+      }
+      map.once("styledata", onStyleData);
+    }
+  }, [mapStyle, prevMapStyle]);
+
+  const addLayers = () => {
     const layer = new MapboxLayer({
       type: GeoJsonLayer,
-      id: uuid(),
+      id: idRef.current,
       data,
       filled: true,
       stroked: true,
@@ -32,8 +45,15 @@ const WalkingRoute = ({ map, data, before }) => {
       extensions: [new PathStyleExtension({ dash: true })]
     });
     map.addLayer(layer, before);
-    setLayer(layer);
-  }, [mapIsReady]);
+
+    setLayers({ layer });
+  };
+
+  const removeLayers = () => {
+    Object.values(layersRef.current).forEach(({ id }) => {
+      if (map.getLayer(id)) map.removeLayer(id);
+    });
+  };
 
   return null;
 };

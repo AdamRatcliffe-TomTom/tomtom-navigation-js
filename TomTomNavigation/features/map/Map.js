@@ -336,7 +336,11 @@ const Map = ({
         />
       )}
       {walkingLegIsVisible && (
-        <WalkingRoute before={before} data={walkingLeg} />
+        <WalkingRoute
+          before={before}
+          data={walkingLeg}
+          mapStyle={currentStyle}
+        />
       )}
       {waypoints}
       <ChevronMarker visible={chevronMarkerIsVisible} />
