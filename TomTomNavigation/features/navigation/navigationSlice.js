@@ -19,7 +19,6 @@ const initialState = {
   isNavigating: false,
   navigationPerspective: NavigationPerspectives.DRIVING,
   hasReachedDestination: false,
-  navigationTransitioning: false,
   currentLocation: {
     pointIndex: undefined,
     point: undefined,
@@ -54,9 +53,6 @@ const navigationSlice = createSlice({
     },
     setIsNavigating: (state, action) => {
       state.isNavigating = action.payload;
-    },
-    setNavigationTransitioning: (state, action) => {
-      state.navigationTransitioning = action.payload;
     },
     setNavigationPerspective: (state, action) => {
       state.navigationPerspective = action.payload;
@@ -215,11 +211,6 @@ const getIsNavigating = createSelector(
   (state) => state.isNavigating
 );
 
-const getNavigationTransitioning = createSelector(
-  rootSelector,
-  (state) => state.navigationTransitioning
-);
-
 const getNavigationPerspective = createSelector(
   rootSelector,
   (state) => state.navigationPerspective
@@ -282,7 +273,6 @@ export {
   getShowGuidancePanel,
   getShowArrivalPanel,
   getIsNavigating,
-  getNavigationTransitioning,
   getNavigationPerspective,
   getNextInstruction,
   getConsecutiveInstruction,
@@ -302,7 +292,6 @@ export const {
   setShowGuidancePanel,
   setShowArrivalPanel,
   setIsNavigating,
-  setNavigationTransitioning,
   setNavigationPerspective,
   setCurrentLocation,
   setDistanceRemaining,

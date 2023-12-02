@@ -36,25 +36,24 @@ import {
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
   getUserLocation,
+  getViewTransitioning,
   setCenter,
   setBounds,
   setFitBoundsOptions,
-  setPitch,
   setMovingMethod,
-  setUserLocation
+  setUserLocation,
+  setViewTransitioning
 } from "./mapSlice";
 
 import {
   getVoiceAnnouncementsEnabled,
   getIsNavigating,
   getHasReachedDestination,
-  getNavigationTransitioning,
   getNavigationPerspective,
   getCurrentLocation,
   getRouteProgress,
   setVoiceAnnouncementsEnabled,
-  setNavigationPerspective,
-  setNavigationTransitioning
+  setNavigationPerspective
 } from "../navigation/navigationSlice";
 
 const before = "Borders - Treaty label";
@@ -85,7 +84,7 @@ const Map = ({
   const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
   const isNavigating = useSelector(getIsNavigating);
   const hasReachedDestination = useSelector(getHasReachedDestination);
-  const navigationTransitioning = useSelector(getNavigationTransitioning);
+  const viewTransitioning = useSelector(getViewTransitioning);
   const navigationPerspective = useSelector(getNavigationPerspective);
   const routeProgress = useSelector(getRouteProgress);
   const {
@@ -129,13 +128,12 @@ const Map = ({
     showLocationMarker && userLocation && !isNavigating;
   const chevronMarkerIsVisible =
     isNavigating &&
-    !navigationTransitioning &&
+    !viewTransitioning &&
     !hasReachedDestination &&
     navigationPerspective === NavigationPerspectives.DRIVING;
   const chevron2DMarkerIsVisible =
     isNavigating &&
-    !navigationTransitioning &&
-    !hasReachedDestination &&
+    !viewTransitioning &&
     navigationPerspective === NavigationPerspectives.ROUTE_OVERVIEW &&
     currentLocation;
 
@@ -175,9 +173,9 @@ const Map = ({
       const bounds = geoJsonBounds(geojson);
 
       batch(() => {
-        dispatch(setPitch(0));
         dispatch(
           setFitBoundsOptions({
+            pitch: 0,
             duration: 500,
             maxZoom: 16,
             ...fitBoundsOptions
@@ -224,13 +222,14 @@ const Map = ({
     const map = mapRef.current.getMap();
 
     batch(() => {
-      dispatch(setNavigationTransitioning(true));
+      dispatch(setViewTransitioning(true));
       dispatch(setNavigationPerspective(perspective));
 
       if (perspective === NavigationPerspectives.DRIVING) {
         dispatch(setCenter(currentLocation));
       } else {
         map.__om.setPadding({ top: 0 });
+
         fitRoute({
           animate: true,
           padding: { top: 200 }
@@ -238,7 +237,7 @@ const Map = ({
       }
     });
 
-    map.once("zoomend", () => dispatch(setNavigationTransitioning(false)));
+    map.once("zoomend", () => dispatch(setViewTransitioning(false)));
   };
 
   const handleCompassControlClick = () => {
@@ -269,8 +268,6 @@ const Map = ({
         : mapStyle.style,
     [mapStyle, isNavigating]
   );
-
-  // const currentStyle = mapStyle.style;
 
   const SpeedLimitControl = countryCode === "US" ? SpeedLimitUS : SpeedLimitEU;
 

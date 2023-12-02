@@ -28,7 +28,8 @@ const initialState = {
     language: navigator.language
   },
   automaticRouteCalculation: false,
-  userLocation: undefined
+  userLocation: undefined,
+  viewTransitioning: false
 };
 
 const mapSlice = createSlice({
@@ -85,6 +86,9 @@ const mapSlice = createSlice({
     },
     setUserLocation: (state, action) => {
       state.userLocation = action.payload;
+    },
+    setViewTransitioning: (state, action) => {
+      state.viewTransitioning = action.payload;
     }
   }
 });
@@ -133,6 +137,11 @@ const getUserLocation = createSelector(
   (state) => state.userLocation
 );
 
+const getViewTransitioning = createSelector(
+  rootSelector,
+  (state) => state.viewTransitioning
+);
+
 export {
   getCenter,
   getZoom,
@@ -145,7 +154,8 @@ export {
   getRouteOptions,
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
-  getUserLocation
+  getUserLocation,
+  getViewTransitioning
 };
 
 export const {
@@ -162,7 +172,8 @@ export const {
   setAutomaticRouteCalculation,
   setFitBoundsOptions,
   setIsNavigating,
-  setUserLocation
+  setUserLocation,
+  setViewTransitioning
 } = mapSlice.actions;
 
 export default mapSlice.reducer;

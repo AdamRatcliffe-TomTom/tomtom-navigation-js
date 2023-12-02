@@ -1,3 +1,4 @@
+import tt from "@tomtom-international/web-sdk-maps";
 import React, { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import add from "date-fns/add";
@@ -20,24 +21,25 @@ import strings from "../../config/strings";
 import {
   getRouteOptions,
   getAutomaticRouteCalculation,
+  getViewTransitioning,
   setCamera,
   setBounds,
   setPitch,
-  setFitBoundsOptions
+  setFitBoundsOptions,
+  setViewTransitioning
 } from "../map/mapSlice";
 
 import {
   getShowBottomPanel,
   getShowGuidancePanel,
   getIsNavigating,
-  getNavigationTransitioning,
   getNavigationPerspective,
   getHasReachedDestination,
   getCurrentLocation,
   getLastInstruction,
   getVoiceAnnouncementsEnabled,
   setIsNavigating,
-  setNavigationTransitioning,
+  setNavigationPerspective,
   setCurrentLocation,
   setDistanceRemaining,
   setTimeRemaining,
@@ -61,7 +63,7 @@ const Navigation = ({ map }) => {
   const showBottomPanel = useSelector(getShowBottomPanel);
   const showGuidancePanel = useSelector(getShowGuidancePanel);
   const isNavigating = useSelector(getIsNavigating);
-  const navigationTransitioning = useSelector(getNavigationTransitioning);
+  const viewTransitioning = useSelector(getViewTransitioning);
   const navigationPerspectiveRef = useSelectorRef(getNavigationPerspective).at(
     1
   );
@@ -130,11 +132,11 @@ const Navigation = ({ map }) => {
     // Make map non-interactive when navigating
     setMapInteractive(false);
 
-    map.once("moveend", () => dispatch(setNavigationTransitioning(false)));
+    map.once("moveend", () => dispatch(setViewTransitioning(false)));
 
     batch(() => {
       dispatch(setIsNavigating(true));
-      dispatch(setNavigationTransitioning(true));
+      dispatch(setViewTransitioning(true));
       dispatch(
         setCamera({
           movingMethod,
@@ -158,16 +160,17 @@ const Navigation = ({ map }) => {
   const stopNavigation = () => {
     const bounds = geoJsonBounds(route);
 
-    map.once("moveend", () => dispatch(setNavigationTransitioning(false)));
     map.__om.setPadding({ top: 0 });
 
     batch(() => {
       dispatch(resetNavigation());
-      dispatch(setNavigationTransitioning(true));
+      dispatch(setViewTransitioning(true));
       dispatch(setPitch(0));
       dispatch(setFitBoundsOptions({ animate: true }));
       dispatch(setBounds(bounds));
     });
+
+    map.once("moveend", () => dispatch(setViewTransitioning(false)));
 
     // Restore map interaction
     setMapInteractive(true);
@@ -179,7 +182,7 @@ const Navigation = ({ map }) => {
     (map.__om._canvas.style.pointerEvents = interactive ? "all" : "none");
 
   const handleSimulatorUpdate = (event) => {
-    if (navigationTransitioning) {
+    if (viewTransitioning) {
       return;
     }
 
@@ -227,17 +230,28 @@ const Navigation = ({ map }) => {
   const handleSimulatorEnd = () => {
     const { coordinates } = route.features[0].geometry;
     const lastCoordinate = coordinates[coordinates.length - 1];
+    const bounds = new tt.LngLatBounds(lastCoordinate, lastCoordinate);
+    bounds.extend(destination.coordinates);
+
+    map.__om.setPadding({ top: 0 });
 
     batch(() => {
+      dispatch(setViewTransitioning(true));
       dispatch(setHasReachedDestination(true));
+      dispatch(setNavigationPerspective(NavigationPerspectives.ROUTE_OVERVIEW));
       dispatch(
-        setCamera({
-          center: lastCoordinate,
-          zoom: 18,
-          animationOptions: { pitch: 0, duration: 500, padding: { top: 0 } }
+        setFitBoundsOptions({
+          animate: true,
+          pitch: 0,
+          duration: 500,
+          maxZoom: 18,
+          padding: { top: 100, right: 100, bottom: 240, left: 100 }
         })
       );
+      dispatch(setBounds(bounds.toArray()));
     });
+
+    map.once("moveend", () => dispatch(setViewTransitioning(false)));
 
     if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
       const voice = getGuidanceVoice();
