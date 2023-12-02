@@ -2,6 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import objectToQueryString from "../functions/objectToQueryString";
 import routeToGeoJson from "../functions/routeToGeoJson";
 import createSectionedRoute from "../functions/createSectionedRoute";
+import createWalkingLeg from "../functions/createWalkingLeg";
 
 import { BASE_ROUTING_URL } from "../config";
 
@@ -46,8 +47,11 @@ const routeBaseQuery = async (args) => {
 
     const route = await calculateRoute(args);
     const sectionedRoute = createSectionedRoute(route);
+    const walkingLeg = createWalkingLeg(args.locations, route);
 
-    return { data: { route, sectionedRoute } };
+    console.log("walking leg: ", walkingLeg);
+
+    return { data: { route, sectionedRoute, walkingLeg } };
   } catch (error) {
     return { error: { status: 500, data: "Route calculation failed" } };
   }

@@ -10,6 +10,7 @@ import NavigationPerspectiveControl from "./controls/NavigationPerspectiveContro
 import SpeedLimitEU from "./SpeedLimitEU";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
+import WalkingRoute from "./WalkingRoute";
 import LocationMarker from "./markers/LocationMarker";
 import ChevronMarker from "./markers/ChevronMarker";
 import Chevron2DMarker from "./markers/Chevron2DMarker";
@@ -104,14 +105,17 @@ const Map = ({
   const fitBoundsOptions = useSelector(getFitBoundsOptions);
   const userLocation = useSelector(getUserLocation);
   const [mapStyle, setMapStyle] = useState(mapStyles.street);
-  const { data: { route, sectionedRoute } = {} } = useCalculateRouteQuery(
-    {
-      key: apiKey,
-      ...routeOptions
-    },
-    { skip: !automaticRouteCalculation }
-  );
+  const { data: { route, sectionedRoute, walkingLeg } = {} } =
+    useCalculateRouteQuery(
+      {
+        key: apiKey,
+        ...routeOptions
+      },
+      { skip: !automaticRouteCalculation }
+    );
   const countryCode = countryCodeFromRoute(route);
+  const routeIsVisible = !!route;
+  const walkingLegIsVisible = !!walkingLeg;
   const geolocateControlIsVisible = enableGeolocation && !isNavigating;
   const muteControlVisible =
     showMuteControl && isNavigating && !hasReachedDestination;
@@ -266,6 +270,8 @@ const Map = ({
     [mapStyle, isNavigating]
   );
 
+  // const currentStyle = mapStyle.style;
+
   const SpeedLimitControl = countryCode === "US" ? SpeedLimitUS : SpeedLimitEU;
 
   return (
@@ -321,8 +327,16 @@ const Map = ({
         onClick={handleCompassControlClick}
       />
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
-      {route && (
-        <Route before={before} data={sectionedRoute} progress={routeProgress} />
+      {routeIsVisible && (
+        <Route
+          before={before}
+          data={sectionedRoute}
+          progress={routeProgress}
+          mapStyle={currentStyle}
+        />
+      )}
+      {walkingLegIsVisible && (
+        <WalkingRoute before={before} data={walkingLeg} />
       )}
       {waypoints}
       <ChevronMarker visible={chevronMarkerIsVisible} />

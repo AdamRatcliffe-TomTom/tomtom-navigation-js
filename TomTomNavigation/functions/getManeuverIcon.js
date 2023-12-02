@@ -61,6 +61,7 @@ export default function getManeuverIcon(
     ),
     [Maneuvers.ENTER_FREEWAY]: <MotorwayIcon size={size} color={color} />,
     [Maneuvers.ENTER_MOTORWAY]: <MotorwayIcon size={size} color={color} />,
+    [Maneuvers.TAKE_EXIT]: <StraightIcon size={size} color={color} />,
     [Maneuvers.AHEAD_EXIT_LEFT]: <KeepLeftIcon size={size} color={color} />,
     [Maneuvers.AHEAD_EXIT_RIGHT]: <KeepRightIcon size={size} color={color} />,
     [Maneuvers.MOTORWAY_EXIT_LEFT]: <KeepLeftIcon size={size} color={color} />,
