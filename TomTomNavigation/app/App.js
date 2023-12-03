@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, batch } from "react-redux";
-import { ThemeProvider, makeStyles } from "@fluentui/react";
+import { ThemeProvider } from "@fluentui/react";
 import { useBoolean } from "@fluentui/react-hooks";
-import { Provider as StoreProvider } from "react-redux";
 import { useGeolocated } from "react-geolocated";
-import { store } from "./store";
 import AppContextProvider from "./AppContext";
 import NoApiKeyMessage from "./NoApiKeyMessage";
 import Map from "../features/map/Map";
@@ -29,25 +27,37 @@ import {
   resetNavigation
 } from "../features/navigation/navigationSlice";
 
-const useStyles = makeStyles({
-  wrapper: {
-    position: "relative"
-  }
-});
-
-// Use the wrapper to save shared state to the store
-function Wrapper({
+function App({
+  apiKey,
+  theme,
+  language,
+  measurementSystem,
+  width,
+  height,
+  guidanceVoice,
+  guidanceVoiceVolume,
+  simulationSpeed,
+  mapOptions,
   initialCenter,
   initialZoom,
   routeOptions,
   automaticRouteCalculation,
   showBottomPanel,
   showGuidancePanel,
-  showArrivalPanel,
-  children
+  showArrivalPanel
 }) {
+  strings.setLanguage(language);
+
   const dispatch = useDispatch();
-  const classes = useStyles();
+  const { isGeolocationAvailable, isGeolocationEnabled } = useGeolocated();
+  const [hideLocationDialog, { toggle: toggleHideLocationDialog }] =
+    useBoolean(true);
+
+  useEffect(() => {
+    if (!isGeolocationAvailable || !isGeolocationEnabled) {
+      toggleHideLocationDialog();
+    }
+  }, [isGeolocationAvailable, isGeolocationEnabled]);
 
   useEffect(() => {
     batch(() => {
@@ -81,64 +91,30 @@ function Wrapper({
   }, [showArrivalPanel]);
 
   return (
-    <div className={`TomTomNavigation ${classes.wrapper}`}>{children}</div>
-  );
-}
-
-function App({
-  apiKey,
-  theme,
-  language,
-  measurementSystem,
-  width,
-  height,
-  guidanceVoice,
-  guidanceVoiceVolume,
-  simulationSpeed,
-  mapOptions,
-  ...otherProps
-}) {
-  strings.setLanguage(language);
-
-  const { isGeolocationAvailable, isGeolocationEnabled } = useGeolocated();
-  const [hideLocationDialog, { toggle: toggleHideLocationDialog }] =
-    useBoolean(true);
-
-  useEffect(() => {
-    if (!isGeolocationAvailable || !isGeolocationEnabled) {
-      toggleHideLocationDialog();
-    }
-  }, [isGeolocationAvailable, isGeolocationEnabled]);
-
-  return (
-    <StoreProvider store={store}>
-      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-        <AppContextProvider
-          apiKey={apiKey}
-          language={language}
-          measurementSystem={measurementSystem}
-          width={width}
-          height={height}
-          guidanceVoice={guidanceVoice}
-          guidanceVoiceVolume={guidanceVoiceVolume}
-          simulationSpeed={simulationSpeed}
-          theme={theme}
-        >
-          <Wrapper {...otherProps}>
-            <Map {...mapOptions}>
-              <Navigation />
-            </Map>
-            {!apiKey && <NoApiKeyMessage />}
-          </Wrapper>
-          <LocationDialog
-            isGeolocationAvailable={isGeolocationAvailable}
-            isGeolocationEnabled={isGeolocationEnabled}
-            onToggleHide={toggleHideLocationDialog}
-            hidden={hideLocationDialog}
-          />
-        </AppContextProvider>
-      </ThemeProvider>
-    </StoreProvider>
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <AppContextProvider
+        apiKey={apiKey}
+        language={language}
+        measurementSystem={measurementSystem}
+        width={width}
+        height={height}
+        guidanceVoice={guidanceVoice}
+        guidanceVoiceVolume={guidanceVoiceVolume}
+        simulationSpeed={simulationSpeed}
+        theme={theme}
+      >
+        <Map {...mapOptions}>
+          <Navigation />
+        </Map>
+        {!apiKey && <NoApiKeyMessage />}
+        <LocationDialog
+          isGeolocationAvailable={isGeolocationAvailable}
+          isGeolocationEnabled={isGeolocationEnabled}
+          onToggleHide={toggleHideLocationDialog}
+          hidden={hideLocationDialog}
+        />
+      </AppContextProvider>
+    </ThemeProvider>
   );
 }
 
