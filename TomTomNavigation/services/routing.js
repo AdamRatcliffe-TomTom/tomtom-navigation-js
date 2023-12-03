@@ -49,8 +49,6 @@ const routeBaseQuery = async (args) => {
     const sectionedRoute = createSectionedRoute(route);
     const walkingLeg = createWalkingLeg(args.locations, route);
 
-    console.log("walking leg: ", walkingLeg);
-
     return { data: { route, sectionedRoute, walkingLeg } };
   } catch (error) {
     return { error: { status: 500, data: "Route calculation failed" } };
@@ -60,13 +58,11 @@ const routeBaseQuery = async (args) => {
 export const routingApi = createApi({
   reducerPath: "routeApi",
   baseQuery: routeBaseQuery,
-  tagTypes: ["Route"],
   endpoints: (builder) => ({
     calculateRoute: builder.query({
       query: (args) => args
     })
-  }),
-  serializeQueryArgs: (args) => JSON.stringify(args)
+  })
 });
 
 export const { useCalculateRouteQuery } = routingApi;

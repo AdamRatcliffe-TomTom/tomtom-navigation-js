@@ -1,7 +1,6 @@
 import * as React from "react";
 import _isNil from "lodash.isnil";
 import _isEmpty from "lodash.isempty";
-import { v4 as uuid } from "uuid";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { Provider as StoreProvider } from "react-redux";
 import { store } from "./app/store";
@@ -25,7 +24,6 @@ type Icon = {
 };
 
 type Waypoint = {
-  id: string;
   coordinates: [number, number];
   name?: string;
   address?: string;
@@ -152,6 +150,7 @@ export class TomTomNavigation
       store,
       children: [
         React.createElement(App, {
+          key: "TomTomNavigation",
           apiKey,
           theme,
           language,
@@ -236,7 +235,6 @@ export class TomTomNavigation
         ];
 
         waypoints.push({
-          id: uuid(),
           coordinates,
           name,
           address,
