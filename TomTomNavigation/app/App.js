@@ -7,7 +7,7 @@ import AppContextProvider from "./AppContext";
 import NoApiKeyMessage from "./NoApiKeyMessage";
 import Map from "../features/map/Map";
 import Navigation from "../features/navigation/Navigation";
-import LocationDialog from "./LocationDialog";
+import GeolocationDialog from "./GeolocationDialog";
 import getSectionTypesForTravelMode from "../functions/getSectionTypesForTravelMode";
 import { lightTheme, darkTheme } from "./themes";
 import strings from "../config/strings";
@@ -50,12 +50,12 @@ function App({
 
   const dispatch = useDispatch();
   const { isGeolocationAvailable, isGeolocationEnabled } = useGeolocated();
-  const [hideLocationDialog, { toggle: toggleHideLocationDialog }] =
+  const [hideGeolocationDialog, { toggle: toggleHideGeolocationDialog }] =
     useBoolean(true);
 
   useEffect(() => {
     if (!isGeolocationAvailable || !isGeolocationEnabled) {
-      toggleHideLocationDialog();
+      toggleHideGeolocationDialog();
     }
   }, [isGeolocationAvailable, isGeolocationEnabled]);
 
@@ -107,11 +107,11 @@ function App({
           <Navigation />
         </Map>
         {!apiKey && <NoApiKeyMessage />}
-        <LocationDialog
+        <GeolocationDialog
           isGeolocationAvailable={isGeolocationAvailable}
           isGeolocationEnabled={isGeolocationEnabled}
-          onToggleHide={toggleHideLocationDialog}
-          hidden={hideLocationDialog}
+          onToggleHide={toggleHideGeolocationDialog}
+          hidden={hideGeolocationDialog}
         />
       </AppContextProvider>
     </ThemeProvider>

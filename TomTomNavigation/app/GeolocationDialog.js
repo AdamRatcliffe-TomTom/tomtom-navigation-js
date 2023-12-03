@@ -8,7 +8,7 @@ import {
 
 import strings from "../config/strings";
 
-const LocationDialog = ({
+const GeolocationDialog = ({
   isGeolocationAvailable,
   isGeolocationEnabled,
   hidden,
@@ -40,4 +40,4 @@ const LocationDialog = ({
   );
 };
 
-export default LocationDialog;
+export default GeolocationDialog;
