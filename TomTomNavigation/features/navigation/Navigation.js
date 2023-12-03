@@ -99,18 +99,7 @@ const Navigation = ({ map }) => {
 
       const navigationRoute = tomtom2mapbox(route.features[0]);
       setNavigationRoute(navigationRoute);
-
-      const { lengthInMeters, travelTimeInSeconds } =
-        route.features[0].properties.summary;
-      const eta = add(new Date(), {
-        seconds: travelTimeInSeconds
-      }).toISOString();
-
-      batch(() => {
-        dispatch(setDistanceRemaining(lengthInMeters));
-        dispatch(setTimeRemaining(travelTimeInSeconds));
-        dispatch(setEta(eta));
-      });
+      setETA();
     }
   }, [route]);
 
@@ -120,6 +109,20 @@ const Navigation = ({ map }) => {
       speak({ voice, text: announcement.text, volume: guidanceVoiceVolume });
     }
   }, [announcement, voiceAnnouncementsEnabled]);
+
+  const setETA = () => {
+    const { lengthInMeters, travelTimeInSeconds } =
+      route.features[0].properties.summary;
+    const eta = add(new Date(), {
+      seconds: travelTimeInSeconds
+    }).toISOString();
+
+    batch(() => {
+      dispatch(setDistanceRemaining(lengthInMeters));
+      dispatch(setTimeRemaining(travelTimeInSeconds));
+      dispatch(setEta(eta));
+    });
+  };
 
   const startNavigation = () => {
     // Center the map on the first coordinate of the route
@@ -168,6 +171,9 @@ const Navigation = ({ map }) => {
       dispatch(setPitch(0));
       dispatch(setFitBoundsOptions({ animate: true }));
       dispatch(setBounds(bounds));
+
+      // Reset the ETA
+      setETA();
     });
 
     map.once("moveend", () => dispatch(setViewTransitioning(false)));

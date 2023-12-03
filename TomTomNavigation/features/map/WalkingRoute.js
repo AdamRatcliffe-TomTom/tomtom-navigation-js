@@ -9,7 +9,7 @@ import usePrevPropValue from "../../hooks/usePrevPropValue";
 
 const WalkingRoute = ({ map, data, before, mapStyle }) => {
   const idRef = useRef(`WalkingRoute-${uuid()}`);
-  const [_, setLayers, layersRef] = useState();
+  const [layer, setLayer, layerRef] = useState();
   const prevMapStyle = usePrevPropValue(mapStyle);
 
   useEffect(() => {
@@ -26,8 +26,14 @@ const WalkingRoute = ({ map, data, before, mapStyle }) => {
     }
   }, [mapStyle, prevMapStyle]);
 
+  useEffect(() => {
+    if (layer) {
+      layer.setProps({ data });
+    }
+  }, [layer, data]);
+
   const addLayers = () => {
-    const layer = new MapboxLayer({
+    const l = new MapboxLayer({
       type: GeoJsonLayer,
       id: idRef.current,
       data,
@@ -44,15 +50,14 @@ const WalkingRoute = ({ map, data, before, mapStyle }) => {
       dashJustified: true,
       extensions: [new PathStyleExtension({ dash: true })]
     });
-    map.addLayer(layer, before);
+    map.addLayer(l, before);
 
-    setLayers({ layer });
+    setLayer(l);
   };
 
   const removeLayers = () => {
-    Object.values(layersRef.current).forEach(({ id }) => {
-      if (map.getLayer(id)) map.removeLayer(id);
-    });
+    const id = layerRef.current.id;
+    if (map.getLayer(id)) map.removeLayer(id);
   };
 
   return null;

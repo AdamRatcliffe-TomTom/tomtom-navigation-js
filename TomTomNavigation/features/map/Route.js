@@ -43,14 +43,14 @@ const Route = ({ map, data, progress, before, mapStyle }) => {
   }, [mapStyle, prevMapStyle]);
 
   useEffect(() => {
-    if (layers && data) {
+    if (layers) {
       layers.routeCasing?.setProps({ data });
       layers.routeLine?.setProps({ data });
     }
   }, [layers, data]);
 
   useEffect(() => {
-    if (layers && progress) {
+    if (layers) {
       layers.routeProgressCasing?.setProps({ data: progress });
       layers.routeProgressLine?.setProps({ data: progress });
     }
