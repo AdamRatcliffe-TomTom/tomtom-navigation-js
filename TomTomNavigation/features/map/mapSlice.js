@@ -10,7 +10,7 @@ const initialState = {
   bounds: undefined,
   movingMethod: "jumpTo",
   fitBoundsOptions: {
-    padding: { top: 80, right: 40, bottom: 150, left: 40 },
+    padding: { top: 100, right: 50, bottom: 150, left: 50 },
     animate: true
   },
   animationOptions: { duration: 500, essential: true },

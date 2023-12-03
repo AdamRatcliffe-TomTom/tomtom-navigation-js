@@ -10,6 +10,7 @@ import NoApiKeyMessage from "./NoApiKeyMessage";
 import Map from "../features/map/Map";
 import Navigation from "../features/navigation/Navigation";
 import LocationDialog from "./LocationDialog";
+import getSectionTypesForTravelMode from "../functions/getSectionTypesForTravelMode";
 import { lightTheme, darkTheme } from "./themes";
 import strings from "../config/strings";
 
@@ -58,7 +59,12 @@ function Wrapper({
   useEffect(() => {
     dispatch(resetNavigation());
     dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
-    dispatch(setRouteOptions(routeOptions));
+    dispatch(
+      setRouteOptions({
+        ...routeOptions,
+        sectionType: getSectionTypesForTravelMode(routeOptions.travelMode)
+      })
+    );
     dispatch(setMovingMethod("jumpTo"));
   }, [automaticRouteCalculation, JSON.stringify(routeOptions)]);
 
