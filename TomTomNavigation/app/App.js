@@ -103,9 +103,11 @@ function App({
         simulationSpeed={simulationSpeed}
         theme={theme}
       >
-        <Map {...mapOptions}>
-          <Navigation />
-        </Map>
+        <div className="TomTomNavigation">
+          <Map {...mapOptions}>
+            <Navigation />
+          </Map>
+        </div>
         {!apiKey && <NoApiKeyMessage />}
         <GeolocationDialog
           isGeolocationAvailable={isGeolocationAvailable}

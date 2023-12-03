@@ -2,6 +2,7 @@
 
 .TomTomNavigation {
   text-align: left;
+  position: relative;
 }
 
 .TomTomNavigation * {
