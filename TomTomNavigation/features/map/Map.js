@@ -7,6 +7,7 @@ import MuteControl from "./controls/MuteControl";
 import CompassControl from "./controls/CompassControl";
 import MapSwitcherControl from "./controls/MapSwitcherControl";
 import NavigationPerspectiveControl from "./controls/NavigationPerspectiveControl";
+import ExitControl from "./controls/ExitControl";
 import SpeedLimitEU from "./SpeedLimitEU";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
@@ -68,6 +69,7 @@ const Map = ({
   showLocationMarker,
   showMapSwitcherControl,
   showMuteControl,
+  showExitControl,
   children
 }) => {
   const dispatch = useDispatch();
@@ -125,6 +127,7 @@ const Map = ({
     isNavigating && speedLimit && !hasReachedDestination;
   const navigationPerspectiveControlIsVisible =
     isNavigating && !hasReachedDestination;
+  const exitControlIsVisible = showExitControl && !isNavigating;
   const locationMarkerIsVisible =
     showLocationMarker && userLocation && !isNavigating;
   const chevronMarkerIsVisible =
@@ -324,6 +327,7 @@ const Map = ({
         visible={compassControlIsVisible}
         onClick={handleCompassControlClick}
       />
+      <ExitControl visible={exitControlIsVisible} />
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
       {routeIsVisible && (
         <Route

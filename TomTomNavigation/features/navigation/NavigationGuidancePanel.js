@@ -20,7 +20,7 @@ import {
   getConsecutiveInstruction
 } from "./navigationSlice";
 
-import { TABLET_GUIDANCE_PANEL_WIDTH } from "../../config";
+import { TABLET_PANEL_WIDTH } from "../../config";
 
 const useStyles = ({ appTheme, isPhone, isTablet, countryCode }) =>
   makeStyles((theme) => ({
@@ -30,7 +30,7 @@ const useStyles = ({ appTheme, isPhone, isTablet, countryCode }) =>
       left: 0,
       margin: `${theme.spacing.m} ${theme.spacing.m} 0`,
       ...(isTablet && {
-        width: TABLET_GUIDANCE_PANEL_WIDTH
+        width: TABLET_PANEL_WIDTH
       }),
       ...(isPhone && {
         right: 0,
