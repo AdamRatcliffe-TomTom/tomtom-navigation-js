@@ -89,6 +89,7 @@ const Navigation = ({ map }) => {
   );
   const guidancePanelIsVisible =
     showGuidancePanel && isNavigating && !hasReachedDestination;
+  const bottomPanelIsVisible = showBottomPanel;
   const simulatorIsActive = navigationRoute && isNavigating;
 
   useEffect(() => {
@@ -135,11 +136,9 @@ const Navigation = ({ map }) => {
     // Make map non-interactive when navigating
     setMapInteractive(false);
 
-    map.once("moveend", () => dispatch(setViewTransitioning(false)));
-
     batch(() => {
-      dispatch(setIsNavigating(true));
       dispatch(setViewTransitioning(true));
+      dispatch(setIsNavigating(true));
       dispatch(
         setCamera({
           movingMethod,
@@ -150,6 +149,8 @@ const Navigation = ({ map }) => {
         })
       );
     });
+
+    map.once("moveend", () => dispatch(setViewTransitioning(false)));
 
     if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
       const voice = getGuidanceVoice();
@@ -163,11 +164,12 @@ const Navigation = ({ map }) => {
   const stopNavigation = () => {
     const bounds = geoJsonBounds(route);
 
+    // Reset the map's field of view padding
     map.__om.setPadding({ top: 0 });
 
     batch(() => {
-      dispatch(resetNavigation());
       dispatch(setViewTransitioning(true));
+      dispatch(resetNavigation());
       dispatch(setPitch(0));
       dispatch(setFitBoundsOptions({ animate: true }));
       dispatch(setBounds(bounds));
@@ -239,6 +241,7 @@ const Navigation = ({ map }) => {
     const bounds = new tt.LngLatBounds(lastCoordinate, lastCoordinate);
     bounds.extend(destination.coordinates);
 
+    // Reset the map's field of view padding
     map.__om.setPadding({ top: 0 });
 
     batch(() => {
@@ -278,7 +281,7 @@ const Navigation = ({ map }) => {
   return (
     <>
       {guidancePanelIsVisible && <NavigationGuidancePanel route={route} />}
-      {showBottomPanel && (
+      {bottomPanelIsVisible && (
         <BottomPanel
           route={route}
           onStartNavigation={startNavigation}

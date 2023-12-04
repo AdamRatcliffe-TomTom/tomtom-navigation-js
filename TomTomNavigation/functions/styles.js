@@ -6,7 +6,6 @@ export function addStyleToDocument(id, cssRule) {
 
   var style = document.createElement("style");
   style.id = id;
-
   style.innerHTML = cssRule;
 
   document.head.appendChild(style);

@@ -9,14 +9,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: theme.palette.white,
+    backgroundColor: theme.palette.white,
     width: 56,
     height: 56,
     boxShadow: theme.floatingElementShadow,
     borderRadius: "50%",
     overflow: "hidden",
     transition: "opacity 0.3s ease-out",
-    cursor: "pointer"
+    cursor: "pointer",
+    transition: "background-color 0.15s"
   },
   icon: {
     display: "inline-block",

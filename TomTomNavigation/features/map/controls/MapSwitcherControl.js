@@ -14,7 +14,8 @@ const useStyles = (props) =>
       backgroundColor: theme.palette.white,
       borderRadius: theme.spacing.m,
       padding: `${theme.spacing.m} ${theme.spacing.m} 12px`,
-      boxShadow: theme.floatingElementShadow
+      boxShadow: theme.floatingElementShadow,
+      transition: "background-color 0.15s"
     },
     item: {
       display: "flex",

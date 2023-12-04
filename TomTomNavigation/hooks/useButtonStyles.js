@@ -23,7 +23,7 @@ const useButtonStyles = makeStyles((theme) => ({
     }
   },
   pillButtonLarge: {
-    minWidth: 70,
+    minWidth: 75,
     fontFamily: "Noto Sans",
     fontSize: 18,
     fontWeight: 400,
@@ -52,6 +52,7 @@ const useButtonStyles = makeStyles((theme) => ({
     boxShadow: theme.floatingElementShadow,
     userSelect: "none",
     cursor: "pointer",
+    transition: "background-color 0.15s",
     ":active": {
       backgroundColor: theme.semanticColors.buttonBackgroundPressed
     }

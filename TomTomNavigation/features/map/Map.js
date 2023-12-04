@@ -113,6 +113,7 @@ const Map = ({
       { skip: !automaticRouteCalculation }
     );
   const countryCode = countryCodeFromRoute(route);
+
   const routeIsVisible = !!route;
   const walkingLegIsVisible = !!walkingLeg;
   const geolocateControlIsVisible = enableGeolocation && !isNavigating;

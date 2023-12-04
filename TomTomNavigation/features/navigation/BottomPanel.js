@@ -19,7 +19,7 @@ const useStyles = ({ isPhone, isTablet }) =>
       bottom: 0,
       left: 0,
       margin: `${theme.spacing.m} ${theme.spacing.m} 0`,
-      background: theme.palette.white,
+      backgroundColor: theme.palette.white,
       borderTopLeftRadius: theme.spacing.m,
       borderTopRightRadius: theme.spacing.m,
       boxShadow: theme.floatingElementShadow,
@@ -29,7 +29,8 @@ const useStyles = ({ isPhone, isTablet }) =>
       ...(isPhone && {
         right: 0,
         margin: `${theme.spacing.s1} ${theme.spacing.s1} 0`
-      })
+      }),
+      transition: "background-color 0.15s"
     }
   }));
 
