@@ -35,6 +35,8 @@ export class TomTomNavigation
 {
   private notifyOutputChanged: () => void;
 
+  private componentExit?: boolean;
+
   /**
    * Empty constructor.
    */
@@ -137,7 +139,8 @@ export class TomTomNavigation
       showLocationMarker,
       showMapSwitcherControl,
       showMuteControl,
-      showExitControl
+      showExitControl,
+      onComponentExit: this.handleComponentExit
     };
 
     const routeOptions = {
@@ -148,6 +151,7 @@ export class TomTomNavigation
       locations: waypoints
     };
 
+    // eslint-disable-next-line react/no-children-prop
     return React.createElement(StoreProvider, {
       store,
       children: [
@@ -174,6 +178,11 @@ export class TomTomNavigation
       ]
     });
   }
+
+  handleComponentExit = () => {
+    this.componentExit = true;
+    this.notifyOutputChanged();
+  };
 
   private getTestWaypoints() {
     return [
@@ -275,7 +284,9 @@ export class TomTomNavigation
    * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
    */
   public getOutputs(): IOutputs {
-    return {};
+    return {
+      componentExit: this.componentExit
+    };
   }
 
   /**

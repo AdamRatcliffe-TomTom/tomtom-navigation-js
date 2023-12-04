@@ -11,7 +11,7 @@ const Exit = ({ visible, onClick = () => {} }) => {
   const buttonClasses = useButtonStyles();
 
   const handleClick = () => {
-    // do something
+    onClick();
   };
 
   return (

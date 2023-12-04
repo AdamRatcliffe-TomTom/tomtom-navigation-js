@@ -70,6 +70,7 @@ const Map = ({
   showMapSwitcherControl,
   showMuteControl,
   showExitControl,
+  onComponentExit,
   children
 }) => {
   const dispatch = useDispatch();
@@ -327,7 +328,7 @@ const Map = ({
         visible={compassControlIsVisible}
         onClick={handleCompassControlClick}
       />
-      <ExitControl visible={exitControlIsVisible} />
+      <ExitControl visible={exitControlIsVisible} onClick={onComponentExit} />
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
       {routeIsVisible && (
         <Route

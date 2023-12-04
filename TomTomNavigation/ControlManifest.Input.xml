@@ -72,6 +72,7 @@
 			<value name="4x" display-name-key="4x">4x</value>
 			<value name="5x" display-name-key="5x">5x</value>
 		</property>
+		<property name="componentExit" display-name-key="Component exit" description-key="componentExit_Desc_Key" of-type="TwoOptions" usage="output" default-value="false"/>
 		<resources>
 			<code path="index.ts" order="1" />
 			<platform-library name="React" version="16.8.6" />
