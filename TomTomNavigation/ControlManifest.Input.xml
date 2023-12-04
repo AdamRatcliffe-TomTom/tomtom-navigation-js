@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.10.1" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.10.2" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -47,6 +47,16 @@
 		<property name="showArrivalPanel" display-name-key="Show arrival panel" description-key="showArrivalPanel_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="automaticRouteCalculation" display-name-key="Automatic route calculation" description-key="automaticRouteCalculation_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="false" />
 		<data-set name="routeWaypoints" description-key="routeWaypoints-Desc_Key" display-name-key="Route waypoints dataset">
+			<property-set name="latitude" display-name-key="Latitude" description-key="latitude_Desc_Key" of-type="Decimal" usage="input" required="true"/>
+			<property-set name="longitude" display-name-key="Longitude" description-key="longitude_Desc_Key" of-type="Decimal" usage="input" required="true"/>
+			<property-set name="name" display-name-key="Name" description-key="name_Desc_Key" of-type="SingleLine.Text" usage="input" required="false"/>
+			<property-set name="address" display-name-key="Address" description-key="address_Desc_Key" of-type="SingleLine.Text" usage="input" required="false"/>
+			<property-set name="icon_url" display-name-key="Icon URL" description-key="icon_url_Desc_Key" of-type="SingleLine.Text" usage="input" required="false"/>
+			<property-set name="icon_width" display-name-key="Icon width" description-key="icon_width_Desc_Key" of-type="Whole.None" usage="input" required="false"/>
+			<property-set name="icon_height" display-name-key="Icon height" description-key="icon_height_Desc_Key" of-type="Whole.None" usage="input" required="false"/>
+			<property-set name="icon_anchor" display-name-key="Icon anchor" description-key="icon_anchor_Desc_Key" of-type="SingleLine.Text" usage="input" required="false"/>
+			<property-set name="icon_offset_x" display-name-key="Icon horizontal offset" description-key="icon_offset_x_Desc_Key" of-type="Whole.None" usage="input" required="false"/>
+			<property-set name="icon_offset_y" display-name-key="Icon vertical offset" description-key="icon_offset_y_Desc_Key" of-type="Whole.None" usage="input" required="false"/>
 	  </data-set>
 		<property name="travelMode" display-name-key="Travel mode" description-key="travelMode_Desc_Key" of-type="Enum" usage="input" required="true" default-value="car">
 			<value name="car" display-name-key="Car">car</value>
