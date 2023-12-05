@@ -16,6 +16,7 @@ import tomtom2mapbox from "../../functions/tomtom2mapbox";
 import fireEvent from "../../functions/fireEvent";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
 import ComponentEvents from "../../constants/ComponentEvents";
+import NavigationStates from "../../constants/NavigationStates";
 import strings from "../../config/strings";
 
 import {
@@ -48,7 +49,7 @@ import {
   resetNavigation
 } from "../navigation/navigationSlice";
 
-const Navigation = ({ map }) => {
+const Navigation = ({ map, onNavigationStateChange }) => {
   const dispatch = useDispatch();
   const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
   const {
@@ -159,6 +160,7 @@ const Navigation = ({ map }) => {
     }
 
     fireEvent(ComponentEvents.navigation_started);
+    onNavigationStateChange(NavigationStates.NAVIGATION_STARTED);
   };
 
   const stopNavigation = () => {
@@ -184,6 +186,7 @@ const Navigation = ({ map }) => {
     setMapInteractive(true);
 
     fireEvent(ComponentEvents.navigation_stopped);
+    onNavigationStateChange(NavigationStates.NAVIGATION_STOPPED);
   };
 
   const setMapInteractive = (interactive) =>
@@ -273,6 +276,7 @@ const Navigation = ({ map }) => {
     }
 
     fireEvent(ComponentEvents.destination_reached, { destination });
+    onNavigationStateChange(NavigationStates.DESTINATION_REACHED);
   };
 
   const getGuidanceVoice = () =>

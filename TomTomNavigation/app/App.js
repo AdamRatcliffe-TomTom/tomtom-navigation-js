@@ -44,7 +44,8 @@ function App({
   automaticRouteCalculation,
   showBottomPanel,
   showGuidancePanel,
-  showArrivalPanel
+  showArrivalPanel,
+  onNavigationStateChange
 }) {
   strings.setLanguage(language);
 
@@ -105,7 +106,7 @@ function App({
       >
         <div className="TomTomNavigation">
           <Map {...mapOptions}>
-            <Navigation />
+            <Navigation onNavigationStateChange={onNavigationStateChange} />
           </Map>
         </div>
         {!apiKey && <NoApiKeyMessage />}

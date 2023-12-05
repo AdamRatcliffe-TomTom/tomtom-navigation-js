@@ -7,6 +7,7 @@ import { store } from "./app/store";
 import App from "./app/App";
 import parseCoordinateString from "./functions/parseCoordinateString";
 import detectColorScheme from "./functions/detectColorScheme";
+import NavigationStates from "./constants/NavigationStates";
 
 import { MAX_WAYPOINTS } from "./config";
 
@@ -43,11 +44,18 @@ type FieldMappings = {
   iconOffsetY: string;
 };
 
+type NavigationState =
+  | typeof NavigationStates.NAVIGATION_NOT_STARTED
+  | typeof NavigationStates.NAVIGATION_STARTED
+  | typeof NavigationStates.NAVIGATION_STOPPED
+  | typeof NavigationStates.DESTINATION_REACHED;
+
 export class TomTomNavigation
   implements ComponentFramework.ReactControl<IInputs, IOutputs>
 {
   private notifyOutputChanged: () => void;
 
+  private navigationState?: NavigationState;
   private componentExit?: boolean;
 
   /**
@@ -249,11 +257,17 @@ export class TomTomNavigation
           showBottomPanel,
           showGuidancePanel,
           showArrivalPanel,
-          automaticRouteCalculation
+          automaticRouteCalculation,
+          onNavigationStateChange: this.handleNavigationStateChange
         })
       ]
     });
   }
+
+  handleNavigationStateChange = (state: NavigationState) => {
+    this.navigationState = state;
+    this.notifyOutputChanged();
+  };
 
   handleComponentExit = () => {
     this.componentExit = true;
