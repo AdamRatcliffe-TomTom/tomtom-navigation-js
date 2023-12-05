@@ -30,6 +30,19 @@ type Waypoint = {
   icon?: Icon;
 };
 
+type FieldMappings = {
+  longitude: string;
+  latitude: string;
+  name: string;
+  address: string;
+  iconUrl: string;
+  iconWidth: string;
+  iconHeight: string;
+  iconAnchor: string;
+  iconOffsetX: string;
+  iconOffsetY: string;
+};
+
 export class TomTomNavigation
   implements ComponentFramework.ReactControl<IInputs, IOutputs>
 {
@@ -125,7 +138,70 @@ export class TomTomNavigation
     );
 
     const dataset = context.parameters.routeWaypoints;
-    const waypoints = this.getWaypointsFromDataSet(dataset);
+    const longitudeField = this.getRawParameter(
+      context,
+      "routeWaypointsLongitude",
+      "longitude"
+    );
+    const latitudeField = this.getRawParameter(
+      context,
+      "routeWaypointsLatitude",
+      "latitude"
+    );
+    const nameField = this.getRawParameter(
+      context,
+      "routeWaypointsName",
+      "name"
+    );
+    const addressField = this.getRawParameter(
+      context,
+      "routeWaypointsAddress",
+      "address"
+    );
+    const iconUrlField = this.getRawParameter(
+      context,
+      "routeWaypointsIconUrl",
+      "icon_url"
+    );
+    const iconWidthField = this.getRawParameter(
+      context,
+      "routeWaypointsIconWidth",
+      "icon_width"
+    );
+    const iconHeightField = this.getRawParameter(
+      context,
+      "routeWaypointsIconHeight",
+      "icon_height"
+    );
+    const iconAnchorField = this.getRawParameter(
+      context,
+      "routeWaypointsIconAnchor",
+      "icon_anchor"
+    );
+    const iconOffsetXField = this.getRawParameter(
+      context,
+      "routeWaypointsIconOffsetX",
+      "icon_offset_x"
+    );
+    const iconOffsetYField = this.getRawParameter(
+      context,
+      "routeWaypointsIconOffsetY",
+      "icon_offset_y"
+    );
+    const fieldMappings = {
+      longitude: longitudeField,
+      latitude: latitudeField,
+      name: nameField,
+      address: addressField,
+      iconUrl: iconUrlField,
+      iconWidth: iconWidthField,
+      iconHeight: iconHeightField,
+      iconAnchor: iconAnchorField,
+      iconOffsetX: iconOffsetXField,
+      iconOffsetY: iconOffsetYField
+    };
+
+    const waypoints = this.getWaypointsFromDataSet(dataset, fieldMappings);
     // const waypoints = this.getTestWaypoints();
 
     const width = context.mode.allocatedWidth;
@@ -219,7 +295,10 @@ export class TomTomNavigation
     ];
   }
 
-  private getWaypointsFromDataSet(dataset: DataSet): Waypoint[] {
+  private getWaypointsFromDataSet(
+    dataset: DataSet,
+    fieldMappings: FieldMappings
+  ): Waypoint[] {
     if (dataset.loading) {
       return [];
     }
@@ -231,11 +310,11 @@ export class TomTomNavigation
     const waypoints: Waypoint[] = [];
 
     records.forEach((record: DataSetInterfaces.EntityRecord) => {
-      const latitude = record.getValue("latitude") as number;
-      const longitude = record.getValue("longitude") as number;
-      const name = record.getValue("name") as string;
-      const address = record.getValue("address") as string;
-      const url = record.getValue("icon_url") as string;
+      const latitude = record.getValue(fieldMappings.latitude) as number;
+      const longitude = record.getValue(fieldMappings.longitude) as number;
+      const name = record.getValue(fieldMappings.name) as string;
+      const address = record.getValue(fieldMappings.address) as string;
+      const url = record.getValue(fieldMappings.iconUrl) as string;
       const haveCoords = !_isNil(latitude) && !_isNil(longitude);
       const haveIcon = !_isEmpty(url);
 
@@ -252,12 +331,12 @@ export class TomTomNavigation
           ...(haveIcon && {
             icon: {
               url,
-              width: record.getValue("icon_width") as number,
-              height: record.getValue("icon_height") as number,
-              anchor: record.getValue("icon_anchor") as string,
+              width: record.getValue(fieldMappings.iconWidth) as number,
+              height: record.getValue(fieldMappings.iconHeight) as number,
+              anchor: record.getValue(fieldMappings.iconAnchor) as string,
               offset: [
-                (record.getValue("icon_offset_x") as number) || 0,
-                (record.getValue("icon_offset_y") as number) || 0
+                (record.getValue(fieldMappings.iconOffsetX) as number) || 0,
+                (record.getValue(fieldMappings.iconOffsetY) as number) || 0
               ]
             }
           })
@@ -270,13 +349,14 @@ export class TomTomNavigation
 
   private getRawParameter(
     context: ComponentFramework.Context<IInputs>,
-    name: string
+    name: string,
+    defaultValue?: any
   ): any {
     const parameter = (context.parameters as { [key: string]: any })[name];
-    if (parameter) {
+    if (parameter && parameter.raw !== "val") {
       return parameter.raw;
     }
-    return undefined;
+    return defaultValue;
   }
 
   /**

@@ -11,7 +11,6 @@ import ExitControl from "./controls/ExitControl";
 import SpeedLimitEU from "./SpeedLimitEU";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
-import WalkingRoute from "./WalkingRoute";
 import LocationMarker from "./markers/LocationMarker";
 import ChevronMarker from "./markers/ChevronMarker";
 import Chevron2DMarker from "./markers/Chevron2DMarker";
@@ -118,7 +117,6 @@ const Map = ({
   const countryCode = countryCodeFromRoute(route);
 
   const routeIsVisible = !!route;
-  const walkingLegIsVisible = !!walkingLeg;
   const geolocateControlIsVisible = enableGeolocation && !isNavigating;
   const muteControlVisible =
     showMuteControl && isNavigating && !hasReachedDestination;
@@ -335,13 +333,7 @@ const Map = ({
           before={before}
           data={sectionedRoute}
           progress={routeProgress}
-          mapStyle={currentStyle}
-        />
-      )}
-      {walkingLegIsVisible && (
-        <WalkingRoute
-          before={before}
-          data={walkingLeg}
+          walkingLeg={walkingLeg}
           mapStyle={currentStyle}
         />
       )}

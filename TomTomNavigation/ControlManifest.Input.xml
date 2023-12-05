@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.10.2" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.10.18" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -47,8 +47,8 @@
 		<property name="showArrivalPanel" display-name-key="Show arrival panel" description-key="showArrivalPanel_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="automaticRouteCalculation" display-name-key="Automatic route calculation" description-key="automaticRouteCalculation_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="false" />
 		<data-set name="routeWaypoints" description-key="routeWaypoints-Desc_Key" display-name-key="Route waypoints dataset">
+			<!-- <property-set name="longitude" display-name-key="Longitude" description-key="longitude_Desc_Key" of-type="Decimal" usage="input" required="true"/>
 			<property-set name="latitude" display-name-key="Latitude" description-key="latitude_Desc_Key" of-type="Decimal" usage="input" required="true"/>
-			<property-set name="longitude" display-name-key="Longitude" description-key="longitude_Desc_Key" of-type="Decimal" usage="input" required="true"/>
 			<property-set name="name" display-name-key="Name" description-key="name_Desc_Key" of-type="SingleLine.Text" usage="input" required="false"/>
 			<property-set name="address" display-name-key="Address" description-key="address_Desc_Key" of-type="SingleLine.Text" usage="input" required="false"/>
 			<property-set name="icon_url" display-name-key="Icon URL" description-key="icon_url_Desc_Key" of-type="SingleLine.Text" usage="input" required="false"/>
@@ -56,7 +56,7 @@
 			<property-set name="icon_height" display-name-key="Icon height" description-key="icon_height_Desc_Key" of-type="Whole.None" usage="input" required="false"/>
 			<property-set name="icon_anchor" display-name-key="Icon anchor" description-key="icon_anchor_Desc_Key" of-type="SingleLine.Text" usage="input" required="false"/>
 			<property-set name="icon_offset_x" display-name-key="Icon horizontal offset" description-key="icon_offset_x_Desc_Key" of-type="Whole.None" usage="input" required="false"/>
-			<property-set name="icon_offset_y" display-name-key="Icon vertical offset" description-key="icon_offset_y_Desc_Key" of-type="Whole.None" usage="input" required="false"/>
+			<property-set name="icon_offset_y" display-name-key="Icon vertical offset" description-key="icon_offset_y_Desc_Key" of-type="Whole.None" usage="input" required="false"/> -->
 	  </data-set>
 		<property name="travelMode" display-name-key="Travel mode" description-key="travelMode_Desc_Key" of-type="Enum" usage="input" required="true" default-value="car">
 			<value name="car" display-name-key="Car">car</value>
@@ -83,6 +83,16 @@
 			<value name="5x" display-name-key="5x">5x</value>
 		</property>
 		<property name="componentExit" display-name-key="Component exit" description-key="componentExit_Desc_Key" of-type="TwoOptions" usage="output" default-value="false"/>
+		<property name="routeWaypointsLongitude" display-name-key="Route waypoints item longitude" description-key="routeWaypointsLongitude_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="routeWaypointsLatitude" display-name-key="Route waypoints item latitude" description-key="routeWaypointsLatitude_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="routeWaypointsName" display-name-key="Route waypoints item name" description-key="routeWaypointsName_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="routeWaypointsAddress" display-name-key="Route waypoints item address" description-key="routeWaypointsAddress_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="routeWaypointsIconUrl" display-name-key="Route waypoints item icon URL" description-key="routeWaypointsIconUrl_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="routeWaypointsIconWidth" display-name-key="Route waypoints item icon width" description-key="routeWaypointsIconWidth_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="routeWaypointsIconHeight" display-name-key="Route waypoints item icon height" description-key="routeWaypointsIconHeight_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="routeWaypointsIconAnchor" display-name-key="Route waypoints item icon anchor" description-key="routeWaypointsIconAnchor_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="routeWaypointsIconOffsetX" display-name-key="Route waypoints item icon horizontal offset" description-key="routeWaypointsIconOffsetX_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="routeWaypointsIconOffsetY" display-name-key="Route waypoints item icon vertical offset" description-key="routeWaypointsIconOffsetY_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
 		<resources>
 			<code path="index.ts" order="1" />
 			<platform-library name="React" version="16.8.6" />
