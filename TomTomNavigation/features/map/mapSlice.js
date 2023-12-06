@@ -2,6 +2,13 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 import _merge from "lodash.merge";
 import _pick from "lodash.pick";
 
+import {
+  FIT_BOUNDS_PADDING_TOP,
+  FIT_BOUNDS_PADDING_RIGHT,
+  FIT_BOUNDS_PADDING_BOTTOM,
+  FIT_BOUNDS_PADDING_LEFT
+} from "../../config";
+
 const initialState = {
   center: undefined,
   zoom: undefined,
@@ -10,11 +17,15 @@ const initialState = {
   bounds: undefined,
   movingMethod: "jumpTo",
   fitBoundsOptions: {
-    padding: { top: 100, right: 50, bottom: 150, left: 50 },
+    padding: {
+      top: FIT_BOUNDS_PADDING_TOP,
+      right: FIT_BOUNDS_PADDING_RIGHT,
+      bottom: FIT_BOUNDS_PADDING_BOTTOM,
+      left: FIT_BOUNDS_PADDING_LEFT
+    },
     animate: true
   },
   animationOptions: { duration: 500, essential: true },
-  padding: undefined, // the map's field of view padding
   routeOptions: {
     travelMode: "car",
     coordinatePrecision: "full",
@@ -72,9 +83,6 @@ const mapSlice = createSlice({
     setAnimationOptions: (state, action) => {
       state.animationOptions = _merge(state.animationOptions, action.payload);
     },
-    setPadding: (state, action) => {
-      state.padding = action.payload;
-    },
     setRouteOptions: (state, action) => {
       state.routeOptions = { ...state.routeOptions, ...action.payload };
     },
@@ -115,8 +123,6 @@ const getAnimationOptions = createSelector(
   (state) => state.animationOptions
 );
 
-const getPadding = createSelector(rootSelector, (state) => state.padding);
-
 const getRouteOptions = createSelector(
   rootSelector,
   (state) => state.routeOptions
@@ -150,7 +156,6 @@ export {
   getBounds,
   getMovingMethod,
   getAnimationOptions,
-  getPadding,
   getRouteOptions,
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
@@ -166,7 +171,6 @@ export const {
   setPitch,
   setBounds,
   setMovingMethod,
-  setPadding,
   setRouteOptions,
   setAnimationOptions,
   setAutomaticRouteCalculation,

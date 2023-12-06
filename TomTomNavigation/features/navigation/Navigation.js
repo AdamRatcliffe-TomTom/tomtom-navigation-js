@@ -49,6 +49,13 @@ import {
   resetNavigation
 } from "../navigation/navigationSlice";
 
+import {
+  FIT_BOUNDS_PADDING_TOP,
+  FIT_BOUNDS_PADDING_RIGHT,
+  FIT_BOUNDS_PADDING_BOTTOM,
+  FIT_BOUNDS_PADDING_LEFT
+} from "../../config";
+
 const Navigation = ({ map, onNavigationStateChange }) => {
   const dispatch = useDispatch();
   const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
@@ -257,7 +264,12 @@ const Navigation = ({ map, onNavigationStateChange }) => {
           pitch: 0,
           duration: 500,
           maxZoom: 18,
-          padding: { top: 100, right: 100, bottom: 240, left: 100 }
+          padding: {
+            top: FIT_BOUNDS_PADDING_TOP,
+            right: FIT_BOUNDS_PADDING_RIGHT,
+            bottom: FIT_BOUNDS_PADDING_BOTTOM,
+            left: FIT_BOUNDS_PADDING_LEFT
+          }
         })
       );
       dispatch(setBounds(bounds.toArray()));

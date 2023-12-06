@@ -61,10 +61,15 @@ const styleId = "guidance-ctrl-margin-adjustment";
 
 const NavigationGuidancePanel = ({ route }) => {
   const [guidanceRef, bounds] = useMeasure();
-  const { theme: appTheme, isPhone, isTablet } = useAppContext();
+  const {
+    theme: appTheme,
+    isPhone,
+    isTablet,
+    setGuidancePanelHeight
+  } = useAppContext();
   const countryCode = countryCodeFromRoute(route);
   const classes = useStyles({ appTheme, isPhone, isTablet, countryCode })();
-  const nipHeight = bounds.height;
+  const guidancePanelHeight = bounds.height;
   const { laneGuidance } = useSelector(getCurrentLocation);
   const nextInstruction = useSelector(getNextInstruction);
   const consecutiveInstruction = useSelector(getConsecutiveInstruction);
@@ -81,14 +86,16 @@ const NavigationGuidancePanel = ({ route }) => {
       addStyleToDocument(
         styleId,
         `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {margin-top: ${
-          nipHeight + 8
+          guidancePanelHeight + 8
         }px}`
       );
     } else {
       removeStyleFromDocument(styleId);
     }
+    setGuidancePanelHeight(guidancePanelHeight);
+
     return () => removeStyleFromDocument(styleId);
-  }, [isPhone, nipHeight]);
+  }, [isPhone, guidancePanelHeight]);
 
   // Navigation guidance cannot be shown if there's no next instruction
   if (!nextInstruction) {

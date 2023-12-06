@@ -20,6 +20,7 @@ export default function AppContextProvider({
   guidanceVoiceVolume
 }) {
   const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
+  const [guidancePanelHeight, setGuidancePanelHeight] = useState(0);
 
   const contextValue = useMemo(
     () => ({
@@ -28,12 +29,16 @@ export default function AppContextProvider({
       width,
       height,
       simulationSpeed,
+      isPortrait: height > width,
+      isLandscape: width > height,
       isPhone: width <= 428,
       isTablet: width > 428,
       landscapeMinimal: height < 500,
       theme,
       guidanceVoice,
       guidanceVoiceVolume,
+      guidancePanelHeight,
+      setGuidancePanelHeight,
       mapStyles: {
         street: {
           name: "street",
@@ -64,7 +69,8 @@ export default function AppContextProvider({
       simulationSpeed,
       theme,
       guidanceVoice,
-      guidanceVoiceVolume
+      guidanceVoiceVolume,
+      guidancePanelHeight
     ]
   );
 

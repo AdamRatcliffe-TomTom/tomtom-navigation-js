@@ -56,6 +56,12 @@ import {
   setNavigationPerspective
 } from "../navigation/navigationSlice";
 
+import {
+  TABLET_PANEL_WIDTH,
+  FIT_BOUNDS_PADDING_TOP,
+  FIT_BOUNDS_PADDING_LEFT
+} from "../../config";
+
 const before = "Borders - Treaty label";
 
 const easing = (v) => v;
@@ -81,7 +87,9 @@ const Map = ({
     height,
     mapStyles,
     theme,
-    setMeasurementSystemAuto
+    guidancePanelHeight,
+    setMeasurementSystemAuto,
+    isPhone
   } = useAppContext();
   const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
   const isNavigating = useSelector(getIsNavigating);
@@ -235,7 +243,12 @@ const Map = ({
 
         fitRoute({
           animate: true,
-          padding: { top: 200 }
+          padding: {
+            top: isPhone ? guidancePanelHeight + 24 : FIT_BOUNDS_PADDING_TOP,
+            left: isPhone
+              ? FIT_BOUNDS_PADDING_LEFT
+              : TABLET_PANEL_WIDTH + FIT_BOUNDS_PADDING_LEFT
+          }
         });
       }
     });
