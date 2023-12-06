@@ -46,8 +46,8 @@ Available component properties:
 | routeWaypointsIcon_anchor | `SingleLine.Text` | input | "" | Column in the bound dataset containing the icon anchor value. |
 | routeWaypointsIconOffsetX | `SingleLine.Text` | input | "" | Column in the bound dataset containing the icon_offset_x value. |
 | routeWaypointsIconOffsetY | `SingleLine.Text` | input | "" | Column in the bound dataset containing the icon_offset_y value. |
-| componentExit | `TwoOptions` | output | `false` | Set to `true` when the component exit button is clicked. |
-| navigationState | `Enum` possible values are "NAVIGATION\_NOT\_STARTED", "NAVIGATION\_STARTED", "NAVIGATION\_STOPPED", "DESTINATION\_REACHED" | output | "NAVIGATION\_NOT\_STARTED" | Set by the component to reflect the current navigation state. |
+| componentExit | `TwoOptions` | bound | `false` | Set to `true` when the component exit button is clicked. |
+| navigationState | `Enum` possible values are "NAVIGATION\_NOT\_STARTED", "NAVIGATION\_STARTED", "NAVIGATION\_STOPPED", "DESTINATION\_REACHED" | bound | "NAVIGATION\_NOT\_STARTED" | Set by the component to reflect the current navigation state. |
 
 ## Route Waypoints
 

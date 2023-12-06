@@ -78,6 +78,8 @@ export class TomTomNavigation
   ): void {
     this.notifyOutputChanged = notifyOutputChanged;
     context.mode.trackContainerResize(true);
+
+    this.notifyOutputChanged();
   }
 
   /**
