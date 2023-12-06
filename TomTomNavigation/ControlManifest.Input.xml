@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.11.0" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.11.1" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -82,8 +82,8 @@
 			<value name="4x" display-name-key="4x">4x</value>
 			<value name="5x" display-name-key="5x">5x</value>
 		</property>
-		<property name="componentExit" display-name-key="Component exit" description-key="componentExit_Desc_Key" of-type="TwoOptions" usage="output" default-value="false"/>
-		<property name="navigationState" display-name-key="Navigation state" description-key="navigationState_Desc_Key" of-type="Enum" usage="output" default-value="NAVIGATION_NOT_STARTED">
+		<property name="componentExit" display-name-key="Component exit" description-key="componentExit_Desc_Key" of-type="TwoOptions" usage="output"/>
+		<property name="navigationState" display-name-key="Navigation state" description-key="navigationState_Desc_Key" of-type="Enum" usage="output">
 		  <value name="NAVIGATION_NOT_STARTED" display-name-key="NavigationNotStarted">NAVIGATION_NOT_STARTED</value>
 		  <value name="NAVIGATION_STARTED" display-name-key="NavigationStarted">NAVIGATION_STARTED</value>
 			<value name="NAVIGATION_STOPPED" display-name-key="NavigationStopped">NAVIGATION_STOPPED</value>

@@ -55,8 +55,9 @@ export class TomTomNavigation
 {
   private notifyOutputChanged: () => void;
 
-  private navigationState?: NavigationState;
-  private componentExit?: boolean;
+  private navigationState?: NavigationState =
+    NavigationStates.NAVIGATION_NOT_STARTED;
+  private componentExit?: boolean = false;
 
   /**
    * Empty constructor.
