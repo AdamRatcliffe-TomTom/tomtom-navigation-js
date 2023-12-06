@@ -51,14 +51,17 @@ Available component properties:
 
 ## Route Waypoints
 
-The navigation component sources the route waypoints from a `DataSet`. The dataset must have `lng` and `lat` columns, other columns are optional.
+The navigation component sources the route waypoints from a `DataSet`. The dataset must have `longitude` and `latitude` columns, other columns are optional.
+
+The names shown in the table are the defaults that will be expected by the component if column mappings are not specified using the mapping input properties.
 
 | Name          | Type              | Required | Description                                                                                                                                                                                                               |
 | ------------- | ----------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| longitude      | `Decimal`         | Yes      | The longitude value.                                                                                                                                                                                                       |
 | latitude      | `Decimal`         | Yes      | The latitude value.                                                                                                                                                                                                       |
 | name          | `SingleLine.Text` | No       | The location name.                                                                                                                                                                                                        |
 | address       | `SingleLine.Text` | No       | The location address.                                                                                                                                                                                                     |
-| icon_url      | `SingleLine.Text` | No       | Url for an image to use to represent the location on the map.                                                                                                                                                             |
+| icon_url      | `SingleLine.Text` | No       | URL for an image to use to represent the location on the map.                                                                                                                                                             |
 | icon_width    | `Whole.None`      | No       | Width of the icon in pixels.                                                                                                                                                                                              |
 | icon_height   | `Whole.None`      | No       | Height of the icon in pixels.                                                                                                                                                                                             |
 | icon_anchor   | `SingeLine.Text`  | No       | A string indicating the part of the icon that should be positioned closest to the coordinate. Options are 'center' , 'top' , 'bottom' , 'left' , 'right' , 'top-left' , 'top-right' , 'bottom-left' , and 'bottom-right'. |
@@ -67,7 +70,7 @@ The navigation component sources the route waypoints from a `DataSet`. The datas
 
 ## Component Events
 
-The navigation component uses the `window.postMessage()` method to communicate state changes. To listen for events dispatched by the component add an event listener to the `window` for the "message" event e.g.
+The navigation component uses the `window.postMessage()` method to communicate state changes to other PCF components. To listen for events dispatched by the component add an event listener to the `window` for the "message" event e.g.
 
 ```
 window.addEventListener(
