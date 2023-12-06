@@ -379,6 +379,7 @@ export class TomTomNavigation
    */
   public getOutputs(): IOutputs {
     return {
+      navigationState: this.navigationState,
       componentExit: this.componentExit
     };
   }
