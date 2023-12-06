@@ -239,7 +239,7 @@ const Map = ({
       if (perspective === NavigationPerspectives.DRIVING) {
         dispatch(setCenter(currentLocation));
       } else {
-        map.__om.setPadding({ top: 0 });
+        map.__om.setPadding({ top: 0, left: 0 });
 
         fitRoute({
           animate: true,
@@ -257,7 +257,9 @@ const Map = ({
   };
 
   const handleCompassControlClick = () => {
-    if (isNavigating) return;
+    if (isNavigating) {
+      return;
+    }
 
     const map = mapRef.current.getMap();
     map.easeTo({ bearing: 0, duration: 250 });

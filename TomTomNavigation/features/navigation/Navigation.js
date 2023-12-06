@@ -1,5 +1,5 @@
 import tt from "@tomtom-international/web-sdk-maps";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import add from "date-fns/add";
 import { withMap } from "react-tomtom-maps";
@@ -50,6 +50,7 @@ import {
 } from "../navigation/navigationSlice";
 
 import {
+  TABLET_PANEL_WIDTH,
   FIT_BOUNDS_PADDING_TOP,
   FIT_BOUNDS_PADDING_RIGHT,
   FIT_BOUNDS_PADDING_BOTTOM,
@@ -66,7 +67,8 @@ const Navigation = ({ map, onNavigationStateChange }) => {
     language,
     measurementSystem,
     guidanceVoice,
-    guidanceVoiceVolume
+    guidanceVoiceVolume,
+    isTablet
   } = useAppContext();
   const showBottomPanel = useSelector(getShowBottomPanel);
   const showGuidancePanel = useSelector(getShowGuidancePanel);
@@ -91,14 +93,16 @@ const Navigation = ({ map, onNavigationStateChange }) => {
     { skip: !automaticRouteCalculation }
   );
   const [navigationRoute, setNavigationRoute] = useState();
-  const navigationPaddingTop = useMemo(
-    () => Math.max(height - 390, 0),
-    [height]
-  );
+  const navigationPaddingTop = Math.max(height - (isTablet ? 210 : 390), 0);
+  const navigationPaddingTopRef = useRef(navigationPaddingTop);
   const guidancePanelIsVisible =
     showGuidancePanel && isNavigating && !hasReachedDestination;
   const bottomPanelIsVisible = showBottomPanel;
   const simulatorIsActive = navigationRoute && isNavigating;
+
+  useEffect(() => {
+    navigationPaddingTopRef.current = navigationPaddingTop;
+  }, [navigationPaddingTop]);
 
   useEffect(() => {
     if (route) {
@@ -153,7 +157,12 @@ const Navigation = ({ map, onNavigationStateChange }) => {
           center,
           pitch: 60,
           zoom: 18,
-          animationOptions: { padding: { top: navigationPaddingTop } }
+          animationOptions: {
+            padding: {
+              top: navigationPaddingTop,
+              left: isTablet ? TABLET_PANEL_WIDTH : 0
+            }
+          }
         })
       );
     });
@@ -174,7 +183,7 @@ const Navigation = ({ map, onNavigationStateChange }) => {
     const bounds = geoJsonBounds(route);
 
     // Reset the map's field of view padding
-    map.__om.setPadding({ top: 0 });
+    map.__om.setPadding({ top: 0, left: 0 });
 
     batch(() => {
       dispatch(setViewTransitioning(true));
@@ -218,7 +227,10 @@ const Navigation = ({ map, onNavigationStateChange }) => {
             bearing: stepBearing,
             animationOptions: {
               duration,
-              padding: { top: navigationPaddingTop }
+              padding: {
+                top: navigationPaddingTopRef.current,
+                left: isTablet ? TABLET_PANEL_WIDTH : 0
+              }
             }
           })
         );
@@ -252,7 +264,7 @@ const Navigation = ({ map, onNavigationStateChange }) => {
     bounds.extend(destination.coordinates);
 
     // Reset the map's field of view padding
-    map.__om.setPadding({ top: 0 });
+    map.__om.setPadding({ top: 0, left: 0 });
 
     batch(() => {
       dispatch(setViewTransitioning(true));

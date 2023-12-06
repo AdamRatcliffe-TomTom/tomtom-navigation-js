@@ -98,17 +98,6 @@ const ETA = ({
           >{`${formattedDistanceRemaining.value} ${formattedDistanceRemaining.units}`}</Text>
           <Text className={textClasses.secondaryText}>⸱</Text>
           <Text className={textClasses.secondaryText}>{duration}</Text>
-          {/* {showTrafficDelay && (
-            <Stack
-              horizontal
-              verticalAlign="center"
-              tokens={{ childrenGap: 6 }}
-            >
-              <Text className={textClasses.secondaryText}>⸱</Text>
-              <JamIcon color={theme.semanticColors.warningIcon} />
-              <Text className={textClasses.warningText}>{formattedDelay}</Text>
-            </Stack>
-          )} */}
         </Stack>
       </Stack>
       {isNavigating ? (
