@@ -22,7 +22,13 @@ import {
 
 import { TABLET_PANEL_WIDTH } from "../../config";
 
-const useStyles = ({ appTheme, isPhone, isTablet, countryCode }) =>
+const useStyles = ({
+  appTheme,
+  isPhone,
+  isTablet,
+  landscapeMinimal,
+  countryCode
+}) =>
   makeStyles((theme) => ({
     root: {
       position: "absolute",
@@ -35,6 +41,16 @@ const useStyles = ({ appTheme, isPhone, isTablet, countryCode }) =>
       ...(isPhone && {
         right: 0,
         margin: `${theme.spacing.s1} ${theme.spacing.s1} 0`
+      }),
+      ...(landscapeMinimal && {
+        ".StackItem": {
+          padding: `${theme.spacing.m} ${theme.spacing.l1}`
+        },
+        ".StackItem:not(:first-child)": {
+          padding: `${parseInt(theme.spacing.m) * 2}px ${theme.spacing.l1} ${
+            theme.spacing.m
+          }`
+        }
       })
     },
     nipPanel: {
@@ -65,10 +81,17 @@ const NavigationGuidancePanel = ({ route }) => {
     theme: appTheme,
     isPhone,
     isTablet,
+    landscapeMinimal,
     setGuidancePanelHeight
   } = useAppContext();
   const countryCode = countryCodeFromRoute(route);
-  const classes = useStyles({ appTheme, isPhone, isTablet, countryCode })();
+  const classes = useStyles({
+    appTheme,
+    isPhone,
+    isTablet,
+    landscapeMinimal,
+    countryCode
+  })();
   const guidancePanelHeight = bounds.height;
   const { laneGuidance } = useSelector(getCurrentLocation);
   const nextInstruction = useSelector(getNextInstruction);

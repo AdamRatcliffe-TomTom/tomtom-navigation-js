@@ -27,7 +27,7 @@ const Item = ({ className, children, zIndex, ...otherProps }) => {
   const classes = useStyles();
   return (
     <div
-      className={`${classes.item} ${className}`}
+      className={`StackItem ${classes.item} ${className}`}
       style={{ zIndex }}
       {...otherProps}
     >
@@ -53,7 +53,7 @@ const Stack = React.forwardRef(
     return (
       <div
         ref={ref}
-        className={`${className} ${classes.root} `}
+        className={`Stack ${className} ${classes.root} `}
         {...otherProps}
       >
         {renderItems()}
