@@ -73,7 +73,7 @@ const NextInstructionPanel = ({ route, instruction }) => {
   const roadShieldsIsVisible = !!roadShieldReferences;
   const exitNumberIsVisible = !!exitNumber;
   const streetIsVisible = !landscapeMinimal && !!street && !!!signpostText;
-  const towrdsIsVisible = !!signpostText;
+  const towrdsIsVisible = !landscapeMinimal && !!signpostText;
 
   const renderRoadShields = () => {
     return roadShieldReferences.map((ref, index) => {
