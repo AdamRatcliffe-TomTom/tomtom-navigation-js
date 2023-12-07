@@ -20,10 +20,7 @@ const useMicrosoftSpeech = () => {
   }, []);
 
   const getAvailableVoices = async () => {
-    const url =
-      "https://" +
-      MS_SPEECH_SERVICE_REGION +
-      ".tts.speech.microsoft.com/cognitiveservices/voices/list";
+    const url = `https://${MS_SPEECH_SERVICE_REGION}.tts.speech.microsoft.com/cognitiveservices/voices/list`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -64,8 +61,6 @@ const useMicrosoftSpeech = () => {
   };
 
   const getVoiceByName = (name) => {
-    // todo: update to use REST API
-
     if (voicesAvailable) {
       return voices.find((voice) => voice.ShortName === name);
     }
@@ -81,10 +76,7 @@ const useMicrosoftSpeech = () => {
       (typeof voice === "object" ? voice.ShortName : voice) ||
       getDefaultVoice()?.ShortName;
 
-    const url =
-      "https://" +
-      MS_SPEECH_SERVICE_REGION +
-      ".tts.speech.microsoft.com/cognitiveservices/v1";
+    const url = `https://${MS_SPEECH_SERVICE_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
 
     fetch(url, {
       method: "POST",
@@ -93,13 +85,11 @@ const useMicrosoftSpeech = () => {
         "Content-Type": "application/ssml+xml",
         "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3"
       },
-      body:
-        '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">' +
-        '<voice name="' +
-        voiceName +
-        '">' +
-        text +
-        "</voice></speak>"
+      body: `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+               <voice name="${voiceName}">
+                 ${text}
+               </voice>
+             </speak>`
     })
       .then((response) => response.arrayBuffer())
       .then((audioData) => {

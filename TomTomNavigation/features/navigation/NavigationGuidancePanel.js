@@ -76,7 +76,7 @@ const useStyles = ({
 const styleId = "guidance-ctrl-margin-adjustment";
 
 const NavigationGuidancePanel = ({ route }) => {
-  const [guidanceRef, bounds] = useMeasure();
+  const [guidanceRef, bounds] = useMeasure({ offsetSize: true });
   const {
     theme: appTheme,
     isPhone,
