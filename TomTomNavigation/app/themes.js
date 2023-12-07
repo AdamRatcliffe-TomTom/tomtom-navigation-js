@@ -12,6 +12,7 @@ export const lightTheme = {
     alert: "#F7B84F"
   },
   palette: {
+    themePrimary: "#1988CF",
     black: "#263543",
     neutralSecondary: "#727c85"
   },
@@ -34,6 +35,7 @@ export const darkTheme = {
     alert: "#F7B84F"
   },
   palette: {
+    themePrimary: "#1988CF",
     white: "#18212a",
     black: "#fff",
     neutralSecondary: "#abafb3"
