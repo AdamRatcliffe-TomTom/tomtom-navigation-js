@@ -2,6 +2,7 @@ import Maneuvers from "../constants/Maneuvers";
 import AnnouncementTypes from "../constants/AnnouncementTypes";
 import formatDistance from "./formatDistance";
 import expandUnits from "./expandUnits";
+import expandStreetName from "./expandStreetName";
 import expandDirectionAbbreviation from "./expandDirectionAbbreviation";
 import strings from "../config/strings";
 import SectionTypes from "../constants/SectionTypes";
@@ -110,7 +111,9 @@ function getAnnouncementText(
       maneuverText,
       distance,
       units: expandUnits(distance, units, language),
-      street: street ? expandDirectionAbbreviation(street) : null
+      street: street
+        ? expandStreetName(expandDirectionAbbreviation(street), language)
+        : null
     });
   } else {
     return maneuverText;
