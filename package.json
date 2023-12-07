@@ -36,7 +36,6 @@
     "lodash.isnil": "^4.0.0",
     "lodash.merge": "^4.6.2",
     "lodash.pick": "^4.4.0",
-    "microsoft-cognitiveservices-speech-sdk": "^1.33.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-geolocated": "^4.1.2",

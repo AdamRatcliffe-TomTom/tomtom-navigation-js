@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
 
 import {
-  SpeechConfig,
-  SpeechSynthesizer,
-  SpeakerAudioDestination,
-  AudioConfig
-} from "microsoft-cognitiveservices-speech-sdk";
-
-import {
   MS_SPEECH_SERVICE_REGION,
   MS_SPEECH_SERVICE_SUBSCRIPTION_KEY
 } from "../config";
@@ -22,40 +15,46 @@ const useMicrosoftSpeech = () => {
   const [voices, setVoices] = useState();
   const [voicesAvailable, setVoicesAvailable] = useState(false);
 
-  const getSpeechConfig = () =>
-    SpeechConfig.fromSubscription(
-      MS_SPEECH_SERVICE_SUBSCRIPTION_KEY,
-      MS_SPEECH_SERVICE_REGION
-    );
-
   useEffect(() => {
-    const fetchVoices = async () => {
-      const speechConfig = getSpeechConfig();
-      const speechSynthesizer = new SpeechSynthesizer(speechConfig);
-      const voices = await speechSynthesizer.getVoicesAsync();
-      setVoices(voices.privVoices);
-      setVoicesAvailable(true);
-    };
-    fetchVoices();
+    getAvailableVoices();
   }, []);
+
+  const getAvailableVoices = async () => {
+    const url =
+      "https://" +
+      MS_SPEECH_SERVICE_REGION +
+      ".tts.speech.microsoft.com/cognitiveservices/voices/list";
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Ocp-Apim-Subscription-Key": MS_SPEECH_SERVICE_SUBSCRIPTION_KEY,
+        "Content-Type": "application/json"
+      }
+    });
+    const voices = await response.json();
+
+    setVoices(voices);
+    setVoicesAvailable(true);
+  };
 
   const getDefaultVoice = () => {
     if (voicesAvailable) {
-      return voices.find((voice) => voice.privShortName === defaultVoiceName);
+      return voices.find((voice) => voice.ShortName === defaultVoiceName);
     }
     return null;
   };
 
   const getVoiceForLanguage = (lang) => {
     if (voicesAvailable) {
-      const exactMatch = voices.find((voice) => voice.privLocale === lang);
+      const exactMatch = voices.find((voice) => voice.Locale === lang);
 
       if (exactMatch) {
         return exactMatch;
       }
 
       const languageMatch = voices.find((voice) =>
-        voice.privLocale.startsWith(lang + "-")
+        voice.Locale.startsWith(lang + "-")
       );
 
       return languageMatch || getDefaultVoice();
@@ -65,49 +64,61 @@ const useMicrosoftSpeech = () => {
   };
 
   const getVoiceByName = (name) => {
+    // todo: update to use REST API
+
     if (voicesAvailable) {
-      return voices.find((voice) => voice.privShortName === name);
+      return voices.find((voice) => voice.ShortName === name);
     }
     return null;
   };
 
   const speak = ({ text, voice, volume = 0.5 }) => {
-    if (voicesAvailable) {
-      if (isSpeaking) {
-        return;
-      }
-
-      const player = new SpeakerAudioDestination();
-      player.volume = volume;
-      player.onAudioEnd = () => {
-        isSpeaking = false;
-      };
-      activePlayer = player;
-
-      const speechConfig = getSpeechConfig();
-      const voiceName =
-        (typeof voice === "object" ? voice.privShortName : voice) ||
-        getDefaultVoice()?.privShortName;
-
-      speechConfig.speechSynthesisVoiceName = voiceName;
-
-      const audioConfig = AudioConfig.fromSpeakerOutput(player);
-
-      let speechSynthesizer = new SpeechSynthesizer(speechConfig, audioConfig);
-      speechSynthesizer.speakTextAsync(
-        text,
-        () => {
-          speechSynthesizer.close();
-          speechSynthesizer = undefined;
-        },
-        (error) => {
-          console.log(error);
-          speechSynthesizer.close();
-          speechSynthesizer = undefined;
-        }
-      );
-      isSpeaking = true;
+    if (isSpeaking) {
+      return;
     }
+
+    const voiceName =
+      (typeof voice === "object" ? voice.ShortName : voice) ||
+      getDefaultVoice()?.ShortName;
+
+    const url =
+      "https://" +
+      MS_SPEECH_SERVICE_REGION +
+      ".tts.speech.microsoft.com/cognitiveservices/v1";
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": MS_SPEECH_SERVICE_SUBSCRIPTION_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3"
+      },
+      body:
+        '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">' +
+        '<voice name="' +
+        voiceName +
+        '">' +
+        text +
+        "</voice></speak>"
+    })
+      .then((response) => response.arrayBuffer())
+      .then((audioData) => {
+        activePlayer = new Audio();
+        activePlayer.volume = volume;
+        activePlayer.src = URL.createObjectURL(
+          new Blob([audioData], { type: "audio/mp3" })
+        );
+        activePlayer.addEventListener("ended", () => {
+          activePlayer = null;
+          isSpeaking = false;
+        });
+        activePlayer.play();
+
+        isSpeaking = true;
+      })
+      .catch((error) => {
+        console.error("Speech synthesis failed: " + error);
+      });
   };
 
   // API has no method for canceling any existing utterance. Achieve that
@@ -115,7 +126,8 @@ const useMicrosoftSpeech = () => {
   const cancelSpeech = () => {
     if (activePlayer) {
       activePlayer.pause();
-      activePlayer.close();
+      activePlayer = null;
+      isSpeaking = false;
     }
   };
 
