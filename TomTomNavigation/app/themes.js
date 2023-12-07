@@ -13,6 +13,7 @@ export const lightTheme = {
   },
   palette: {
     themePrimary: "#1988CF",
+    themeDarker: "#0568A8",
     black: "#263543",
     neutralSecondary: "#727c85"
   },
@@ -36,6 +37,7 @@ export const darkTheme = {
   },
   palette: {
     themePrimary: "#1988CF",
+    themeDarker: "#0568A8",
     white: "#18212a",
     black: "#fff",
     neutralSecondary: "#abafb3"
