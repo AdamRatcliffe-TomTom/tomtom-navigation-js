@@ -67,16 +67,26 @@ const NextInstructionPanel = ({ route, instruction }) => {
     distanceToNextManeuver,
     measurementSystem
   );
-  const { maneuver, street, signpostText, roadShieldReferences, exitNumber } =
-    instruction;
+  const {
+    maneuver,
+    street,
+    signpostText,
+    roadShieldReferences,
+    signpostRoadShieldReferences,
+    exitNumber
+  } = instruction;
   const maneuverIcon = getManeuverIcon(maneuver);
-  const roadShieldsIsVisible = !!roadShieldReferences;
+  const haveRoadShieldReferences = !!roadShieldReferences;
+  const haveSignpostRoadShieldReferences = !!signpostRoadShieldReferences;
+  const roadShieldsAreVisible =
+    haveRoadShieldReferences || haveSignpostRoadShieldReferences;
   const exitNumberIsVisible = !!exitNumber;
   const streetIsVisible = !landscapeMinimal && !!street && !!!signpostText;
-  const towrdsIsVisible = !landscapeMinimal && !!signpostText;
+  const towardsIsVisible = !landscapeMinimal && !!signpostText;
 
   const renderRoadShields = () => {
-    return roadShieldReferences.map((ref, index) => {
+    const references = signpostRoadShieldReferences || roadShieldReferences;
+    return references.map((ref, index) => {
       const { reference, shieldContent, affixes } = ref;
       const icon = getRoadShield(reference, shieldContent);
       return <RoadShield key={index} icon={icon} affixes={affixes} />;
@@ -103,10 +113,10 @@ const NextInstructionPanel = ({ route, instruction }) => {
           {exitNumberIsVisible && <ExitShield text={exitNumber} />}
         </Stack>
         {streetIsVisible && <Text className={classes.street}>{street}</Text>}
-        {towrdsIsVisible && (
+        {towardsIsVisible && (
           <Text className={classes.towards}>{signpostText}</Text>
         )}
-        {roadShieldsIsVisible && (
+        {roadShieldsAreVisible && (
           <Stack
             tokens={{ childrenGap: theme.spacing.m }}
             horizontal
