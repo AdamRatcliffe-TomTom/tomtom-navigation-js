@@ -118,7 +118,7 @@ const NextInstructionPanel = ({ route, instruction }) => {
         )}
         {roadShieldsAreVisible && (
           <Stack
-            tokens={{ childrenGap: theme.spacing.m }}
+            tokens={{ childrenGap: theme.spacing.s1 }}
             horizontal
             verticalAlign="center"
             style={{
