@@ -51,9 +51,9 @@ import {
 
 import {
   TABLET_PANEL_WIDTH,
+  ARRIVAL_PANEL_HEIGHT,
   FIT_BOUNDS_PADDING_TOP,
   FIT_BOUNDS_PADDING_RIGHT,
-  FIT_BOUNDS_PADDING_BOTTOM,
   FIT_BOUNDS_PADDING_LEFT
 } from "../../config";
 
@@ -279,7 +279,7 @@ const Navigation = ({ map, onNavigationStateChange }) => {
           padding: {
             top: FIT_BOUNDS_PADDING_TOP,
             right: FIT_BOUNDS_PADDING_RIGHT,
-            bottom: FIT_BOUNDS_PADDING_BOTTOM,
+            bottom: ARRIVAL_PANEL_HEIGHT + 16,
             left: FIT_BOUNDS_PADDING_LEFT
           }
         })

@@ -3,7 +3,7 @@ import { makeStyles } from "@fluentui/react";
 import { useAppContext } from "../../app/AppContext";
 import Fade from "../../components/Fade";
 
-import { BOTTOM_PANEL_HEIGHT } from "../../config";
+import { ETA_PANEL_HEIGHT } from "../../config";
 
 const useStyles = ({ isPhone, isTablet }) =>
   makeStyles((theme) => ({
@@ -13,7 +13,7 @@ const useStyles = ({ isPhone, isTablet }) =>
       justifyContent: "center",
       position: "absolute",
       ...(isTablet && { top: 16, right: 88 }),
-      ...(isPhone && { bottom: BOTTOM_PANEL_HEIGHT + 16, left: 20 }),
+      ...(isPhone && { bottom: ETA_PANEL_HEIGHT + 16, left: 20 }),
       background: "white",
       width: 56,
       height: 56,

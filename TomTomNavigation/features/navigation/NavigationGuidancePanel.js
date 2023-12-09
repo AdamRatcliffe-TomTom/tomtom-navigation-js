@@ -78,7 +78,7 @@ const styleId = "guidance-ctrl-margin-adjustment";
 const NavigationGuidancePanel = ({ route }) => {
   // Using offsetSize option to useMesure introduces lag but is necessary to ignore the parent scale
   // transformation Power Apps applies
-  const [guidanceRef, bounds] = useMeasure({ offsetSize: true });
+  const [guidancePanelRef, bounds] = useMeasure({ offsetSize: true });
   const {
     theme: appTheme,
     isPhone,
@@ -128,7 +128,7 @@ const NavigationGuidancePanel = ({ route }) => {
   }
 
   return (
-    <Stack ref={guidanceRef} className={classes.root}>
+    <Stack ref={guidancePanelRef} className={classes.root}>
       <Stack.Item className={classes.nipPanel}>
         <NextInstructionPanel route={route} instruction={nextInstruction} />
         {haveLaneGuidance && <LaneGuidancePanel lanes={laneGuidance.lanes} />}

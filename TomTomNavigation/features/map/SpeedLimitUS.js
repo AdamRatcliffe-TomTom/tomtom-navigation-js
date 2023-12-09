@@ -4,14 +4,14 @@ import { useAppContext } from "../../app/AppContext";
 import Fade from "../../components/Fade";
 import metersToMiles from "../../functions/metersToMiles";
 
-import { BOTTOM_PANEL_HEIGHT } from "../../config";
+import { ETA_PANEL_HEIGHT } from "../../config";
 
 const useStyles = ({ isPhone, isTablet }) =>
   makeStyles((theme) => ({
     shield: {
       position: "absolute",
       ...(isTablet && { top: 16, right: 88 }),
-      ...(isPhone && { bottom: BOTTOM_PANEL_HEIGHT + 16, left: 20 }),
+      ...(isPhone && { bottom: ETA_PANEL_HEIGHT + 16, left: 20 }),
       background: "white",
       padding: 3,
       borderRadius: 6,
