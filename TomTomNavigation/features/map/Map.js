@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
+import { featureCollection } from "@turf/helpers";
 import { useAppContext } from "../../app/AppContext";
 import ReactMap from "react-tomtom-maps";
 import GeolocateControl from "./controls/GeolocateControl";
@@ -172,13 +173,16 @@ const Map = ({
   }, [width, height]);
 
   const fitRoute = (fitBoundsOptions) => {
-    const geojson =
-      route ||
-      (routeOptions.locations?.length
-        ? coordinatesToGeoJson(
-            routeOptions.locations.map((location) => location.coordinates)
-          )
-        : null);
+    let geojson = coordinatesToGeoJson(
+      routeOptions.locations.map((location) => location.coordinates)
+    );
+
+    // If we have a route, extend the location geojson to include
+    // the route geometry
+    if (route) {
+      const mergedFeatures = [...route.features, ...geojson.features];
+      geojson = featureCollection(mergedFeatures);
+    }
 
     if (geojson) {
       const bounds = geoJsonBounds(geojson);
