@@ -122,11 +122,11 @@ class Route extends PureComponent {
 
     switch (magnitudeOfDelay) {
       case 1:
-        return [241, 191, 64, 255];
+        return [255, 193, 5, 255];
       case 2:
-        return [241, 130, 55, 255];
+        return [251, 45, 9, 255];
       case 3:
-        return [231, 7, 4, 255];
+        return [173, 0, 0, 255];
       default:
         return [59, 174, 227, 255];
     }
