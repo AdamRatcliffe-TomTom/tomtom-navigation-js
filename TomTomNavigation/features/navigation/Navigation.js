@@ -2,6 +2,7 @@ import tt from "@tomtom-international/web-sdk-maps";
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import add from "date-fns/add";
+import { featureCollection } from "@turf/helpers";
 import { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
 import useSelectorRef from "../../hooks/useSelectorRef";
@@ -11,6 +12,7 @@ import NavigationGuidancePanel from "./NavigationGuidancePanel";
 import Simulator from "./Simulator";
 import { useCalculateRouteQuery } from "../../services/routing";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
+import coordinatesToGeoJson from "../../functions/coordinatesToGeoJson";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import tomtom2mapbox from "../../functions/tomtom2mapbox";
 import fireEvent from "../../functions/fireEvent";
@@ -180,7 +182,12 @@ const Navigation = ({ map, onNavigationStateChange }) => {
   };
 
   const stopNavigation = () => {
-    const bounds = geoJsonBounds(route);
+    let geojson = coordinatesToGeoJson(
+      routeOptions.locations.map((location) => location.coordinates)
+    );
+    const mergedFeatures = [...route.features, ...geojson.features];
+    geojson = featureCollection(mergedFeatures);
+    const bounds = geoJsonBounds(geojson);
 
     // Reset the map's field of view padding
     map.__om.setPadding({ top: 0, left: 0 });
