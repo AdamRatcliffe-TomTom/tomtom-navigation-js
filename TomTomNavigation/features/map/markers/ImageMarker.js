@@ -1,6 +1,7 @@
 import React from "react";
+import { renderToString } from "react-dom/server";
 import { Marker } from "react-tomtom-maps";
-import { Image } from "@fluentui/react";
+import PinIcon from "../../../icons/PinIcon";
 
 const ImageMarker = ({ coordinates, icon }) => {
   const {
@@ -11,6 +12,14 @@ const ImageMarker = ({ coordinates, icon }) => {
     offset = [0, 0]
   } = icon;
 
+  const handleError = ({ target }) => {
+    target.width = 39;
+    target.height = 49;
+    target.src = `data:image/svg+xml,${encodeURIComponent(
+      renderToString(<PinIcon />)
+    )}`;
+  };
+
   return (
     <Marker
       className="ImageMarker"
@@ -18,7 +27,13 @@ const ImageMarker = ({ coordinates, icon }) => {
       anchor={anchor}
       offset={offset}
     >
-      <Image src={url} width={width} height={height} />
+      <img
+        src={url}
+        width={width}
+        height={height}
+        alt=""
+        onError={handleError}
+      />
     </Marker>
   );
 };

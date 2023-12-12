@@ -349,7 +349,6 @@ const Map = ({
           data={sectionedRoute}
           progress={routeProgress}
           walkingLeg={walkingLeg}
-          mapStyle={currentStyle}
         />
       )}
       {waypoints}

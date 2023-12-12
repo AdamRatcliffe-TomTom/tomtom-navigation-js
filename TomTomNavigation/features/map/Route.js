@@ -96,6 +96,7 @@ class Route extends PureComponent {
       }),
       new GeoJsonLayer({
         id: `${this.id}--Walking_Leg`,
+        beforeId: before,
         data: walkingLeg,
         filled: true,
         stroked: true,
