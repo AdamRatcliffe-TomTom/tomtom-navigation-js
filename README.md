@@ -2,6 +2,9 @@
 
 A navigation PCF component implemented with React and Fluent UI.
 
+> **Note**
+> Use of this component requires turning off "Scale to fit" in your app settings.
+
 ## Development
 
 1. Install [yarn](https://classic.yarnpkg.com/en/docs/install#mac-stable) if needed.
