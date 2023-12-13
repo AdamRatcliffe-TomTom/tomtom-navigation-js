@@ -2,7 +2,7 @@
 
 A navigation PCF component implemented with React and Fluent UI.
 
-> **Note**
+> [!IMPORTANT]
 > Use of this component requires turning off "Scale to fit" in your app settings.
 
 ## Development
