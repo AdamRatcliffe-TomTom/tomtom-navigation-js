@@ -32,6 +32,7 @@
     "cheap-ruler": "^3.0.2",
     "date-fns": "^2.30.0",
     "guidance-replay": "^0.1.4",
+    "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git",
     "lodash.isempty": "^4.4.0",
     "lodash.isnil": "^4.0.0",
     "lodash.isnumber": "^3.0.3",
