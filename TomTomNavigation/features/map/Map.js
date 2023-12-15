@@ -140,7 +140,8 @@ const Map = ({
   const navigationPerspectiveControlIsVisible =
     isNavigating && !hasReachedDestination;
   const exitControlIsVisible = showExitControl && !isNavigating;
-  const skipControlIsVisible = showSkipControl && isNavigating;
+  const skipControlIsVisible =
+    showSkipControl && isNavigating && !hasReachedDestination;
   const locationMarkerIsVisible =
     showLocationMarker && userLocation && !isNavigating;
   const chevronMarkerIsVisible =

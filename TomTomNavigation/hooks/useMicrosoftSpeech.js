@@ -71,6 +71,7 @@ const useMicrosoftSpeech = () => {
     if (isSpeaking) {
       return;
     }
+    isSpeaking = true;
 
     const voiceName =
       (typeof voice === "object" ? voice.ShortName : voice) ||
@@ -103,8 +104,6 @@ const useMicrosoftSpeech = () => {
           isSpeaking = false;
         });
         activePlayer.play();
-
-        isSpeaking = true;
       })
       .catch((error) => {
         console.error("Speech synthesis failed: " + error);
