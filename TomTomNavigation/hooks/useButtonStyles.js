@@ -47,7 +47,7 @@ const useButtonStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: 56,
     height: 56,
-    borderRadius: "50%",
+    borderRadius: 28,
     backgroundColor: theme.palette.white,
     boxShadow: theme.floatingElementShadow,
     userSelect: "none",

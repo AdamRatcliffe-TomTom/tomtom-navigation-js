@@ -3,6 +3,7 @@
 .TomTomNavigation {
   text-align: left;
   position: relative;
+  transform: scale(1);
 }
 
 .TomTomNavigation * {

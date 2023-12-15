@@ -24,7 +24,7 @@ const ChevronMarker = ({ visible }) => {
 
   return (
     <Fade show={visible} duration=".15s">
-      <div className={classes.root}>
+      <div className={`ChevronMarker ${classes.root}`}>
         <ChevronIcon />
       </div>
     </Fade>

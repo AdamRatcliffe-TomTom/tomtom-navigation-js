@@ -14,6 +14,7 @@ const strings = new LocalizedStrings({
     ok: "OK",
     go: "Go",
     exit: "Exit",
+    skip: "Skip",
     arrived: "Arrived",
     guidanceAnnouncementTemplate: "{maneuverText} in {distance} {units}",
     guidanceAnnouncementOntoStreetTemplate:
@@ -81,6 +82,7 @@ const strings = new LocalizedStrings({
     ok: "OK",
     go: "Ga",
     exit: "Afslag",
+    skip: "Overslaan",
     arrived: "Aangekomen",
     guidanceAnnouncementTemplate: "{maneuverText} in {distance} {units}",
     guidanceAnnouncementOntoStreetTemplate:
