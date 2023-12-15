@@ -143,7 +143,7 @@ const Map = ({
   const skipControlIsVisible =
     showSkipControl && isNavigating && !hasReachedDestination;
   const locationMarkerIsVisible =
-    showLocationMarker && userLocation && !isNavigating;
+    enableGeolocation && showLocationMarker && userLocation && !isNavigating;
   const chevronMarkerIsVisible =
     isNavigating &&
     !viewTransitioning &&
