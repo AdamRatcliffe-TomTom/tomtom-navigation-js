@@ -9,9 +9,11 @@ import CompassControl from "./controls/CompassControl";
 import MapSwitcherControl from "./controls/MapSwitcherControl";
 import NavigationPerspectiveControl from "./controls/NavigationPerspectiveControl";
 import ExitControl from "./controls/ExitControl";
+import SkipControl from "./controls/SkipControl";
 import SpeedLimitEU from "./SpeedLimitEU";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
+// import Landmarks3D from "./Landmarks3D";
 import LocationMarker from "./markers/LocationMarker";
 import ChevronMarker from "./markers/ChevronMarker";
 import Chevron2DMarker from "./markers/Chevron2DMarker";
@@ -76,7 +78,9 @@ const Map = ({
   showMapSwitcherControl,
   showMuteControl,
   showExitControl,
-  onComponentExit,
+  showSkipControl,
+  onComponentExit = () => {},
+  onSimulationShouldEnd = () => {},
   children
 }) => {
   const dispatch = useDispatch();
@@ -136,6 +140,7 @@ const Map = ({
   const navigationPerspectiveControlIsVisible =
     isNavigating && !hasReachedDestination;
   const exitControlIsVisible = showExitControl && !isNavigating;
+  const skipControlIsVisible = showSkipControl && isNavigating;
   const locationMarkerIsVisible =
     showLocationMarker && userLocation && !isNavigating;
   const chevronMarkerIsVisible =
@@ -273,6 +278,12 @@ const Map = ({
     setMapStyle(mapStyles[name]);
   };
 
+  const handleSkip = () => {
+    if (isNavigating) {
+      onSimulationShouldEnd(true);
+    }
+  };
+
   const waypoints = useMemo(() => {
     const { locations } = routeOptions;
 
@@ -346,6 +357,8 @@ const Map = ({
         onClick={handleCompassControlClick}
       />
       <ExitControl visible={exitControlIsVisible} onClick={onComponentExit} />
+      <SkipControl visible={skipControlIsVisible} onClick={handleSkip} />
+      {/* <Landmarks3D key={currentStyle} /> */}
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
       {routeIsVisible && (
         <Route

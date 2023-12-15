@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, batch } from "react-redux";
 import { ThemeProvider } from "@fluentui/react";
 import { useBoolean } from "@fluentui/react-hooks";
@@ -53,6 +53,7 @@ function App({
   const { isGeolocationAvailable, isGeolocationEnabled } = useGeolocated();
   const [hideGeolocationDialog, { toggle: toggleHideGeolocationDialog }] =
     useBoolean(true);
+  const [simulationShouldEnd, setSimulationShouldEnd] = useState(false);
 
   useEffect(() => {
     if (!isGeolocationAvailable || !isGeolocationEnabled) {
@@ -91,6 +92,10 @@ function App({
     dispatch(setShowArrivalPanel(showArrivalPanel));
   }, [showArrivalPanel]);
 
+  const handleSimulationShouldEnd = (end) => {
+    setSimulationShouldEnd(end);
+  };
+
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <AppContextProvider
@@ -105,8 +110,14 @@ function App({
         theme={theme}
       >
         <div className="TomTomNavigation">
-          <Map {...mapOptions}>
-            <Navigation onNavigationStateChange={onNavigationStateChange} />
+          <Map
+            {...mapOptions}
+            onSimulationShouldEnd={handleSimulationShouldEnd}
+          >
+            <Navigation
+              onNavigationStateChange={onNavigationStateChange}
+              simulationShouldEnd={simulationShouldEnd}
+            />
           </Map>
         </div>
         {!apiKey && <NoApiKeyMessage />}

@@ -59,7 +59,7 @@ import {
   FIT_BOUNDS_PADDING_LEFT
 } from "../../config";
 
-const Navigation = ({ map, onNavigationStateChange }) => {
+const Navigation = ({ map, simulationShouldEnd, onNavigationStateChange }) => {
   const dispatch = useDispatch();
   const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
   const {
@@ -100,7 +100,8 @@ const Navigation = ({ map, onNavigationStateChange }) => {
   const guidancePanelIsVisible =
     showGuidancePanel && isNavigating && !hasReachedDestination;
   const bottomPanelIsVisible = showBottomPanel;
-  const simulatorIsActive = navigationRoute && isNavigating;
+  const simulatorIsActive =
+    navigationRoute && isNavigating && !hasReachedDestination;
 
   useEffect(() => {
     navigationPaddingTopRef.current = navigationPaddingTop;
@@ -117,6 +118,12 @@ const Navigation = ({ map, onNavigationStateChange }) => {
       setETA();
     }
   }, [route]);
+
+  useEffect(() => {
+    if (Boolean(simulationShouldEnd)) {
+      handleSimulatorEnd();
+    }
+  }, [simulationShouldEnd]);
 
   useEffect(() => {
     if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
