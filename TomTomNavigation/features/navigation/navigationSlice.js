@@ -164,9 +164,6 @@ const navigationSlice = createSlice({
     setEta: (state, action) => {
       state.eta = action.payload;
     },
-    // setRemainingRoute: (state, action) => {
-    //   state.remainingRoute = action.payload;
-    // },
     setHasReachedDestination: (state, action) => {
       state.hasReachedDestination = action.payload;
     },

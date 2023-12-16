@@ -125,7 +125,7 @@ export default function laneGuidanceByIndex(route, index) {
   return sections.find(
     (section) =>
       section.sectionType === SectionTypes.LANES &&
-      index >= section.startPointIndex &&
+      index >= section.triggerPointIndex &&
       index <= section.endPointIndex
   );
 }
