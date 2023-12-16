@@ -1,7 +1,7 @@
 import CheapRuler from "cheap-ruler";
 import SectionTypes from "../constants/SectionTypes";
 
-const triggerDistanceMeters = 750;
+const triggerDistanceMeters = 500;
 
 export default function calculateLaneGuidanceTriggerPoints(geojson) {
   const route = geojson.features[0];
