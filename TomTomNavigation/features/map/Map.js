@@ -164,11 +164,12 @@ const Map = ({
   }, [theme]);
 
   useEffect(() => {
+    if (routeOptions?.locations.length) {
+      fitRouteOrWaypoints({ animate: false });
+    }
+
     if (route) {
       const summary = route.features[0].properties.summary;
-
-      fitRoute({ animate: false });
-
       fireEvent(ComponentEvents.route_calculated, { summary });
     }
   }, [route, JSON.stringify(routeOptions.locations)]);
@@ -178,7 +179,8 @@ const Map = ({
     map?.resize();
   }, [width, height]);
 
-  const fitRoute = (fitBoundsOptions) => {
+  const fitRouteOrWaypoints = (fitBoundsOptions) => {
+    // Convert the route waypoints to geojson
     let geojson = coordinatesToGeoJson(
       routeOptions.locations.map((location) => location.coordinates)
     );
@@ -251,7 +253,7 @@ const Map = ({
       } else {
         map.__om.setPadding({ top: 0, left: 0 });
 
-        fitRoute({
+        fitRouteOrWaypoints({
           animate: true,
           padding: {
             top: isPhone ? guidancePanelHeight + 24 : FIT_BOUNDS_PADDING_TOP,
