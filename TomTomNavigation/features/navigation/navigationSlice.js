@@ -180,7 +180,6 @@ const navigationSlice = createSlice({
       state.lastInstruction = undefined;
       state.routeProgress = undefined;
       state.distanceRemaining = undefined;
-      state.remainingRoute = undefined;
       ruler = undefined;
     }
   }
@@ -294,7 +293,6 @@ export const {
   setDistanceRemaining,
   setTimeRemaining,
   setEta,
-  setRemainingRoute,
   setHasReachedDestination,
   setVoiceAnnouncementsEnabled,
   resetNavigation

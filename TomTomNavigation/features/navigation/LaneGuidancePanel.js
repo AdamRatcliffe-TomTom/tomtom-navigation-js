@@ -38,11 +38,7 @@ const LaneGuidancePanel = ({ lanes }) => {
       // for this.
       // A better solution might be to create an additional set of images
       // with no horizontal padding.
-      const margin = ["LEFT", "RIGHT", "LEFT_UTURN", "RIGHT_UTURN"].includes(
-        direction
-      )
-        ? "0"
-        : "0 -8px";
+      const margin = getIconMargin(direction);
       const style = { margin, ...(!!!follow && { opacity: 0.5 }) };
 
       return (
@@ -51,6 +47,12 @@ const LaneGuidancePanel = ({ lanes }) => {
         </span>
       );
     });
+  };
+
+  const getIconMargin = (direction) => {
+    return ["LEFT", "RIGHT", "LEFT_UTURN", "RIGHT_UTURN"].includes(direction)
+      ? "0"
+      : "0 -8px";
   };
 
   return (
