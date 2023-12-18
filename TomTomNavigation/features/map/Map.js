@@ -56,7 +56,8 @@ import {
   getCurrentLocation,
   getRouteProgress,
   setVoiceAnnouncementsEnabled,
-  setNavigationPerspective
+  setNavigationPerspective,
+  setSimulationShouldEnd
 } from "../navigation/navigationSlice";
 
 import {
@@ -80,7 +81,6 @@ const Map = ({
   showExitControl,
   showSkipControl,
   onComponentExit = () => {},
-  onSimulationShouldEnd = () => {},
   children
 }) => {
   const dispatch = useDispatch();
@@ -283,7 +283,7 @@ const Map = ({
 
   const handleSkip = () => {
     if (isNavigating) {
-      onSimulationShouldEnd(true);
+      dispatch(setSimulationShouldEnd(true));
     }
   };
 

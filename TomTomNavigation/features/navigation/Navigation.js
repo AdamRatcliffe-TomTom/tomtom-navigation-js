@@ -38,6 +38,7 @@ import {
   getIsNavigating,
   getNavigationPerspective,
   getHasReachedDestination,
+  getSimulationShouldEnd,
   getCurrentLocation,
   getLastInstruction,
   getVoiceAnnouncementsEnabled,
@@ -48,6 +49,7 @@ import {
   setTimeRemaining,
   setEta,
   setHasReachedDestination,
+  setSimulationShouldEnd,
   resetNavigation
 } from "../navigation/navigationSlice";
 
@@ -59,7 +61,7 @@ import {
   FIT_BOUNDS_PADDING_LEFT
 } from "../../config";
 
-const Navigation = ({ map, simulationShouldEnd, onNavigationStateChange }) => {
+const Navigation = ({ map, onNavigationStateChange }) => {
   const dispatch = useDispatch();
   const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
   const {
@@ -80,6 +82,7 @@ const Navigation = ({ map, simulationShouldEnd, onNavigationStateChange }) => {
     1
   );
   const hasReachedDestination = useSelector(getHasReachedDestination);
+  const simulationShouldEnd = useSelector(getSimulationShouldEnd);
   const { announcement } = useSelector(getCurrentLocation);
   const lastInstructionRef = useSelectorRef(getLastInstruction).at(1);
   const [voiceAnnouncementsEnabled, voiceAnnouncementsEnabledRef] =
@@ -122,6 +125,7 @@ const Navigation = ({ map, simulationShouldEnd, onNavigationStateChange }) => {
   useEffect(() => {
     if (Boolean(simulationShouldEnd)) {
       handleSimulatorEnd();
+      dispatch(setSimulationShouldEnd(false));
     }
   }, [simulationShouldEnd]);
 

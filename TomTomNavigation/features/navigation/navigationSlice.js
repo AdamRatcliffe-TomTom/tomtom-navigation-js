@@ -19,6 +19,7 @@ const initialState = {
   isNavigating: false,
   navigationPerspective: NavigationPerspectives.DRIVING,
   hasReachedDestination: false,
+  simulationShouldEnd: false,
   currentLocation: {
     pointIndex: undefined,
     point: undefined,
@@ -167,6 +168,9 @@ const navigationSlice = createSlice({
     setHasReachedDestination: (state, action) => {
       state.hasReachedDestination = action.payload;
     },
+    setSimulationShouldEnd: (state, action) => {
+      state.simulationShouldEnd = action.payload;
+    },
     setVoiceAnnouncementsEnabled: (state, action) => {
       state.voiceAnnouncementsEnabled = action.payload;
     },
@@ -259,6 +263,11 @@ const getHasReachedDestination = createSelector(
   (state) => state.hasReachedDestination
 );
 
+const getSimulationShouldEnd = createSelector(
+  rootSelector,
+  (state) => state.simulationShouldEnd
+);
+
 const getVoiceAnnouncementsEnabled = createSelector(
   rootSelector,
   (state) => state.voiceAnnouncementsEnabled
@@ -280,6 +289,7 @@ export {
   getEta,
   getRouteProgress,
   getHasReachedDestination,
+  getSimulationShouldEnd,
   getVoiceAnnouncementsEnabled
 };
 
@@ -294,6 +304,7 @@ export const {
   setTimeRemaining,
   setEta,
   setHasReachedDestination,
+  setSimulationShouldEnd,
   setVoiceAnnouncementsEnabled,
   resetNavigation
 } = navigationSlice.actions;
