@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   lanesContainer: {
     display: "flex",
     justifyContent: "center",
-    gap: 18,
+    gap: 12,
     paddingTop: theme.spacing.m
   }
 }));
@@ -32,7 +32,18 @@ const LaneGuidancePanel = ({ lanes }) => {
       }
 
       const icon = getLaneIcon(direction);
-      const style = { ...(!!!follow && { opacity: 0.5 }) };
+
+      // The maneuver icons are being reused for lane guidance, and as the
+      // icon horizontal padding differs a negative margin is used to adjust
+      // for this.
+      // A better solution might be to create an additional set of images
+      // with no horizontal padding.
+      const margin = ["LEFT", "RIGHT", "LEFT_UTURN", "RIGHT_UTURN"].includes(
+        direction
+      )
+        ? "0"
+        : "0 -8px";
+      const style = { margin, ...(!!!follow && { opacity: 0.5 }) };
 
       return (
         <span key={index} className="LaneIcon" style={style}>
