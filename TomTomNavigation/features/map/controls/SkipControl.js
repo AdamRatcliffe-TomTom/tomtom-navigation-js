@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Text, Button } from "@fluentui/react";
+import { makeStyles, Text } from "@fluentui/react";
 import { withMap } from "react-tomtom-maps";
 import Fade from "../../../components/Fade";
 import MapControl from "./MapControl";
