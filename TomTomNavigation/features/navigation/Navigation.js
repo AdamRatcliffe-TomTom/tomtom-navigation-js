@@ -58,6 +58,7 @@ import {
   ARRIVAL_PANEL_HEIGHT,
   FIT_BOUNDS_PADDING_TOP,
   FIT_BOUNDS_PADDING_RIGHT,
+  FIT_BOUNDS_PADDING_BOTTOM,
   FIT_BOUNDS_PADDING_LEFT
 } from "../../config";
 
@@ -207,7 +208,17 @@ const Navigation = ({ map, onNavigationStateChange }) => {
       dispatch(setViewTransitioning(true));
       dispatch(resetNavigation());
       dispatch(setPitch(0));
-      dispatch(setFitBoundsOptions({ animate: true }));
+      dispatch(
+        setFitBoundsOptions({
+          padding: {
+            top: FIT_BOUNDS_PADDING_TOP,
+            right: FIT_BOUNDS_PADDING_RIGHT,
+            bottom: FIT_BOUNDS_PADDING_BOTTOM,
+            left: FIT_BOUNDS_PADDING_LEFT
+          },
+          animate: true
+        })
+      );
       dispatch(setBounds(bounds));
 
       // Reset the ETA
