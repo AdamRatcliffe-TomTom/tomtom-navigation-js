@@ -91,13 +91,11 @@ const Navigation = ({ map, onNavigationStateChange }) => {
   const routeOptions = useSelector(getRouteOptions);
   const destination = routeOptions.locations.at(-1);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
-  const { data: { route } = {} } = useCalculateRouteQuery(
-    {
-      key: apiKey,
-      ...routeOptions
-    },
-    { skip: !automaticRouteCalculation }
-  );
+  const { data: { route } = {} } = useCalculateRouteQuery({
+    key: apiKey,
+    automaticRouteCalculation,
+    ...routeOptions
+  });
   const [navigationRoute, setNavigationRoute] = useState();
   const navigationPaddingTop = Math.max(height - (isTablet ? 210 : 390), 0);
   const navigationPaddingTopRef = useRef(navigationPaddingTop);

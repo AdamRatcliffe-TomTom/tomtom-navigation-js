@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import {
   MS_SPEECH_SERVICE_REGION,
@@ -36,37 +36,43 @@ const useMicrosoftSpeech = () => {
     setVoicesAvailable(true);
   };
 
-  const getDefaultVoice = () => {
+  const getDefaultVoice = useCallback(() => {
     if (voicesAvailable) {
       return voices.find((voice) => voice.ShortName === defaultVoiceName);
     }
     return null;
-  };
+  }, [voicesAvailable, voices]);
 
-  const getVoiceForLanguage = (lang) => {
-    if (voicesAvailable) {
-      const exactMatch = voices.find((voice) => voice.Locale === lang);
+  const getVoiceForLanguage = useCallback(
+    (lang) => {
+      if (voicesAvailable) {
+        const exactMatch = voices.find((voice) => voice.Locale === lang);
 
-      if (exactMatch) {
-        return exactMatch;
+        if (exactMatch) {
+          return exactMatch;
+        }
+
+        const languageMatch = voices.find((voice) =>
+          voice.Locale.startsWith(lang + "-")
+        );
+
+        return languageMatch || getDefaultVoice();
+      } else {
+        return null;
       }
+    },
+    [voicesAvailable, voices, getDefaultVoice]
+  );
 
-      const languageMatch = voices.find((voice) =>
-        voice.Locale.startsWith(lang + "-")
-      );
-
-      return languageMatch || getDefaultVoice();
-    } else {
+  const getVoiceByName = useCallback(
+    (name) => {
+      if (voicesAvailable) {
+        return voices.find((voice) => voice.ShortName === name);
+      }
       return null;
-    }
-  };
-
-  const getVoiceByName = (name) => {
-    if (voicesAvailable) {
-      return voices.find((voice) => voice.ShortName === name);
-    }
-    return null;
-  };
+    },
+    [voicesAvailable, voices]
+  );
 
   const speak = ({ text, voice, volume = 0.5 }) => {
     if (isSpeaking) {

@@ -120,13 +120,11 @@ const Map = ({
   const userLocation = useSelector(getUserLocation);
   const [mapStyle, setMapStyle] = useState(mapStyles.street);
   const { data: { route, sectionedRoute, walkingLeg } = {} } =
-    useCalculateRouteQuery(
-      {
-        key: apiKey,
-        ...routeOptions
-      },
-      { skip: !automaticRouteCalculation }
-    );
+    useCalculateRouteQuery({
+      key: apiKey,
+      automaticRouteCalculation,
+      ...routeOptions
+    });
   const countryCode = countryCodeFromRoute(route);
 
   const routeIsVisible = !!route;
@@ -167,12 +165,14 @@ const Map = ({
     if (routeOptions?.locations.length) {
       fitRouteOrWaypoints({ animate: false });
     }
+  }, [JSON.stringify(routeOptions.locations)]);
 
+  useEffect(() => {
     if (route) {
       const summary = route.features[0].properties.summary;
       fireEvent(ComponentEvents.route_calculated, { summary });
     }
-  }, [route, JSON.stringify(routeOptions.locations)]);
+  }, [route]);
 
   useEffect(() => {
     const map = mapRef.current.getMap();

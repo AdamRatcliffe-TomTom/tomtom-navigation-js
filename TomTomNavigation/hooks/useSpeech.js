@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 const useSpeech = () => {
   const synth = window.speechSynthesis;
@@ -21,36 +21,42 @@ const useSpeech = () => {
       synth.removeEventListener("voiceschanged", handleVoicesChanged);
   }, []);
 
-  const getDefaultVoice = () => {
+  const getDefaultVoice = useCallback(() => {
     if (voicesAvailable) {
       return voices.find((voice) => voice.default);
     }
     return null;
-  };
+  }, [voicesAvailable, voices]);
 
-  const getVoiceForLanguage = (lang) => {
-    if (voicesAvailable) {
-      const exactMatch = voices.find((voice) => voice.lang === lang);
+  const getVoiceForLanguage = useCallback(
+    (lang) => {
+      if (voicesAvailable) {
+        const exactMatch = voices.find((voice) => voice.lang === lang);
 
-      if (exactMatch) {
-        return exactMatch;
+        if (exactMatch) {
+          return exactMatch;
+        }
+
+        const languageMatch = voices.find((voice) =>
+          voice.lang.startsWith(lang + "-")
+        );
+
+        return languageMatch || voices[0];
       }
+      return null;
+    },
+    [voicesAvailable, voices]
+  );
 
-      const languageMatch = voices.find((voice) =>
-        voice.lang.startsWith(lang + "-")
-      );
-
-      return languageMatch || voices[0];
-    }
-    return null;
-  };
-
-  const getVoiceByName = (name) => {
-    if (voicesAvailable) {
-      return voices.find((voice) => voice.name === name);
-    }
-    return null;
-  };
+  const getVoiceByName = useCallback(
+    (name) => {
+      if (voicesAvailable) {
+        return voices.find((voice) => voice.name === name);
+      }
+      return null;
+    },
+    [voicesAvailable, voices]
+  );
 
   const speak = ({ text, voice, volume = 0.5 }) => {
     if (voicesAvailable) {

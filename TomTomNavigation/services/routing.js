@@ -43,10 +43,13 @@ const locationToString = ({ coordinates }) =>
 
 const routeBaseQuery = async (args) => {
   try {
-    // work around for resetApiState not resetting the data in the useQuery hook
-    if (args.locations?.length < 2) return { data: { route: null } };
+    const { automaticRouteCalculation, ...otherArgs } = args;
 
-    const route = await calculateRoute(args);
+    // work around for resetApiState not resetting the data in the useQuery hook
+    if (!automaticRouteCalculation || args.locations?.length < 2)
+      return { data: { route: null } };
+
+    const route = await calculateRoute(otherArgs);
     const sectionedRoute = createSectionedRoute(route);
     const walkingLeg = createWalkingLeg(args.locations, route);
 
