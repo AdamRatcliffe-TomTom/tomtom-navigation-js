@@ -45,7 +45,8 @@ const routeBaseQuery = async (args) => {
   try {
     const { automaticRouteCalculation, ...otherArgs } = args;
 
-    // work around for resetApiState not resetting the data in the useQuery hook
+    // Workaround for resetApiState not resetting the data in the useQuery hook:
+    // https://github.com/reduxjs/redux-toolkit/issues/3778
     if (!automaticRouteCalculation || args.locations?.length < 2)
       return { data: { route: null } };
 
