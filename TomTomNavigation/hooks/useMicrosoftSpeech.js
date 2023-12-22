@@ -10,6 +10,7 @@ const audioSupported = typeof Audio !== "undefined";
 
 let activePlayer;
 let isSpeaking;
+let isCancelled;
 
 const useMicrosoftSpeech = () => {
   const [voices, setVoices] = useState();
@@ -72,6 +73,7 @@ const useMicrosoftSpeech = () => {
       return;
     }
     isSpeaking = true;
+    isCancelled = false;
 
     const voiceName =
       (typeof voice === "object" ? voice.ShortName : voice) ||
@@ -94,6 +96,10 @@ const useMicrosoftSpeech = () => {
     })
       .then((response) => response.arrayBuffer())
       .then((audioData) => {
+        if (isCancelled) {
+          return;
+        }
+
         activePlayer = new Audio();
         activePlayer.volume = volume;
         activePlayer.src = URL.createObjectURL(
@@ -117,6 +123,8 @@ const useMicrosoftSpeech = () => {
       activePlayer.pause();
       activePlayer = null;
       isSpeaking = false;
+    } else {
+      isCancelled = true;
     }
   };
 
