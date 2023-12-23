@@ -175,8 +175,10 @@ const Map = ({
   }, [route]);
 
   useEffect(() => {
-    const map = mapRef.current.getMap();
-    map?.resize();
+    setTimeout(() => {
+      const map = mapRef.current.getMap();
+      map?.resize();
+    }, 100);
   }, [width, height]);
 
   const fitRouteOrWaypoints = (fitBoundsOptions) => {
