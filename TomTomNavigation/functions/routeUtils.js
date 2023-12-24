@@ -120,13 +120,23 @@ function getAnnouncementText(
   }
 }
 
-export default function laneGuidanceByIndex(route, index) {
+function laneGuidanceByIndex(route, index) {
   const { sections } = route.properties;
   return sections.find(
-    (section) =>
-      section.sectionType === SectionTypes.LANES &&
-      index >= section.triggerPointIndex &&
-      index <= section.endPointIndex
+    ({ sectionType, triggerPointIndex, endPointIndex }) =>
+      sectionType === SectionTypes.LANES &&
+      index >= triggerPointIndex &&
+      index <= endPointIndex
+  );
+}
+
+function trafficEventsByIndex(route, index) {
+  const { sections } = route.properties;
+  return sections.filter(
+    ({ sectionType, triggerPointIndex, startPointIndex }) =>
+      sectionType === SectionTypes.TRAFFIC &&
+      index >= triggerPointIndex &&
+      index < startPointIndex
   );
 }
 
@@ -135,5 +145,6 @@ export {
   instructionByIndex,
   speedLimitByIndex,
   announcementByIndex,
-  laneGuidanceByIndex
+  laneGuidanceByIndex,
+  trafficEventsByIndex
 };

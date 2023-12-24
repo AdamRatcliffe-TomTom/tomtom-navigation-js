@@ -84,7 +84,7 @@ const ETA = ({
             <Stack
               horizontal
               verticalAlign="center"
-              tokens={{ childrenGap: 4 }}
+              tokens={{ childrenGap: 6 }}
             >
               <Text className={textClasses.secondaryText}>⸱</Text>
               <JamIcon color={theme.semanticColors.warningIcon} />

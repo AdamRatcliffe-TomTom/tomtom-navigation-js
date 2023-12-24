@@ -3,7 +3,7 @@ import objectToQueryString from "../functions/objectToQueryString";
 import routeToGeoJson from "../functions/routeToGeoJson";
 import createSectionedRoute from "../functions/createSectionedRoute";
 import createWalkingLeg from "../functions/createWalkingLeg";
-import calculateLaneGuidanceTriggerPoints from "../functions/calculateLaneGuidanceTriggerPoints";
+import calculateTriggerPoints from "../functions/calculateTriggerPoints";
 
 import { BASE_ROUTING_URL } from "../config";
 
@@ -54,7 +54,7 @@ const routeBaseQuery = async (args) => {
     const sectionedRoute = createSectionedRoute(route);
     const walkingLeg = createWalkingLeg(args.locations, route);
 
-    calculateLaneGuidanceTriggerPoints(route);
+    calculateTriggerPoints(route);
 
     return { data: { route, sectionedRoute, walkingLeg } };
   } catch (error) {

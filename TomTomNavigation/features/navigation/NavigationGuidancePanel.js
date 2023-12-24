@@ -101,7 +101,7 @@ const NavigationGuidancePanel = ({ route }) => {
   })();
   const guidancePanelHeight = bounds.height;
   const currentLocation = useSelector(getCurrentLocation);
-  const { laneGuidance } = currentLocation;
+  const { laneGuidance, trafficEvents } = currentLocation;
   const nextInstruction = useSelector(getNextInstruction);
   const consecutiveInstruction = useSelector(getConsecutiveInstruction);
   const haveLaneGuidance = !!laneGuidance;
@@ -110,7 +110,7 @@ const NavigationGuidancePanel = ({ route }) => {
     ![Maneuvers.ARRIVE, Maneuvers.ARRIVE_LEFT, Maneuvers.ARRIVE_RIGHT].includes(
       consecutiveInstruction.maneuver
     );
-  const haveTrafficEvents = !!!landscapeMinimal && false;
+  const haveTrafficEvents = !!!landscapeMinimal && trafficEvents.length;
 
   useEffect(() => {
     if (isPhone) {
@@ -148,15 +148,7 @@ const NavigationGuidancePanel = ({ route }) => {
       {haveTrafficEvents && (
         <Stack.Item className={classes.trafficEventPanel}>
           <TrafficEventPanel
-            event={{
-              startPointIndex: 411,
-              endPointIndex: 448,
-              sectionType: "TRAFFIC",
-              simpleCategory: "JAM",
-              effectiveSpeedInKmh: 51,
-              delayInSeconds: 124,
-              magnitudeOfDelay: 1
-            }}
+            event={trafficEvents[0]}
             currentLocation={currentLocation}
             route={route}
           />
