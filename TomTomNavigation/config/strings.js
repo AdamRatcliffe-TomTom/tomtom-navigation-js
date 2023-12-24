@@ -7,6 +7,7 @@ const strings = new LocalizedStrings({
     street: "Street",
     satellite: "Satellite",
     location: "Location",
+    traffic: "Traffic",
     locationServicesUnavailable:
       "Location services not supported for this device",
     locationServicesNotEnabled:
@@ -75,6 +76,7 @@ const strings = new LocalizedStrings({
     street: "Straat",
     satellite: "Satelliet",
     location: "Plaats",
+    traffic: "Verkeer",
     locationServicesUnavailable:
       "Locatieservices worden niet ondersteund voor dit apparaat",
     locationServicesNotEnabled:

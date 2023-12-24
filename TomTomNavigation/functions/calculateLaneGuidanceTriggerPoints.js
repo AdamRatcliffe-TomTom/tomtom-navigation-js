@@ -1,7 +1,7 @@
 import CheapRuler from "cheap-ruler";
 import SectionTypes from "../constants/SectionTypes";
 
-const triggerDistanceMeters = 500;
+import { LANE_GUIDANCE_TRIGGER_DISTANCE_METERS } from "../config";
 
 export default function calculateLaneGuidanceTriggerPoints(geojson) {
   const route = geojson.features[0];
@@ -27,7 +27,10 @@ export default function calculateLaneGuidanceTriggerPoints(geojson) {
     const part = ruler.lineSlice(firstPoint, sectionEndPoint, coordinates);
 
     // Look back for a candidate trigger point
-    const alongPoint = ruler.along(part.reverse(), triggerDistanceMeters);
+    const alongPoint = ruler.along(
+      part.reverse(),
+      LANE_GUIDANCE_TRIGGER_DISTANCE_METERS
+    );
 
     if (alongPoint) {
       // If a point was found get it's index into the route coordinates

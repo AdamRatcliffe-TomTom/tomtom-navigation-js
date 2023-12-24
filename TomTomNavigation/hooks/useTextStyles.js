@@ -21,7 +21,7 @@ const useTextStyles = makeStyles((theme) => ({
     fontFamily: "Noto Sans",
     color: theme.semanticColors.warningIcon,
     fontSize: 20,
-    fontWeight: 500
+    fontWeight: 400
   }
 }));
 

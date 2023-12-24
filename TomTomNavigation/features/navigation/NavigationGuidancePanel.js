@@ -7,6 +7,7 @@ import Stack from "../../components/Stack";
 import NextInstructionPanel from "./NextInstructionPanel";
 import ConsecutiveInstructionPanel from "./ConsecutiveInstructionPanel";
 import LaneGuidancePanel from "./LaneGuidancePanel";
+import TrafficEventPanel from "./TrafficEventPanel";
 import Maneuvers from "../../constants/Maneuvers";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import {
@@ -70,14 +71,18 @@ const useStyles = ({
           ? theme.semanticColors.nipEUHighlight
           : theme.semanticColors.nipEUEmphasis,
       transition: "background-color 0.15s"
+    },
+    trafficEventPanel: {
+      backgroundColor: theme.palette.white,
+      transition: "background-color 0.15s"
     }
   }));
 
 const styleId = "guidance-ctrl-margin-adjustment";
 
 const NavigationGuidancePanel = ({ route }) => {
-  // Using offsetSize option to useMesure introduces lag but is necessary to ignore the parent scale
-  // transformation Power Apps applies
+  // Using offsetSize option to useMeasure is necessary to ignore the parent scale
+  // transformation Power Apps will apply if "Scale to fit" is enabled
   const [guidancePanelRef, bounds] = useMeasure({ offsetSize: true });
   const {
     theme: appTheme,
@@ -95,7 +100,8 @@ const NavigationGuidancePanel = ({ route }) => {
     countryCode
   })();
   const guidancePanelHeight = bounds.height;
-  const { laneGuidance } = useSelector(getCurrentLocation);
+  const currentLocation = useSelector(getCurrentLocation);
+  const { laneGuidance } = currentLocation;
   const nextInstruction = useSelector(getNextInstruction);
   const consecutiveInstruction = useSelector(getConsecutiveInstruction);
   const haveLaneGuidance = !!laneGuidance;
@@ -104,6 +110,7 @@ const NavigationGuidancePanel = ({ route }) => {
     ![Maneuvers.ARRIVE, Maneuvers.ARRIVE_LEFT, Maneuvers.ARRIVE_RIGHT].includes(
       consecutiveInstruction.maneuver
     );
+  const haveTrafficEvents = !!!landscapeMinimal && false;
 
   useEffect(() => {
     if (isPhone) {
@@ -136,6 +143,23 @@ const NavigationGuidancePanel = ({ route }) => {
       {haveConsecutiveInstruction && (
         <Stack.Item className={classes.consecutiveInstructionPanel}>
           <ConsecutiveInstructionPanel instruction={consecutiveInstruction} />
+        </Stack.Item>
+      )}
+      {haveTrafficEvents && (
+        <Stack.Item className={classes.trafficEventPanel}>
+          <TrafficEventPanel
+            event={{
+              startPointIndex: 411,
+              endPointIndex: 448,
+              sectionType: "TRAFFIC",
+              simpleCategory: "JAM",
+              effectiveSpeedInKmh: 51,
+              delayInSeconds: 124,
+              magnitudeOfDelay: 1
+            }}
+            currentLocation={currentLocation}
+            route={route}
+          />
         </Stack.Item>
       )}
     </Stack>
