@@ -13,7 +13,7 @@ import SkipControl from "./controls/SkipControl";
 import SpeedLimitEU from "./SpeedLimitEU";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
-// import Landmarks3D from "./Landmarks3D";
+import Landmarks3D from "./Landmarks3D";
 import LocationMarker from "./markers/LocationMarker";
 import ChevronMarker from "./markers/ChevronMarker";
 import Chevron2DMarker from "./markers/Chevron2DMarker";
@@ -367,7 +367,7 @@ const Map = ({
       />
       <ExitControl visible={exitControlIsVisible} onClick={onComponentExit} />
       <SkipControl visible={skipControlIsVisible} onClick={handleSkip} />
-      {/* <Landmarks3D key={currentStyle} /> */}
+      <Landmarks3D key={currentStyle} />
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
       {routeIsVisible && (
         <Route
