@@ -154,6 +154,20 @@ const Map = ({
     currentLocation;
 
   useEffect(() => {
+    const map = mapRef.current?.getMap();
+
+    if (map) {
+      const container = map.getContainer();
+      const observer = new ResizeObserver(() => {
+        console.log("resizing");
+        map.resize();
+      });
+      observer.observe(container);
+      return () => observer?.unobserve(container);
+    }
+  }, [mapRef.current]);
+
+  useEffect(() => {
     setMeasurementSystemAuto(countryCode === "US" ? "imperial" : "metric");
   }, [countryCode]);
 
@@ -174,12 +188,12 @@ const Map = ({
     }
   }, [route]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      const map = mapRef.current.getMap();
-      map?.resize();
-    }, 100);
-  }, [width, height]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const map = mapRef.current.getMap();
+  //     map?.resize();
+  //   }, 100);
+  // }, [width, height]);
 
   const fitRouteOrWaypoints = (fitBoundsOptions) => {
     // Convert the route waypoints to geojson
