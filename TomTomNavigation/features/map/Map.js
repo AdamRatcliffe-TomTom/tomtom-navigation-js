@@ -158,10 +158,7 @@ const Map = ({
 
     if (map) {
       const container = map.getContainer();
-      const observer = new ResizeObserver(() => {
-        console.log("resizing");
-        map.resize();
-      });
+      const observer = new ResizeObserver(() => map.resize());
       observer.observe(container);
       return () => observer?.unobserve(container);
     }
@@ -187,13 +184,6 @@ const Map = ({
       fireEvent(ComponentEvents.route_calculated, { summary });
     }
   }, [route]);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     const map = mapRef.current.getMap();
-  //     map?.resize();
-  //   }, 100);
-  // }, [width, height]);
 
   const fitRouteOrWaypoints = (fitBoundsOptions) => {
     // Convert the route waypoints to geojson
