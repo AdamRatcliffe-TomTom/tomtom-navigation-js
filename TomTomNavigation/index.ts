@@ -125,6 +125,7 @@ export class TomTomNavigation
     );
     const showMuteControl = this.getRawParameter(context, "showMuteControl");
     const showExitControl = this.getRawParameter(context, "showExitControl");
+    const showZoomControl = this.getRawParameter(context, "showZoomControl");
     const showSkipControl = this.getRawParameter(context, "showSkipControl");
     const showBottomPanel = this.getRawParameter(context, "showBottomPanel");
     const showGuidancePanel = this.getRawParameter(
@@ -228,6 +229,7 @@ export class TomTomNavigation
       showMapSwitcherControl,
       showMuteControl,
       showExitControl,
+      showZoomControl,
       showSkipControl,
       onComponentExit: this.handleComponentExit
     };

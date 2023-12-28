@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.13.3" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.14.0" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -41,6 +41,7 @@
 		<property name="showLocationMarker" display-name-key="Show location marker" description-key="showLocationMarker_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="showMapSwitcherControl" display-name-key="Show map switcher control" description-key="showMapSwitcherControl_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="showExitControl" display-name-key="Show exit control" description-key="showExitControl_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="false"/>
+		<property name="showZoomControl" display-name-key="Show zoom control" description-key="showZoomControl_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="false"/>
 		<property name="showMuteControl" display-name-key="Show mute control" description-key="showMuteControl_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="showSkipControl" display-name-key="Show skip control" description-key="showSkipControl_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="false"/>
 		<property name="showBottomPanel" display-name-key="Show bottom panel" description-key="showBottomPanel_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>

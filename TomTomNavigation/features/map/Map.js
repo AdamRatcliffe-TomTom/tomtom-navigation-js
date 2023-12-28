@@ -8,6 +8,7 @@ import MuteControl from "./controls/MuteControl";
 import CompassControl from "./controls/CompassControl";
 import MapSwitcherControl from "./controls/MapSwitcherControl";
 import NavigationPerspectiveControl from "./controls/NavigationPerspectiveControl";
+import ZoomControl from "./controls/ZoomControl";
 import ExitControl from "./controls/ExitControl";
 import SkipControl from "./controls/SkipControl";
 import SpeedLimitEU from "./SpeedLimitEU";
@@ -79,6 +80,7 @@ const Map = ({
   showMapSwitcherControl,
   showMuteControl,
   showExitControl,
+  showZoomControl,
   showSkipControl,
   onComponentExit = () => {},
   children
@@ -138,6 +140,7 @@ const Map = ({
   const navigationPerspectiveControlIsVisible =
     isNavigating && !hasReachedDestination;
   const exitControlIsVisible = showExitControl && !isNavigating;
+  const zoomControlIsVisible = showZoomControl && !isPhone && !isNavigating;
   const skipControlIsVisible =
     showSkipControl && isNavigating && !hasReachedDestination;
   const locationMarkerIsVisible =
@@ -367,6 +370,7 @@ const Map = ({
       />
       <ExitControl visible={exitControlIsVisible} onClick={onComponentExit} />
       <SkipControl visible={skipControlIsVisible} onClick={handleSkip} />
+      <ZoomControl visible={zoomControlIsVisible} />
       <Landmarks3D key={currentStyle} />
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
       {routeIsVisible && (
