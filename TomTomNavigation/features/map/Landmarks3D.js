@@ -25,7 +25,7 @@ const Landmarks3D = ({ map }) => {
             units: "meters",
             scale: { x: scale, y: scale, z: scale },
             anchor: "center",
-            adjustment: { x: 0.39, y: -0.08, z: 0 },
+            adjustment: { x: 0.38, y: -0.165, z: 0 },
             rotation: { x: 90, y: -90, z: 0 }
           };
 
