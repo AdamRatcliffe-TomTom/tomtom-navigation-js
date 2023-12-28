@@ -21,7 +21,7 @@ import {
   getConsecutiveInstruction
 } from "./navigationSlice";
 
-import { TABLET_PANEL_WIDTH } from "../../config";
+import { TABLET_PANEL_WIDTH, ETA_PANEL_HEIGHT } from "../../config";
 
 const useStyles = ({
   appTheme,
@@ -117,9 +117,13 @@ const NavigationGuidancePanel = ({ route }) => {
       removeStyleFromDocument(styleId);
       addStyleToDocument(
         styleId,
-        `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {margin-top: ${
-          guidancePanelHeight + 8
-        }px}`
+        `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {
+           margin-top: ${guidancePanelHeight + 8}px;
+         }
+         .TomTomNavigation .mapboxgl-ctrl-bottom-right, .TomTomNavigation .mapboxgl-ctrl-bottom-left {
+           margin-bottom: ${ETA_PANEL_HEIGHT}px;
+         }
+        `
       );
     } else {
       removeStyleFromDocument(styleId);

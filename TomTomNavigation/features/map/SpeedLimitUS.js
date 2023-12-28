@@ -11,7 +11,7 @@ const useStyles = ({ isPhone, isTablet }) =>
     shield: {
       position: "absolute",
       ...(isTablet && { top: 16, right: 88 }),
-      ...(isPhone && { bottom: ETA_PANEL_HEIGHT + 16, left: 20 }),
+      ...(isPhone && { bottom: ETA_PANEL_HEIGHT + 18, left: 20 }),
       background: "white",
       padding: 3,
       borderRadius: 6,
@@ -43,7 +43,7 @@ const SpeedLimitUS = ({ value, visible }) => {
 
   return (
     <Fade show={visible} duration="0.3s">
-      <div className={classes.shield}>
+      <div className={`SpeedLimitUS ${classes.shield}`}>
         <div className={classes.label}>Speed Limit</div>
         <div className={classes.value}>{speedLimit}</div>
       </div>
