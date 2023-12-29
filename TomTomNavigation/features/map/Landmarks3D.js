@@ -2,6 +2,10 @@ import { useEffect } from "react";
 import { Threebox } from "threebox-plugin";
 import { withMap } from "react-tomtom-maps";
 
+/**
+ * Example of 3D landmark integration using Three.js. Currently loads a model of the Empire State Building,
+ * a future version could use TomTom 3D landmark models.
+ */
 const Landmarks3D = ({ map }) => {
   useEffect(() => {
     map.once("styledata", () => {
