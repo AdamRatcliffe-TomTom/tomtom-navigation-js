@@ -232,8 +232,11 @@ const Navigation = ({ map, onNavigationStateChange }) => {
     onNavigationStateChange(NavigationStates.NAVIGATION_STOPPED);
   };
 
-  const setMapInteractive = (interactive) =>
-    (map.__om._canvas.style.pointerEvents = interactive ? "all" : "none");
+  const setMapInteractive = (interactive) => {
+    map.__om._canvas.parentElement.style.pointerEvents = interactive
+      ? "all"
+      : "none";
+  };
 
   const handleSimulatorUpdate = (event) => {
     if (viewTransitioning) {
