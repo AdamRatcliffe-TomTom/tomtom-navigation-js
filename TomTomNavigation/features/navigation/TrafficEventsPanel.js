@@ -102,7 +102,7 @@ const TrafficEvent = ({ event, distance }) => {
 };
 
 const TrafficEventsPanel = ({ events, currentLocation, route }) => {
-  const { isTablet } = useAppContext();
+  const { isPhone, isTablet } = useAppContext();
   const classes = useStyles({ isTablet })();
   const { coordinates } = route.features[0].geometry;
   const ruler = useMemo(
@@ -111,7 +111,7 @@ const TrafficEventsPanel = ({ events, currentLocation, route }) => {
   );
 
   const trafficEvents = useMemo(() => {
-    const visibleEvents = events.slice(0, MAX_TRAFFIC_EVENTS);
+    const visibleEvents = events.slice(0, isPhone ? 1 : MAX_TRAFFIC_EVENTS);
 
     return visibleEvents.map((event, index) => {
       const distance = calculateDistanceToEvent(
