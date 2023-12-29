@@ -8,6 +8,11 @@ import TrafficIcon from "../icons/TrafficIcon";
 import TrafficMinorIcon from "../icons/TrafficMinorIcon";
 import TrafficModerateIcon from "../icons/TrafficModerateIcon";
 import TrafficMajorIcon from "../icons/TrafficMajorIcon";
+import RoadClosedIcon from "../icons/RoadClosedIcon";
+import TrafficOtherIcon from "../icons/TrafficOtherIcon";
+import TrafficOtherMinorIcon from "../icons/TrafficOtherMinorIcon";
+import TrafficOtherModerateIcon from "../icons/TrafficOtherModerateIcon";
+import TrafficOtherMajorIcon from "../icons/TrafficOtherMajorIcon";
 
 export default function getTrafficEventIcon(event) {
   const { simpleCategory, magnitudeOfDelay } = event;
@@ -25,7 +30,7 @@ export default function getTrafficEventIcon(event) {
           return <RoadworkIcon size={48} />;
       }
     case "ROAD_CLOSURE":
-      break;
+      return <RoadClosedIcon size={48} />;
     case "JAM":
       switch (magnitudeOfDelay) {
         case 1:
@@ -37,7 +42,18 @@ export default function getTrafficEventIcon(event) {
         default:
           return <TrafficIcon size={48} />;
       }
+    case "OTHER":
+      switch (magnitudeOfDelay) {
+        case 1:
+          return <TrafficOtherMinorIcon size={48} />;
+        case 2:
+          return <TrafficOtherModerateIcon size={48} />;
+        case 3:
+          return <TrafficOtherMajorIcon size={48} />;
+        default:
+          return <TrafficOtherIcon size={48} />;
+      }
     default:
-      break;
+      return null;
   }
 }

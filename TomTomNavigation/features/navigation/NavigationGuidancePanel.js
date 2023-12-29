@@ -7,7 +7,7 @@ import Stack from "../../components/Stack";
 import NextInstructionPanel from "./NextInstructionPanel";
 import ConsecutiveInstructionPanel from "./ConsecutiveInstructionPanel";
 import LaneGuidancePanel from "./LaneGuidancePanel";
-import TrafficEventPanel from "./TrafficEventPanel";
+import TrafficEventsPanel from "./TrafficEventsPanel";
 import Maneuvers from "../../constants/Maneuvers";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import {
@@ -72,7 +72,7 @@ const useStyles = ({
           : theme.semanticColors.nipEUEmphasis,
       transition: "background-color 0.15s"
     },
-    trafficEventPanel: {
+    trafficEventsPanel: {
       backgroundColor: theme.palette.white,
       transition: "background-color 0.15s"
     }
@@ -150,9 +150,9 @@ const NavigationGuidancePanel = ({ route }) => {
         </Stack.Item>
       )}
       {haveTrafficEvents && (
-        <Stack.Item className={classes.trafficEventPanel}>
-          <TrafficEventPanel
-            event={trafficEvents[0]}
+        <Stack.Item className={classes.trafficEventsPanel}>
+          <TrafficEventsPanel
+            events={trafficEvents}
             currentLocation={currentLocation}
             route={route}
           />

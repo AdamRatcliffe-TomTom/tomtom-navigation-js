@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
 import CheapRuler from "cheap-ruler";
+import Divider from "../../components/Divider";
 import TimeIcon from "../../icons/TimeIcon";
 import { useAppContext } from "../../app/AppContext";
 import useTextStyles from "../../hooks/useTextStyles";
@@ -9,9 +10,19 @@ import formatDistance from "../../functions/formatDistance";
 import formatDuration from "../../functions/formatDuration";
 import strings from "../../config/strings";
 
+import { MAX_TRAFFIC_EVENTS } from "../../config";
+
 const useStyles = ({ isTablet }) =>
   makeStyles((theme) => ({
     root: {
+      "& .Divider": {
+        position: "relative",
+        left: 72,
+        right: `-${theme.spacing.l1}`,
+        margin: `${theme.spacing.m} 0`
+      }
+    },
+    event: {
       display: "grid",
       gridTemplateColumns: "56px 1fr auto",
       gap: theme.spacing.m,
@@ -27,7 +38,7 @@ const useStyles = ({ isTablet }) =>
       fontSize: 20,
       fontWeight: 600,
       color: theme.palette.black,
-      lineHeight: "1.5"
+      lineHeight: "1"
     },
     delay: {
       lineHeight: "1.5",
@@ -51,32 +62,21 @@ function calculateDistanceToEvent(currentLocation, event, coordinates, ruler) {
   return ruler.lineDistance(part);
 }
 
-const TrafficEventPanel = ({ event, currentLocation, route }) => {
+const TrafficEvent = ({ event, distance }) => {
   const theme = useTheme();
-  const { coordinates } = route.features[0].geometry;
   const { measurementSystem, isTablet } = useAppContext();
-  const ruler = useMemo(
-    () => new CheapRuler(coordinates[0][1], "meters"),
-    [coordinates]
-  );
+  const { delayInSeconds } = event;
   const classes = useStyles({ isTablet })();
   const textClasses = useTextStyles();
   const icon = getTrafficEventIcon(event);
-  const distance = calculateDistanceToEvent(
-    currentLocation,
-    event,
-    coordinates,
-    ruler
-  );
   const formattedDistance = formatDistance(distance, measurementSystem);
-  const { delayInSeconds } = event;
   const formattedDelay = formatDuration(delayInSeconds);
-  const showDelay = delayInSeconds >= 60;
+  const showDelay = delayInSeconds > 0;
 
   return (
-    <div className={classes.root}>
+    <div className={`TrafficEvent ${classes.event}`}>
       <div className={classes.iconWrapper}>{icon}</div>
-      <Stack tokens={{ childrenGap: theme.spacing.s1 }}>
+      <Stack tokens={{ childrenGap: theme.spacing.m }}>
         <Text
           className={classes.distance}
         >{`${formattedDistance.value} ${formattedDistance.units}`}</Text>
@@ -101,4 +101,37 @@ const TrafficEventPanel = ({ event, currentLocation, route }) => {
   );
 };
 
-export default TrafficEventPanel;
+const TrafficEventsPanel = ({ events, currentLocation, route }) => {
+  const { isTablet } = useAppContext();
+  const classes = useStyles({ isTablet })();
+  const { coordinates } = route.features[0].geometry;
+  const ruler = useMemo(
+    () => new CheapRuler(coordinates[0][1], "meters"),
+    [coordinates]
+  );
+
+  const trafficEvents = useMemo(() => {
+    const visibleEvents = events.slice(0, MAX_TRAFFIC_EVENTS);
+
+    return visibleEvents.map((event, index) => {
+      const distance = calculateDistanceToEvent(
+        currentLocation,
+        event,
+        coordinates,
+        ruler
+      );
+      return (
+        <React.Fragment key={index}>
+          <TrafficEvent event={event} distance={distance} />
+          {index < visibleEvents.length - 1 && <Divider />}
+        </React.Fragment>
+      );
+    });
+  }, [events, currentLocation, coordinates, ruler]);
+
+  return (
+    <div className={`TrafficEventsPanel ${classes.root}`}>{trafficEvents}</div>
+  );
+};
+
+export default TrafficEventsPanel;

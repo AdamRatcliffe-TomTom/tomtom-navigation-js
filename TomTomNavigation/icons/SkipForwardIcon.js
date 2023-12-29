@@ -11,7 +11,6 @@ const SkipForwardIcon = ({ size = 24, color = "#263543" }) => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    class="feather feather-skip-forward"
   >
     <polygon points="5 4 15 12 5 20 5 4" stroke={color}></polygon>
     <line x1="19" y1="5" x2="19" y2="19" stroke={color}></line>
