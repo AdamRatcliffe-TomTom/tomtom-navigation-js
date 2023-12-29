@@ -244,7 +244,7 @@ const Navigation = ({ map, onNavigationStateChange }) => {
     const elapsedTime = Math.floor(stepTime / 1000);
 
     batch(() => {
-      if (navigationPerspectiveRef.current === NavigationPerspectives.DRIVING) {
+      if (navigationPerspectiveRef.current === NavigationPerspectives.FOLLOW) {
         dispatch(
           setCamera({
             movingMethod: "easeTo",
@@ -296,7 +296,7 @@ const Navigation = ({ map, onNavigationStateChange }) => {
     batch(() => {
       dispatch(setViewTransitioning(true));
       dispatch(setHasReachedDestination(true));
-      dispatch(setNavigationPerspective(NavigationPerspectives.ROUTE_OVERVIEW));
+      dispatch(setNavigationPerspective(NavigationPerspectives.OVERVIEW));
       dispatch(
         setFitBoundsOptions({
           animate: true,

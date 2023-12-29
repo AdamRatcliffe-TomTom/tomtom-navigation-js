@@ -9,7 +9,7 @@ import NavigationPerspectives from "../../../constants/NavigationPerspectives";
 
 const NavigationPerspective = ({
   visible,
-  navigationPerspective = NavigationPerspectives.DRIVING,
+  navigationPerspective = NavigationPerspectives.FOLLOW,
   onClick = () => {}
 }) => {
   const theme = useTheme();
@@ -17,15 +17,15 @@ const NavigationPerspective = ({
 
   const handleClick = () => {
     const perspective =
-      navigationPerspective === NavigationPerspectives.DRIVING
-        ? NavigationPerspectives.ROUTE_OVERVIEW
-        : NavigationPerspectives.DRIVING;
+      navigationPerspective === NavigationPerspectives.FOLLOW
+        ? NavigationPerspectives.OVERVIEW
+        : NavigationPerspectives.FOLLOW;
 
     onClick(perspective);
   };
 
   const Icon =
-    navigationPerspective === NavigationPerspectives.DRIVING
+    navigationPerspective === NavigationPerspectives.FOLLOW
       ? RouteIcon
       : ChevronOutlineIcon;
 

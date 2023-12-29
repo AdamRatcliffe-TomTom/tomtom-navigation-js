@@ -149,11 +149,11 @@ const Map = ({
     isNavigating &&
     !viewTransitioning &&
     !hasReachedDestination &&
-    navigationPerspective === NavigationPerspectives.DRIVING;
+    navigationPerspective === NavigationPerspectives.FOLLOW;
   const chevron2DMarkerIsVisible =
     isNavigating &&
     !viewTransitioning &&
-    navigationPerspective === NavigationPerspectives.ROUTE_OVERVIEW &&
+    navigationPerspective === NavigationPerspectives.OVERVIEW &&
     currentLocation;
 
   useEffect(() => {
@@ -257,7 +257,7 @@ const Map = ({
       dispatch(setViewTransitioning(true));
       dispatch(setNavigationPerspective(perspective));
 
-      if (perspective === NavigationPerspectives.DRIVING) {
+      if (perspective === NavigationPerspectives.FOLLOW) {
         dispatch(setCenter(currentLocation));
       } else {
         map.__om.setPadding({ top: 0, left: 0 });

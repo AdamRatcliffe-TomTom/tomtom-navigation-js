@@ -18,7 +18,7 @@ const initialState = {
   showGuidancePanel: true,
   showArrivalPanel: true,
   isNavigating: false,
-  navigationPerspective: NavigationPerspectives.DRIVING,
+  navigationPerspective: NavigationPerspectives.FOLLOW,
   hasReachedDestination: false,
   simulationShouldEnd: false,
   currentLocation: {
@@ -179,7 +179,7 @@ const navigationSlice = createSlice({
     },
     resetNavigation: (state) => {
       state.isNavigating = false;
-      state.navigationPerspective = NavigationPerspectives.DRIVING;
+      state.navigationPerspective = NavigationPerspectives.FOLLOW;
       state.hasReachedDestination = false;
       state.currentLocation = initialState.currentLocation;
       state.nextInstruction = undefined;
