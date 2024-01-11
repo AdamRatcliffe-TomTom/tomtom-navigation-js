@@ -45,7 +45,10 @@ function App({
   showBottomPanel,
   showGuidancePanel,
   showArrivalPanel,
-  onNavigationStateChange
+  onNavigationStarted,
+  onNavigationStopped,
+  onProgressUpdate,
+  onDestinationReached
 }) {
   strings.setLanguage(language);
 
@@ -106,7 +109,12 @@ function App({
       >
         <div className="TomTomNavigation">
           <Map {...mapOptions}>
-            <Navigation onNavigationStateChange={onNavigationStateChange} />
+            <Navigation
+              onNavigationStarted={onNavigationStarted}
+              onNavigationStopped={onNavigationStopped}
+              onProgressUpdate={onProgressUpdate}
+              onDestinationReached={onDestinationReached}
+            />
           </Map>
         </div>
         {!apiKey && <NoApiKeyMessage />}

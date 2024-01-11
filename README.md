@@ -26,11 +26,12 @@ Available component properties:
 | showPoi                   | `TwoOptions`                                                                                                           | input | `false`                  | Show the POI layer.                                                                                                                                                                                                                                     |
 | initialCenter             | `SingleLine.Text`                                                                                                      | input |                          | Initial map center specifed in the format "longitude,latitude". This is set once when the component is mounted.                                                                                                                                         |
 | initialZoom               | `Decimal`                                                                                                              | input | 12                       | Initial zoom level. This is set once when the component is mounted.                                                                                                                                                                                     |
-| showLocationMarker        | `TwoOptions`                                                                                                           | input | `true`                   | Show a location marker for the user's current location.                                                                                                                                                                                                 |
-|                           |
+| showLocationMarker        | `TwoOptions`                                                                                                           | input | `true`                   | Show a location marker for the user's current location.                                                                                                                                                                                                 
+|                           
 | showMapSwitcherControl    | `TwoOptions`                                                                                                           | input | `true`                   | Show the map style switcher control.                                                                                                                                                                                                                          |
 | showMuteControl           | `TwoOptions`                                                                                                           | input | `true`                   | Show the mute control.                                                                                                                                                                                                                                  |
 | showSkipControl           | `TwoOptions`                                                                                                           | input | `false`                   | Show a control for skipping to the route destination.                                                                                                                                                                                                                                  |
+| showExitControl           | `TwoOptions`                                                                                                           | input | `false`                   | Show a control for exiting the component.                                                                                                                                                                                                                                  |
 | showZoomControl           | `TwoOptions`                                                                                                           | input | `false`                   | Show the zoom control. This control, when enabled is not shown if the device is a phone due to space limitations.                                                                                                                                                                                                                                  |
 | showBottomPanel           | `TwoOptions`                                                                                                           | input | `true`                   | Show the bottom panel.                                                                                                                                                                                                                                  |
 | showGuidancePanel         | `TwoOptions`                                                                                                           | input | `true`                   | Show the navigation guidance panel.                                                                                                                                                                                                                     |
@@ -50,9 +51,9 @@ Available component properties:
 | routeWaypointsIconHeight  | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon_height value.                                                                                                                                                                                           |
 | routeWaypointsIcon_anchor | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon anchor value.                                                                                                                                                                                           |
 | routeWaypointsIconOffsetX | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon_offset_x value.                                                                                                                                                                                         |
-| routeWaypointsIconOffsetY | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon_offset_y value.                                                                                                                                                                                         |
-| componentExit             | `TwoOptions`                                                                                                           | bound | `false`                  | Set by the component to `true` when the component exit button is clicked.                                                                                                                                                                               |
-| navigationState           | `Enum` possible values are "NAVIGATION\_NOT\_STARTED", "NAVIGATION\_STARTED", "NAVIGATION\_STOPPED", "DESTINATION\_REACHED" | bound | "NAVIGATION\_NOT\_STARTED" | Set by the component to reflect the current navigation state.                                                                                                                                                                                           |
+| routeWaypointsIconOffsetY | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon_offset_y value.                                                                                                                                                                                         
+| name                     | `SingleLine.Text` | output | | The name of the event when the OnChange event is fired by the component. Either "OnChange" or "OnClose". |
+| value                    | `SingleLine.Text` | output | | The value of the event when the OnChange event is fired by the component. |
 
 ## Route Waypoints
 
@@ -75,6 +76,91 @@ The names shown in the table are the defaults that will be expected by the compo
 
 ## Component Events
 
+The navigation component uses 2 mechanisms for communicating state changes, one enabling other PCF components to subscribe to component events, and the other for the app using the component.
+
+### Event handling using the component `OnChange` property
+
+PCF components fire a single event, `OnChange`. To overcome this limitation, the navigation component overloads this event by providing a `name` output property to allow more event types to be fired by the component.
+
+For more information on this pattern see [A Workable Pattern for PCF Events You Can Use Today](https://98.codes/a-workable-pattern-for-pcf-events-you-can-use-today/).
+
+Use the PowerFx Switch function in your control's `OnChange` behavior property to handle these events in your app.
+
+```
+Switch(
+  Self.name,
+  "OnRouteCalculated",
+    Notify("OnRouteCalculated received"),
+  "OnExit",
+    Notify("OnExit received!")
+)
+```
+
+Events emitted by the component:
+
+#### OnChange
+
+Fired when a route is calculated.
+
+##### Output properties
+
+| Name    | Value      | Description             |
+| ------- | ---------- | ----------------------- |
+| `name`  | "OnRouteCalculated" | The event name |
+
+#### OnNavigationStarted
+
+Fired when navigation is started.
+
+##### Output properties
+
+| Name    | Value      | Description             |
+| ------- | ---------- | ----------------------- |
+| `name`  | "OnNavigationStarted" | The event name |
+
+#### OnNavigationStopped
+
+Fired when navigation is stopped.
+
+##### Output properties
+
+| Name    | Value      | Description             |
+| ------- | ---------- | ----------------------- |
+| `name`  | "OnNavigationStopped" | The event name |
+
+#### OnProgressUpdate
+
+Fired each time a location update occurs during navigation.
+
+##### Output properties
+
+| Name    | Value      | Description             |
+| ------- | ---------- | ----------------------- |
+| `name`  | "OnProgressUpdate" | The event name |
+| `value` | `object` | The progress data |
+
+#### OnDestinationReached
+
+Fired when the destination is reached.
+
+##### Output properties
+
+| Name    | Value      | Description             |
+| ------- | ---------- | ----------------------- |
+| `name`  | "OnDestinationReached" | The event name |
+
+#### OnExit
+
+Fired when the component's exit button is clicked.
+
+##### Output properties
+
+| Name    | Value      | Description             |
+| ------- | ---------- | ----------------------- |
+| `name`  | "OnExit" | The event name |
+
+### Event handling using window.postMessage()
+
 The navigation component uses the `window.postMessage()` method to communicate state changes to other PCF components. To listen for events dispatched by the component add an event listener to the `window` for the "message" event e.g.
 
 ```
@@ -92,15 +178,15 @@ The `data` property of the event contains the message data sent by the component
 
 The possible messages sent by the component are:
 
-### TomTomNavigation.route_calculated
+#### TomTomNavigation.OnRouteCalculated
 
 Fired when a route has been calculated for the provided waypoints.
 
-#### Message Properties
+##### Message Properties
 
 | Name                            | Value                               | Description                                 |
 | ------------------------------- | ----------------------------------- | ------------------------------------------- |
-| `type`                          | "TomTomNavigation.route_calculated" | The message type.                           |
+| `type`                          | "TomTomNavigation.OnRouteCalculated" | The message type.                           |
 | `summary`                       | `Object`                            | Route summary data.                         |
 | `summary.lengthInMeters`        | `number`                            | The route length in meters.                 |
 | `summary.travelTimeInSeconds`   | `number`                            | The route travel time in seconds.           |
@@ -108,41 +194,41 @@ Fired when a route has been calculated for the provided waypoints.
 | `summary.departureTime`         | `number`                            | The estimated departure time for the route. |
 | `summary.arrivalTime`           | `number`                            | The estimated arrival time for the route.   |
 
-### TomTomNavigation.navigation_started
+#### TomTomNavigation.OnNavigationStarted
 
 Fired when navigation is started.
 
 | Name   | Value                                 | Description       |
 | ------ | ------------------------------------- | ----------------- |
-| `type` | "TomTomNavigation.navigation_started" | The message type. |
+| `type` | "TomTomNavigation.OnNavigationStarted" | The message type. |
 
-### TomTomNavigation.navigation_stopped
+#### TomTomNavigation.OnNavigationStopped
 
 Fired when navigation is stopped.
 
 | Name   | Value                                 | Description       |
 | ------ | ------------------------------------- | ----------------- |
-| `type` | "TomTomNavigation.navigation_stopped" | The message type. |
+| `type` | "TomTomNavigation.OnNavigationStopped" | The message type. |
 
-### TomTomNavigation.progress_update
+#### TomTomNavigation.OnProgressUpdate
 
 Fired each time a location update occurs during navigation.
 
 | Name                   | Value                              | Description                   |
 | ---------------------- | ---------------------------------- | ----------------------------- |
-| `type`                 | "TomTomNavigation.progress_update" | The message type.             |
+| `type`                 | "TomTomNavigation.OnProgressUpdate" | The message type.             |
 | `progress`             | `Object`                           | Progress data.                |
 | `progress.coordinates` | [`longitude`,`latitude`]           | Current location coordinates. |
 | `progress.bearing`     | `number`                           | Current location bearing.     |
 | `progress.elapsedTime` | `number`                           | The elapsed time in secconds. |
 
-### TomTomNavigation.destination_reached
+#### TomTomNavigation.OnDestinationReached
 
 Fired when the destination is reached.
 
 | Name                      | Value                                  | Description                                                         |
 | ------------------------- | -------------------------------------- | ------------------------------------------------------------------- |
-| `type`                    | "TomTomNavigation.destination_reached" | The message type.                                                   |
+| `type`                    | "TomTomNavigation.OnDestinationReached" | The message type.                                                   |
 | `id`                      | `string`                               | Internal ID for the record.                                         |
 | `destination`             | `Object`                               | Route destination record.                                           |
 | `destination.coordinates` | `Array`                                | The destination coordinates in the format [`longitude`, `latitude`] |

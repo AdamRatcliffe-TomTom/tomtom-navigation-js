@@ -84,13 +84,8 @@
 			<value name="4x" display-name-key="4x">4x</value>
 			<value name="5x" display-name-key="5x">5x</value>
 		</property>
-		<property name="componentExit" display-name-key="Component exit" description-key="componentExit_Desc_Key" of-type="TwoOptions" usage="bound"/>
-		<property name="navigationState" display-name-key="Navigation state" description-key="navigationState_Desc_Key" of-type="Enum" usage="bound">
-		  <value name="NAVIGATION_NOT_STARTED" display-name-key="NAVIGATION_NOT_STARTED">NAVIGATION_NOT_STARTED</value>
-		  <value name="NAVIGATION_STARTED" display-name-key="NAVIGATION_STARTED">NAVIGATION_STARTED</value>
-			<value name="NAVIGATION_STOPPED" display-name-key="NAVIGATION_STOPPED">NAVIGATION_STOPPED</value>
-			<value name="DESTINATION_REACHED" display-name-key="DESTINATION_REACHED">DESTINATION_REACHED</value>
-		</property>
+		<property name="name" display-name-key="Name" of-type="SingleLine.Text" usage="output" required="true" />
+		<property name="value" display-name-key="Value" of-type="SingleLine.Text" usage="output" required="false" />
 		<property name="routeWaypointsLongitude" display-name-key="Longitude column" description-key="routeWaypointsLongitude_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
 		<property name="routeWaypointsLatitude" display-name-key="Latitude column" description-key="routeWaypointsLatitude_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
 		<property name="routeWaypointsName" display-name-key="Name column" description-key="routeWaypointsName_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />

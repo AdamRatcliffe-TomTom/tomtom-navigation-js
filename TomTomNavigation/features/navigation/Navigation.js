@@ -17,8 +17,7 @@ import geoJsonBounds from "../../functions/geoJsonBounds";
 import tomtom2mapbox from "../../functions/tomtom2mapbox";
 import fireEvent from "../../functions/fireEvent";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
-import ComponentEvents from "../../constants/ComponentEvents";
-import NavigationStates from "../../constants/NavigationStates";
+import ControlEvents from "../../constants/ControlEvents";
 import strings from "../../config/strings";
 
 import {
@@ -62,7 +61,13 @@ import {
   FIT_BOUNDS_PADDING_LEFT
 } from "../../config";
 
-const Navigation = ({ map, onNavigationStateChange }) => {
+const Navigation = ({
+  map,
+  onNavigationStarted,
+  onNavigationStopped,
+  onProgressUpdate,
+  onDestinationReached
+}) => {
   const dispatch = useDispatch();
   const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
   const {
@@ -187,8 +192,8 @@ const Navigation = ({ map, onNavigationStateChange }) => {
       speak({ voice, text: announcement, volume: guidanceVoiceVolume });
     }
 
-    fireEvent(ComponentEvents.navigation_started);
-    onNavigationStateChange(NavigationStates.NAVIGATION_STARTED);
+    fireEvent(ControlEvents.OnNavigationStarted);
+    onNavigationStarted();
   };
 
   const stopNavigation = () => {
@@ -228,8 +233,8 @@ const Navigation = ({ map, onNavigationStateChange }) => {
     // Restore map interaction
     setMapInteractive(true);
 
-    fireEvent(ComponentEvents.navigation_stopped);
-    onNavigationStateChange(NavigationStates.NAVIGATION_STOPPED);
+    fireEvent(ControlEvents.OnNavigationStopped);
+    onNavigationStopped();
   };
 
   const setMapInteractive = (interactive) => {
@@ -278,13 +283,14 @@ const Navigation = ({ map, onNavigationStateChange }) => {
       );
     });
 
-    fireEvent(ComponentEvents.progress_update, {
-      progress: {
-        coordinates: stepCoords,
-        bearing: stepBearing,
-        elapsedTime
-      }
-    });
+    const progress = {
+      coordinates: stepCoords,
+      bearing: stepBearing,
+      elapsedTime
+    };
+
+    fireEvent(ControlEvents.OnProgressUpdate, { progress });
+    onProgressUpdate(progress);
   };
 
   const handleSimulatorEnd = () => {
@@ -329,8 +335,8 @@ const Navigation = ({ map, onNavigationStateChange }) => {
       }
     }
 
-    fireEvent(ComponentEvents.destination_reached, { destination });
-    onNavigationStateChange(NavigationStates.DESTINATION_REACHED);
+    fireEvent(ControlEvents.OnDestinationReached, { destination });
+    onDestinationReached();
   };
 
   const getGuidanceVoice = () =>

@@ -25,7 +25,7 @@ import geoJsonBounds from "../../functions/geoJsonBounds";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import fireEvent from "../../functions/fireEvent";
-import ComponentEvents from "../../constants/ComponentEvents";
+import ControlEvents from "../../constants/ControlEvents";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
 
 import {
@@ -82,6 +82,7 @@ const Map = ({
   showExitControl,
   showZoomControl,
   showSkipControl,
+  onRouteCalculated = () => {},
   onComponentExit = () => {},
   children
 }) => {
@@ -184,7 +185,9 @@ const Map = ({
   useEffect(() => {
     if (route) {
       const summary = route.features[0].properties.summary;
-      fireEvent(ComponentEvents.route_calculated, { summary });
+
+      fireEvent(ControlEvents.OnRouteCalculated, { summary });
+      onRouteCalculated();
     }
   }, [route]);
 

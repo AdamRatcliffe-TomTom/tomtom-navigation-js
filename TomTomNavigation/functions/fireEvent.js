@@ -1,9 +1,9 @@
-import ComponentEvents from "../constants/ComponentEvents";
+import ControlEvents from "../constants/ControlEvents";
 
 const EVENT_PREFIX = "TomTomNavigation";
 
 export default function fireEvent(name, data) {
-  if (!Object.keys(ComponentEvents).includes(name)) {
+  if (!Object.keys(ControlEvents).includes(name)) {
     throw new Error(`Trying to fire an unsupported event '${name}'`);
   }
 

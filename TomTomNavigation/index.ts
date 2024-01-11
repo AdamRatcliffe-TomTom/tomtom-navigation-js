@@ -1,13 +1,13 @@
 import * as React from "react";
 import _isNil from "lodash.isnil";
 import _isEmpty from "lodash.isempty";
+import { IControlEvent } from "./IControlEvent";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { Provider as StoreProvider } from "react-redux";
 import { store } from "./app/store";
 import App from "./app/App";
 import parseCoordinateString from "./functions/parseCoordinateString";
 import detectColorScheme from "./functions/detectColorScheme";
-import NavigationStates from "./constants/NavigationStates";
 
 import { MAX_WAYPOINTS } from "./config";
 
@@ -44,20 +44,12 @@ type FieldMappings = {
   iconOffsetY: string;
 };
 
-type NavigationState =
-  | typeof NavigationStates.NAVIGATION_NOT_STARTED
-  | typeof NavigationStates.NAVIGATION_STARTED
-  | typeof NavigationStates.NAVIGATION_STOPPED
-  | typeof NavigationStates.DESTINATION_REACHED;
-
 export class TomTomNavigation
   implements ComponentFramework.ReactControl<IInputs, IOutputs>
 {
   private notifyOutputChanged: () => void;
 
-  private navigationState?: NavigationState =
-    NavigationStates.NAVIGATION_NOT_STARTED;
-  private componentExit?: boolean = false;
+  private event: IControlEvent;
 
   /**
    * Empty constructor.
@@ -231,6 +223,7 @@ export class TomTomNavigation
       showExitControl,
       showZoomControl,
       showSkipControl,
+      onRouteCalculated: this.handleRouteCalculated,
       onComponentExit: this.handleComponentExit
     };
 
@@ -265,19 +258,55 @@ export class TomTomNavigation
           showGuidancePanel,
           showArrivalPanel,
           automaticRouteCalculation,
-          onNavigationStateChange: this.handleNavigationStateChange
+          onNavigationStarted: this.handleNavigationStarted,
+          onNavigationStopped: this.handleNavigationStopped,
+          onProgressUpdate: this.handleProgressUpdate,
+          onDestinationReached: this.handleDestinationReached
         })
       ]
     });
   }
 
-  handleNavigationStateChange = (state: NavigationState) => {
-    this.navigationState = state;
+  handleRouteCalculated = () => {
+    this.event = {
+      name: "OnRouteCalculated"
+    };
+    this.notifyOutputChanged();
+  };
+
+  handleNavigationStarted = () => {
+    this.event = {
+      name: "OnNavigationStarted"
+    };
+    this.notifyOutputChanged();
+  };
+
+  handleNavigationStopped = () => {
+    this.event = {
+      name: "OnNavigationStopped"
+    };
+    this.notifyOutputChanged();
+  };
+
+  handleProgressUpdate = (value: any) => {
+    this.event = {
+      name: "OnProgressUpdate",
+      value
+    };
+    this.notifyOutputChanged();
+  };
+
+  handleDestinationReached = () => {
+    this.event = {
+      name: "OnDestinationReached"
+    };
     this.notifyOutputChanged();
   };
 
   handleComponentExit = () => {
-    this.componentExit = true;
+    this.event = {
+      name: "OnExit"
+    };
     this.notifyOutputChanged();
   };
 
@@ -385,10 +414,7 @@ export class TomTomNavigation
    * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
    */
   public getOutputs(): IOutputs {
-    return {
-      navigationState: this.navigationState,
-      componentExit: this.componentExit
-    };
+    return this.event;
   }
 
   /**
