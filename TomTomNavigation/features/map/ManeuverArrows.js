@@ -42,9 +42,11 @@ const ManeuverArrows = ({ map, data }) => {
         linePaint={{
           "line-width": {
             stops: [
-              [16, 12],
-              [18, 14],
-              [20, 16]
+              [14, 8],
+              [15, 9],
+              [16, 10],
+              [17, 15],
+              [18, 16]
             ]
           },
           "line-color": "#ffffff"
@@ -53,14 +55,26 @@ const ManeuverArrows = ({ map, data }) => {
           "line-join": "round"
         }}
         layerOptions={{
-          minzoom: 16
+          minzoom: 14
         }}
       />
       <GeoJSONLayer
         data={arrowHeads}
         symbolLayout={{
           "icon-image": "arrowhead",
-          "icon-size": 1,
+          "icon-size": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            14,
+            0.5,
+            16,
+            0.875,
+            18,
+            1,
+            20,
+            1.125
+          ],
           "icon-rotate": {
             type: "identity",
             property: "rotation"
@@ -70,7 +84,7 @@ const ManeuverArrows = ({ map, data }) => {
           "icon-offset": [0, -8]
         }}
         layerOptions={{
-          minzoom: 16
+          minzoom: 14
         }}
       />
     </>
