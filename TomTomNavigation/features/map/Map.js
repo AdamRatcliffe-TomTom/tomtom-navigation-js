@@ -14,6 +14,7 @@ import SkipControl from "./controls/SkipControl";
 import SpeedLimitEU from "./SpeedLimitEU";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
+import ManeuverArrows from "./ManeuverArrows";
 import Landmarks3D from "./Landmarks3D";
 import LocationMarker from "./markers/LocationMarker";
 import ChevronMarker from "./markers/ChevronMarker";
@@ -122,15 +123,17 @@ const Map = ({
   const fitBoundsOptions = useSelector(getFitBoundsOptions);
   const userLocation = useSelector(getUserLocation);
   const [mapStyle, setMapStyle] = useState(mapStyles.street);
-  const { data: { route, sectionedRoute, walkingLeg } = {} } =
-    useCalculateRouteQuery({
-      key: apiKey,
-      automaticRouteCalculation,
-      ...routeOptions
-    });
+  const {
+    data: { route, sectionedRoute, walkingLeg, maneuverLineStrings } = {}
+  } = useCalculateRouteQuery({
+    key: apiKey,
+    automaticRouteCalculation,
+    ...routeOptions
+  });
   const countryCode = countryCodeFromRoute(route);
 
   const routeIsVisible = !!route;
+  const maneuverArrowsAreVisible = !!route && isNavigating;
   const geolocateControlIsVisible = enableGeolocation && !isNavigating;
   const muteControlVisible =
     showMuteControl && isNavigating && !hasReachedDestination;
@@ -324,7 +327,7 @@ const Map = ({
       ref={mapRef}
       key={apiKey}
       apiKey={apiKey}
-      mapStyle={currentStyle}
+      mapStyle={mapStyle.style}
       stylesVisibility={{
         trafficFlow: showTrafficFlow,
         trafficIncidents: showTrafficIncidents,
@@ -374,7 +377,7 @@ const Map = ({
       <ExitControl visible={exitControlIsVisible} onClick={onComponentExit} />
       <SkipControl visible={skipControlIsVisible} onClick={handleSkip} />
       <ZoomControl visible={zoomControlIsVisible} />
-      <Landmarks3D key={currentStyle} />
+      {/* <Landmarks3D key={currentStyle} /> */}
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
       {routeIsVisible && (
         <Route
@@ -383,6 +386,9 @@ const Map = ({
           progress={routeProgress}
           walkingLeg={walkingLeg}
         />
+      )}
+      {maneuverArrowsAreVisible && (
+        <ManeuverArrows data={maneuverLineStrings} />
       )}
       {waypoints}
       <ChevronMarker visible={chevronMarkerIsVisible} />
