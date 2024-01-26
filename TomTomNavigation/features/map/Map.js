@@ -83,6 +83,7 @@ const Map = ({
   showExitControl,
   showZoomControl,
   showSkipControl,
+  showManeuverArrows,
   onRouteCalculated = () => {},
   onComponentExit = () => {},
   children
@@ -133,7 +134,8 @@ const Map = ({
   const countryCode = countryCodeFromRoute(route);
 
   const routeIsVisible = !!route;
-  const maneuverArrowsAreVisible = !!route && isNavigating;
+  const maneuverArrowsAreVisible =
+    showManeuverArrows && !!route && isNavigating;
   const geolocateControlIsVisible = enableGeolocation && !isNavigating;
   const muteControlVisible =
     showMuteControl && isNavigating && !hasReachedDestination;

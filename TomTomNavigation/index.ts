@@ -125,6 +125,10 @@ export class TomTomNavigation
       "showGuidancePanel"
     );
     const showArrivalPanel = this.getRawParameter(context, "showArrivalPanel");
+    const showManeuverArrows = this.getRawParameter(
+      context,
+      "showManeuverArrows"
+    );
     const automaticRouteCalculation = this.getRawParameter(
       context,
       "automaticRouteCalculation"
@@ -223,6 +227,7 @@ export class TomTomNavigation
       showExitControl,
       showZoomControl,
       showSkipControl,
+      showManeuverArrows,
       onRouteCalculated: this.handleRouteCalculated,
       onComponentExit: this.handleComponentExit
     };
