@@ -3,6 +3,7 @@ import { featureCollection, lineString } from "@turf/helpers";
 
 const BEFORE_LENGTH_METERS = 30;
 const AFTER_LENGTH_METERS = 30;
+const MIN_ARROW_GAP_METERS = 50;
 
 export default function createManeuverLineStrings(geojson) {
   const route = geojson.features[0];
@@ -28,7 +29,7 @@ export default function createManeuverLineStrings(geojson) {
     );
 
     const shouldMergeLines =
-      startOffset > 0 && startOffset - lastEndOffset < 50;
+      startOffset > 0 && startOffset - lastEndOffset < MIN_ARROW_GAP_METERS;
 
     const part = ruler.lineSliceAlong(
       shouldMergeLines ? lastStartOffset : startOffset,
