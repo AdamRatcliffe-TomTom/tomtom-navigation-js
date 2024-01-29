@@ -20,7 +20,7 @@ type Icon = {
   url: string;
   width: number;
   height: number;
-  anchor: string;
+  anchor?: string;
   offset: [number, number];
 };
 
@@ -388,7 +388,9 @@ export class TomTomNavigation
               url,
               width: record.getValue(fieldMappings.iconWidth) as number,
               height: record.getValue(fieldMappings.iconHeight) as number,
-              anchor: record.getValue(fieldMappings.iconAnchor) as string,
+              anchor:
+                (record.getValue(fieldMappings.iconAnchor) as string) ||
+                undefined,
               offset: [
                 (record.getValue(fieldMappings.iconOffsetX) as number) || 0,
                 (record.getValue(fieldMappings.iconOffsetY) as number) || 0

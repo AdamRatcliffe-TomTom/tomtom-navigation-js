@@ -20,34 +20,38 @@ export default function createManeuverLineStrings(geojson) {
   let lastStartOffset = 0;
   let lastEndOffset = 0;
 
-  instructions.slice(0, instructions.length - 1).forEach((instruction) => {
-    const { routeOffsetInMeters } = instruction;
-    const startOffset = Math.max(routeOffsetInMeters - BEFORE_LENGTH_METERS, 0);
-    const endOffset = Math.min(
-      routeOffsetInMeters + AFTER_LENGTH_METERS,
-      lengthInMeters
-    );
+  instructions
+    .slice(0, instructions.length - 1)
+    .forEach((instruction, index) => {
+      const { routeOffsetInMeters } = instruction;
+      const startOffset = Math.max(
+        routeOffsetInMeters - BEFORE_LENGTH_METERS,
+        0
+      );
+      const endOffset = Math.min(
+        routeOffsetInMeters + AFTER_LENGTH_METERS,
+        lengthInMeters
+      );
+      const shouldMergeLines =
+        index > 0 && startOffset - lastEndOffset < MIN_ARROW_GAP_METERS;
 
-    const shouldMergeLines =
-      startOffset > 0 && startOffset - lastEndOffset < MIN_ARROW_GAP_METERS;
+      const part = ruler.lineSliceAlong(
+        shouldMergeLines ? lastStartOffset : startOffset,
+        endOffset,
+        coordinates
+      );
 
-    const part = ruler.lineSliceAlong(
-      shouldMergeLines ? lastStartOffset : startOffset,
-      endOffset,
-      coordinates
-    );
+      if (part.length > 1) {
+        if (shouldMergeLines) {
+          lines[lines.length - 1] = lineString(part);
+        } else {
+          lines.push(lineString(part));
+        }
 
-    if (part.length > 1) {
-      if (shouldMergeLines) {
-        lines[lines.length - 1] = lineString(part);
-      } else {
-        lines.push(lineString(part));
+        lastStartOffset = startOffset;
+        lastEndOffset = endOffset;
       }
-
-      lastStartOffset = startOffset;
-      lastEndOffset = endOffset;
-    }
-  });
+    });
 
   return featureCollection(lines);
 }
