@@ -56,6 +56,7 @@ import {
   getHasReachedDestination,
   getNavigationPerspective,
   getCurrentLocation,
+  getNextInstruction,
   getRouteProgress,
   setVoiceAnnouncementsEnabled,
   setNavigationPerspective,
@@ -112,6 +113,7 @@ const Map = ({
     bearing: currentLocationBearing,
     speedLimit
   } = useSelector(getCurrentLocation);
+  const nextInstruction = useSelector(getNextInstruction);
   const center = useSelector(getCenter);
   const zoom = useSelector(getZoom);
   const bearing = useSelector(getBearing);
@@ -390,7 +392,10 @@ const Map = ({
         />
       )}
       {maneuverArrowsAreVisible && (
-        <ManeuverArrows data={maneuverLineStrings} />
+        <ManeuverArrows
+          data={maneuverLineStrings}
+          nextInstructionPointIndex={nextInstruction?.pointIndex}
+        />
       )}
       {waypoints}
       <ChevronMarker visible={chevronMarkerIsVisible} />

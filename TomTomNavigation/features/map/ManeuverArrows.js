@@ -3,8 +3,14 @@ import { GeoJSONLayer, withMap } from "react-tomtom-maps";
 import { point, featureCollection } from "@turf/helpers";
 import bearing from "@turf/bearing";
 
-const ManeuverArrows = ({ map, data }) => {
+const ManeuverArrows = ({ map, data, nextInstructionPointIndex }) => {
   const [isReady, setIsReady] = useState(false);
+
+  const filter = [
+    "==",
+    ["get", "pointIndex"],
+    nextInstructionPointIndex || null
+  ];
 
   useEffect(() => {
     if (map) {
@@ -25,16 +31,21 @@ const ManeuverArrows = ({ map, data }) => {
   const arrowHeads = useMemo(() => {
     const { features } = data;
     const arrowHeadFeatures = features.map((feature) => {
+      const {
+        geometry: { coordinates },
+        properties: { pointIndex }
+      } = feature;
+
       const rotation = bearing.apply(
         null,
-        feature.geometry.coordinates
+        coordinates
           .slice(-2)
           .map((coord) => {
             return point(coord);
           })
           .reverse()
       );
-      return point(feature.geometry.coordinates.at(-1), { rotation });
+      return point(coordinates.at(-1), { rotation, pointIndex });
     });
     return featureCollection(arrowHeadFeatures);
   }, [data]);
@@ -59,6 +70,7 @@ const ManeuverArrows = ({ map, data }) => {
           "line-join": "round"
         }}
         layerOptions={{
+          filter,
           minzoom: 14
         }}
       />
@@ -88,6 +100,7 @@ const ManeuverArrows = ({ map, data }) => {
           "icon-offset": [0, -8]
         }}
         layerOptions={{
+          filter,
           minzoom: 14
         }}
       />
