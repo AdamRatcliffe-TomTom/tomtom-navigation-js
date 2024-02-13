@@ -331,7 +331,7 @@ const Map = ({
       ref={mapRef}
       key={apiKey}
       apiKey={apiKey}
-      mapStyle={mapStyle.style}
+      mapStyle={currentStyle}
       stylesVisibility={{
         trafficFlow: showTrafficFlow,
         trafficIncidents: showTrafficIncidents,
