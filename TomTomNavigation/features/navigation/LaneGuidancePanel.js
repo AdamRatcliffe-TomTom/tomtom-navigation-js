@@ -50,7 +50,9 @@ const LaneGuidancePanel = ({ lanes }) => {
   };
 
   const getIconMargin = (direction) => {
-    return ["LEFT", "RIGHT", "LEFT_UTURN", "RIGHT_UTURN"].includes(direction)
+    return ["LEFT", "RIGHT", "UTURN", "LEFT_UTURN", "RIGHT_UTURN"].includes(
+      direction
+    )
       ? "0"
       : "0 -8px";
   };
