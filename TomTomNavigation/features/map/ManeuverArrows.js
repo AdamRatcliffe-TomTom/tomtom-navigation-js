@@ -18,6 +18,15 @@ const ManeuverArrows = ({ map, data, nextInstructionPointIndex }) => {
         const img = new Image(28, 28);
         img.addEventListener("load", () => {
           map.addImage("arrowhead", img);
+
+          // The driving style may not have finished loading when the image is added so
+          // listen for the styleimagemissing event as a backup
+          map.on("styleimagemissing", ({ id }) => {
+            if (id === "arrowhead") {
+              map.addImage("arrowhead", img);
+            }
+          });
+
           setIsReady(true);
         });
         img.src =
