@@ -51,7 +51,7 @@ export class TomTomNavigation
 
   private event: IControlEvent;
 
-  private wakeLock?: WakeLockSentinel;
+  private wakeLock: WakeLockSentinel | undefined;
 
   /**
    * Empty constructor.
