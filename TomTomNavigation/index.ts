@@ -51,6 +51,8 @@ export class TomTomNavigation
 
   private event: IControlEvent;
 
+  private wakeLock?: WakeLockSentinel;
+
   /**
    * Empty constructor.
    */
@@ -71,6 +73,7 @@ export class TomTomNavigation
     this.notifyOutputChanged = notifyOutputChanged;
     context.mode.trackContainerResize(true);
 
+    this.requestWakeLock();
     this.notifyOutputChanged();
   }
 
@@ -416,6 +419,23 @@ export class TomTomNavigation
     return defaultValue;
   }
 
+  private async requestWakeLock() {
+    try {
+      this.wakeLock = await navigator.wakeLock.request("screen");
+
+      console.log("Acquired screen wake lock");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(`${error.name}, ${error.message}`);
+      }
+    }
+  }
+
+  private async releaseWakeLock() {
+    this.wakeLock?.release();
+    this.wakeLock = undefined;
+  }
+
   /**
    * It is called by the framework prior to a control receiving new data.
    * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
@@ -429,6 +449,6 @@ export class TomTomNavigation
    * i.e. cancelling any pending remote calls, removing listeners, etc.
    */
   public destroy(): void {
-    // Add code to cleanup control if necessary
+    this.releaseWakeLock();
   }
 }
