@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-	<control namespace="tomtom" constructor="TomTomNavigation" version="0.16.0" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
+	<control namespace="tomtom" constructor="TomTomNavigation" version="0.16.1" display-name-key="TomTomNavigation" description-key="TomTomNavigation description" control-type="virtual">
 		<!--
 		external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
 		If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
@@ -85,6 +85,7 @@
 			<value name="4x" display-name-key="4x">4x</value>
 			<value name="5x" display-name-key="5x">5x</value>
 		</property>
+		<property name="keepScreenOn" display-name-key="Keep screen on" description-key="keepScreenOn_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="name" display-name-key="Name" of-type="SingleLine.Text" usage="output" required="true" />
 		<property name="value" display-name-key="Value" of-type="SingleLine.Text" usage="output" required="false" />
 		<property name="routeWaypointsLongitude" display-name-key="Longitude column" description-key="routeWaypointsLongitude_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />

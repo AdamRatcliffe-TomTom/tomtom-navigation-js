@@ -142,6 +142,7 @@ export class TomTomNavigation
       "guidanceVoiceVolume"
     );
     const simulationSpeed = this.getRawParameter(context, "simulationSpeed");
+    const keepScreenOn = this.getRawParameter(context, "keepScreenOn");
     const travelMode = this.getRawParameter(context, "travelMode");
     const traffic = this.getRawParameter(context, "traffic");
     const arrivalSidePreference = this.getRawParameter(
@@ -242,6 +243,12 @@ export class TomTomNavigation
       arrivalSidePreference,
       locations: waypoints
     };
+
+    if (keepScreenOn) {
+      this.requestWakeLock();
+    } else {
+      this.releaseWakeLock();
+    }
 
     // eslint-disable-next-line react/no-children-prop
     return React.createElement(StoreProvider, {
@@ -421,6 +428,8 @@ export class TomTomNavigation
 
   private async requestWakeLock() {
     try {
+      this.releaseWakeLock();
+
       this.wakeLock = await navigator.wakeLock.request("screen");
 
       console.log("Acquired screen wake lock");
