@@ -70,8 +70,12 @@ const navigationSlice = createSlice({
         language
       } = action.payload;
       const selectedRoute = route.features[0];
-      const { travelTimeInSeconds } = selectedRoute.properties.summary;
+      const {
+        summary: { travelTimeInSeconds },
+        sections
+      } = selectedRoute.properties;
       const { coordinates } = selectedRoute.geometry;
+      const useMessageProp = sections[0].travelMode === "pedestrian";
 
       if (!ruler) {
         ruler = new CheapRuler(coordinates[0][1], "meters");
@@ -125,7 +129,8 @@ const navigationSlice = createSlice({
           selectedRoute,
           currentPointIndex,
           measurementSystem,
-          language
+          language,
+          useMessageProp
         );
       }
 

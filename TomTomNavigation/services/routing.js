@@ -44,7 +44,23 @@ const locationToString = ({ coordinates }) =>
 
 const routeBaseQuery = async (args) => {
   try {
-    const { automaticRouteCalculation, ...otherArgs } = args;
+    const { automaticRouteCalculation, preCalculatedRoute, ...otherArgs } =
+      args;
+
+    if (preCalculatedRoute) {
+      const sectionedRoute = createSectionedRoute(preCalculatedRoute);
+      const maneuverLineStrings = createManeuverLineStrings(preCalculatedRoute);
+
+      calculateTriggerPoints(preCalculatedRoute);
+
+      return {
+        data: {
+          route: preCalculatedRoute,
+          sectionedRoute,
+          maneuverLineStrings
+        }
+      };
+    }
 
     // Workaround for resetApiState not resetting the data in the useQuery hook:
     // https://github.com/reduxjs/redux-toolkit/issues/3778

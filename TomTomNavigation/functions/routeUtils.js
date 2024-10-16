@@ -35,7 +35,13 @@ function speedLimitByIndex(route, index) {
   return undefined;
 }
 
-function announcementByIndex(route, index, measurementSystem, language) {
+function announcementByIndex(
+  route,
+  index,
+  measurementSystem,
+  language,
+  useMessageProp
+) {
   const { instructions } = route.properties.guidance;
 
   for (const instruction of instructions) {
@@ -43,7 +49,8 @@ function announcementByIndex(route, index, measurementSystem, language) {
       street,
       earlyWarningAnnouncement,
       mainAnnouncement,
-      confirmationAnnouncement
+      confirmationAnnouncement,
+      message
     } = instruction;
 
     const announcementTypes = [
@@ -61,12 +68,14 @@ function announcementByIndex(route, index, measurementSystem, language) {
           : confirmationAnnouncement;
 
       if (announcement && announcement.pointIndex === index) {
-        const announcementText = getAnnouncementText(
-          announcement,
-          street,
-          measurementSystem,
-          language
-        );
+        const announcementText = useMessageProp
+          ? message
+          : getAnnouncementText(
+              announcement,
+              street,
+              measurementSystem,
+              language
+            );
         return { text: announcementText, type: announcementType };
       }
     }

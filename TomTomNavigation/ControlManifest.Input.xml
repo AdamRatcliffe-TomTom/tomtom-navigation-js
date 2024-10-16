@@ -98,6 +98,7 @@
 		<property name="routeWaypointsIconAnchor" display-name-key="Icon anchor column" description-key="routeWaypointsIconAnchor_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
 		<property name="routeWaypointsIconOffsetX" display-name-key="Icon X offset column" description-key="routeWaypointsIconOffsetX_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
 		<property name="routeWaypointsIconOffsetY" display-name-key="Icon Y offset column" description-key="routeWaypointsIconOffsetY_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+		<property name="routeUrl" display-name-key="Route URL" description-key="routeUrl_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
 		<resources>
 			<code path="index.ts" order="1" />
 			<platform-library name="React" version="16.8.6" />

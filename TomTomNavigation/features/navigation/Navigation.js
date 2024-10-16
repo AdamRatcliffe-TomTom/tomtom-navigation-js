@@ -1,5 +1,5 @@
 import tt from "@tomtom-international/web-sdk-maps";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import add from "date-fns/add";
 import { featureCollection } from "@turf/helpers";
@@ -63,6 +63,7 @@ import {
 
 const Navigation = ({
   map,
+  preCalculatedRoute,
   onNavigationStarted,
   onNavigationStopped,
   onProgressUpdate,
@@ -94,14 +95,21 @@ const Navigation = ({
   const [voiceAnnouncementsEnabled, voiceAnnouncementsEnabledRef] =
     useSelectorRef(getVoiceAnnouncementsEnabled);
   const routeOptions = useSelector(getRouteOptions);
-  const destination = routeOptions.locations.at(-1);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const { data: { route } = {} } = useCalculateRouteQuery({
     key: apiKey,
+    preCalculatedRoute,
     automaticRouteCalculation,
     ...routeOptions
   });
   const [navigationRoute, setNavigationRoute] = useState();
+  const destination = useMemo(
+    () =>
+      routeOptions.locations?.length
+        ? routeOptions.locations.at(-1)
+        : route?.features[0].geometry.coordinates.at(-1),
+    [routeOptions.locations, route]
+  );
   const navigationPaddingTop = Math.max(height - (isTablet ? 210 : 390), 0);
   const navigationPaddingTopRef = useRef(navigationPaddingTop);
   const guidancePanelIsVisible =
@@ -109,6 +117,7 @@ const Navigation = ({
   const bottomPanelIsVisible = showBottomPanel;
   const simulatorIsActive =
     navigationRoute && isNavigating && !hasReachedDestination;
+  const simulatorZoom = routeOptions.travelMode === "pedestrian" ? 19 : 17;
 
   useEffect(() => {
     navigationPaddingTopRef.current = navigationPaddingTop;
@@ -185,12 +194,6 @@ const Navigation = ({
     });
 
     map.once("moveend", () => dispatch(setViewTransitioning(false)));
-
-    if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
-      const voice = getGuidanceVoice();
-      const announcement = strings.DEPART;
-      speak({ voice, text: announcement, volume: guidanceVoiceVolume });
-    }
 
     fireEvent(ControlEvents.OnNavigationStarted);
     onNavigationStarted();
@@ -355,24 +358,24 @@ const Navigation = ({
       {simulatorIsActive && (
         <Simulator
           route={navigationRoute}
-          zoom={17}
+          zoom={simulatorZoom}
           maneuvers={[
             {
               type: ["arrive"],
               buffer: 0.0621371,
-              zoom: 17.5,
+              zoom: simulatorZoom + 1,
               pitch: 40
             },
             {
               type: ["turn left", "turn right"],
               buffer: 0.0621371,
-              zoom: 17.5,
+              zoom: simulatorZoom + 1,
               pitch: 40
             },
             {
               type: ["bear right"],
               buffer: 0.0621371,
-              zoom: 17.5,
+              zoom: simulatorZoom + 1,
               pitch: 40
             }
           ]}

@@ -213,6 +213,7 @@ export class TomTomNavigation
       iconOffsetX: iconOffsetXField,
       iconOffsetY: iconOffsetYField
     };
+    const routeUrl = this.getRawParameter(context, "routeUrl");
 
     const waypoints = this.getWaypointsFromDataSet(dataset, fieldMappings);
     // const waypoints = this.getTestWaypoints();
@@ -273,6 +274,7 @@ export class TomTomNavigation
           showGuidancePanel,
           showArrivalPanel,
           automaticRouteCalculation,
+          routeUrl,
           onNavigationStarted: this.handleNavigationStarted,
           onNavigationStopped: this.handleNavigationStopped,
           onProgressUpdate: this.handleProgressUpdate,

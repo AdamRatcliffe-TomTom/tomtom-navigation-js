@@ -85,6 +85,7 @@ const Map = ({
   showZoomControl,
   showSkipControl,
   showManeuverArrows,
+  preCalculatedRoute,
   onRouteCalculated = () => {},
   onComponentExit = () => {},
   children
@@ -130,6 +131,7 @@ const Map = ({
     data: { route, sectionedRoute, walkingLeg, maneuverLineStrings } = {}
   } = useCalculateRouteQuery({
     key: apiKey,
+    preCalculatedRoute,
     automaticRouteCalculation,
     ...routeOptions
   });
@@ -184,10 +186,10 @@ const Map = ({
   }, [theme]);
 
   useEffect(() => {
-    if (routeOptions?.locations.length) {
+    if (routeOptions?.locations.length || route) {
       fitRouteOrWaypoints({ animate: false });
     }
-  }, [JSON.stringify(routeOptions.locations)]);
+  }, [JSON.stringify(routeOptions.locations), route]);
 
   useEffect(() => {
     if (route) {
@@ -201,7 +203,7 @@ const Map = ({
   const fitRouteOrWaypoints = (fitBoundsOptions) => {
     // Convert the route waypoints to geojson
     let geojson = coordinatesToGeoJson(
-      routeOptions.locations.map((location) => location.coordinates)
+      routeOptions.locations?.map((location) => location.coordinates)
     );
 
     // If we have a route, extend the location geojson to include
@@ -219,7 +221,6 @@ const Map = ({
           setFitBoundsOptions({
             pitch: 0,
             duration: 500,
-            maxZoom: 16,
             ...fitBoundsOptions
           })
         );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, batch } from "react-redux";
 import { ThemeProvider } from "@fluentui/react";
 import { useBoolean } from "@fluentui/react-hooks";
@@ -45,6 +45,7 @@ function App({
   showBottomPanel,
   showGuidancePanel,
   showArrivalPanel,
+  routeUrl,
   onNavigationStarted,
   onNavigationStopped,
   onProgressUpdate,
@@ -53,6 +54,7 @@ function App({
   strings.setLanguage(language);
 
   const dispatch = useDispatch();
+  const [preCalculatedRoute, setPreCalculatedRoute] = useState();
   const { isGeolocationAvailable, isGeolocationEnabled } = useGeolocated();
   const [hideGeolocationDialog, { toggle: toggleHideGeolocationDialog }] =
     useBoolean(true);
@@ -94,6 +96,24 @@ function App({
     dispatch(setShowArrivalPanel(showArrivalPanel));
   }, [showArrivalPanel]);
 
+  useEffect(() => {
+    const fetchRoute = async () => {
+      if (!routeUrl) return;
+
+      try {
+        const response = await fetch(routeUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error. Status: ${response.status}`);
+        }
+        const route = await response.json();
+        setPreCalculatedRoute(route);
+      } catch (error) {
+        console.error("Error fetching static route:", error);
+      }
+    };
+    fetchRoute();
+  }, [routeUrl]);
+
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <AppContextProvider
@@ -108,8 +128,9 @@ function App({
         theme={theme}
       >
         <div className="TomTomNavigation">
-          <Map {...mapOptions}>
+          <Map preCalculatedRoute={preCalculatedRoute} {...mapOptions}>
             <Navigation
+              preCalculatedRoute={preCalculatedRoute}
               onNavigationStarted={onNavigationStarted}
               onNavigationStopped={onNavigationStopped}
               onProgressUpdate={onProgressUpdate}
