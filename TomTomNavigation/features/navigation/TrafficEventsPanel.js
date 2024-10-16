@@ -69,7 +69,12 @@ const TrafficEvent = ({ event, distance }) => {
   const classes = useStyles({ isTablet })();
   const textClasses = useTextStyles();
   const icon = getTrafficEventIcon(event);
-  const formattedDistance = formatDistance(distance, measurementSystem);
+  const formattedDistance = formatDistance(
+    distance,
+    measurementSystem,
+    false,
+    true
+  );
   const formattedDelay = formatDuration(delayInSeconds);
   const showDelay = delayInSeconds > 0;
 

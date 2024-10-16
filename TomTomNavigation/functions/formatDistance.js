@@ -9,29 +9,34 @@ const numberFormat = new Intl.NumberFormat("en-US", {
 export default function formatDistance(
   meters,
   measurementSystem = "metric",
-  useFriendlyImperial = false
+  useFriendlyImperial = false,
+  shouldRound = false
 ) {
   if (measurementSystem === "metric") {
     const roundedMeters = roundUp(meters, meters < 100 ? 10 : 100);
+    const valueInKm = metersToKilometers(roundedMeters);
+
     return Math.abs(roundedMeters) < 1000
-      ? { value: roundedMeters, units: "m" }
+      ? { value: shouldRound ? roundedMeters : Math.round(meters), units: "m" }
       : {
-          value: numberFormat.format(metersToKilometers(roundedMeters)),
+          value: numberFormat.format(
+            shouldRound ? valueInKm : metersToKilometers(meters)
+          ),
           units: "km"
         };
   } else if (measurementSystem === "imperial") {
+    const feet = metersToFeet(meters);
+    const miles = metersToMiles(meters);
+
     return meters < 305
       ? {
-          value: roundUp(
-            metersToFeet(meters),
-            metersToFeet(meters) < 100 ? 10 : 100
-          ),
+          value: shouldRound ? roundUp(feet, feet < 100 ? 10 : 100) : Math.round(feet),
           units: "ft"
         }
       : {
           value: useFriendlyImperial
             ? convertToImperialRounded(meters)
-            : numberFormat.format(metersToMiles(meters)),
+            : numberFormat.format(shouldRound ? miles : metersToMiles(meters)),
           units: "mi"
         };
   } else {

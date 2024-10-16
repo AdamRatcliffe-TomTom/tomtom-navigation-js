@@ -48,7 +48,9 @@ const ETA = ({
   const duration = formatDuration(timeRemaining);
   const formattedDistanceRemaining = formatDistance(
     distanceRemaining,
-    measurementSystem
+    measurementSystem,
+    false,
+    true
   );
   const formattedArrival = formatTime(new Date(eta));
   const formattedDelay = formatDuration(trafficDelayInSeconds);

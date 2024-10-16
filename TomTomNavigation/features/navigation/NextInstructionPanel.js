@@ -10,6 +10,7 @@ import getRoadShield from "./roadshield/getRoadShield";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import getManeuverIcon from "../../functions/getManeuverIcon";
 import formatDistance from "../../functions/formatDistance";
+import isPedestrianRoute from "../../functions/isPedestrianRoute";
 
 import { getDistanceToNextManeuver } from "./navigationSlice";
 
@@ -63,9 +64,12 @@ const NextInstructionPanel = ({ route, instruction }) => {
   const classes = useStyles();
   const textClasses = useTextStyles();
   const distanceToNextManeuver = useSelector(getDistanceToNextManeuver);
+  const shouldRoundDistance = !isPedestrianRoute(route?.features[0]);
   const formattedDistanceToNextManeuver = formatDistance(
     distanceToNextManeuver,
-    measurementSystem
+    measurementSystem,
+    false,
+    shouldRoundDistance
   );
   const {
     maneuver,

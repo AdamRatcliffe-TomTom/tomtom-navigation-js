@@ -1,6 +1,7 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { featureCollection, lineString } from "@turf/helpers";
 import CheapRuler from "cheap-ruler";
+import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import {
   lastInstruction,
   instructionByIndex,
@@ -69,13 +70,13 @@ const navigationSlice = createSlice({
         measurementSystem,
         language
       } = action.payload;
+
       const selectedRoute = route.features[0];
       const {
-        summary: { travelTimeInSeconds },
-        sections
+        summary: { travelTimeInSeconds }
       } = selectedRoute.properties;
       const { coordinates } = selectedRoute.geometry;
-      const useMessageProp = sections[0].travelMode === "pedestrian";
+      const useMessageProp = isPedestrianRoute(selectedRoute);
 
       if (!ruler) {
         ruler = new CheapRuler(coordinates[0][1], "meters");

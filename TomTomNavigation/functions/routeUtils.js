@@ -113,6 +113,7 @@ function getAnnouncementText(
     const { value: distance, units } = formatDistance(
       distanceInMeters,
       measurementSystem,
+      true,
       true
     );
 

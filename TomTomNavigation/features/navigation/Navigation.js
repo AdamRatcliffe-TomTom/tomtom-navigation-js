@@ -11,6 +11,7 @@ import BottomPanel from "./BottomPanel";
 import NavigationGuidancePanel from "./NavigationGuidancePanel";
 import Simulator from "./Simulator";
 import { useCalculateRouteQuery } from "../../services/routing";
+import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import coordinatesToGeoJson from "../../functions/coordinatesToGeoJson";
 import geoJsonBounds from "../../functions/geoJsonBounds";
@@ -102,12 +103,13 @@ const Navigation = ({
     automaticRouteCalculation,
     ...routeOptions
   });
+  const { features: [routeFeature] = [] } = route || {};
   const [navigationRoute, setNavigationRoute] = useState();
   const destination = useMemo(
     () =>
       routeOptions.locations?.length
         ? routeOptions.locations.at(-1)
-        : route?.features[0].geometry.coordinates.at(-1),
+        : routeFeature?.geometry.coordinates.at(-1),
     [routeOptions.locations, route]
   );
   const navigationPaddingTop = Math.max(height - (isTablet ? 210 : 390), 0);
@@ -117,7 +119,7 @@ const Navigation = ({
   const bottomPanelIsVisible = showBottomPanel;
   const simulatorIsActive =
     navigationRoute && isNavigating && !hasReachedDestination;
-  const simulatorZoom = routeOptions.travelMode === "pedestrian" ? 19 : 17;
+  const simulatorZoom = isPedestrianRoute(routeFeature) ? 20 : 17;
 
   useEffect(() => {
     navigationPaddingTopRef.current = navigationPaddingTop;
@@ -129,7 +131,7 @@ const Navigation = ({
         stopNavigation();
       }
 
-      const navigationRoute = tomtom2mapbox(route.features[0]);
+      const navigationRoute = tomtom2mapbox(routeFeature);
       setNavigationRoute(navigationRoute);
       setETA();
     }
@@ -151,7 +153,7 @@ const Navigation = ({
 
   const setETA = () => {
     const { lengthInMeters, travelTimeInSeconds } =
-      route.features[0].properties.summary;
+      routeFeature.properties.summary;
     const eta = add(new Date(), {
       seconds: travelTimeInSeconds
     }).toISOString();
@@ -165,7 +167,7 @@ const Navigation = ({
 
   const startNavigation = () => {
     // Center the map on the first coordinate of the route
-    const routeCoordinates = route.features[0].geometry.coordinates;
+    const routeCoordinates = routeFeature.geometry.coordinates;
     const center = routeCoordinates[0];
     const movingMethod = shouldAnimateCamera(map.getBounds(), center)
       ? "flyTo"
@@ -297,7 +299,7 @@ const Navigation = ({
   };
 
   const handleSimulatorEnd = () => {
-    const { coordinates } = route.features[0].geometry;
+    const { coordinates } = routeFeature.geometry;
     const lastCoordinate = coordinates[coordinates.length - 1];
     const bounds = new tt.LngLatBounds(lastCoordinate, lastCoordinate);
     bounds.extend(destination.coordinates);
