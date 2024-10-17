@@ -33,6 +33,7 @@
     "date-fns": "^2.30.0",
     "guidance-replay": "^0.1.4",
     "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git",
+    "lodash.capitalize": "^4.2.1",
     "lodash.isempty": "^4.4.0",
     "lodash.isnil": "^4.0.0",
     "lodash.isnumber": "^3.0.3",

@@ -59,7 +59,9 @@ import {
   FIT_BOUNDS_PADDING_TOP,
   FIT_BOUNDS_PADDING_RIGHT,
   FIT_BOUNDS_PADDING_BOTTOM,
-  FIT_BOUNDS_PADDING_LEFT
+  FIT_BOUNDS_PADDING_LEFT,
+  VEHICLE_NAVIGATION_SIMULATION_ZOOM,
+  PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
 } from "../../config";
 
 const Navigation = ({
@@ -119,7 +121,9 @@ const Navigation = ({
   const bottomPanelIsVisible = showBottomPanel;
   const simulatorIsActive =
     navigationRoute && isNavigating && !hasReachedDestination;
-  const simulatorZoom = isPedestrianRoute(routeFeature) ? 20 : 17;
+  const simulatorZoom = isPedestrianRoute(routeFeature)
+    ? PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
+    : VEHICLE_NAVIGATION_SIMULATION_ZOOM;
 
   useEffect(() => {
     navigationPaddingTopRef.current = navigationPaddingTop;

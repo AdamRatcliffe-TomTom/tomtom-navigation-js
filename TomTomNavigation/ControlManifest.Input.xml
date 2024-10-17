@@ -80,6 +80,7 @@
 		<property name="guidanceVoiceVolume" display-name-key="Guidance voice volume" description-key="guidanceVoiceVolume_Desc_Key" of-type="Decimal" usage="input" required="false" default-value="0.5" />
 		<property name="simulationSpeed" display-name-key="Simulation speed" description-key="simulationSpeed_Desc_Key" of-type="Enum" usage="input" required="true" default-value="2x">
 			<value name="1x" display-name-key="1x">1x</value>
+			<value name="1.5x" display-name-key="1.5x">1.5x</value>
 			<value name="2x" display-name-key="2x">2x</value>
 			<value name="3x" display-name-key="3x">3x</value>
 			<value name="4x" display-name-key="4x">4x</value>

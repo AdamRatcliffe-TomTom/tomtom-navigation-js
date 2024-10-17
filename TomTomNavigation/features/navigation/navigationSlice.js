@@ -192,7 +192,7 @@ const navigationSlice = createSlice({
       state.consecutiveInstruction = undefined;
       state.lastInstruction = undefined;
       state.routeProgress = undefined;
-      state.distanceRemaining = undefined;
+      // state.distanceRemaining = undefined;
       ruler = undefined;
     }
   }

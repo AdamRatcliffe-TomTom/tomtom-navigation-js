@@ -1,8 +1,13 @@
 import CheapRuler from "cheap-ruler";
 import { featureCollection, lineString } from "@turf/helpers";
+import isPedestrianRoute from "./isPedestrianRoute";
 
-const BEFORE_LENGTH_METERS = 30;
-const AFTER_LENGTH_METERS = 30;
+const VEHICLE_BEFORE_LENGTH_METERS = 30;
+const VEHICLE_AFTER_LENGTH_METERS = 30;
+
+const PEDESTRIAN_BEFORE_LENGTH_METERS = 3;
+const PEDESTRIAN_AFTER_LENGTH_METERS = 3;
+
 const MIN_ARROW_GAP_METERS = 50;
 
 export default function createManeuverLineStrings(geojson) {
@@ -14,6 +19,13 @@ export default function createManeuverLineStrings(geojson) {
       guidance: { instructions }
     }
   } = route;
+
+  const BEFORE_LENGTH_METERS = isPedestrianRoute(route)
+    ? PEDESTRIAN_BEFORE_LENGTH_METERS
+    : VEHICLE_BEFORE_LENGTH_METERS;
+  const AFTER_LENGTH_METERS = isPedestrianRoute(route)
+    ? PEDESTRIAN_AFTER_LENGTH_METERS
+    : VEHICLE_AFTER_LENGTH_METERS;
 
   const ruler = new CheapRuler(coordinates[0][1], "meters");
   const lines = [];
