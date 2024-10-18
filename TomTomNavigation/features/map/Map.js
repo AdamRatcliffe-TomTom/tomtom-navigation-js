@@ -20,7 +20,6 @@ import Landmarks3D from "./Landmarks3D";
 import LocationMarker from "./markers/LocationMarker";
 import ChevronMarker from "./markers/ChevronMarker";
 import Chevron2DMarker from "./markers/Chevron2DMarker";
-import MarkerFactory from "./markers/MarkerFactory";
 import { useCalculateRouteQuery } from "../../services/routing";
 import coordinatesToGeoJson from "../../functions/coordinatesToGeoJson";
 import geoJsonBounds from "../../functions/geoJsonBounds";
@@ -308,16 +307,6 @@ const Map = ({
       dispatch(setSimulationShouldEnd(true));
     }
   };
-
-  // const waypoints = useMemo(() => {
-  //   const { locations } = routeOptions;
-
-  //   if (!locations) {
-  //     return null;
-  //   }
-
-  //   return locations.map((location) => MarkerFactory.createMarker(location));
-  // }, [routeOptions.locations]);
 
   const currentStyle = useMemo(
     () =>
