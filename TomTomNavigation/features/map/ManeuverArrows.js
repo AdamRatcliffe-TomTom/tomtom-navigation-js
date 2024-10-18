@@ -112,7 +112,8 @@ const ManeuverArrows = ({
           },
           "icon-anchor": "top",
           "icon-rotation-alignment": "map",
-          "icon-offset": [0, -8]
+          "icon-offset": [0, -8],
+          "icon-allow-overlap": true
         }}
         layerOptions={{
           filter,
