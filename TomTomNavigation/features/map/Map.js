@@ -14,6 +14,7 @@ import SkipControl from "./controls/SkipControl";
 import SpeedLimitEU from "./SpeedLimitEU";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
+import Waypoints from "./Waypoints";
 import ManeuverArrows from "./ManeuverArrows";
 import Landmarks3D from "./Landmarks3D";
 import LocationMarker from "./markers/LocationMarker";
@@ -165,6 +166,7 @@ const Map = ({
     !viewTransitioning &&
     navigationPerspective === NavigationPerspectives.OVERVIEW &&
     currentLocation;
+  const haveWaypoints = routeOptions?.locations.length > 0;
 
   useEffect(() => {
     const map = mapRef.current?.getMap();
@@ -307,15 +309,15 @@ const Map = ({
     }
   };
 
-  const waypoints = useMemo(() => {
-    const { locations } = routeOptions;
+  // const waypoints = useMemo(() => {
+  //   const { locations } = routeOptions;
 
-    if (!locations) {
-      return null;
-    }
+  //   if (!locations) {
+  //     return null;
+  //   }
 
-    return locations.map((location) => MarkerFactory.createMarker(location));
-  }, [routeOptions.locations]);
+  //   return locations.map((location) => MarkerFactory.createMarker(location));
+  // }, [routeOptions.locations]);
 
   const currentStyle = useMemo(
     () =>
@@ -392,13 +394,16 @@ const Map = ({
           walkingLeg={walkingLeg}
         />
       )}
+      {haveWaypoints && (
+        <Waypoints id="Waypoints" data={routeOptions.locations} />
+      )}
       {maneuverArrowsAreVisible && (
         <ManeuverArrows
+          before="Waypoints-symbol"
           data={maneuverLineStrings}
           nextInstructionPointIndex={nextInstruction?.pointIndex}
         />
       )}
-      {waypoints}
       <ChevronMarker visible={chevronMarkerIsVisible} />
       <Chevron2DMarker
         visible={chevron2DMarkerIsVisible}
