@@ -64,6 +64,9 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
   const { maneuver } = useSelector(getLastInstruction);
   const { locations } = useSelector(getRouteOptions);
   const destination = locations.at(-1);
+
+  if (!destination) return null;
+
   const { name, address, coordinates } = destination;
   const arrivalMessage = arrivalMessages[maneuver];
   const haveNameAddress = !_isEmpty(name) || !_isEmpty(address);

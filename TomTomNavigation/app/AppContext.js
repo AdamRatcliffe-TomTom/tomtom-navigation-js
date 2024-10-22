@@ -43,8 +43,8 @@ export default function AppContextProvider({
         street: {
           name: "street",
           label: strings.street,
-          style: `https://api.tomtom.com/maps/orbis/assets/styles/0.1.0-0/style.json?apiVersion=1&map=basic_street-${theme}&trafficFlow=flow_relative-${theme}&trafficIncidents=incidents_${theme}`,
-          styleDriving: `https://api.tomtom.com/maps/orbis/assets/styles/0.1.0-0/style.json?apiVersion=1&map=basic_street-${theme}-driving&trafficFlow=flow_relative-${theme}&trafficIncidents=incidents_${theme}`,
+          style: `https://api.tomtom.com/maps/orbis/assets/styles/0.2.*/style.json?apiVersion=1&map=basic_street-${theme}&trafficFlow=flow_relative-${theme}&trafficIncidents=incidents_${theme}`,
+          styleDriving: `https://api.tomtom.com/maps/orbis/assets/styles/0.2.*/style.json?apiVersion=1&map=basic_street-${theme}-driving&trafficFlow=flow_relative-${theme}&trafficIncidents=incidents_${theme}`
         },
         satellite: {
           name: "satellite",

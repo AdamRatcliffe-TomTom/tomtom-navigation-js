@@ -10,25 +10,31 @@ const Waypoints = ({
   data = [],
   ...otherProps
 }) => {
-  const features = data.map(({ coordinates, icon: { url, anchor, offset } }) =>
-    point(coordinates, {
-      iconUrl: url,
-      iconAnchor: anchor,
-      iconOffset: offset
-    })
+  const imageKey = (url, width, height) => `${url}-${width}-${height}`;
+
+  const features = data.map(
+    ({ coordinates, icon: { url, width, height, anchor, offset } }) =>
+      point(coordinates, {
+        iconImage: imageKey(url, width, height),
+        iconAnchor: anchor,
+        iconOffset: offset
+      })
   );
+
   const geojson = featureCollection(features);
 
   useEffect(() => {
     if (map) {
       data.forEach(({ icon: { url, width, height } }) => {
-        if (!map.hasImage(url)) {
+        const key = imageKey(url, width, height);
+
+        if (!map.hasImage(key)) {
           const img = new Image(width, height);
           img.addEventListener("load", () => {
-            map.addImage(url, img);
+            map.addImage(key, img);
             map.on("styleimagemissing", ({ id }) => {
               if (id === url) {
-                map.addImage(url, img);
+                map.addImage(key, img);
               }
             });
           });
@@ -43,7 +49,7 @@ const Waypoints = ({
       id={id}
       data={geojson}
       symbolLayout={{
-        "icon-image": ["get", "iconUrl"],
+        "icon-image": ["get", "iconImage"],
         "icon-anchor": ["get", "iconAnchor"],
         "icon-offset": ["get", "iconOffset"],
         "icon-allow-overlap": true
