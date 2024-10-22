@@ -30,10 +30,11 @@ const Waypoints = ({
 
         if (!map.hasImage(key)) {
           const img = new Image(width, height);
+          img.crossOrigin = "Anonymous";
           img.addEventListener("load", () => {
             map.addImage(key, img);
             map.on("styleimagemissing", ({ id }) => {
-              if (id === url) {
+              if (id === key) {
                 map.addImage(key, img);
               }
             });

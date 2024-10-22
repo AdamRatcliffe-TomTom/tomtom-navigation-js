@@ -10,6 +10,7 @@ import LaneGuidancePanel from "./LaneGuidancePanel";
 import TrafficEventsPanel from "./TrafficEventsPanel";
 import Maneuvers from "../../constants/Maneuvers";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
+import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import {
   addStyleToDocument,
   removeStyleFromDocument
@@ -28,7 +29,8 @@ const useStyles = ({
   isPhone,
   isTablet,
   landscapeMinimal,
-  countryCode
+  countryCode,
+  pedestrianRoute
 }) =>
   makeStyles((theme) => ({
     root: {
@@ -55,10 +57,11 @@ const useStyles = ({
       })
     },
     nipPanel: {
-      backgroundColor:
-        countryCode === "US"
-          ? theme.semanticColors.nipUSBackground
-          : theme.semanticColors.nipEUBackground,
+      backgroundColor: pedestrianRoute
+        ? theme.palette.white
+        : countryCode === "US"
+        ? theme.semanticColors.nipUSBackground
+        : theme.semanticColors.nipEUBackground,
       transition: "background-color 0.15s"
     },
     consecutiveInstructionPanel: {
@@ -97,7 +100,8 @@ const NavigationGuidancePanel = ({ route }) => {
     isPhone,
     isTablet,
     landscapeMinimal,
-    countryCode
+    countryCode,
+    pedestrianRoute: isPedestrianRoute(route)
   })();
   const guidancePanelHeight = bounds.height;
   const currentLocation = useSelector(getCurrentLocation);

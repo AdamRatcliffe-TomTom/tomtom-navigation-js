@@ -201,6 +201,22 @@ const Map = ({
     }
   }, [route]);
 
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+
+    if (map.isStyleLoaded()) {
+      if (map.getLayer("POI")) {
+        map.setLayoutProperty("POI", "visibility", "none");
+      }
+    } else {
+      map.on("style.load", () => {
+        if (map.getLayer("POI")) {
+          map.setLayoutProperty("POI", "visibility", "none");
+        }
+      });
+    }
+  }, [mapRef.current, showPoi]);
+
   const fitRouteOrWaypoints = (fitBoundsOptions) => {
     // Convert the route waypoints to geojson
     let geojson = coordinatesToGeoJson(
@@ -326,8 +342,7 @@ const Map = ({
       mapStyle={currentStyle}
       stylesVisibility={{
         trafficFlow: showTrafficFlow,
-        trafficIncidents: showTrafficIncidents,
-        poi: showPoi
+        trafficIncidents: showTrafficIncidents
       }}
       language={language}
       containerStyle={{

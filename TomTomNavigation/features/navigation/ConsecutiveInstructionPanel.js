@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   instruction: {
     fontFamily: "Noto Sans",
     fontSize: 20,
-    color: "white",
+    color: theme.palette.black,
     lineHeight: "1.5"
   }
 }));

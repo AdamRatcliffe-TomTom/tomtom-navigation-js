@@ -26,12 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
   distance: {
     fontSize: 28,
-    color: "white"
+    color: theme.palette.black
   },
   street: {
     fontFamily: "Noto Sans",
     fontSize: 20,
-    color: "white",
+    color: theme.palette.black,
     lineHeight: "1.5",
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   towards: {
     fontFamily: "Noto Sans",
     fontSize: 20,
-    color: "white",
+    color: theme.palette.black,
     lineHeight: "1.5",
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Noto Sans",
     fontSize: 20,
     fontWeight: 600,
-    color: "white"
+    color: theme.palette.black
   }
 }));
 
@@ -75,20 +75,21 @@ const NextInstructionPanel = ({ route, instruction }) => {
   const {
     maneuver,
     street,
-    towards,
     signpostText,
     roadShieldReferences,
     signpostRoadShieldReferences,
     exitNumber
   } = instruction;
-  const maneuverIcon = getManeuverIcon(maneuver);
+  const maneuverIcon = getManeuverIcon(maneuver, {
+    color: theme.palette.black
+  });
   const haveRoadShieldReferences = !!roadShieldReferences;
   const haveSignpostRoadShieldReferences = !!signpostRoadShieldReferences;
   const roadShieldsAreVisible =
     haveRoadShieldReferences || haveSignpostRoadShieldReferences;
   const exitNumberIsVisible = !!exitNumber;
   const streetIsVisible = !landscapeMinimal && !!street && !!!signpostText;
-  const towardsIsVisible = !landscapeMinimal && (!!towards || !!signpostText);
+  const towardsIsVisible = !landscapeMinimal && !!signpostText;
 
   const renderRoadShields = () => {
     const references = signpostRoadShieldReferences || roadShieldReferences;
@@ -120,9 +121,7 @@ const NextInstructionPanel = ({ route, instruction }) => {
         </Stack>
         {streetIsVisible && <Text className={classes.street}>{street}</Text>}
         {towardsIsVisible && (
-          <Text className={classes.towards}>
-            {_capitalize(towards || signpostText)}
-          </Text>
+          <Text className={classes.towards}>{_capitalize(signpostText)}</Text>
         )}
         {roadShieldsAreVisible && (
           <Stack

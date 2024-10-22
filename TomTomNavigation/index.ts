@@ -402,7 +402,7 @@ export class TomTomNavigation
               height: record.getValue(fieldMappings.iconHeight) as number,
               anchor:
                 (record.getValue(fieldMappings.iconAnchor) as string) ||
-                undefined,
+                "bottom",
               offset: [
                 (record.getValue(fieldMappings.iconOffsetX) as number) || 0,
                 (record.getValue(fieldMappings.iconOffsetY) as number) || 0
