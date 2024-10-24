@@ -8,11 +8,15 @@ import ExitShieldUS from "./ExitShieldUS";
 import ExitShieldEU from "./ExitShieldEU";
 import RoadShield from "./roadshield/RoadShield";
 import getRoadShield from "./roadshield/getRoadShield";
-import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import getManeuverIcon from "../../functions/getManeuverIcon";
 import formatDistance from "../../functions/formatDistance";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
 
+import {
+  getSpriteImageUrl,
+  getSpriteJson,
+  getCountryCode
+} from "../map/mapSlice";
 import { getDistanceToNextManeuver } from "./navigationSlice";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,9 +65,11 @@ const NextInstructionPanel = ({ route, instruction }) => {
 
   const theme = useTheme();
   const { landscapeMinimal, measurementSystem } = useAppContext();
-  const countryCode = countryCodeFromRoute(route);
   const classes = useStyles();
   const textClasses = useTextStyles();
+  const countryCode = useSelector(getCountryCode);
+  const spriteImageUrl = useSelector(getSpriteImageUrl);
+  const spriteJson = useSelector(getSpriteJson);
   const distanceToNextManeuver = useSelector(getDistanceToNextManeuver);
   const shouldRoundDistance = !isPedestrianRoute(route?.features[0]);
   const formattedDistanceToNextManeuver = formatDistance(
@@ -95,7 +101,12 @@ const NextInstructionPanel = ({ route, instruction }) => {
     const references = signpostRoadShieldReferences || roadShieldReferences;
     return references.map((ref, index) => {
       const { reference, shieldContent, affixes } = ref;
-      const icon = getRoadShield(reference, shieldContent);
+      const icon = getRoadShield(
+        reference,
+        shieldContent,
+        spriteImageUrl,
+        spriteJson
+      );
       return <RoadShield key={index} icon={icon} affixes={affixes} />;
     });
   };

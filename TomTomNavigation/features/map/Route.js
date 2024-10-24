@@ -33,9 +33,32 @@ class Route extends PureComponent {
   }
 
   createLayers() {
-    let { data, progress, walkingLeg, before } = this.props;
+    const { data, progress, walkingLeg, before, isPedestrianRoute } =
+      this.props;
 
     if (!data) return null;
+
+    if (isPedestrianRoute) {
+      return [
+        new GeoJsonLayer({
+          id: `${this.id}--Pedestrian_Route`,
+          beforeId: before,
+          data,
+          filled: true,
+          stroked: true,
+          getLineColor: [59, 174, 227, 255],
+          getLineWidth: 8,
+          lineWidthMinPixels: 8,
+          lineWidthMaxPixels: 12,
+          lineWidthUnits: "meters",
+          lineCapRounded: true,
+          lineJointRounded: true,
+          getDashArray: [0.2, 4],
+          dashJustified: true,
+          extensions: [new PathStyleExtension({ dash: true })]
+        })
+      ];
+    }
 
     const layers = [
       new GeoJsonLayer({
@@ -149,13 +172,10 @@ class Route extends PureComponent {
 Route.propTypes = {
   map: PropTypes.object,
   data: PropTypes.object,
-  remainingRoute: PropTypes.object,
-  animationDuration: PropTypes.number,
-  before: PropTypes.string
-};
-
-Route.defaultProps = {
-  animationDuration: 2000
+  progress: PropTypes.object,
+  walkingLeg: PropTypes.object,
+  before: PropTypes.string,
+  isPedestrianRoute: PropTypes.bool
 };
 
 export default withMap(Route);

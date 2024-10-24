@@ -21,6 +21,11 @@ import MotorwayIcon from "../icons/nip/MotorwayIcon";
 import WaypointIcon from "../icons/nip/WaypointIcon";
 import WaypointLeftIcon from "../icons/nip/WaypointLeftIcon";
 import WaypointRightIcon from "../icons/nip/WaypointRightIcon";
+import MergeLeftIcon from "../icons/nip/MergeLeftIcon";
+import MergeRightIcon from "../icons/nip/MergeRightIcon";
+import CarTrainIcon from "../icons/nip/CarTrainIcon";
+import CrossBorderIcon from "../icons/nip/CrossBorderIcon";
+import TollGateIcon from "../icons/nip/TollGateIcon";
 
 export default function getManeuverIcon(
   maneuver,
@@ -70,6 +75,11 @@ export default function getManeuverIcon(
     ),
     [Maneuvers.WAYPOINT_REACHED]: <WaypointIcon size={size} color={color} />,
     [Maneuvers.WAYPOINT_LEFT]: <WaypointLeftIcon size={size} color={color} />,
-    [Maneuvers.WAYPOINT_RIGHT]: <WaypointRightIcon size={size} color={color} />
+    [Maneuvers.WAYPOINT_RIGHT]: <WaypointRightIcon size={size} color={color} />,
+    [Maneuvers.MERGE_LEFT_LANE]: <MergeLeftIcon size={size} color={color} />,
+    [Maneuvers.MERGE_RIGHT_LANE]: <MergeRightIcon size={size} color={color} />,
+    [Maneuvers.CAR_TRAIN]: <CarTrainIcon size={size} color={color} />,
+    [Maneuvers.CROSS_BORDER]: <CrossBorderIcon size={size} color={color} />,
+    [Maneuvers.TOLLGATE]: <TollGateIcon size={size} color={color} />
   }[maneuver];
 }

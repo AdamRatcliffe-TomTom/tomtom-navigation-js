@@ -5,12 +5,21 @@ import createSectionedRoute from "../functions/createSectionedRoute";
 import createWalkingLeg from "../functions/createWalkingLeg";
 import createManeuverLineStrings from "../functions/createManeuverLineStrings";
 import calculateTriggerPoints from "../functions/calculateTriggerPoints";
+import translateInstructions from "../functions/translateInstructions";
 
 import { BASE_ROUTING_URL } from "../config";
 
+const defaultOptions = {
+  apiVersion: 2
+};
+
 const calculateRoute = async (options) => {
   const { key, locations, supportingPoints, ...otherOptions } = options;
-  const params = objectToQueryString({ key, ...otherOptions });
+  const params = objectToQueryString({
+    ...defaultOptions,
+    ...otherOptions,
+    key
+  });
   const url = `${BASE_ROUTING_URL}/${locations
     .map(locationToString)
     .join(":")}/json?${params}`;
@@ -72,6 +81,7 @@ const routeBaseQuery = async (args) => {
     const walkingLeg = createWalkingLeg(args.locations, route);
     const maneuverLineStrings = createManeuverLineStrings(route);
 
+    translateInstructions(route);
     calculateTriggerPoints(route);
 
     return { data: { route, sectionedRoute, walkingLeg, maneuverLineStrings } };

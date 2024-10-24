@@ -1,23 +1,17 @@
 import React from "react";
 import SpriteImage from "../../../components/SpriteImage";
-import sprite from "./sprite.json";
 
-export default function getRoadShield(name, text) {
-  const asset = lookupAsset(name, text);
+export default function getRoadShield(name, text, spriteImageUrl, spriteJson) {
+  const asset = spriteJson[name];
 
   if (asset) {
-    const {
-      x,
-      y,
-      width,
-      height,
-      "font-size": fontSize,
-      "text-color": textColor
-    } = asset;
+    const { x, y, width, height } = asset;
+    const color = name.includes("-black-") ? "black" : "white";
+
     return (
       <SpriteImage
         className="RoadShield"
-        image={sprite.image}
+        image={spriteImageUrl}
         x={x}
         y={y}
         width={width}
@@ -35,11 +29,11 @@ export default function getRoadShield(name, text) {
             left: "50%",
             top: "50%",
             transform: "translate(-50%,-50%)",
-            fontSize: `${fontSize}px`,
+            fontSize: "16px",
             lineHeight: 1,
             fontFamily: "Noto Sans",
-            fontWeight: 500,
-            color: textColor
+            fontWeight: 600,
+            color
           }}
         >
           {text}
@@ -48,11 +42,4 @@ export default function getRoadShield(name, text) {
     );
   }
   return null;
-}
-
-function lookupAsset(name, text) {
-  const { assets } = sprite;
-  const { variants } = assets.find((asset) => asset.names.includes(name));
-  const textLen = String(text.length);
-  return variants.find((variant) => variant["text-length"].includes(textLen));
 }

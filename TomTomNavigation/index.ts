@@ -245,7 +245,7 @@ export class TomTomNavigation
       locations: waypoints
     };
 
-    if (keepScreenOn) {
+    if (keepScreenOn && !this.wakeLock) {
       this.requestWakeLock();
     } else {
       this.releaseWakeLock();
@@ -434,7 +434,7 @@ export class TomTomNavigation
 
       this.wakeLock = await navigator.wakeLock.request("screen");
 
-      console.log("Acquired screen wake lock");
+      // console.log("Acquired screen wake lock");
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(`${error.name}, ${error.message}`);
@@ -445,6 +445,8 @@ export class TomTomNavigation
   private async releaseWakeLock() {
     this.wakeLock?.release();
     this.wakeLock = undefined;
+
+    // console.log("Released screen wake lock");
   }
 
   /**

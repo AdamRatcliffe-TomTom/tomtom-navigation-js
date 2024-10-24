@@ -26,6 +26,7 @@ import geoJsonBounds from "../../functions/geoJsonBounds";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import fireEvent from "../../functions/fireEvent";
+import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import ControlEvents from "../../constants/ControlEvents";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
 
@@ -42,12 +43,16 @@ import {
   getFitBoundsOptions,
   getUserLocation,
   getViewTransitioning,
+  getCountryCode,
   setCenter,
   setBounds,
   setFitBoundsOptions,
   setMovingMethod,
   setUserLocation,
-  setViewTransitioning
+  setViewTransitioning,
+  setSpriteImageUrl,
+  setSpriteJson,
+  setCountryCode
 } from "./mapSlice";
 
 import {
@@ -126,6 +131,7 @@ const Map = ({
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const fitBoundsOptions = useSelector(getFitBoundsOptions);
   const userLocation = useSelector(getUserLocation);
+  const countryCode = useSelector(getCountryCode);
   const [mapStyle, setMapStyle] = useState(mapStyles.street);
   const {
     data: { route, sectionedRoute, walkingLeg, maneuverLineStrings } = {}
@@ -135,7 +141,7 @@ const Map = ({
     automaticRouteCalculation,
     ...routeOptions
   });
-  const countryCode = countryCodeFromRoute(route);
+  const pedestrianRoute = isPedestrianRoute(route);
 
   const routeIsVisible = !!route;
   const maneuverArrowsAreVisible =
@@ -193,13 +199,20 @@ const Map = ({
   }, [JSON.stringify(routeOptions.locations), route]);
 
   useEffect(() => {
-    if (route) {
-      const summary = route.features[0].properties.summary;
+    const setCountryCodeFromRoute = async () => {
+      const countryCode = await countryCodeFromRoute(apiKey, route);
+      dispatch(setCountryCode(countryCode));
+    };
 
+    if (route) {
+      setCountryCodeFromRoute();
+
+      const summary = route.features[0].properties.summary;
       fireEvent(ControlEvents.OnRouteCalculated, { summary });
+
       onRouteCalculated();
     }
-  }, [route]);
+  }, [route, apiKey, dispatch, onRouteCalculated]);
 
   useEffect(() => {
     const map = mapRef.current?.getMap();
@@ -216,6 +229,29 @@ const Map = ({
       });
     }
   }, [mapRef.current, showPoi]);
+
+  const setMapSprite = async (map) => {
+    try {
+      const spriteUrl = map.getStyle().sprite;
+      const [baseUrl, queryParams] = spriteUrl.split("?");
+      const spriteImageUrl = `${baseUrl}@2x.png?${queryParams}`;
+      const spriteJsonUrl = `${baseUrl}@2x.json?${queryParams}`;
+      const response = await fetch(spriteJsonUrl);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch sprite JSON");
+      }
+
+      const spriteJson = await response.json();
+
+      batch(() => {
+        dispatch(setSpriteImageUrl(spriteImageUrl));
+        dispatch(setSpriteJson(spriteJson));
+      });
+    } catch (error) {
+      console.error("Error fetching sprite JSON:", error);
+    }
+  };
 
   const fitRouteOrWaypoints = (fitBoundsOptions) => {
     // Convert the route waypoints to geojson
@@ -246,9 +282,10 @@ const Map = ({
     }
   };
 
-  const handleMapLoad = (map) => {
+  const handleMapLoad = async (map) => {
     const control = map.getAttributionControl();
     map.removeControl(control);
+    setMapSprite(map);
   };
 
   const handleGeolocationControlClick = (coords) => {
@@ -396,6 +433,7 @@ const Map = ({
           data={sectionedRoute}
           progress={routeProgress}
           walkingLeg={walkingLeg}
+          isPedestrianRoute={pedestrianRoute}
         />
       )}
       {haveWaypoints && (

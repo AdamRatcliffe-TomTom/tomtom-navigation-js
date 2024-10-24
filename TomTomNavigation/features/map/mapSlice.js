@@ -28,19 +28,22 @@ const initialState = {
   animationOptions: { duration: 500, essential: true },
   routeOptions: {
     travelMode: "car",
-    coordinatePrecision: "full",
-    traffic: true,
+    traffic: "live",
     locations: [],
     supportingPoints: undefined,
     sectionType: ["speedLimit", "lanes", "traffic"],
-    instructionsType: "text",
-    instructionAnnouncementPoints: "all",
+    instructionsType: "coded",
     instructionRoadShieldReferences: "all",
+    guidanceVersion: 2,
+    instructionPhonetics: "IPA",
     language: navigator.language
   },
   automaticRouteCalculation: false,
   userLocation: undefined,
-  viewTransitioning: false
+  viewTransitioning: false,
+  spriteImageUrl: undefined,
+  spriteJson: undefined,
+  countryCode: undefined
 };
 
 const mapSlice = createSlice({
@@ -97,6 +100,15 @@ const mapSlice = createSlice({
     },
     setViewTransitioning: (state, action) => {
       state.viewTransitioning = action.payload;
+    },
+    setSpriteImageUrl: (state, action) => {
+      state.spriteImageUrl = action.payload;
+    },
+    setSpriteJson: (state, action) => {
+      state.spriteJson = action.payload;
+    },
+    setCountryCode: (state, action) => {
+      state.countryCode = action.payload;
     }
   }
 });
@@ -148,6 +160,18 @@ const getViewTransitioning = createSelector(
   (state) => state.viewTransitioning
 );
 
+const getSpriteImageUrl = createSelector(
+  rootSelector,
+  (state) => state.spriteImageUrl
+);
+
+const getSpriteJson = createSelector(rootSelector, (state) => state.spriteJson);
+
+const getCountryCode = createSelector(
+  rootSelector,
+  (state) => state.countryCode
+);
+
 export {
   getCenter,
   getZoom,
@@ -160,7 +184,10 @@ export {
   getAutomaticRouteCalculation,
   getFitBoundsOptions,
   getUserLocation,
-  getViewTransitioning
+  getViewTransitioning,
+  getSpriteImageUrl,
+  getSpriteJson,
+  getCountryCode
 };
 
 export const {
@@ -177,7 +204,10 @@ export const {
   setFitBoundsOptions,
   setIsNavigating,
   setUserLocation,
-  setViewTransitioning
+  setViewTransitioning,
+  setSpriteImageUrl,
+  setSpriteJson,
+  setCountryCode
 } = mapSlice.actions;
 
 export default mapSlice.reducer;

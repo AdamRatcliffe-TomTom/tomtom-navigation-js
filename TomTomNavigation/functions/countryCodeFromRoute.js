@@ -1,9 +1,14 @@
-export default function countryCodeFromRoute(route) {
+import tt from "@tomtom-international/web-sdk-services";
+
+export default async function countryCodeFromRoute(apiKey, route) {
   if (!route) return "GB";
 
-  const guidance = route.features[0].properties.guidance;
-  const firstInstruction = guidance.instructions[0];
-  return firstInstruction.countryCode === "USA"
-    ? "US"
-    : firstInstruction.countryCode;
+  const firstCoordinate = route.features[0].geometry.coordinates[0];
+
+  const response = await tt.services.reverseGeocode({
+    key: apiKey,
+    position: firstCoordinate
+  });
+
+  return response.addresses[0].address.countryCode;
 }

@@ -19,7 +19,7 @@ export default function getLaneIcon(direction) {
     RIGHT: <TurnRightIcon size={48} />,
     SHARP_RIGHT: <SharpRightIcon size={48} />,
     UTURN: <UTurnIcon size={48} />,
-    LEFT_UTURN: <UTurnIcon size={48} />,
-    RIGHT_UTURN: <UTurnIcon size={48} />
+    LEFT_U_TURN: <UTurnIcon size={48} />,
+    RIGHT_U_TURN: <UTurnIcon size={48} />
   }[direction];
 }

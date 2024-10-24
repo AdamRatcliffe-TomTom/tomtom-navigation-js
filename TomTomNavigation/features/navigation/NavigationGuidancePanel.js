@@ -9,12 +9,13 @@ import ConsecutiveInstructionPanel from "./ConsecutiveInstructionPanel";
 import LaneGuidancePanel from "./LaneGuidancePanel";
 import TrafficEventsPanel from "./TrafficEventsPanel";
 import Maneuvers from "../../constants/Maneuvers";
-import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import {
   addStyleToDocument,
   removeStyleFromDocument
 } from "../../functions/styles";
+
+import { getCountryCode } from "../map/mapSlice";
 
 import {
   getCurrentLocation,
@@ -94,7 +95,7 @@ const NavigationGuidancePanel = ({ route }) => {
     landscapeMinimal,
     setGuidancePanelHeight
   } = useAppContext();
-  const countryCode = countryCodeFromRoute(route);
+  const countryCode = useSelector(getCountryCode);
   const classes = useStyles({
     appTheme,
     isPhone,

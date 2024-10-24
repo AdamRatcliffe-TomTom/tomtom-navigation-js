@@ -19,10 +19,11 @@ const useStyles = makeStyles((theme) => ({
 const LaneGuidancePanel = ({ lanes }) => {
   const classes = useStyles();
 
-  if (!lanes) return null;
+  if (!lanes || !lanes.some(({ directions }) => directions.length > 1))
+    return null;
 
   const renderLanes = () => {
-    return lanes.map(({ directions, follow }, index) => {
+    const laneElements = lanes.map(({ directions, follow }, index) => {
       let direction;
 
       if (directions.length > 1 && !_isNil(follow)) {
@@ -30,6 +31,8 @@ const LaneGuidancePanel = ({ lanes }) => {
       } else {
         direction = directions[0];
       }
+
+      if (!direction) return null;
 
       const icon = getLaneIcon(direction);
 
@@ -47,6 +50,8 @@ const LaneGuidancePanel = ({ lanes }) => {
         </span>
       );
     });
+
+    return laneElements;
   };
 
   const getIconMargin = (direction) => {
