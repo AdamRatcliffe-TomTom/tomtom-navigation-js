@@ -9,12 +9,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.semanticColors.alert,
     fontFamily: "Noto Sans",
     fontSize: 16,
+    fontWeight: 600,
     lineHeight: "1.5",
     borderRadius: 3,
     textTransform: "uppercase"
   },
   exitNumber: {
-    fontWeight: 600
+    fontWeight: 700
   }
 }));
 
