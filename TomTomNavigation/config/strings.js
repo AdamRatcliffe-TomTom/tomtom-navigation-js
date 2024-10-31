@@ -47,6 +47,7 @@ const strings = new LocalizedStrings({
     MOTORWAY_EXIT_LEFT: "Take the left exit",
     MOTORWAY_EXIT_RIGHT: "Take the right exit",
     TAKE_FERRY: "Take the ferry",
+    CAR_TRAIN: "Take the car train",
     ROUNDABOUT_CROSS: "Cross the roundabout",
     ROUNDABOUT_RIGHT: "At the roundabout take the exit on the right",
     ROUNDABOUT_LEFT: "At the roundabout take the exit on the left",
@@ -59,6 +60,8 @@ const strings = new LocalizedStrings({
     WAYPOINT_LEFT: "You have reached the waypoint. It is on the left",
     WAYPOINT_RIGHT: "You have reached the waypoint. It is on the right",
     WAYPOINT_REACHED: "You have reached the waypoint",
+    MERGE_LEFT_LANE: "Merge into the left lane",
+    MERGE_RIGHT_LANE: "Merge into the right lane",
     AHEAD_KEEP_RIGHT: "Keep right ahead",
     AHEAD_RIGHT_TURN: "Make a right turn ahead",
     AHEAD_KEEP_LEFT: "Keep left ahead",
@@ -68,7 +71,9 @@ const strings = new LocalizedStrings({
     AHEAD_EXIT_RIGHT: "Exit right ahead",
     AHEAD_EXIT_LEFT: "Exit left ahead",
     AHEAD_TAKE_FERRY: "Take the ferry ahead",
-    WAYPOINT_APPROACH: "Approaching waypoint"
+    WAYPOINT_APPROACH: "Approaching waypoint",
+    CROSS_BORDER: "Cross the border",
+    TOLLGATE: "Approach the toll booth"
   },
   nl: {
     noApiKey: "Vul de API key property in om de map te gebruiken",

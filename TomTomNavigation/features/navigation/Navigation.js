@@ -121,7 +121,8 @@ const Navigation = ({
   const bottomPanelIsVisible = showBottomPanel;
   const simulatorIsActive =
     navigationRoute && isNavigating && !hasReachedDestination;
-  const simulatorZoom = isPedestrianRoute(routeFeature)
+  const isPedestrian = isPedestrianRoute(routeFeature);
+  const simulatorZoom = isPedestrian
     ? PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
     : VEHICLE_NAVIGATION_SIMULATION_ZOOM;
 
@@ -198,6 +199,16 @@ const Navigation = ({
         })
       );
     });
+
+    if (
+      !isPedestrian &&
+      speechAvailable &&
+      voiceAnnouncementsEnabledRef?.current
+    ) {
+      const voice = getGuidanceVoice();
+      const announcement = strings.DEPART;
+      speak({ voice, text: announcement, volume: guidanceVoiceVolume });
+    }
 
     map.once("moveend", () => dispatch(setViewTransitioning(false)));
 

@@ -74,6 +74,7 @@ import {
   FIT_BOUNDS_PADDING_LEFT
 } from "../../config";
 
+const poiLayerId = "POI";
 const before = "Borders - Treaty label";
 
 const easing = (v) => v;
@@ -218,13 +219,13 @@ const Map = ({
     const map = mapRef.current?.getMap();
 
     if (map.isStyleLoaded()) {
-      if (map.getLayer("POI")) {
-        map.setLayoutProperty("POI", "visibility", "none");
+      if (map.getLayer(poiLayerId)) {
+        map.setLayoutProperty(poiLayerId, "visibility", "none");
       }
     } else {
       map.on("style.load", () => {
-        if (map.getLayer("POI")) {
-          map.setLayoutProperty("POI", "visibility", "none");
+        if (map.getLayer(poiLayerId)) {
+          map.setLayoutProperty(poiLayerId, "visibility", "none");
         }
       });
     }

@@ -7,7 +7,8 @@ const SectionTypes = {
   TRAVEL_MODE: "TRAVEL_MODE",
   UNPAVED: "UNPAVED",
   OTHER: "OTHER",
-  LANES: "LANES"
+  LANES: "LANES",
+  SPEED_LIMIT: "SPEED_LIMIT"
 };
 
 export default SectionTypes;
