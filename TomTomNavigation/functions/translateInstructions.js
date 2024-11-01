@@ -113,6 +113,4 @@ export default function translateInstructions(geojson) {
     delete instruction.signpost;
     delete instruction.maneuverPoint;
   });
-
-  console.log("instructions: ", instructions);
 }
