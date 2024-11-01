@@ -3,5 +3,6 @@ export default {
   OnNavigationStarted: "OnNavigationStarted",
   OnNavigationStopped: "OnNavigationStopped",
   OnDestinationReached: "OnDestinationReached",
+  OnContinue: "OnContinue",
   OnProgressUpdate: "OnProgressUpdate"
 };

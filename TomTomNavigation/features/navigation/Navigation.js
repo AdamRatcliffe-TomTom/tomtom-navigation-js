@@ -70,7 +70,8 @@ const Navigation = ({
   onNavigationStarted,
   onNavigationStopped,
   onProgressUpdate,
-  onDestinationReached
+  onDestinationReached,
+  onNavigationContinue
 }) => {
   const dispatch = useDispatch();
   const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
@@ -370,6 +371,7 @@ const Navigation = ({
           route={route}
           onStartNavigation={startNavigation}
           onStopNavigation={stopNavigation}
+          onNavigationContinue={onNavigationContinue}
         />
       )}
       {simulatorIsActive && (

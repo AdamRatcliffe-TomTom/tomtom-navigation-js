@@ -5,7 +5,8 @@ import {
   useTheme,
   Stack,
   Text,
-  DefaultButton
+  DefaultButton,
+  PrimaryButton
 } from "@fluentui/react";
 import _isEmpty from "lodash.isempty";
 import ArrivalPanelBackgroundImages from "./ArrivalPanelBackgroundImages";
@@ -15,10 +16,12 @@ import Maneuvers from "../../constants/Maneuvers";
 import useTextStyles from "../../hooks/useTextStyles";
 import useButtonStyles from "../../hooks/useButtonStyles";
 import breakAfterFirstWord from "../../functions/breakAfterFirstWord";
+import fireEvent from "../../functions/fireEvent";
+import ControlEvents from "../../constants/ControlEvents";
 import strings from "../../config/strings";
 
 import { getRouteOptions } from "../map/mapSlice";
-import { getLastInstruction } from "./navigationSlice";
+import { getShowContinueButton, getLastInstruction } from "./navigationSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   address: {
     fontSize: 18,
     lineHeight: "1.5"
+  },
+  button: {
+    margin: theme.spacing.l1
   }
 }));
 
@@ -56,12 +62,16 @@ const arrivalMessages = {
   ARRIVE_RIGHT: strings.arrivalRight
 };
 
-const Arrival = ({ onStopNavigation = () => {} }) => {
+const Arrival = ({
+  onStopNavigation = () => {},
+  onNavigationContinue = () => {}
+}) => {
   const theme = useTheme();
   const classes = useStyles();
   const textClasses = useTextStyles();
   const buttonClasses = useButtonStyles();
-  const { maneuver } = useSelector(getLastInstruction);
+  const showContinueButton = useSelector(getShowContinueButton);
+  const { maneuver } = useSelector(getLastInstruction) || {};
   const { locations } = useSelector(getRouteOptions);
   const destination = locations.at(-1);
 
@@ -81,6 +91,11 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
           backgroundImage: `url(data:image/svg+xml;base64,${ArrivalPanelBackgroundImages.right})`
         }
       : null;
+
+  const handleContinue = () => {
+    fireEvent(ControlEvents.OnContinue);
+    onNavigationContinue();
+  };
 
   return (
     <div className={classes.root}>
@@ -139,6 +154,13 @@ const Arrival = ({ onStopNavigation = () => {} }) => {
             </>
           )}
         </Stack>
+        {showContinueButton && (
+          <PrimaryButton
+            className={`${buttonClasses.pillButtonLarge} ${classes.button}`}
+            text={strings.continueWalking}
+            onClick={handleContinue}
+          />
+        )}
       </Stack>
     </div>
   );

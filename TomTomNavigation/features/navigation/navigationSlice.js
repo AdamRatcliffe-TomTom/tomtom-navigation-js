@@ -18,6 +18,7 @@ const initialState = {
   showBottomPanel: true,
   showGuidancePanel: true,
   showArrivalPanel: true,
+  showContinueButton: false,
   isNavigating: false,
   navigationPerspective: NavigationPerspectives.FOLLOW,
   hasReachedDestination: false,
@@ -54,6 +55,9 @@ const navigationSlice = createSlice({
     },
     setShowArrivalPanel: (state, action) => {
       state.showArrivalPanel = action.payload;
+    },
+    setShowContinueButton: (state, action) => {
+      state.showContinueButton = action.payload;
     },
     setIsNavigating: (state, action) => {
       state.isNavigating = action.payload;
@@ -215,6 +219,11 @@ const getShowArrivalPanel = createSelector(
   (state) => state.showArrivalPanel
 );
 
+const getShowContinueButton = createSelector(
+  rootSelector,
+  (state) => state.showContinueButton
+);
+
 const getIsNavigating = createSelector(
   rootSelector,
   (state) => state.isNavigating
@@ -286,6 +295,7 @@ export {
   getShowBottomPanel,
   getShowGuidancePanel,
   getShowArrivalPanel,
+  getShowContinueButton,
   getIsNavigating,
   getNavigationPerspective,
   getNextInstruction,
@@ -306,6 +316,7 @@ export const {
   setShowBottomPanel,
   setShowGuidancePanel,
   setShowArrivalPanel,
+  setShowContinueButton,
   setIsNavigating,
   setNavigationPerspective,
   setCurrentLocation,

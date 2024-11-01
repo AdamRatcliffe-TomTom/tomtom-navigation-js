@@ -34,7 +34,12 @@ const useStyles = ({ isPhone, isTablet }) =>
     }
   }));
 
-const BottomPanel = ({ route, onStartNavigation, onStopNavigation }) => {
+const BottomPanel = ({
+  route,
+  onStartNavigation,
+  onStopNavigation,
+  onNavigationContinue
+}) => {
   const { measurementSystem, isPhone, isTablet } = useAppContext();
   const classes = useStyles({ isPhone, isTablet })();
   const isNavigating = useSelector(getIsNavigating);
@@ -45,7 +50,10 @@ const BottomPanel = ({ route, onStartNavigation, onStopNavigation }) => {
     <div className={classes.root}>
       {hasReachedDestination ? (
         showArrivalPanel ? (
-          <ArrivalPanel onStopNavigation={onStopNavigation} />
+          <ArrivalPanel
+            onStopNavigation={onStopNavigation}
+            onNavigationContinue={onNavigationContinue}
+          />
         ) : null
       ) : (
         <ETAPanel

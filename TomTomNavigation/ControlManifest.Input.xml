@@ -47,6 +47,7 @@
 		<property name="showBottomPanel" display-name-key="Show bottom panel" description-key="showBottomPanel_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="showGuidancePanel" display-name-key="Show guidance panel" description-key="showGuidancePanel_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="showArrivalPanel" display-name-key="Show arrival panel" description-key="showArrivalPanel_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
+		<property name="showContinueButton" display-name-key="Show continue button" description-key="showContinueButton_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="false"/>
 		<property name="showManeuverArrows" display-name-key="Show maneuver arrows" description-key="showManeuverArrows_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="true"/>
 		<property name="automaticRouteCalculation" display-name-key="Automatic route calculation" description-key="automaticRouteCalculation_Desc_Key" of-type="TwoOptions" usage="input" required="false" default-value="false" />
 		<data-set name="routeWaypoints" description-key="routeWaypoints-Desc_Key" display-name-key="Route waypoints dataset">

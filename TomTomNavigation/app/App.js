@@ -24,6 +24,7 @@ import {
   setShowBottomPanel,
   setShowGuidancePanel,
   setShowArrivalPanel,
+  setShowContinueButton,
   resetNavigation
 } from "../features/navigation/navigationSlice";
 
@@ -45,11 +46,13 @@ function App({
   showBottomPanel,
   showGuidancePanel,
   showArrivalPanel,
+  showContinueButton,
   routeUrl,
   onNavigationStarted,
   onNavigationStopped,
   onProgressUpdate,
-  onDestinationReached
+  onDestinationReached,
+  onNavigationContinue
 }) {
   strings.setLanguage(language);
 
@@ -91,6 +94,10 @@ function App({
   useEffect(() => {
     dispatch(setShowGuidancePanel(showGuidancePanel));
   }, [showGuidancePanel]);
+
+  useEffect(() => {
+    dispatch(setShowContinueButton(showContinueButton));
+  }, [showContinueButton]);
 
   useEffect(() => {
     dispatch(setShowArrivalPanel(showArrivalPanel));
@@ -135,6 +142,7 @@ function App({
               onNavigationStopped={onNavigationStopped}
               onProgressUpdate={onProgressUpdate}
               onDestinationReached={onDestinationReached}
+              onNavigationContinue={onNavigationContinue}
             />
           </Map>
         </div>

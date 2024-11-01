@@ -25,6 +25,7 @@ const strings = new LocalizedStrings({
     arrivalLeft: "Destination on the left",
     arrivalRight: "Destination on the right",
     markedLocation: "Marked location",
+    continueWalking: "Continue walking",
     ARRIVING: "You will arrive at your destination",
     ARRIVE: "You have arrived at your destination",
     ARRIVE_LEFT: "You have arrived. Your destination is on the left",

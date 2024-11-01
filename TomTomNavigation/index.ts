@@ -128,6 +128,10 @@ export class TomTomNavigation
       "showGuidancePanel"
     );
     const showArrivalPanel = this.getRawParameter(context, "showArrivalPanel");
+    const showContinueButton = this.getRawParameter(
+      context,
+      "showContinueButton"
+    );
     const showManeuverArrows = this.getRawParameter(
       context,
       "showManeuverArrows"
@@ -273,12 +277,14 @@ export class TomTomNavigation
           showBottomPanel,
           showGuidancePanel,
           showArrivalPanel,
+          showContinueButton,
           automaticRouteCalculation,
           routeUrl,
           onNavigationStarted: this.handleNavigationStarted,
           onNavigationStopped: this.handleNavigationStopped,
           onProgressUpdate: this.handleProgressUpdate,
-          onDestinationReached: this.handleDestinationReached
+          onDestinationReached: this.handleDestinationReached,
+          onNavigationContinue: this.handleNavigationContinue
         })
       ]
     });
@@ -323,6 +329,13 @@ export class TomTomNavigation
   handleComponentExit = () => {
     this.event = {
       name: "OnExit"
+    };
+    this.notifyOutputChanged();
+  };
+
+  handleNavigationContinue = () => {
+    this.event = {
+      name: "OnContinue"
     };
     this.notifyOutputChanged();
   };

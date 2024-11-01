@@ -5,6 +5,7 @@ export interface IControlEvent {
     | "OnNavigationStopped"
     | "OnProgressUpdate"
     | "OnDestinationReached"
-    | "OnExit";
+    | "OnExit"
+    | "OnContinue";
   value?: any;
 }

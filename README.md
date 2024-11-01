@@ -34,6 +34,8 @@ Available component properties:
 | showZoomControl           | `TwoOptions`                                                                                                           | input | `false`                   | Show the zoom control. This control, when enabled is not shown if the device is a phone due to space limitations.                                                                                                                                                                                                                                  |
 | showBottomPanel           | `TwoOptions`                                                                                                           | input | `true`                   | Show the bottom panel.                                                                                                                                                                                                                                  |
 | showGuidancePanel         | `TwoOptions`                                                                                                           | input | `true`                   | Show the navigation guidance panel.                                                                                                                                                                                                                     |
+| showArrivalPanel         | `TwoOptions`                                                                                                           | input | `true`                   | Show the navigation arrival panel.                                                                                                                                                                                                                     |
+| showContinueButton         | `TwoOptions`                                                                                                           | input | `true`                   | Show the navigation continue button.                                                                                                                                                                                                                     |
 | showManeuverArrows         | `TwoOptions`                                                                                                           | input | `true`                   | Shows maneuver arrows along the route.                                                                                                                                                                                                                     |
 | automaticRouteCalculation | `TwoOptions`                                                                                                           | input | `false`                  | Automatically calculates a route when more than 1 waypoint is provided.                                                                                                                                                                                 |
 | travelMode                | `Enum` possible values are "car", "truck", "taxi", "bus", "van", "motorcycle", "bicycle", "pedestrian"                 | input | "car"                    | The travel mode used for the route calculation.                                                                                                                                                                                                         |
@@ -151,6 +153,16 @@ Fired when the destination is reached.
 | ------- | ---------- | ----------------------- |
 | `name`  | "OnDestinationReached" | The event name |
 
+#### OnContinue
+
+Fired when the arrival panel's continue button is clicked.
+
+##### Output properties
+
+| Name    | Value      | Description             |
+| ------- | ---------- | ----------------------- |
+| `name`  | "OnContinue" | The event name |
+
 #### OnExit
 
 Fired when the component's exit button is clicked.
@@ -237,6 +249,16 @@ Fired when the destination is reached.
 | `destination.name`        | `string`                               | The destination name (if provided).                                 |
 | `destination.address`     | `string`                               | The destination address (if provided).                              |
 | `destination.icon`        | `Object`                               | Properties specifying the icon for the record (if provided).        |
+
+#### TomTomNavigation.OnContinue
+
+Fired when the arrival panel's continue button is clicked.
+
+| Name                      | Value                                  | Description                                                         |
+| ------------------------- | -------------------------------------- | ------------------------------------------------------------------- |
+| `type`                    | "TomTomNavigation.OnContinue" | The message type.                                                   |
+| `id`                      | `string`                               | Internal ID for the record.                                         |
+
 
 ## Testing
 
