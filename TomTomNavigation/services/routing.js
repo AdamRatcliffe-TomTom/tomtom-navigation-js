@@ -77,12 +77,13 @@ const routeBaseQuery = async (args) => {
       return { data: { route: null } };
 
     const route = await calculateRoute(otherArgs);
-    const sectionedRoute = createSectionedRoute(route);
-    const walkingLeg = createWalkingLeg(args.locations, route);
-    const maneuverLineStrings = createManeuverLineStrings(route);
 
     translateInstructions(route);
     calculateTriggerPoints(route);
+
+    const sectionedRoute = createSectionedRoute(route);
+    const walkingLeg = createWalkingLeg(args.locations, route);
+    const maneuverLineStrings = createManeuverLineStrings(route);
 
     return { data: { route, sectionedRoute, walkingLeg, maneuverLineStrings } };
   } catch (error) {
