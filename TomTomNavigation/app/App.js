@@ -105,17 +105,19 @@ function App({
 
   useEffect(() => {
     const fetchRoute = async () => {
-      if (!routeUrl) return;
-
-      try {
-        const response = await fetch(routeUrl);
-        if (!response.ok) {
-          throw new Error(`HTTP error. Status: ${response.status}`);
+      if (routeUrl) {
+        try {
+          const response = await fetch(routeUrl);
+          if (!response.ok) {
+            throw new Error(`HTTP error. Status: ${response.status}`);
+          }
+          const route = await response.json();
+          setPreCalculatedRoute(route);
+        } catch (error) {
+          console.error("Error fetching static route:", error);
         }
-        const route = await response.json();
-        setPreCalculatedRoute(route);
-      } catch (error) {
-        console.error("Error fetching static route:", error);
+      } else {
+        setPreCalculatedRoute(null);
       }
     };
     fetchRoute();
