@@ -70,7 +70,6 @@ export default function tomtom2mapbox(route) {
 
 function getSteps(instructions, coordinates) {
   const steps = [];
-  let lastStep = null;
   for (let i = 0; i < instructions.length; i++) {
     const instruction = instructions[i];
     const nextInstruction =
@@ -123,8 +122,6 @@ function getSteps(instructions, coordinates) {
       mode: "driving"
     };
     steps.push(step);
-
-    lastStep = step;
   }
   return steps;
 }

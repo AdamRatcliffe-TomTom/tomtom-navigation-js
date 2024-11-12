@@ -32,13 +32,14 @@ export default function translateInstructions(geojson) {
   instructions.forEach((instruction, index) => {
     const {
       maneuver,
-      routePath: [{ point, travelTimeInSeconds }],
+      maneuverPoint,
+      routePath: [{ travelTimeInSeconds }],
       previousRoadInfo: { properties: previousRoadInfoProperties },
       nextRoadInfo: { streetName, roadShields } = {},
       signpost: { exitNumber, exitName, towardName } = {}
     } = instruction;
     const mappedManeuver = newToOldManeuverMapping[maneuver] || maneuver;
-    const pointArray = [point.longitude, point.latitude];
+    const pointArray = [maneuverPoint.longitude, maneuverPoint.latitude];
     const part = ruler.lineSlice(firstPoint, pointArray, coordinates);
 
     Object.keys(announcementTriggerDistances).forEach((announcementType) => {
@@ -87,14 +88,17 @@ export default function translateInstructions(geojson) {
 
     Object.assign(instruction, {
       maneuver: mappedManeuver,
-      point,
+      point: maneuverPoint,
       pointIndex:
         index === 0
           ? 0
           : index === lastInstructionIndex
           ? coordinates.length - 1
-          : ruler.pointOnLine(coordinates, [point.longitude, point.latitude])
-              ?.index,
+          : coordinates.findIndex(
+              (coord) =>
+                coord[1] === maneuverPoint.latitude &&
+                coord[0] === maneuverPoint.longitude
+            ),
       travelTimeInSeconds,
       street: streetName?.text,
       exitNumber: exitNumber?.text,
@@ -105,6 +109,14 @@ export default function translateInstructions(geojson) {
         )
       })
     });
+
+    if (instruction.pointIndex === -1) {
+      instruction.pointIndex = ruler.pointOnLine(coordinates, [
+        maneuverPoint.longitude,
+        maneuverPoint.latitude
+      ])?.index;
+    }
+
     delete instruction.routePath;
     delete instruction.previousRoadInfo;
     delete instruction.nextRoadInfo;

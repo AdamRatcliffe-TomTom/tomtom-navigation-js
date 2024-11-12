@@ -218,7 +218,7 @@ const Navigation = ({
     onNavigationStarted();
   };
 
-  const stopNavigation = () => {
+  const stopNavigation = (userCancelled = false) => {
     let geojson = coordinatesToGeoJson(
       routeOptions.locations.map((location) => location.coordinates)
     );
@@ -256,7 +256,7 @@ const Navigation = ({
     setMapInteractive(true);
 
     fireEvent(ControlEvents.OnNavigationStopped);
-    onNavigationStopped();
+    onNavigationStopped({ userCancelled });
   };
 
   const setMapInteractive = (interactive) => {
@@ -373,7 +373,7 @@ const Navigation = ({
         <BottomPanel
           route={route}
           onStartNavigation={startNavigation}
-          onStopNavigation={stopNavigation}
+          onStopNavigation={() => stopNavigation(true)}
           onNavigationContinue={onNavigationContinue}
         />
       )}

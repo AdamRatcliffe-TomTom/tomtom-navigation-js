@@ -89,6 +89,11 @@ const NextInstructionPanel = ({ route, instruction }) => {
   const maneuverIcon = getManeuverIcon(maneuver, {
     color: "white"
   });
+
+  if (!maneuverIcon) {
+    console.error(`Couldn't find icon for maneuver ${maneuver}`);
+  }
+
   const haveRoadShieldReferences = !!roadShieldReferences;
   const haveSignpostRoadShieldReferences = !!signpostRoadShieldReferences;
   const roadShieldsAreVisible =
