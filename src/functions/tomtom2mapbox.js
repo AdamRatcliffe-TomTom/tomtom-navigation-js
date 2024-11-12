@@ -1,6 +1,7 @@
 import turfBearing from "@turf/bearing";
 import { point as turfPoint } from "@turf/helpers";
 import turfCleanCoords from "@turf/clean-coords";
+import coordinatesEqual from "./coordinatesEqual";
 
 const MANEUVERS = {
   ARRIVE: "arrive",
@@ -69,6 +70,7 @@ export default function tomtom2mapbox(route) {
 
 function getSteps(instructions, coordinates) {
   const steps = [];
+  let lastStep = null;
   for (let i = 0; i < instructions.length; i++) {
     const instruction = instructions[i];
     const nextInstruction =
@@ -84,6 +86,17 @@ function getSteps(instructions, coordinates) {
 
     const coords = coordinates[pointIndex];
     const location = turfPoint(coords);
+
+    if (
+      nextInstruction &&
+      coordinatesEqual(
+        location.geometry.coordinates,
+        coordinates[nextInstruction.pointIndex]
+      )
+    ) {
+      continue;
+    }
+
     const distance = nextInstruction
       ? nextInstruction.routeOffsetInMeters - routeOffsetInMeters
       : 0;
@@ -110,6 +123,8 @@ function getSteps(instructions, coordinates) {
       mode: "driving"
     };
     steps.push(step);
+
+    lastStep = step;
   }
   return steps;
 }
