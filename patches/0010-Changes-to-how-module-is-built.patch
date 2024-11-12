@@ -1,0 +1,42 @@
+From 43e685ee5978bf0c6f0a778d61930340d813ae9a Mon Sep 17 00:00:00 2001
+From: Adam Ratcliffe <adam.ratcliffe@tomtom.com>
+Date: Fri, 8 Nov 2024 13:46:48 -0800
+Subject: [PATCH 10/22] Changes to how module is built.
+
+---
+ package.json      | 4 ++++
+ rollup.config.mjs | 3 ++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/package.json b/package.json
+index 4fa9cc0..0f28818 100755
+--- a/package.json
++++ b/package.json
+@@ -4,6 +4,10 @@
+   "description": "TomTom navigation component for Javascript.",
+   "main": "dist/index.cjs.js",
+   "module": "dist/index.esm.js",
++  "exports": {
++    "import": "./dist/index.esm.js",
++    "require": "./dist/index.cjs.js"
++  },
+   "type": "module",
+   "scripts": {
+     "build": "rollup -c",
+diff --git a/rollup.config.mjs b/rollup.config.mjs
+index 4700c8c..44f49cc 100644
+--- a/rollup.config.mjs
++++ b/rollup.config.mjs
+@@ -11,7 +11,8 @@ export default {
+     {
+       file: "dist/index.cjs.js",
+       format: "cjs",
+-      sourcemap: true
++      sourcemap: true,
++      exports: "auto"
+     },
+     {
+       file: "dist/index.esm.js",
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,3 +1,4 @@
+import React from "react";
 import Maneuvers from "../constants/Maneuvers";
 import StraightIcon from "../icons/nip/StraightIcon";
 import KeepLeftIcon from "../icons/nip/KeepLeftIcon";

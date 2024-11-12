@@ -1,0 +1,26 @@
+From 788b9b88356bded41a1969c8e69657b264ae1a58 Mon Sep 17 00:00:00 2001
+From: Adam Ratcliffe <adam.ratcliffe@tomtom.com>
+Date: Fri, 8 Nov 2024 14:29:15 -0800
+Subject: [PATCH 11/22] Exclude crypto module.
+
+---
+ package.json | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/package.json b/package.json
+index 0f28818..8794d78 100755
+--- a/package.json
++++ b/package.json
+@@ -64,5 +64,8 @@
+     "@tomtom-international/web-sdk-services": "^6.0.0",
+     "react": "^17.0.0",
+     "react-dom": "^17.0.0"
++  },
++  "browser": {
++    "crypto": false
+   }
+ }
+\ No newline at end of file
+-- 
+2.39.5 (Apple Git-154)
+

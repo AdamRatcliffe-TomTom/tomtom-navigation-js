@@ -1,0 +1,1073 @@
+diff --git a/.babelrc b/.babelrc
+new file mode 100644
+index 0000000..2b7bafa
+--- /dev/null
++++ b/.babelrc
+@@ -0,0 +1,3 @@
++{
++  "presets": ["@babel/preset-env", "@babel/preset-react"]
++}
+diff --git a/.gitignore b/.gitignore
+index 4eca06b..f8b5cba 100755
+--- a/.gitignore
++++ b/.gitignore
+@@ -7,7 +7,7 @@
+ **/generated
+ 
+ # output directory
+-/out
++/dist
+ 
+ # msbuild output directories
+ /bin
+diff --git a/jsconfig.json b/jsconfig.json
+new file mode 100644
+index 0000000..738e8a4
+--- /dev/null
++++ b/jsconfig.json
+@@ -0,0 +1,5 @@
++{
++  "compilerOptions": {
++    "baseUrl": "./src"
++  }
++}
+diff --git a/package.json b/package.json
+index ead2c0f..3712956 100755
+--- a/package.json
++++ b/package.json
+@@ -1,16 +1,19 @@
+ {
+-  "name": "pcf-project",
++  "name": "tomtom-navigation-js",
+   "version": "1.0.0",
+-  "description": "Project containing your PowerApps Component Framework (PCF) control.",
++  "description": "TomTom navigation component for Javascript.",
++  "main": "dist/index.cjs.js",
++  "module": "dist/index.esm.js",
++  ".": {
++    "require": "./dist/index.cjs.js",
++    "import": "./dist/index.esm.js"
++  },
++  "./style": "./dist/index.esm.css",
++  "type": "module",
+   "scripts": {
+-    "build": "pcf-scripts build",
+-    "clean": "pcf-scripts clean",
+-    "lint": "pcf-scripts lint",
+-    "lint:fix": "pcf-scripts lint fix",
+-    "rebuild": "pcf-scripts rebuild",
+-    "start": "pcf-scripts start",
+-    "start:watch": "pcf-scripts start watch",
+-    "refreshTypes": "pcf-scripts refreshTypes"
++    "build": "rollup -c",
++    "dev": "rollup -c -w",
++    "prepare": "yarn build"
+   },
+   "dependencies": {
+     "@deck.gl/core": "^8.9.32",
+@@ -20,54 +23,54 @@
+     "@floating-ui/react": "^0.26.2",
+     "@fluentui/react": "8.29.0",
+     "@reduxjs/toolkit": "2.0.1",
+-    "@tomtom-international/web-sdk-maps": "^6.25.0",
+-    "@tomtom-international/web-sdk-services": "^6.25.0",
+     "@turf/bbox": "^6.5.0",
+     "@turf/bbox-polygon": "^6.5.0",
+     "@turf/bearing": "^6.5.0",
+     "@turf/boolean-contains": "^6.5.0",
+     "@turf/clean-coords": "^6.5.0",
+     "@turf/helpers": "^6.5.0",
+-    "@types/lodash.isempty": "^4.4.9",
+     "cheap-ruler": "^3.0.2",
++    "crypto-browserify": "^3.12.1",
+     "date-fns": "^2.30.0",
+-    "guidance-replay": "^0.1.4",
+-    "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git",
+     "lodash.isempty": "^4.4.0",
+     "lodash.isnil": "^4.0.0",
+     "lodash.isnumber": "^3.0.3",
+     "lodash.merge": "^4.6.2",
+     "lodash.pick": "^4.4.0",
+-    "react": "16.8.6",
+-    "react-dom": "16.8.6",
++    "prop-types": "^15.8.1",
+     "react-geolocated": "^4.1.2",
+     "react-localization": "^1.0.19",
+     "react-redux": "^8.1.3",
+     "react-tomtom-maps": "ssh://git@github.com:AdamRatcliffe-TomTom/react-tomtom-maps.git",
+     "react-use-measure": "^2.1.1",
+     "react-usestateref": "^1.0.8",
+-    "threebox-plugin": "^2.2.7",
+     "uuid": "^9.0.1"
+   },
+   "devDependencies": {
+-    "@microsoft/eslint-plugin-power-apps": "^0.2.6",
+-    "@types/dom-screen-wake-lock": "^1.0.3",
+-    "@types/lodash.isnil": "^4.0.9",
+-    "@types/node": "^18.8.2",
+-    "@types/powerapps-component-framework": "^1.3.4",
+-    "@types/react": "^16.8",
+-    "@types/react-dom": "^16.8",
+-    "@types/uuid": "^9.0.7",
+-    "@typescript-eslint/eslint-plugin": "^5.39.0",
+-    "@typescript-eslint/parser": "^5.39.0",
+-    "ajv": "8",
+-    "eslint": "^8.24.0",
+-    "eslint-plugin-import": "^2.26.0",
+-    "eslint-plugin-node": "^11.1.0",
+-    "eslint-plugin-promise": "^6.0.1",
+-    "eslint-plugin-react": "^7.31.8",
+-    "pcf-scripts": "^1",
+-    "pcf-start": "^1",
+-    "typescript": "^4.8.4"
++    "@babel/core": "^7.26.0",
++    "@babel/preset-env": "^7.26.0",
++    "@babel/preset-react": "^7.25.9",
++    "@rollup/plugin-babel": "^6.0.4",
++    "@rollup/plugin-commonjs": "^28.0.1",
++    "@rollup/plugin-json": "^6.1.0",
++    "@rollup/plugin-node-resolve": "^15.3.0",
++    "postcss": "^8.4.47",
++    "rollup": "^4.24.4",
++    "rollup-plugin-import-css": "^3.5.6",
++    "rollup-plugin-peer-deps-external": "^2.2.4",
++    "rollup-plugin-postcss": "^4.0.2",
++    "rollup-plugin-terser": "^7.0.2"
++  },
++  "peerDependencies": {
++    "@tomtom-international/web-sdk-maps": "^6.0.0",
++    "@tomtom-international/web-sdk-services": "^6.0.0",
++    "guidance-replay": "^0.1.4",
++    "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git",
++    "react": "^17.0.0",
++    "react-dom": "^17.0.0"
++  },
++  "browser": {
++    "worker_threads": false,
++    "react-dom/server": false
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/rollup.config.mjs b/rollup.config.mjs
+new file mode 100644
+index 0000000..00f3ec5
+--- /dev/null
++++ b/rollup.config.mjs
+@@ -0,0 +1,50 @@
++import babel from "@rollup/plugin-babel";
++import resolve from "@rollup/plugin-node-resolve";
++import commonjs from "@rollup/plugin-commonjs";
++import postcss from "rollup-plugin-postcss";
++import json from "@rollup/plugin-json";
++import css from "rollup-plugin-import-css";
++import peerDepsExternal from "rollup-plugin-peer-deps-external";
++
++export default {
++  input: "src/index.js",
++  output: [
++    {
++      file: "dist/index.cjs.js",
++      format: "cjs",
++      sourcemap: true,
++      exports: "auto"
++    },
++    {
++      file: "dist/index.esm.js",
++      format: "esm",
++      sourcemap: true
++    }
++  ],
++  plugins: [
++    peerDepsExternal(),
++    resolve({
++      extensions: [".js", ".jsx"],
++      preferBuiltins: false
++    }),
++    babel({
++      exclude: "node_modules/**",
++      presets: ["@babel/preset-react"],
++      babelHelpers: "bundled",
++      extensions: [".js", ".jsx"]
++    }),
++    commonjs({
++      include: /node_modules/,
++      ignoreGlobal: true,
++      strictRequires: true,
++      transformMixedEsModules: true
++    }),
++    postcss({
++      extract: true, // This will extract the CSS to a separate file
++      minimize: true // Optionally minimize the CSS
++    }),
++    json(),
++    css()
++  ],
++  external: ["guidance-sim", "guidance-replay", "crypto"]
++};
+diff --git a/TomTomNavigation/app/App.js b/src/app/App.js
+similarity index 87%
+rename from TomTomNavigation/app/App.js
+rename to src/app/App.js
+index a52a0c7..6e4e971 100644
+--- a/TomTomNavigation/app/App.js
++++ b/src/app/App.js
+@@ -9,6 +9,7 @@ import Map from "../features/map/Map";
+ import Navigation from "../features/navigation/Navigation";
+ import GeolocationDialog from "./GeolocationDialog";
+ import getSectionTypesForTravelMode from "../functions/getSectionTypesForTravelMode";
++import detectColorScheme from "../functions/detectColorScheme";
+ import { lightTheme, darkTheme } from "./themes";
+ import strings from "../config/strings";
+ 
+@@ -29,26 +30,27 @@ import {
+ 
+ function App({
+   apiKey,
+-  theme,
+-  language,
+-  measurementSystem,
++  theme = detectColorScheme(),
++  language = "en-US",
++  measurementSystem = "auto",
+   width,
+   height,
+   guidanceVoice,
+   guidanceVoiceVolume,
+-  simulationSpeed,
+-  mapOptions,
++  simulationSpeed = "3x",
++  mapOptions = {},
+   initialCenter,
+   initialZoom,
+-  routeOptions,
++  routeOptions = {},
+   automaticRouteCalculation,
+-  showBottomPanel,
+-  showGuidancePanel,
+-  showArrivalPanel,
+-  onNavigationStarted,
+-  onNavigationStopped,
+-  onProgressUpdate,
+-  onDestinationReached
++  guidancePanelYOffset = 0,
++  showBottomPanel = true,
++  showGuidancePanel = true,
++  showArrivalPanel = true,
++  onNavigationStarted = () => {},
++  onNavigationStopped = () => {},
++  onProgressUpdate = () => {},
++  onDestinationReached = () => {}
+ }) {
+   strings.setLanguage(language);
+ 
+@@ -110,6 +112,7 @@ function App({
+         <div className="TomTomNavigation">
+           <Map {...mapOptions}>
+             <Navigation
++              guidancePanelYOffset={guidancePanelYOffset}
+               onNavigationStarted={onNavigationStarted}
+               onNavigationStopped={onNavigationStopped}
+               onProgressUpdate={onProgressUpdate}
+diff --git a/TomTomNavigation/app/AppContext.js b/src/app/AppContext.js
+similarity index 96%
+rename from TomTomNavigation/app/AppContext.js
+rename to src/app/AppContext.js
+index 19b55a8..a5ca708 100644
+--- a/TomTomNavigation/app/AppContext.js
++++ b/src/app/AppContext.js
+@@ -1,4 +1,4 @@
+-import { createContext, useContext, useMemo, useState } from "react";
++import React, { createContext, useContext, useMemo, useState } from "react";
+ import strings from "../config/strings";
+ 
+ const AppContext = createContext();
+diff --git a/TomTomNavigation/app/GeolocationDialog.js b/src/app/GeolocationDialog.js
+similarity index 100%
+rename from TomTomNavigation/app/GeolocationDialog.js
+rename to src/app/GeolocationDialog.js
+diff --git a/TomTomNavigation/app/NoApiKeyMessage.js b/src/app/NoApiKeyMessage.js
+similarity index 100%
+rename from TomTomNavigation/app/NoApiKeyMessage.js
+rename to src/app/NoApiKeyMessage.js
+diff --git a/TomTomNavigation/app/store.js b/src/app/store.js
+similarity index 100%
+rename from TomTomNavigation/app/store.js
+rename to src/app/store.js
+diff --git a/TomTomNavigation/app/themes.js b/src/app/themes.js
+similarity index 100%
+rename from TomTomNavigation/app/themes.js
+rename to src/app/themes.js
+diff --git a/TomTomNavigation/components/Divider.js b/src/components/Divider.js
+similarity index 100%
+rename from TomTomNavigation/components/Divider.js
+rename to src/components/Divider.js
+diff --git a/TomTomNavigation/components/Fade.js b/src/components/Fade.js
+similarity index 100%
+rename from TomTomNavigation/components/Fade.js
+rename to src/components/Fade.js
+diff --git a/TomTomNavigation/components/SpriteImage.js b/src/components/SpriteImage.js
+similarity index 100%
+rename from TomTomNavigation/components/SpriteImage.js
+rename to src/components/SpriteImage.js
+diff --git a/TomTomNavigation/components/Stack.js b/src/components/Stack.js
+similarity index 100%
+rename from TomTomNavigation/components/Stack.js
+rename to src/components/Stack.js
+diff --git a/TomTomNavigation/config/index.js b/src/config/index.js
+similarity index 100%
+rename from TomTomNavigation/config/index.js
+rename to src/config/index.js
+diff --git a/TomTomNavigation/config/strings.js b/src/config/strings.js
+similarity index 100%
+rename from TomTomNavigation/config/strings.js
+rename to src/config/strings.js
+diff --git a/TomTomNavigation/constants/AnnouncementTypes.js b/src/constants/AnnouncementTypes.js
+similarity index 100%
+rename from TomTomNavigation/constants/AnnouncementTypes.js
+rename to src/constants/AnnouncementTypes.js
+diff --git a/TomTomNavigation/constants/ControlEvents.js b/src/constants/ControlEvents.js
+similarity index 100%
+rename from TomTomNavigation/constants/ControlEvents.js
+rename to src/constants/ControlEvents.js
+diff --git a/TomTomNavigation/constants/Maneuvers.js b/src/constants/Maneuvers.js
+similarity index 100%
+rename from TomTomNavigation/constants/Maneuvers.js
+rename to src/constants/Maneuvers.js
+diff --git a/TomTomNavigation/constants/NavigationPerspectives.js b/src/constants/NavigationPerspectives.js
+similarity index 100%
+rename from TomTomNavigation/constants/NavigationPerspectives.js
+rename to src/constants/NavigationPerspectives.js
+diff --git a/TomTomNavigation/constants/NavigationStates.js b/src/constants/NavigationStates.js
+similarity index 100%
+rename from TomTomNavigation/constants/NavigationStates.js
+rename to src/constants/NavigationStates.js
+diff --git a/TomTomNavigation/constants/SectionTypes.js b/src/constants/SectionTypes.js
+similarity index 100%
+rename from TomTomNavigation/constants/SectionTypes.js
+rename to src/constants/SectionTypes.js
+diff --git a/TomTomNavigation/css/TomTomNavigation.css b/src/css/TomTomNavigation.css
+similarity index 91%
+rename from TomTomNavigation/css/TomTomNavigation.css
+rename to src/css/TomTomNavigation.css
+index ed7058c..9b9b304 100644
+--- a/TomTomNavigation/css/TomTomNavigation.css
++++ b/src/css/TomTomNavigation.css
+@@ -1,4 +1,4 @@
+-@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Noto+Sans:wght@400;500;600;700&display=swap");
++@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap");
+ 
+ .TomTomNavigation {
+   text-align: left;
+diff --git a/TomTomNavigation/features/map/ManeuverArrows.js b/src/features/map/ManeuverArrows.js
+similarity index 100%
+rename from TomTomNavigation/features/map/ManeuverArrows.js
+rename to src/features/map/ManeuverArrows.js
+diff --git a/TomTomNavigation/features/map/Map.js b/src/features/map/Map.js
+similarity index 96%
+rename from TomTomNavigation/features/map/Map.js
+rename to src/features/map/Map.js
+index a18635f..5d353fd 100644
+--- a/TomTomNavigation/features/map/Map.js
++++ b/src/features/map/Map.js
+@@ -15,7 +15,6 @@ import SpeedLimitEU from "./SpeedLimitEU";
+ import SpeedLimitUS from "./SpeedLimitUS";
+ import Route from "./Route";
+ import ManeuverArrows from "./ManeuverArrows";
+-import Landmarks3D from "./Landmarks3D";
+ import LocationMarker from "./markers/LocationMarker";
+ import ChevronMarker from "./markers/ChevronMarker";
+ import Chevron2DMarker from "./markers/Chevron2DMarker";
+@@ -74,17 +73,17 @@ const before = "Borders - Treaty label";
+ const easing = (v) => v;
+ 
+ const Map = ({
+-  enableGeolocation,
+-  showTrafficFlow,
+-  showTrafficIncidents,
+-  showPoi,
+-  showLocationMarker,
+-  showMapSwitcherControl,
+-  showMuteControl,
+-  showExitControl,
+-  showZoomControl,
+-  showSkipControl,
+-  showManeuverArrows,
++  enableGeolocation = true,
++  showTrafficFlow = false,
++  showTrafficIncidents = false,
++  showPoi = false,
++  showLocationMarker = true,
++  showMapSwitcherControl = true,
++  showMuteControl = true,
++  showExitControl = false,
++  showZoomControl = false,
++  showSkipControl = false,
++  showManeuverArrows = true,
+   onRouteCalculated = () => {},
+   onComponentExit = () => {},
+   children
+@@ -229,8 +228,10 @@ const Map = ({
+   };
+ 
+   const handleMapLoad = (map) => {
+-    const control = map.getAttributionControl();
+-    map.removeControl(control);
++    try {
++      const control = map.getAttributionControl();
++      map.removeControl(control);
++    } catch (e) {}
+   };
+ 
+   const handleGeolocationControlClick = (coords) => {
+@@ -381,7 +382,6 @@ const Map = ({
+       <ExitControl visible={exitControlIsVisible} onClick={onComponentExit} />
+       <SkipControl visible={skipControlIsVisible} onClick={handleSkip} />
+       <ZoomControl visible={zoomControlIsVisible} />
+-      {/* <Landmarks3D key={currentStyle} /> */}
+       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
+       {routeIsVisible && (
+         <Route
+diff --git a/TomTomNavigation/features/map/Route.js b/src/features/map/Route.js
+similarity index 100%
+rename from TomTomNavigation/features/map/Route.js
+rename to src/features/map/Route.js
+diff --git a/TomTomNavigation/features/map/SpeedLimitEU.js b/src/features/map/SpeedLimitEU.js
+similarity index 100%
+rename from TomTomNavigation/features/map/SpeedLimitEU.js
+rename to src/features/map/SpeedLimitEU.js
+diff --git a/TomTomNavigation/features/map/SpeedLimitUS.js b/src/features/map/SpeedLimitUS.js
+similarity index 100%
+rename from TomTomNavigation/features/map/SpeedLimitUS.js
+rename to src/features/map/SpeedLimitUS.js
+diff --git a/TomTomNavigation/features/map/controls/CompassControl.js b/src/features/map/controls/CompassControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/CompassControl.js
+rename to src/features/map/controls/CompassControl.js
+diff --git a/TomTomNavigation/features/map/controls/ExitControl.js b/src/features/map/controls/ExitControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/ExitControl.js
+rename to src/features/map/controls/ExitControl.js
+diff --git a/TomTomNavigation/features/map/controls/GeolocateControl.js b/src/features/map/controls/GeolocateControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/GeolocateControl.js
+rename to src/features/map/controls/GeolocateControl.js
+diff --git a/TomTomNavigation/features/map/controls/MapControl.js b/src/features/map/controls/MapControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/MapControl.js
+rename to src/features/map/controls/MapControl.js
+diff --git a/TomTomNavigation/features/map/controls/MapSwitcherControl.js b/src/features/map/controls/MapSwitcherControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/MapSwitcherControl.js
+rename to src/features/map/controls/MapSwitcherControl.js
+diff --git a/TomTomNavigation/features/map/controls/MuteControl.js b/src/features/map/controls/MuteControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/MuteControl.js
+rename to src/features/map/controls/MuteControl.js
+diff --git a/TomTomNavigation/features/map/controls/NavigationPerspectiveControl.js b/src/features/map/controls/NavigationPerspectiveControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/NavigationPerspectiveControl.js
+rename to src/features/map/controls/NavigationPerspectiveControl.js
+diff --git a/TomTomNavigation/features/map/controls/SkipControl.js b/src/features/map/controls/SkipControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/SkipControl.js
+rename to src/features/map/controls/SkipControl.js
+diff --git a/TomTomNavigation/features/map/controls/ZoomControl.js b/src/features/map/controls/ZoomControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/ZoomControl.js
+rename to src/features/map/controls/ZoomControl.js
+diff --git a/TomTomNavigation/features/map/mapSlice.js b/src/features/map/mapSlice.js
+similarity index 100%
+rename from TomTomNavigation/features/map/mapSlice.js
+rename to src/features/map/mapSlice.js
+diff --git a/TomTomNavigation/features/map/markers/Chevron2DMarker.js b/src/features/map/markers/Chevron2DMarker.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/Chevron2DMarker.js
+rename to src/features/map/markers/Chevron2DMarker.js
+diff --git a/TomTomNavigation/features/map/markers/ChevronMarker.js b/src/features/map/markers/ChevronMarker.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/ChevronMarker.js
+rename to src/features/map/markers/ChevronMarker.js
+diff --git a/TomTomNavigation/features/map/markers/DefaultMarker.js b/src/features/map/markers/DefaultMarker.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/DefaultMarker.js
+rename to src/features/map/markers/DefaultMarker.js
+diff --git a/TomTomNavigation/features/map/markers/ImageMarker.js b/src/features/map/markers/ImageMarker.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/ImageMarker.js
+rename to src/features/map/markers/ImageMarker.js
+diff --git a/TomTomNavigation/features/map/markers/LocationMarker.js b/src/features/map/markers/LocationMarker.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/LocationMarker.js
+rename to src/features/map/markers/LocationMarker.js
+diff --git a/TomTomNavigation/features/map/markers/MarkerFactory.js b/src/features/map/markers/MarkerFactory.js
+similarity index 92%
+rename from TomTomNavigation/features/map/markers/MarkerFactory.js
+rename to src/features/map/markers/MarkerFactory.js
+index 3db4edf..d0a1264 100644
+--- a/TomTomNavigation/features/map/markers/MarkerFactory.js
++++ b/src/features/map/markers/MarkerFactory.js
+@@ -1,3 +1,4 @@
++import React from "react";
+ import DefaultMarker from "./DefaultMarker";
+ import ImageMarker from "./ImageMarker";
+ import { v4 as uuid } from "uuid";
+diff --git a/TomTomNavigation/features/navigation/ArrivalPanel.js b/src/features/navigation/ArrivalPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ArrivalPanel.js
+rename to src/features/navigation/ArrivalPanel.js
+diff --git a/TomTomNavigation/features/navigation/ArrivalPanelBackgroundImages.js b/src/features/navigation/ArrivalPanelBackgroundImages.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ArrivalPanelBackgroundImages.js
+rename to src/features/navigation/ArrivalPanelBackgroundImages.js
+diff --git a/TomTomNavigation/features/navigation/BottomPanel.js b/src/features/navigation/BottomPanel.js
+similarity index 98%
+rename from TomTomNavigation/features/navigation/BottomPanel.js
+rename to src/features/navigation/BottomPanel.js
+index dd028c7..bb80ee2 100644
+--- a/TomTomNavigation/features/navigation/BottomPanel.js
++++ b/src/features/navigation/BottomPanel.js
+@@ -1,3 +1,4 @@
++import React from "react";
+ import { makeStyles } from "@fluentui/react";
+ import { useSelector } from "react-redux";
+ import ETAPanel from "./ETAPanel";
+diff --git a/TomTomNavigation/features/navigation/ConsecutiveInstructionPanel.js b/src/features/navigation/ConsecutiveInstructionPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ConsecutiveInstructionPanel.js
+rename to src/features/navigation/ConsecutiveInstructionPanel.js
+diff --git a/TomTomNavigation/features/navigation/ETAPanel.js b/src/features/navigation/ETAPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ETAPanel.js
+rename to src/features/navigation/ETAPanel.js
+diff --git a/TomTomNavigation/features/navigation/ExitShieldEU.js b/src/features/navigation/ExitShieldEU.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ExitShieldEU.js
+rename to src/features/navigation/ExitShieldEU.js
+diff --git a/TomTomNavigation/features/navigation/ExitShieldUS.js b/src/features/navigation/ExitShieldUS.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ExitShieldUS.js
+rename to src/features/navigation/ExitShieldUS.js
+diff --git a/TomTomNavigation/features/navigation/LaneGuidancePanel.js b/src/features/navigation/LaneGuidancePanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/LaneGuidancePanel.js
+rename to src/features/navigation/LaneGuidancePanel.js
+diff --git a/TomTomNavigation/features/navigation/Navigation.js b/src/features/navigation/Navigation.js
+similarity index 98%
+rename from TomTomNavigation/features/navigation/Navigation.js
+rename to src/features/navigation/Navigation.js
+index 9250d37..c729015 100644
+--- a/TomTomNavigation/features/navigation/Navigation.js
++++ b/src/features/navigation/Navigation.js
+@@ -63,6 +63,7 @@ import {
+ 
+ const Navigation = ({
+   map,
++  guidancePanelYOffset,
+   onNavigationStarted,
+   onNavigationStopped,
+   onProgressUpdate,
+@@ -344,7 +345,9 @@ const Navigation = ({
+ 
+   return (
+     <>
+-      {guidancePanelIsVisible && <NavigationGuidancePanel route={route} />}
++      {guidancePanelIsVisible && (
++        <NavigationGuidancePanel route={route} yOffset={guidancePanelYOffset} />
++      )}
+       {bottomPanelIsVisible && (
+         <BottomPanel
+           route={route}
+diff --git a/TomTomNavigation/features/navigation/NavigationGuidancePanel.js b/src/features/navigation/NavigationGuidancePanel.js
+similarity index 96%
+rename from TomTomNavigation/features/navigation/NavigationGuidancePanel.js
+rename to src/features/navigation/NavigationGuidancePanel.js
+index de0d427..a81dab7 100644
+--- a/TomTomNavigation/features/navigation/NavigationGuidancePanel.js
++++ b/src/features/navigation/NavigationGuidancePanel.js
+@@ -28,12 +28,13 @@ const useStyles = ({
+   isPhone,
+   isTablet,
+   landscapeMinimal,
+-  countryCode
++  countryCode,
++  yOffset
+ }) =>
+   makeStyles((theme) => ({
+     root: {
+       position: "absolute",
+-      top: 0,
++      top: yOffset,
+       left: 0,
+       margin: `${theme.spacing.m} ${theme.spacing.m} 0`,
+       ...(isTablet && {
+@@ -80,7 +81,7 @@ const useStyles = ({
+ 
+ const styleId = "guidance-ctrl-margin-adjustment";
+ 
+-const NavigationGuidancePanel = ({ route }) => {
++const NavigationGuidancePanel = ({ route, yOffset = 0 }) => {
+   // Using offsetSize option to useMeasure is necessary to ignore the parent scale
+   // transformation Power Apps will apply if "Scale to fit" is enabled
+   const [guidancePanelRef, bounds] = useMeasure({ offsetSize: true });
+@@ -97,7 +98,8 @@ const NavigationGuidancePanel = ({ route }) => {
+     isPhone,
+     isTablet,
+     landscapeMinimal,
+-    countryCode
++    countryCode,
++    yOffset
+   })();
+   const guidancePanelHeight = bounds.height;
+   const currentLocation = useSelector(getCurrentLocation);
+@@ -118,7 +120,7 @@ const NavigationGuidancePanel = ({ route }) => {
+       addStyleToDocument(
+         styleId,
+         `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {
+-           margin-top: ${guidancePanelHeight + 8}px;
++           margin-top: ${guidancePanelHeight + yOffset + 8}px;
+          }
+          .TomTomNavigation .mapboxgl-ctrl-bottom-right, .TomTomNavigation .mapboxgl-ctrl-bottom-left {
+            margin-bottom: ${ETA_PANEL_HEIGHT}px;
+diff --git a/TomTomNavigation/features/navigation/NextInstructionPanel.js b/src/features/navigation/NextInstructionPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/NextInstructionPanel.js
+rename to src/features/navigation/NextInstructionPanel.js
+diff --git a/TomTomNavigation/features/navigation/Simulator.js b/src/features/navigation/Simulator.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/Simulator.js
+rename to src/features/navigation/Simulator.js
+diff --git a/TomTomNavigation/features/navigation/TrafficEventsPanel.js b/src/features/navigation/TrafficEventsPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/TrafficEventsPanel.js
+rename to src/features/navigation/TrafficEventsPanel.js
+diff --git a/TomTomNavigation/features/navigation/navigationSlice.js b/src/features/navigation/navigationSlice.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/navigationSlice.js
+rename to src/features/navigation/navigationSlice.js
+diff --git a/TomTomNavigation/features/navigation/roadshield/RoadShield.js b/src/features/navigation/roadshield/RoadShield.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/roadshield/RoadShield.js
+rename to src/features/navigation/roadshield/RoadShield.js
+diff --git a/TomTomNavigation/features/navigation/roadshield/getRoadShield.js b/src/features/navigation/roadshield/getRoadShield.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/roadshield/getRoadShield.js
+rename to src/features/navigation/roadshield/getRoadShield.js
+diff --git a/TomTomNavigation/features/navigation/roadshield/sprite.json b/src/features/navigation/roadshield/sprite.json
+similarity index 100%
+rename from TomTomNavigation/features/navigation/roadshield/sprite.json
+rename to src/features/navigation/roadshield/sprite.json
+diff --git a/TomTomNavigation/functions/breakAfterFirstWord.js b/src/functions/breakAfterFirstWord.js
+similarity index 100%
+rename from TomTomNavigation/functions/breakAfterFirstWord.js
+rename to src/functions/breakAfterFirstWord.js
+diff --git a/TomTomNavigation/functions/calculateTriggerPoints.js b/src/functions/calculateTriggerPoints.js
+similarity index 100%
+rename from TomTomNavigation/functions/calculateTriggerPoints.js
+rename to src/functions/calculateTriggerPoints.js
+diff --git a/TomTomNavigation/functions/coordinatesToGeoJson.js b/src/functions/coordinatesToGeoJson.js
+similarity index 100%
+rename from TomTomNavigation/functions/coordinatesToGeoJson.js
+rename to src/functions/coordinatesToGeoJson.js
+diff --git a/TomTomNavigation/functions/countryCodeFromRoute.js b/src/functions/countryCodeFromRoute.js
+similarity index 100%
+rename from TomTomNavigation/functions/countryCodeFromRoute.js
+rename to src/functions/countryCodeFromRoute.js
+diff --git a/TomTomNavigation/functions/createManeuverLineStrings.js b/src/functions/createManeuverLineStrings.js
+similarity index 100%
+rename from TomTomNavigation/functions/createManeuverLineStrings.js
+rename to src/functions/createManeuverLineStrings.js
+diff --git a/TomTomNavigation/functions/createSectionedRoute.js b/src/functions/createSectionedRoute.js
+similarity index 100%
+rename from TomTomNavigation/functions/createSectionedRoute.js
+rename to src/functions/createSectionedRoute.js
+diff --git a/TomTomNavigation/functions/createWalkingLeg.js b/src/functions/createWalkingLeg.js
+similarity index 100%
+rename from TomTomNavigation/functions/createWalkingLeg.js
+rename to src/functions/createWalkingLeg.js
+diff --git a/TomTomNavigation/functions/detectColorScheme.js b/src/functions/detectColorScheme.js
+similarity index 100%
+rename from TomTomNavigation/functions/detectColorScheme.js
+rename to src/functions/detectColorScheme.js
+diff --git a/TomTomNavigation/functions/expandBoundsByPercentage.js b/src/functions/expandBoundsByPercentage.js
+similarity index 100%
+rename from TomTomNavigation/functions/expandBoundsByPercentage.js
+rename to src/functions/expandBoundsByPercentage.js
+diff --git a/TomTomNavigation/functions/expandDirectionAbbreviation.js b/src/functions/expandDirectionAbbreviation.js
+similarity index 100%
+rename from TomTomNavigation/functions/expandDirectionAbbreviation.js
+rename to src/functions/expandDirectionAbbreviation.js
+diff --git a/TomTomNavigation/functions/expandStreetName.js b/src/functions/expandStreetName.js
+similarity index 100%
+rename from TomTomNavigation/functions/expandStreetName.js
+rename to src/functions/expandStreetName.js
+diff --git a/TomTomNavigation/functions/expandUnits.js b/src/functions/expandUnits.js
+similarity index 100%
+rename from TomTomNavigation/functions/expandUnits.js
+rename to src/functions/expandUnits.js
+diff --git a/TomTomNavigation/functions/fireEvent.js b/src/functions/fireEvent.js
+similarity index 100%
+rename from TomTomNavigation/functions/fireEvent.js
+rename to src/functions/fireEvent.js
+diff --git a/TomTomNavigation/functions/formatDistance.js b/src/functions/formatDistance.js
+similarity index 100%
+rename from TomTomNavigation/functions/formatDistance.js
+rename to src/functions/formatDistance.js
+diff --git a/TomTomNavigation/functions/formatDuration.js b/src/functions/formatDuration.js
+similarity index 100%
+rename from TomTomNavigation/functions/formatDuration.js
+rename to src/functions/formatDuration.js
+diff --git a/TomTomNavigation/functions/formatTime.js b/src/functions/formatTime.js
+similarity index 100%
+rename from TomTomNavigation/functions/formatTime.js
+rename to src/functions/formatTime.js
+diff --git a/TomTomNavigation/functions/geoJsonBounds.js b/src/functions/geoJsonBounds.js
+similarity index 100%
+rename from TomTomNavigation/functions/geoJsonBounds.js
+rename to src/functions/geoJsonBounds.js
+diff --git a/TomTomNavigation/functions/getLaneIcon.js b/src/functions/getLaneIcon.js
+similarity index 100%
+rename from TomTomNavigation/functions/getLaneIcon.js
+rename to src/functions/getLaneIcon.js
+diff --git a/TomTomNavigation/functions/getManeuverIcon.js b/src/functions/getManeuverIcon.js
+similarity index 99%
+rename from TomTomNavigation/functions/getManeuverIcon.js
+rename to src/functions/getManeuverIcon.js
+index c01bc69..f91359e 100644
+--- a/TomTomNavigation/functions/getManeuverIcon.js
++++ b/src/functions/getManeuverIcon.js
+@@ -1,3 +1,4 @@
++import React from "react";
+ import Maneuvers from "../constants/Maneuvers";
+ import StraightIcon from "../icons/nip/StraightIcon";
+ import KeepLeftIcon from "../icons/nip/KeepLeftIcon";
+diff --git a/TomTomNavigation/functions/getSectionTypesForTravelMode.js b/src/functions/getSectionTypesForTravelMode.js
+similarity index 100%
+rename from TomTomNavigation/functions/getSectionTypesForTravelMode.js
+rename to src/functions/getSectionTypesForTravelMode.js
+diff --git a/TomTomNavigation/functions/getTrafficEventIcon.js b/src/functions/getTrafficEventIcon.js
+similarity index 100%
+rename from TomTomNavigation/functions/getTrafficEventIcon.js
+rename to src/functions/getTrafficEventIcon.js
+diff --git a/TomTomNavigation/functions/metersToMiles.js b/src/functions/metersToMiles.js
+similarity index 100%
+rename from TomTomNavigation/functions/metersToMiles.js
+rename to src/functions/metersToMiles.js
+diff --git a/TomTomNavigation/functions/objectToQueryString.js b/src/functions/objectToQueryString.js
+similarity index 100%
+rename from TomTomNavigation/functions/objectToQueryString.js
+rename to src/functions/objectToQueryString.js
+diff --git a/TomTomNavigation/functions/parseCoordinateString.js b/src/functions/parseCoordinateString.js
+similarity index 100%
+rename from TomTomNavigation/functions/parseCoordinateString.js
+rename to src/functions/parseCoordinateString.js
+diff --git a/TomTomNavigation/functions/roundUp.js b/src/functions/roundUp.js
+similarity index 100%
+rename from TomTomNavigation/functions/roundUp.js
+rename to src/functions/roundUp.js
+diff --git a/TomTomNavigation/functions/routeToGeoJson.js b/src/functions/routeToGeoJson.js
+similarity index 100%
+rename from TomTomNavigation/functions/routeToGeoJson.js
+rename to src/functions/routeToGeoJson.js
+diff --git a/TomTomNavigation/functions/routeUtils.js b/src/functions/routeUtils.js
+similarity index 100%
+rename from TomTomNavigation/functions/routeUtils.js
+rename to src/functions/routeUtils.js
+diff --git a/TomTomNavigation/functions/shouldAnimateCamera.js b/src/functions/shouldAnimateCamera.js
+similarity index 100%
+rename from TomTomNavigation/functions/shouldAnimateCamera.js
+rename to src/functions/shouldAnimateCamera.js
+diff --git a/TomTomNavigation/functions/styles.js b/src/functions/styles.js
+similarity index 100%
+rename from TomTomNavigation/functions/styles.js
+rename to src/functions/styles.js
+diff --git a/TomTomNavigation/functions/tomtom2mapbox.js b/src/functions/tomtom2mapbox.js
+similarity index 97%
+rename from TomTomNavigation/functions/tomtom2mapbox.js
+rename to src/functions/tomtom2mapbox.js
+index a0ad423..28b89da 100644
+--- a/TomTomNavigation/functions/tomtom2mapbox.js
++++ b/src/functions/tomtom2mapbox.js
+@@ -6,6 +6,7 @@ const MANEUVERS = {
+   ARRIVE: "arrive",
+   ARRIVE_LEFT: "arrive",
+   ARRIVE_RIGHT: "arrive",
++  ARRIVING: "continue",
+   DEPART: "depart",
+   STRAIGHT: "continue",
+   KEEP_RIGHT: "right",
+@@ -21,6 +22,8 @@ const MANEUVERS = {
+   ENTER_FREEWAY: "continue",
+   ENTER_HIGHWAY: "continue",
+   TAKE_EXIT: "continue",
++  AHEAD_EXIT_LEFT: "continue",
++  AHEAD_EXIT_RIGHT: "continue",
+   MOTORWAY_EXIT_LEFT: "bear left",
+   MOTORWAY_EXIT_RIGHT: "bear right",
+   TAKE_FERRY: "continue",
+diff --git a/TomTomNavigation/hooks/useButtonStyles.js b/src/hooks/useButtonStyles.js
+similarity index 100%
+rename from TomTomNavigation/hooks/useButtonStyles.js
+rename to src/hooks/useButtonStyles.js
+diff --git a/TomTomNavigation/hooks/useMicrosoftSpeech.js b/src/hooks/useMicrosoftSpeech.js
+similarity index 100%
+rename from TomTomNavigation/hooks/useMicrosoftSpeech.js
+rename to src/hooks/useMicrosoftSpeech.js
+diff --git a/TomTomNavigation/hooks/usePrevPropValue.js b/src/hooks/usePrevPropValue.js
+similarity index 100%
+rename from TomTomNavigation/hooks/usePrevPropValue.js
+rename to src/hooks/usePrevPropValue.js
+diff --git a/TomTomNavigation/hooks/useSelectorRef.js b/src/hooks/useSelectorRef.js
+similarity index 100%
+rename from TomTomNavigation/hooks/useSelectorRef.js
+rename to src/hooks/useSelectorRef.js
+diff --git a/TomTomNavigation/hooks/useSpeech.js b/src/hooks/useSpeech.js
+similarity index 100%
+rename from TomTomNavigation/hooks/useSpeech.js
+rename to src/hooks/useSpeech.js
+diff --git a/TomTomNavigation/hooks/useTextStyles.js b/src/hooks/useTextStyles.js
+similarity index 100%
+rename from TomTomNavigation/hooks/useTextStyles.js
+rename to src/hooks/useTextStyles.js
+diff --git a/TomTomNavigation/icons/ArrowLeftIcon.js b/src/icons/ArrowLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/ArrowLeftIcon.js
+rename to src/icons/ArrowLeftIcon.js
+diff --git a/TomTomNavigation/icons/ArrowRightIcon.js b/src/icons/ArrowRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/ArrowRightIcon.js
+rename to src/icons/ArrowRightIcon.js
+diff --git a/TomTomNavigation/icons/Chevron2DIcon.js b/src/icons/Chevron2DIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/Chevron2DIcon.js
+rename to src/icons/Chevron2DIcon.js
+diff --git a/TomTomNavigation/icons/ChevronIcon.js b/src/icons/ChevronIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/ChevronIcon.js
+rename to src/icons/ChevronIcon.js
+diff --git a/TomTomNavigation/icons/ChevronOutlineIcon.js b/src/icons/ChevronOutlineIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/ChevronOutlineIcon.js
+rename to src/icons/ChevronOutlineIcon.js
+diff --git a/TomTomNavigation/icons/CompassIcon.js b/src/icons/CompassIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/CompassIcon.js
+rename to src/icons/CompassIcon.js
+diff --git a/TomTomNavigation/icons/CrossIcon.js b/src/icons/CrossIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/CrossIcon.js
+rename to src/icons/CrossIcon.js
+diff --git a/TomTomNavigation/icons/CrosshairIcon.js b/src/icons/CrosshairIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/CrosshairIcon.js
+rename to src/icons/CrosshairIcon.js
+diff --git a/TomTomNavigation/icons/ExitRightIcon.js b/src/icons/ExitRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/ExitRightIcon.js
+rename to src/icons/ExitRightIcon.js
+diff --git a/TomTomNavigation/icons/JamIcon.js b/src/icons/JamIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/JamIcon.js
+rename to src/icons/JamIcon.js
+diff --git a/TomTomNavigation/icons/LayersIcon.js b/src/icons/LayersIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/LayersIcon.js
+rename to src/icons/LayersIcon.js
+diff --git a/TomTomNavigation/icons/MinusIcon.js b/src/icons/MinusIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/MinusIcon.js
+rename to src/icons/MinusIcon.js
+diff --git a/TomTomNavigation/icons/MuteIcon.js b/src/icons/MuteIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/MuteIcon.js
+rename to src/icons/MuteIcon.js
+diff --git a/TomTomNavigation/icons/PinIcon.js b/src/icons/PinIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/PinIcon.js
+rename to src/icons/PinIcon.js
+diff --git a/TomTomNavigation/icons/PlusIcon.js b/src/icons/PlusIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/PlusIcon.js
+rename to src/icons/PlusIcon.js
+diff --git a/TomTomNavigation/icons/RoadClosedIcon.js b/src/icons/RoadClosedIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RoadClosedIcon.js
+rename to src/icons/RoadClosedIcon.js
+diff --git a/TomTomNavigation/icons/RoadworkIcon.js b/src/icons/RoadworkIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RoadworkIcon.js
+rename to src/icons/RoadworkIcon.js
+diff --git a/TomTomNavigation/icons/RoadworkMajorIcon.js b/src/icons/RoadworkMajorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RoadworkMajorIcon.js
+rename to src/icons/RoadworkMajorIcon.js
+diff --git a/TomTomNavigation/icons/RoadworkMinorIcon.js b/src/icons/RoadworkMinorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RoadworkMinorIcon.js
+rename to src/icons/RoadworkMinorIcon.js
+diff --git a/TomTomNavigation/icons/RoadworkModerateIcon.js b/src/icons/RoadworkModerateIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RoadworkModerateIcon.js
+rename to src/icons/RoadworkModerateIcon.js
+diff --git a/TomTomNavigation/icons/RouteIcon.js b/src/icons/RouteIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RouteIcon.js
+rename to src/icons/RouteIcon.js
+diff --git a/TomTomNavigation/icons/SkipForwardIcon.js b/src/icons/SkipForwardIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/SkipForwardIcon.js
+rename to src/icons/SkipForwardIcon.js
+diff --git a/TomTomNavigation/icons/TimeIcon.js b/src/icons/TimeIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TimeIcon.js
+rename to src/icons/TimeIcon.js
+diff --git a/TomTomNavigation/icons/TrafficIcon.js b/src/icons/TrafficIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficIcon.js
+rename to src/icons/TrafficIcon.js
+diff --git a/TomTomNavigation/icons/TrafficMajorIcon.js b/src/icons/TrafficMajorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficMajorIcon.js
+rename to src/icons/TrafficMajorIcon.js
+diff --git a/TomTomNavigation/icons/TrafficMinorIcon.js b/src/icons/TrafficMinorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficMinorIcon.js
+rename to src/icons/TrafficMinorIcon.js
+diff --git a/TomTomNavigation/icons/TrafficModerateIcon.js b/src/icons/TrafficModerateIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficModerateIcon.js
+rename to src/icons/TrafficModerateIcon.js
+diff --git a/TomTomNavigation/icons/TrafficOtherIcon.js b/src/icons/TrafficOtherIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficOtherIcon.js
+rename to src/icons/TrafficOtherIcon.js
+diff --git a/TomTomNavigation/icons/TrafficOtherMajorIcon.js b/src/icons/TrafficOtherMajorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficOtherMajorIcon.js
+rename to src/icons/TrafficOtherMajorIcon.js
+diff --git a/TomTomNavigation/icons/TrafficOtherMinorIcon.js b/src/icons/TrafficOtherMinorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficOtherMinorIcon.js
+rename to src/icons/TrafficOtherMinorIcon.js
+diff --git a/TomTomNavigation/icons/TrafficOtherModerateIcon.js b/src/icons/TrafficOtherModerateIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficOtherModerateIcon.js
+rename to src/icons/TrafficOtherModerateIcon.js
+diff --git a/TomTomNavigation/icons/UnmuteIcon.js b/src/icons/UnmuteIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/UnmuteIcon.js
+rename to src/icons/UnmuteIcon.js
+diff --git a/TomTomNavigation/icons/nip/BearLeftIcon.js b/src/icons/nip/BearLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/BearLeftIcon.js
+rename to src/icons/nip/BearLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/BearRightIcon.js b/src/icons/nip/BearRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/BearRightIcon.js
+rename to src/icons/nip/BearRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/DestinationIcon.js b/src/icons/nip/DestinationIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/DestinationIcon.js
+rename to src/icons/nip/DestinationIcon.js
+diff --git a/TomTomNavigation/icons/nip/DestinationLeftIcon.js b/src/icons/nip/DestinationLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/DestinationLeftIcon.js
+rename to src/icons/nip/DestinationLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/DestinationRightIcon.js b/src/icons/nip/DestinationRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/DestinationRightIcon.js
+rename to src/icons/nip/DestinationRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/FerryIcon.js b/src/icons/nip/FerryIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/FerryIcon.js
+rename to src/icons/nip/FerryIcon.js
+diff --git a/TomTomNavigation/icons/nip/KeepLeftIcon.js b/src/icons/nip/KeepLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/KeepLeftIcon.js
+rename to src/icons/nip/KeepLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/KeepRightIcon.js b/src/icons/nip/KeepRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/KeepRightIcon.js
+rename to src/icons/nip/KeepRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/MotorwayIcon.js b/src/icons/nip/MotorwayIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/MotorwayIcon.js
+rename to src/icons/nip/MotorwayIcon.js
+diff --git a/TomTomNavigation/icons/nip/RoundaboutAround.js b/src/icons/nip/RoundaboutAround.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/RoundaboutAround.js
+rename to src/icons/nip/RoundaboutAround.js
+diff --git a/TomTomNavigation/icons/nip/RoundaboutCrossIcon.js b/src/icons/nip/RoundaboutCrossIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/RoundaboutCrossIcon.js
+rename to src/icons/nip/RoundaboutCrossIcon.js
+diff --git a/TomTomNavigation/icons/nip/RoundaboutLeftIcon.js b/src/icons/nip/RoundaboutLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/RoundaboutLeftIcon.js
+rename to src/icons/nip/RoundaboutLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/RoundaboutRightIcon.js b/src/icons/nip/RoundaboutRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/RoundaboutRightIcon.js
+rename to src/icons/nip/RoundaboutRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/SharpLeftIcon.js b/src/icons/nip/SharpLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/SharpLeftIcon.js
+rename to src/icons/nip/SharpLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/SharpRightIcon.js b/src/icons/nip/SharpRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/SharpRightIcon.js
+rename to src/icons/nip/SharpRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/StraightIcon.js b/src/icons/nip/StraightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/StraightIcon.js
+rename to src/icons/nip/StraightIcon.js
+diff --git a/TomTomNavigation/icons/nip/TurnLeftIcon.js b/src/icons/nip/TurnLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/TurnLeftIcon.js
+rename to src/icons/nip/TurnLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/TurnRightIcon.js b/src/icons/nip/TurnRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/TurnRightIcon.js
+rename to src/icons/nip/TurnRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/UTurnIcon.js b/src/icons/nip/UTurnIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/UTurnIcon.js
+rename to src/icons/nip/UTurnIcon.js
+diff --git a/TomTomNavigation/icons/nip/WaypointIcon.js b/src/icons/nip/WaypointIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/WaypointIcon.js
+rename to src/icons/nip/WaypointIcon.js
+diff --git a/TomTomNavigation/icons/nip/WaypointLeftIcon.js b/src/icons/nip/WaypointLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/WaypointLeftIcon.js
+rename to src/icons/nip/WaypointLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/WaypointRightIcon.js b/src/icons/nip/WaypointRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/WaypointRightIcon.js
+rename to src/icons/nip/WaypointRightIcon.js
+diff --git a/src/index.js b/src/index.js
+new file mode 100644
+index 0000000..afd89c1
+--- /dev/null
++++ b/src/index.js
+@@ -0,0 +1,16 @@
++import React from "react";
++import { Provider as StoreProvider } from "react-redux";
++import { store } from "./app/store";
++import App from "./app/App";
++
++import "./css/TomTomNavigation.css";
++
++function Navigation(props) {
++  return (
++    <StoreProvider store={store}>
++      <App {...props} />
++    </StoreProvider>
++  );
++}
++
++export default Navigation;
+diff --git a/TomTomNavigation/services/routing.js b/src/services/routing.js
+similarity index 100%
+rename from TomTomNavigation/services/routing.js
+rename to src/services/routing.js

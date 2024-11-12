@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
   },
   distance: {
     fontSize: 28,
-    color: theme.palette.black
+    color: "white"
   },
   street: {
     fontFamily: "Noto Sans",
     fontSize: 20,
-    color: theme.palette.black,
+    color: "white",
     lineHeight: "1.5",
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   towards: {
     fontFamily: "Noto Sans",
     fontSize: 20,
-    color: theme.palette.black,
+    color: "white",
     lineHeight: "1.5",
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Noto Sans",
     fontSize: 20,
     fontWeight: 600,
-    color: theme.palette.black
+    color: "white"
   }
 }));
 
@@ -87,7 +87,7 @@ const NextInstructionPanel = ({ route, instruction }) => {
     exitNumber
   } = instruction;
   const maneuverIcon = getManeuverIcon(maneuver, {
-    color: theme.palette.black
+    color: "white"
   });
   const haveRoadShieldReferences = !!roadShieldReferences;
   const haveSignpostRoadShieldReferences = !!signpostRoadShieldReferences;

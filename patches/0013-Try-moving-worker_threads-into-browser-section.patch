@@ -1,0 +1,38 @@
+From 17865054de80a4b006393e38576d28f007c08a77 Mon Sep 17 00:00:00 2001
+From: Adam Ratcliffe <adam.ratcliffe@tomtom.com>
+Date: Fri, 8 Nov 2024 14:40:19 -0800
+Subject: [PATCH 13/22] Try moving worker_threads into browser section.
+
+---
+ package.json      | 3 ++-
+ rollup.config.mjs | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/package.json b/package.json
+index 8794d78..bea5d51 100755
+--- a/package.json
++++ b/package.json
+@@ -66,6 +66,7 @@
+     "react-dom": "^17.0.0"
+   },
+   "browser": {
+-    "crypto": false
++    "crypto": false,
++    "worker_threads": false
+   }
+ }
+\ No newline at end of file
+diff --git a/rollup.config.mjs b/rollup.config.mjs
+index e63bc07..14fb668 100644
+--- a/rollup.config.mjs
++++ b/rollup.config.mjs
+@@ -38,5 +38,5 @@ export default {
+     }),
+     json()
+   ],
+-  external: ["worker_threads", "react-dom/server"]
++  external: ["react-dom/server"]
+ };
+-- 
+2.39.5 (Apple Git-154)
+

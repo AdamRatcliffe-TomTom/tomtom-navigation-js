@@ -1,0 +1,34 @@
+From 91d1e543fe574bea0a7d14a8ca14ce4a12d3f3bb Mon Sep 17 00:00:00 2001
+From: Adam Ratcliffe <adam.ratcliffe@tomtom.com>
+Date: Fri, 8 Nov 2024 10:18:27 -0800
+Subject: [PATCH 04/22] Move TomTom libraries to peerDependencies
+
+---
+ package.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/package.json b/package.json
+index f6371c7..550932a 100755
+--- a/package.json
++++ b/package.json
+@@ -11,8 +11,6 @@
+     "@floating-ui/react": "^0.26.2",
+     "@fluentui/react": "8.29.0",
+     "@reduxjs/toolkit": "2.0.1",
+-    "@tomtom-international/web-sdk-maps": "^6.25.0",
+-    "@tomtom-international/web-sdk-services": "^6.25.0",
+     "@turf/bbox": "^6.5.0",
+     "@turf/bbox-polygon": "^6.5.0",
+     "@turf/bearing": "^6.5.0",
+@@ -38,6 +36,8 @@
+   },
+   "devDependencies": {},
+   "peerDependencies": {
++    "@tomtom-international/web-sdk-maps": "^6.0.0",
++    "@tomtom-international/web-sdk-services": "^6.0.0",
+     "react": "^17.0.0",
+     "react-dom": "^17.0.0"
+   }
+-- 
+2.39.5 (Apple Git-154)
+

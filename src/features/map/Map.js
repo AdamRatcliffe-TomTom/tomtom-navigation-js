@@ -16,7 +16,6 @@ import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
 import Waypoints from "./Waypoints";
 import ManeuverArrows from "./ManeuverArrows";
-import Landmarks3D from "./Landmarks3D";
 import LocationMarker from "./markers/LocationMarker";
 import ChevronMarker from "./markers/ChevronMarker";
 import Chevron2DMarker from "./markers/Chevron2DMarker";
@@ -80,17 +79,17 @@ const before = "Borders - Treaty label";
 const easing = (v) => v;
 
 const Map = ({
-  enableGeolocation,
-  showTrafficFlow,
-  showTrafficIncidents,
-  showPoi,
-  showLocationMarker,
-  showMapSwitcherControl,
-  showMuteControl,
-  showExitControl,
-  showZoomControl,
-  showSkipControl,
-  showManeuverArrows,
+  enableGeolocation = true,
+  showTrafficFlow = false,
+  showTrafficIncidents = false,
+  showPoi = false,
+  showLocationMarker = true,
+  showMapSwitcherControl = true,
+  showMuteControl = true,
+  showExitControl = false,
+  showZoomControl = false,
+  showSkipControl = false,
+  showManeuverArrows = true,
   preCalculatedRoute,
   onRouteCalculated = () => {},
   onComponentExit = () => {},
@@ -213,7 +212,7 @@ const Map = ({
 
       onRouteCalculated();
     }
-  }, [route, apiKey, dispatch, onRouteCalculated]);
+  }, [route, apiKey, dispatch]);
 
   useEffect(() => {
     const map = mapRef.current?.getMap();
@@ -284,9 +283,10 @@ const Map = ({
   };
 
   const handleMapLoad = async (map) => {
-    const control = map.getAttributionControl();
-    map.removeControl(control);
-    setMapSprite(map);
+    try {
+      const control = map.getAttributionControl();
+      map.removeControl(control);
+    } catch (e) {}
   };
 
   const handleGeolocationControlClick = (coords) => {
@@ -426,7 +426,6 @@ const Map = ({
       <ExitControl visible={exitControlIsVisible} onClick={onComponentExit} />
       <SkipControl visible={skipControlIsVisible} onClick={handleSkip} />
       <ZoomControl visible={zoomControlIsVisible} />
-      {/* <Landmarks3D key={currentStyle} /> */}
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
       {routeIsVisible && (
         <Route

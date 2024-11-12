@@ -1,0 +1,1528 @@
+From b14352a15c0e47d6c0f8fb935099510a4608f0f7 Mon Sep 17 00:00:00 2001
+From: Adam Ratcliffe <adam.ratcliffe@tomtom.com>
+Date: Fri, 8 Nov 2024 09:31:31 -0800
+Subject: [PATCH 01/22] Remove Power Apps-related resources.
+
+---
+ .eslintrc.json                                |  25 --
+ README.md                                     | 242 ------------------
+ TomTomNavigation/Solutions/.gitignore         |   8 -
+ TomTomNavigation/Solutions/Solutions.cdsproj  |  58 -----
+ .../Solutions/src/Other/Customizations.xml    |  18 --
+ .../Solutions/src/Other/Relationships.xml     |   2 -
+ .../Solutions/src/Other/Solution.xml          |  94 -------
+ pcfconfig.json                                |   3 -
+ {TomTomNavigation => src}/.gitignore          |   0
+ .../ControlManifest.Input.xml                 |   0
+ {TomTomNavigation => src}/IControlEvent.ts    |   0
+ {TomTomNavigation => src}/app/App.js          |   0
+ {TomTomNavigation => src}/app/AppContext.js   |   0
+ .../app/GeolocationDialog.js                  |   0
+ .../app/NoApiKeyMessage.js                    |   0
+ {TomTomNavigation => src}/app/store.js        |   0
+ {TomTomNavigation => src}/app/themes.js       |   0
+ .../components/Divider.js                     |   0
+ {TomTomNavigation => src}/components/Fade.js  |   0
+ .../components/SpriteImage.js                 |   0
+ {TomTomNavigation => src}/components/Stack.js |   0
+ {TomTomNavigation => src}/config/index.js     |   0
+ {TomTomNavigation => src}/config/strings.js   |   0
+ .../constants/AnnouncementTypes.js            |   0
+ .../constants/ControlEvents.js                |   0
+ .../constants/Maneuvers.js                    |   0
+ .../constants/NavigationPerspectives.js       |   0
+ .../constants/NavigationStates.js             |   0
+ .../constants/SectionTypes.js                 |   0
+ .../css/TomTomNavigation.css                  |   0
+ .../features/map/Landmarks3D.js               |   0
+ .../features/map/ManeuverArrows.js            |   0
+ {TomTomNavigation => src}/features/map/Map.js |   0
+ .../features/map/Route.js                     |   0
+ .../features/map/SpeedLimitEU.js              |   0
+ .../features/map/SpeedLimitUS.js              |   0
+ .../features/map/controls/CompassControl.js   |   0
+ .../features/map/controls/ExitControl.js      |   0
+ .../features/map/controls/GeolocateControl.js |   0
+ .../features/map/controls/MapControl.js       |   0
+ .../map/controls/MapSwitcherControl.js        |   0
+ .../features/map/controls/MuteControl.js      |   0
+ .../controls/NavigationPerspectiveControl.js  |   0
+ .../features/map/controls/SkipControl.js      |   0
+ .../features/map/controls/ZoomControl.js      |   0
+ .../features/map/mapSlice.js                  |   0
+ .../features/map/markers/Chevron2DMarker.js   |   0
+ .../features/map/markers/ChevronMarker.js     |   0
+ .../features/map/markers/DefaultMarker.js     |   0
+ .../features/map/markers/ImageMarker.js       |   0
+ .../features/map/markers/LocationMarker.js    |   0
+ .../features/map/markers/MarkerFactory.js     |   0
+ .../features/navigation/ArrivalPanel.js       |   0
+ .../ArrivalPanelBackgroundImages.js           |   0
+ .../features/navigation/BottomPanel.js        |   0
+ .../navigation/ConsecutiveInstructionPanel.js |   0
+ .../features/navigation/ETAPanel.js           |   0
+ .../features/navigation/ExitShieldEU.js       |   0
+ .../features/navigation/ExitShieldUS.js       |   0
+ .../features/navigation/LaneGuidancePanel.js  |   0
+ .../features/navigation/Navigation.js         |   0
+ .../navigation/NavigationGuidancePanel.js     |   0
+ .../navigation/NextInstructionPanel.js        |   0
+ .../features/navigation/Simulator.js          |   0
+ .../features/navigation/TrafficEventsPanel.js |   0
+ .../features/navigation/navigationSlice.js    |   0
+ .../navigation/roadshield/RoadShield.js       |   0
+ .../navigation/roadshield/getRoadShield.js    |   0
+ .../navigation/roadshield/sprite.json         |   0
+ .../functions/breakAfterFirstWord.js          |   0
+ .../functions/calculateTriggerPoints.js       |   0
+ .../functions/coordinatesToGeoJson.js         |   0
+ .../functions/countryCodeFromRoute.js         |   0
+ .../functions/createManeuverLineStrings.js    |   0
+ .../functions/createSectionedRoute.js         |   0
+ .../functions/createWalkingLeg.js             |   0
+ .../functions/detectColorScheme.js            |   0
+ .../functions/expandBoundsByPercentage.js     |   0
+ .../functions/expandDirectionAbbreviation.js  |   0
+ .../functions/expandStreetName.js             |   0
+ .../functions/expandUnits.js                  |   0
+ .../functions/fireEvent.js                    |   0
+ .../functions/formatDistance.js               |   0
+ .../functions/formatDuration.js               |   0
+ .../functions/formatTime.js                   |   0
+ .../functions/geoJsonBounds.js                |   0
+ .../functions/getLaneIcon.js                  |   0
+ .../functions/getManeuverIcon.js              |   0
+ .../functions/getSectionTypesForTravelMode.js |   0
+ .../functions/getTrafficEventIcon.js          |   0
+ .../functions/metersToMiles.js                |   0
+ .../functions/objectToQueryString.js          |   0
+ .../functions/parseCoordinateString.js        |   0
+ .../functions/roundUp.js                      |   0
+ .../functions/routeToGeoJson.js               |   0
+ .../functions/routeUtils.js                   |   0
+ .../functions/shouldAnimateCamera.js          |   0
+ {TomTomNavigation => src}/functions/styles.js |   0
+ .../functions/tomtom2mapbox.js                |   0
+ .../hooks/useButtonStyles.js                  |   0
+ .../hooks/useMicrosoftSpeech.js               |   0
+ .../hooks/usePrevPropValue.js                 |   0
+ .../hooks/useSelectorRef.js                   |   0
+ {TomTomNavigation => src}/hooks/useSpeech.js  |   0
+ .../hooks/useTextStyles.js                    |   0
+ .../icons/ArrowLeftIcon.js                    |   0
+ .../icons/ArrowRightIcon.js                   |   0
+ .../icons/Chevron2DIcon.js                    |   0
+ .../icons/ChevronIcon.js                      |   0
+ .../icons/ChevronOutlineIcon.js               |   0
+ .../icons/CompassIcon.js                      |   0
+ {TomTomNavigation => src}/icons/CrossIcon.js  |   0
+ .../icons/CrosshairIcon.js                    |   0
+ .../icons/ExitRightIcon.js                    |   0
+ {TomTomNavigation => src}/icons/JamIcon.js    |   0
+ {TomTomNavigation => src}/icons/LayersIcon.js |   0
+ {TomTomNavigation => src}/icons/MinusIcon.js  |   0
+ {TomTomNavigation => src}/icons/MuteIcon.js   |   0
+ {TomTomNavigation => src}/icons/PinIcon.js    |   0
+ {TomTomNavigation => src}/icons/PlusIcon.js   |   0
+ .../icons/RoadClosedIcon.js                   |   0
+ .../icons/RoadworkIcon.js                     |   0
+ .../icons/RoadworkMajorIcon.js                |   0
+ .../icons/RoadworkMinorIcon.js                |   0
+ .../icons/RoadworkModerateIcon.js             |   0
+ {TomTomNavigation => src}/icons/RouteIcon.js  |   0
+ .../icons/SkipForwardIcon.js                  |   0
+ {TomTomNavigation => src}/icons/TimeIcon.js   |   0
+ .../icons/TrafficIcon.js                      |   0
+ .../icons/TrafficMajorIcon.js                 |   0
+ .../icons/TrafficMinorIcon.js                 |   0
+ .../icons/TrafficModerateIcon.js              |   0
+ .../icons/TrafficOtherIcon.js                 |   0
+ .../icons/TrafficOtherMajorIcon.js            |   0
+ .../icons/TrafficOtherMinorIcon.js            |   0
+ .../icons/TrafficOtherModerateIcon.js         |   0
+ {TomTomNavigation => src}/icons/UnmuteIcon.js |   0
+ .../icons/nip/BearLeftIcon.js                 |   0
+ .../icons/nip/BearRightIcon.js                |   0
+ .../icons/nip/DestinationIcon.js              |   0
+ .../icons/nip/DestinationLeftIcon.js          |   0
+ .../icons/nip/DestinationRightIcon.js         |   0
+ .../icons/nip/FerryIcon.js                    |   0
+ .../icons/nip/KeepLeftIcon.js                 |   0
+ .../icons/nip/KeepRightIcon.js                |   0
+ .../icons/nip/MotorwayIcon.js                 |   0
+ .../icons/nip/RoundaboutAround.js             |   0
+ .../icons/nip/RoundaboutCrossIcon.js          |   0
+ .../icons/nip/RoundaboutLeftIcon.js           |   0
+ .../icons/nip/RoundaboutRightIcon.js          |   0
+ .../icons/nip/SharpLeftIcon.js                |   0
+ .../icons/nip/SharpRightIcon.js               |   0
+ .../icons/nip/StraightIcon.js                 |   0
+ .../icons/nip/TurnLeftIcon.js                 |   0
+ .../icons/nip/TurnRightIcon.js                |   0
+ .../icons/nip/UTurnIcon.js                    |   0
+ .../icons/nip/WaypointIcon.js                 |   0
+ .../icons/nip/WaypointLeftIcon.js             |   0
+ .../icons/nip/WaypointRightIcon.js            |   0
+ {TomTomNavigation => src}/index.ts            |   0
+ {TomTomNavigation => src}/services/routing.js |   0
+ tomtom-navigation-pcf.pcfproj                 |  47 ----
+ tsconfig.json                                 |   8 -
+ .../Microsoft/PowerAppsCli/usersettings.json  |   1 -
+ 164 files changed, 506 deletions(-)
+ delete mode 100755 .eslintrc.json
+ delete mode 100644 README.md
+ delete mode 100755 TomTomNavigation/Solutions/.gitignore
+ delete mode 100644 TomTomNavigation/Solutions/Solutions.cdsproj
+ delete mode 100755 TomTomNavigation/Solutions/src/Other/Customizations.xml
+ delete mode 100755 TomTomNavigation/Solutions/src/Other/Relationships.xml
+ delete mode 100644 TomTomNavigation/Solutions/src/Other/Solution.xml
+ delete mode 100755 pcfconfig.json
+ rename {TomTomNavigation => src}/.gitignore (100%)
+ rename {TomTomNavigation => src}/ControlManifest.Input.xml (100%)
+ rename {TomTomNavigation => src}/IControlEvent.ts (100%)
+ rename {TomTomNavigation => src}/app/App.js (100%)
+ rename {TomTomNavigation => src}/app/AppContext.js (100%)
+ rename {TomTomNavigation => src}/app/GeolocationDialog.js (100%)
+ rename {TomTomNavigation => src}/app/NoApiKeyMessage.js (100%)
+ rename {TomTomNavigation => src}/app/store.js (100%)
+ rename {TomTomNavigation => src}/app/themes.js (100%)
+ rename {TomTomNavigation => src}/components/Divider.js (100%)
+ rename {TomTomNavigation => src}/components/Fade.js (100%)
+ rename {TomTomNavigation => src}/components/SpriteImage.js (100%)
+ rename {TomTomNavigation => src}/components/Stack.js (100%)
+ rename {TomTomNavigation => src}/config/index.js (100%)
+ rename {TomTomNavigation => src}/config/strings.js (100%)
+ rename {TomTomNavigation => src}/constants/AnnouncementTypes.js (100%)
+ rename {TomTomNavigation => src}/constants/ControlEvents.js (100%)
+ rename {TomTomNavigation => src}/constants/Maneuvers.js (100%)
+ rename {TomTomNavigation => src}/constants/NavigationPerspectives.js (100%)
+ rename {TomTomNavigation => src}/constants/NavigationStates.js (100%)
+ rename {TomTomNavigation => src}/constants/SectionTypes.js (100%)
+ rename {TomTomNavigation => src}/css/TomTomNavigation.css (100%)
+ rename {TomTomNavigation => src}/features/map/Landmarks3D.js (100%)
+ rename {TomTomNavigation => src}/features/map/ManeuverArrows.js (100%)
+ rename {TomTomNavigation => src}/features/map/Map.js (100%)
+ rename {TomTomNavigation => src}/features/map/Route.js (100%)
+ rename {TomTomNavigation => src}/features/map/SpeedLimitEU.js (100%)
+ rename {TomTomNavigation => src}/features/map/SpeedLimitUS.js (100%)
+ rename {TomTomNavigation => src}/features/map/controls/CompassControl.js (100%)
+ rename {TomTomNavigation => src}/features/map/controls/ExitControl.js (100%)
+ rename {TomTomNavigation => src}/features/map/controls/GeolocateControl.js (100%)
+ rename {TomTomNavigation => src}/features/map/controls/MapControl.js (100%)
+ rename {TomTomNavigation => src}/features/map/controls/MapSwitcherControl.js (100%)
+ rename {TomTomNavigation => src}/features/map/controls/MuteControl.js (100%)
+ rename {TomTomNavigation => src}/features/map/controls/NavigationPerspectiveControl.js (100%)
+ rename {TomTomNavigation => src}/features/map/controls/SkipControl.js (100%)
+ rename {TomTomNavigation => src}/features/map/controls/ZoomControl.js (100%)
+ rename {TomTomNavigation => src}/features/map/mapSlice.js (100%)
+ rename {TomTomNavigation => src}/features/map/markers/Chevron2DMarker.js (100%)
+ rename {TomTomNavigation => src}/features/map/markers/ChevronMarker.js (100%)
+ rename {TomTomNavigation => src}/features/map/markers/DefaultMarker.js (100%)
+ rename {TomTomNavigation => src}/features/map/markers/ImageMarker.js (100%)
+ rename {TomTomNavigation => src}/features/map/markers/LocationMarker.js (100%)
+ rename {TomTomNavigation => src}/features/map/markers/MarkerFactory.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/ArrivalPanel.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/ArrivalPanelBackgroundImages.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/BottomPanel.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/ConsecutiveInstructionPanel.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/ETAPanel.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/ExitShieldEU.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/ExitShieldUS.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/LaneGuidancePanel.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/Navigation.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/NavigationGuidancePanel.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/NextInstructionPanel.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/Simulator.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/TrafficEventsPanel.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/navigationSlice.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/roadshield/RoadShield.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/roadshield/getRoadShield.js (100%)
+ rename {TomTomNavigation => src}/features/navigation/roadshield/sprite.json (100%)
+ rename {TomTomNavigation => src}/functions/breakAfterFirstWord.js (100%)
+ rename {TomTomNavigation => src}/functions/calculateTriggerPoints.js (100%)
+ rename {TomTomNavigation => src}/functions/coordinatesToGeoJson.js (100%)
+ rename {TomTomNavigation => src}/functions/countryCodeFromRoute.js (100%)
+ rename {TomTomNavigation => src}/functions/createManeuverLineStrings.js (100%)
+ rename {TomTomNavigation => src}/functions/createSectionedRoute.js (100%)
+ rename {TomTomNavigation => src}/functions/createWalkingLeg.js (100%)
+ rename {TomTomNavigation => src}/functions/detectColorScheme.js (100%)
+ rename {TomTomNavigation => src}/functions/expandBoundsByPercentage.js (100%)
+ rename {TomTomNavigation => src}/functions/expandDirectionAbbreviation.js (100%)
+ rename {TomTomNavigation => src}/functions/expandStreetName.js (100%)
+ rename {TomTomNavigation => src}/functions/expandUnits.js (100%)
+ rename {TomTomNavigation => src}/functions/fireEvent.js (100%)
+ rename {TomTomNavigation => src}/functions/formatDistance.js (100%)
+ rename {TomTomNavigation => src}/functions/formatDuration.js (100%)
+ rename {TomTomNavigation => src}/functions/formatTime.js (100%)
+ rename {TomTomNavigation => src}/functions/geoJsonBounds.js (100%)
+ rename {TomTomNavigation => src}/functions/getLaneIcon.js (100%)
+ rename {TomTomNavigation => src}/functions/getManeuverIcon.js (100%)
+ rename {TomTomNavigation => src}/functions/getSectionTypesForTravelMode.js (100%)
+ rename {TomTomNavigation => src}/functions/getTrafficEventIcon.js (100%)
+ rename {TomTomNavigation => src}/functions/metersToMiles.js (100%)
+ rename {TomTomNavigation => src}/functions/objectToQueryString.js (100%)
+ rename {TomTomNavigation => src}/functions/parseCoordinateString.js (100%)
+ rename {TomTomNavigation => src}/functions/roundUp.js (100%)
+ rename {TomTomNavigation => src}/functions/routeToGeoJson.js (100%)
+ rename {TomTomNavigation => src}/functions/routeUtils.js (100%)
+ rename {TomTomNavigation => src}/functions/shouldAnimateCamera.js (100%)
+ rename {TomTomNavigation => src}/functions/styles.js (100%)
+ rename {TomTomNavigation => src}/functions/tomtom2mapbox.js (100%)
+ rename {TomTomNavigation => src}/hooks/useButtonStyles.js (100%)
+ rename {TomTomNavigation => src}/hooks/useMicrosoftSpeech.js (100%)
+ rename {TomTomNavigation => src}/hooks/usePrevPropValue.js (100%)
+ rename {TomTomNavigation => src}/hooks/useSelectorRef.js (100%)
+ rename {TomTomNavigation => src}/hooks/useSpeech.js (100%)
+ rename {TomTomNavigation => src}/hooks/useTextStyles.js (100%)
+ rename {TomTomNavigation => src}/icons/ArrowLeftIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/ArrowRightIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/Chevron2DIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/ChevronIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/ChevronOutlineIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/CompassIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/CrossIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/CrosshairIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/ExitRightIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/JamIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/LayersIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/MinusIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/MuteIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/PinIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/PlusIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/RoadClosedIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/RoadworkIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/RoadworkMajorIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/RoadworkMinorIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/RoadworkModerateIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/RouteIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/SkipForwardIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/TimeIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/TrafficIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/TrafficMajorIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/TrafficMinorIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/TrafficModerateIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/TrafficOtherIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/TrafficOtherMajorIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/TrafficOtherMinorIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/TrafficOtherModerateIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/UnmuteIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/BearLeftIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/BearRightIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/DestinationIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/DestinationLeftIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/DestinationRightIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/FerryIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/KeepLeftIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/KeepRightIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/MotorwayIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/RoundaboutAround.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/RoundaboutCrossIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/RoundaboutLeftIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/RoundaboutRightIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/SharpLeftIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/SharpRightIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/StraightIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/TurnLeftIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/TurnRightIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/UTurnIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/WaypointIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/WaypointLeftIcon.js (100%)
+ rename {TomTomNavigation => src}/icons/nip/WaypointRightIcon.js (100%)
+ rename {TomTomNavigation => src}/index.ts (100%)
+ rename {TomTomNavigation => src}/services/routing.js (100%)
+ delete mode 100644 tomtom-navigation-pcf.pcfproj
+ delete mode 100755 tsconfig.json
+ delete mode 100644 ~/Library/Microsoft/PowerAppsCli/usersettings.json
+
+diff --git a/.eslintrc.json b/.eslintrc.json
+deleted file mode 100755
+index c31e892..0000000
+--- a/.eslintrc.json
++++ /dev/null
+@@ -1,25 +0,0 @@
+-{
+-  "env": {
+-    "browser": true,
+-    "es2021": true
+-  },
+-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+-  "globals": {
+-    "ComponentFramework": true
+-  },
+-  "parser": "@typescript-eslint/parser",
+-  "parserOptions": {
+-    "ecmaVersion": 12,
+-    "sourceType": "module"
+-  },
+-  "plugins": ["@microsoft/power-apps", "@typescript-eslint"],
+-  "rules": {
+-    "no-unused-vars": "off",
+-    "no-undef": "off"
+-  },
+-  "settings": {
+-    "react": {
+-      "version": "detect"
+-    }
+-  }
+-}
+diff --git a/README.md b/README.md
+deleted file mode 100644
+index b8247e0..0000000
+--- a/README.md
++++ /dev/null
+@@ -1,242 +0,0 @@
+-# TomTom Navigation Component for Power Apps
+-
+-A navigation PCF component implemented with React and Fluent UI.
+-
+-> [!IMPORTANT]
+-> Use of this component requires turning off "Scale to fit" in your app settings.
+-
+-## Development
+-
+-1. Install [yarn](https://classic.yarnpkg.com/en/docs/install#mac-stable) if needed.
+-2. From the project root directory run `yarn` to install project dependencies.
+-3. Run `yarn start:watch` to run component in a local sandbox.
+-
+-## Component Properties
+-
+-Available component properties:
+-
+-| Name                      | Type                                                                                                                   | Usage | Default value            | Description                                                                                                                                                                                                                                             |
+-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+-| apiKey                    | `SingleLine.Text`                                                                                                      | input |                          | The TomTom API key.                                                                                                                                                                                                                                     |
+-| language                  | `SingleLine.Text`                                                                                                      | input | `navigator.language`     | Language used for the component UI controls, map and guidance instructions. An [IETF language code tag](https://datahub.io/core/language-codes). Only "en-" and "nl-" variants are currently supported.                            |
+-| measurementSystem         | `Enum` possible values are "metric", "imperial" and "auto"                                                             | input | "auto"                   | The measurement system. If "auto" is selected the measurement system will be based on the route location.                                                                                                                                               |
+-| theme                     | `Enum`possible values are "light", "dark" and "auto"                                                                   | input | "auto"                   | The componnent theme. Influences both the map style and the theme used for the components overlaid on the map. If "auto" is selected will use the `prefers-color-scheme` media feature to detect if the user has requested light or dark color schemes. |
+-| showTrafficFlow           | `TwoOptions`                                                                                                           | input | `false`                  | Show the traffic flow layer.                                                                                                                                                                                                                            |
+-| showTrafficIncidents      | `TwoOptions`                                                                                                           | input | `false`                  | Show the traffic incidents layer.                                                                                                                                                                                                                       |
+-| showPoi                   | `TwoOptions`                                                                                                           | input | `false`                  | Show the POI layer.                                                                                                                                                                                                                                     |
+-| initialCenter             | `SingleLine.Text`                                                                                                      | input |                          | Initial map center specifed in the format "longitude,latitude". This is set once when the component is mounted.                                                                                                                                         |
+-| initialZoom               | `Decimal`                                                                                                              | input | 12                       | Initial zoom level. This is set once when the component is mounted.                                                                                                                                                                                     |
+-| showLocationMarker        | `TwoOptions`                                                                                                           | input | `true`                   | Show a location marker for the user's current location.                                                            |                           
+-| showMapSwitcherControl    | `TwoOptions`                                                                                                           | input | `true`                   | Show the map style switcher control.                                                                                                                                                                                                                          |
+-| showMuteControl           | `TwoOptions`                                                                                                           | input | `true`                   | Show the mute control.                                                                                                                                                                                                                                  |
+-| showSkipControl           | `TwoOptions`                                                                                                           | input | `false`                   | Show a control for skipping to the route destination.                                                                                                                                                                                                                                  |
+-| showExitControl           | `TwoOptions`                                                                                                           | input | `false`                   | Show a control for exiting the component.                                                                                                                                                                                                                                  |
+-| showZoomControl           | `TwoOptions`                                                                                                           | input | `false`                   | Show the zoom control. This control, when enabled is not shown if the device is a phone due to space limitations.                                                                                                                                                                                                                                  |
+-| showBottomPanel           | `TwoOptions`                                                                                                           | input | `true`                   | Show the bottom panel.                                                                                                                                                                                                                                  |
+-| showGuidancePanel         | `TwoOptions`                                                                                                           | input | `true`                   | Show the navigation guidance panel.                                                                                                                                                                                                                     |
+-| showManeuverArrows         | `TwoOptions`                                                                                                           | input | `true`                   | Shows maneuver arrows along the route.                                                                                                                                                                                                                     |
+-| automaticRouteCalculation | `TwoOptions`                                                                                                           | input | `false`                  | Automatically calculates a route when more than 1 waypoint is provided.                                                                                                                                                                                 |
+-| travelMode                | `Enum` possible values are "car", "truck", "taxi", "bus", "van", "motorcycle", "bicycle", "pedestrian"                 | input | "car"                    | The travel mode used for the route calculation.                                                                                                                                                                                                         |
+-| traffic                   | `TwoOptions`                                                                                                           | input | `true`                   | Calculates the route using live traffic.                                                                                                                                                                                                                |
+-| arrivalSidePreference     | `Enum` possible values are "anySide", "curbSide"                                                                       | input | "anySide"                | Specifies the preference of roadside on arrival to waypoints and destination. Stop on the road has to be set at least two meters to the preferred side, otherwise the behavior will default to "anySide".                                               |
+-| guidanceVoice             | `SingleLine.Text`                                                                                                      | input |                          | The name of a text-to-speech voice provided by the Microsoft Speech Service. Available voices can be found [here](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=tts#standard-voices).                        |
+-| simulationSpeed           | `Enum` possible values are "1x", "2x", "3x", "4x", "5x"                                                                | input | "3x"                     | The navigation simulation speed.                                                                                                                                                                                                                        |
+-| keepScreenOn                   | `TwoOptions`                                                                                                           | input | `true`                   | Prevents the device from falling asleep.                                                                                                                                                                                                                |
+-| routeWaypoints            | `DataSet`                                                                                                              | input |                          | References a `DataSet` containing records for each of the route's waypoints. See description of the `Waypoint` record below.                                                                                                                            |
+-| routeWaypointsLongitude   | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the longitude value.                                                                                                                                                                                             |
+-| routeWaypointsLatitude    | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the latitude value.                                                                                                                                                                                              |
+-| routeWaypointsName        | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the name value.                                                                                                                                                                                                  |
+-| routeWaypointsAddress     | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the address value.                                                                                                                                                                                               |
+-| routeWaypointsIconUrl     | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon_url value.                                                                                                                                                                                              |
+-| routeWaypointsIconWidth   | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon_width value.                                                                                                                                                                                            |
+-| routeWaypointsIconHeight  | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon_height value.                                                                                                                                                                                           |
+-| routeWaypointsIcon_anchor | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon anchor value.                                                                                                                                                                                           |
+-| routeWaypointsIconOffsetX | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon_offset_x value.                                                                                                                                                                                         |
+-| routeWaypointsIconOffsetY | `SingleLine.Text`                                                                                                      | input | ""                       | Column in the bound dataset containing the icon_offset_y value.                                                                                                                                                                                         
+-| name                     | `SingleLine.Text` | output | | The name of the event when the OnChange event is fired by the component. Either "OnChange" or "OnClose". |
+-| value                    | `SingleLine.Text` | output | | The value of the event when the OnChange event is fired by the component. |
+-
+-## Route Waypoints
+-
+-The navigation component sources the route waypoints from a `DataSet`. The dataset must have `longitude` and `latitude` columns, other columns are optional.
+-
+-The names shown in the table are the defaults that will be expected by the component if column mappings are not specified using the mapping input properties.
+-
+-| Name          | Type              | Required | Description                                                                                                                                                                                                               |
+-| ------------- | ----------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+-| longitude     | `Decimal`         | Yes      | The longitude value.                                                                                                                                                                                                      |
+-| latitude      | `Decimal`         | Yes      | The latitude value.                                                                                                                                                                                                       |
+-| name          | `SingleLine.Text` | No       | The location name.                                                                                                                                                                                                        |
+-| address       | `SingleLine.Text` | No       | The location address.                                                                                                                                                                                                     |
+-| icon_url      | `SingleLine.Text` | No       | URL for an image to use to represent the location on the map.                                                                                                                                                             |
+-| icon_width    | `Whole.None`      | No       | Width of the icon in pixels.                                                                                                                                                                                              |
+-| icon_height   | `Whole.None`      | No       | Height of the icon in pixels.                                                                                                                                                                                             |
+-| icon_anchor   | `SingeLine.Text`  | No       | A string indicating the part of the icon that should be positioned closest to the coordinate. Options are 'center' , 'top' , 'bottom' , 'left' , 'right' , 'top-left' , 'top-right' , 'bottom-left' , and 'bottom-right'. |
+-| icon_offset_x | `Whole.None`      | No       | The horizontal offset in pixels to apply relative to the icon's center. A negative value indicates left.                                                                                                                  |
+-| icon_offset_y | `Whole.None`      | No       | The vertical offset in pixels to apply relative to the icon's center. A negative value indicates up.                                                                                                                      |
+-
+-## Component Events
+-
+-The navigation component uses 2 mechanisms for communicating state changes, one enabling other PCF components to subscribe to component events, and the other for the app using the component.
+-
+-### Event handling using the component `OnChange` property
+-
+-PCF components fire a single event, `OnChange`. To overcome this limitation, the navigation component overloads this event by providing a `name` output property to allow more event types to be fired by the component.
+-
+-For more information on this pattern see [A Workable Pattern for PCF Events You Can Use Today](https://98.codes/a-workable-pattern-for-pcf-events-you-can-use-today/).
+-
+-Use the PowerFx Switch function in your control's `OnChange` behavior property to handle these events in your app.
+-
+-```
+-Switch(
+-  Self.name,
+-  "OnRouteCalculated",
+-    Notify("OnRouteCalculated received"),
+-  "OnExit",
+-    Notify("OnExit received!")
+-)
+-```
+-
+-Events emitted by the component:
+-
+-#### OnChange
+-
+-Fired when a route is calculated.
+-
+-##### Output properties
+-
+-| Name    | Value      | Description             |
+-| ------- | ---------- | ----------------------- |
+-| `name`  | "OnRouteCalculated" | The event name |
+-
+-#### OnNavigationStarted
+-
+-Fired when navigation is started.
+-
+-##### Output properties
+-
+-| Name    | Value      | Description             |
+-| ------- | ---------- | ----------------------- |
+-| `name`  | "OnNavigationStarted" | The event name |
+-
+-#### OnNavigationStopped
+-
+-Fired when navigation is stopped.
+-
+-##### Output properties
+-
+-| Name    | Value      | Description             |
+-| ------- | ---------- | ----------------------- |
+-| `name`  | "OnNavigationStopped" | The event name |
+-
+-#### OnProgressUpdate
+-
+-Fired each time a location update occurs during navigation.
+-
+-##### Output properties
+-
+-| Name    | Value      | Description             |
+-| ------- | ---------- | ----------------------- |
+-| `name`  | "OnProgressUpdate" | The event name |
+-| `value` | `object` | The progress data |
+-
+-#### OnDestinationReached
+-
+-Fired when the destination is reached.
+-
+-##### Output properties
+-
+-| Name    | Value      | Description             |
+-| ------- | ---------- | ----------------------- |
+-| `name`  | "OnDestinationReached" | The event name |
+-
+-#### OnExit
+-
+-Fired when the component's exit button is clicked.
+-
+-##### Output properties
+-
+-| Name    | Value      | Description             |
+-| ------- | ---------- | ----------------------- |
+-| `name`  | "OnExit" | The event name |
+-
+-### Event handling using window.postMessage()
+-
+-The navigation component uses the `window.postMessage()` method to communicate state changes to other PCF components. To listen for events dispatched by the component add an event listener to the `window` for the "message" event e.g.
+-
+-```
+-window.addEventListener(
+-  "message",
+-  (event) => {
+-	 const {data} = event;
+-	 ...
+-  },
+-  false,
+-);
+-```
+-
+-The `data` property of the event contains the message data sent by the component. The message data has a `type` property which identifies the message as having been by the navigation component and the particular state change that has occurred.
+-
+-The possible messages sent by the component are:
+-
+-#### TomTomNavigation.OnRouteCalculated
+-
+-Fired when a route has been calculated for the provided waypoints.
+-
+-##### Message Properties
+-
+-| Name                            | Value                               | Description                                 |
+-| ------------------------------- | ----------------------------------- | ------------------------------------------- |
+-| `type`                          | "TomTomNavigation.OnRouteCalculated" | The message type.                           |
+-| `summary`                       | `Object`                            | Route summary data.                         |
+-| `summary.lengthInMeters`        | `number`                            | The route length in meters.                 |
+-| `summary.travelTimeInSeconds`   | `number`                            | The route travel time in seconds.           |
+-| `summary.trafficDelayInSeconds` | `number`                            | The traffic delay in seconds.               |
+-| `summary.departureTime`         | `number`                            | The estimated departure time for the route. |
+-| `summary.arrivalTime`           | `number`                            | The estimated arrival time for the route.   |
+-
+-#### TomTomNavigation.OnNavigationStarted
+-
+-Fired when navigation is started.
+-
+-| Name   | Value                                 | Description       |
+-| ------ | ------------------------------------- | ----------------- |
+-| `type` | "TomTomNavigation.OnNavigationStarted" | The message type. |
+-
+-#### TomTomNavigation.OnNavigationStopped
+-
+-Fired when navigation is stopped.
+-
+-| Name   | Value                                 | Description       |
+-| ------ | ------------------------------------- | ----------------- |
+-| `type` | "TomTomNavigation.OnNavigationStopped" | The message type. |
+-
+-#### TomTomNavigation.OnProgressUpdate
+-
+-Fired each time a location update occurs during navigation.
+-
+-| Name                   | Value                              | Description                   |
+-| ---------------------- | ---------------------------------- | ----------------------------- |
+-| `type`                 | "TomTomNavigation.OnProgressUpdate" | The message type.             |
+-| `progress`             | `Object`                           | Progress data.                |
+-| `progress.coordinates` | [`longitude`,`latitude`]           | Current location coordinates. |
+-| `progress.bearing`     | `number`                           | Current location bearing.     |
+-| `progress.elapsedTime` | `number`                           | The elapsed time in secconds. |
+-
+-#### TomTomNavigation.OnDestinationReached
+-
+-Fired when the destination is reached.
+-
+-| Name                      | Value                                  | Description                                                         |
+-| ------------------------- | -------------------------------------- | ------------------------------------------------------------------- |
+-| `type`                    | "TomTomNavigation.OnDestinationReached" | The message type.                                                   |
+-| `id`                      | `string`                               | Internal ID for the record.                                         |
+-| `destination`             | `Object`                               | Route destination record.                                           |
+-| `destination.coordinates` | `Array`                                | The destination coordinates in the format [`longitude`, `latitude`] |
+-| `destination.name`        | `string`                               | The destination name (if provided).                                 |
+-| `destination.address`     | `string`                               | The destination address (if provided).                              |
+-| `destination.icon`        | `Object`                               | Properties specifying the icon for the record (if provided).        |
+-
+-## Testing
+-
+-Route test data can be found in the [data](data) directory.
+diff --git a/TomTomNavigation/Solutions/.gitignore b/TomTomNavigation/Solutions/.gitignore
+deleted file mode 100755
+index 717973a..0000000
+--- a/TomTomNavigation/Solutions/.gitignore
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+-
+-# msbuild output directories
+-/bin
+-/obj
+-
+-# MSBuild Binary and Structured Log
+-*.binlog
+diff --git a/TomTomNavigation/Solutions/Solutions.cdsproj b/TomTomNavigation/Solutions/Solutions.cdsproj
+deleted file mode 100644
+index ff8cf24..0000000
+--- a/TomTomNavigation/Solutions/Solutions.cdsproj
++++ /dev/null
+@@ -1,58 +0,0 @@
+-﻿<?xml version="1.0" encoding="utf-8"?>
+-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+-  <PropertyGroup>
+-    <PowerAppsTargetsPath>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\PowerApps</PowerAppsTargetsPath>
+-  </PropertyGroup>
+-
+-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+-  <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Solution.props" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Solution.props')" />
+-
+-  <PropertyGroup>
+-    <ProjectGuid>856d6f89-7dcd-4e95-8232-80217d5e40a4</ProjectGuid>
+-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+-    <!--Remove TargetFramework when this is available in 16.1-->
+-    <TargetFramework>net462</TargetFramework>
+-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+-    <SolutionRootPath>src</SolutionRootPath>
+-  </PropertyGroup>
+-
+-  <!-- 
+-    Solution Packager overrides, un-comment to use: SolutionPackagerType (Managed, Unmanaged, Both)
+-    Solution Localization Control, if you want to enabled localization of your solution, un-comment SolutionPackageEnableLocalization and set the value to true. - Requires use of -loc flag on Solution Clone or Sync
+-  -->
+-  <!--
+-  <PropertyGroup>
+-    <SolutionPackageType>Managed</SolutionPackageType>
+-    <SolutionPackageEnableLocalization>false</SolutionPackageEnableLocalization>
+-  </PropertyGroup>
+-  -->
+-
+-  <ItemGroup>
+-    <PackageReference Include="Microsoft.PowerApps.MSBuild.Solution" Version="1.*" />
+-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+-  </ItemGroup>
+-
+-  <ItemGroup>
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\.gitignore" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\bin\**" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\obj\**" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.cdsproj" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.cdsproj.user" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.sln" />
+-  </ItemGroup>
+-
+-  <ItemGroup>
+-    <None Include="$(MSBuildThisFileDirectory)\**" Exclude="@(ExcludeDirectories)" />
+-    <Content Include="$(SolutionPackageZipFilePath)">
+-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+-    </Content>
+-  </ItemGroup>
+-  
+-  <ItemGroup>
+-    <ProjectReference Include="../../tomtom-navigation-pcf.pcfproj" />
+-  </ItemGroup>
+-
+-  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+-  <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Solution.targets" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Solution.targets')" />
+-
+-</Project>
+diff --git a/TomTomNavigation/Solutions/src/Other/Customizations.xml b/TomTomNavigation/Solutions/src/Other/Customizations.xml
+deleted file mode 100755
+index 6dd52f1..0000000
+--- a/TomTomNavigation/Solutions/src/Other/Customizations.xml
++++ /dev/null
+@@ -1,18 +0,0 @@
+-﻿<?xml version="1.0" encoding="utf-8"?>
+-<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+-  <Entities />
+-  <Roles />
+-  <Workflows />
+-  <FieldSecurityProfiles />
+-  <Templates />
+-  <EntityMaps />
+-  <EntityRelationships />
+-  <OrganizationSettings />
+-  <optionsets />
+-  <CustomControls />
+-  <SolutionPluginAssemblies />
+-  <EntityDataProviders />
+-  <Languages>
+-    <Language>1033</Language>
+-  </Languages>
+-</ImportExportXml>
+\ No newline at end of file
+diff --git a/TomTomNavigation/Solutions/src/Other/Relationships.xml b/TomTomNavigation/Solutions/src/Other/Relationships.xml
+deleted file mode 100755
+index d88fcd0..0000000
+--- a/TomTomNavigation/Solutions/src/Other/Relationships.xml
++++ /dev/null
+@@ -1,2 +0,0 @@
+-﻿<?xml version="1.0" encoding="utf-8"?>
+-<EntityRelationships xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+\ No newline at end of file
+diff --git a/TomTomNavigation/Solutions/src/Other/Solution.xml b/TomTomNavigation/Solutions/src/Other/Solution.xml
+deleted file mode 100644
+index c0e61e5..0000000
+--- a/TomTomNavigation/Solutions/src/Other/Solution.xml
++++ /dev/null
+@@ -1,94 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<ImportExportXml version="9.1.0.643" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+-  <SolutionManifest>
+-    <!-- Unique Name of Cds Solution-->
+-    <UniqueName>Solutions</UniqueName>
+-    <LocalizedNames>
+-      <!-- Localized Solution Name in language code -->
+-      <LocalizedName description="Solutions" languagecode="1033" />
+-    </LocalizedNames>
+-    <Descriptions />
+-    <Version>1.0</Version>
+-    <!-- Solution Package Type: Unmanaged(0)/Managed(1)/Both(2)-->
+-    <Managed>2</Managed>
+-    <Publisher>
+-      <!-- Unique Publisher Name of Cds Solution -->
+-      <UniqueName>TomTom</UniqueName>
+-      <LocalizedNames>
+-        <!-- Localized Cds Publisher Name in language code-->
+-        <LocalizedName description="TomTom" languagecode="1033" />
+-      </LocalizedNames>
+-      <Descriptions>
+-        <!-- Description of Cds Publisher in language code -->
+-        <Description description="TomTom" languagecode="1033" />
+-      </Descriptions>
+-      <EMailAddress xsi:nil="true"></EMailAddress>
+-      <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
+-      <!-- Customization Prefix for the Cds Publisher-->
+-      <CustomizationPrefix>tomtom</CustomizationPrefix>
+-      <!-- Derived Option Value Prefix for the Customization Prefix of Cds Publisher -->
+-      <CustomizationOptionValuePrefix>95594</CustomizationOptionValuePrefix>
+-      <Addresses>
+-        <!-- Address of the Publisher-->
+-        <Address>
+-          <AddressNumber>1</AddressNumber>
+-          <AddressTypeCode>1</AddressTypeCode>
+-          <City xsi:nil="true"></City>
+-          <County xsi:nil="true"></County>
+-          <Country xsi:nil="true"></Country>
+-          <Fax xsi:nil="true"></Fax>
+-          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+-          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+-          <Latitude xsi:nil="true"></Latitude>
+-          <Line1 xsi:nil="true"></Line1>
+-          <Line2 xsi:nil="true"></Line2>
+-          <Line3 xsi:nil="true"></Line3>
+-          <Longitude xsi:nil="true"></Longitude>
+-          <Name xsi:nil="true"></Name>
+-          <PostalCode xsi:nil="true"></PostalCode>
+-          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+-          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+-          <ShippingMethodCode>1</ShippingMethodCode>
+-          <StateOrProvince xsi:nil="true"></StateOrProvince>
+-          <Telephone1 xsi:nil="true"></Telephone1>
+-          <Telephone2 xsi:nil="true"></Telephone2>
+-          <Telephone3 xsi:nil="true"></Telephone3>
+-          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+-          <UPSZone xsi:nil="true"></UPSZone>
+-          <UTCOffset xsi:nil="true"></UTCOffset>
+-          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+-        </Address>
+-        <Address>
+-          <AddressNumber>2</AddressNumber>
+-          <AddressTypeCode>1</AddressTypeCode>
+-          <City xsi:nil="true"></City>
+-          <County xsi:nil="true"></County>
+-          <Country xsi:nil="true"></Country>
+-          <Fax xsi:nil="true"></Fax>
+-          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+-          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+-          <Latitude xsi:nil="true"></Latitude>
+-          <Line1 xsi:nil="true"></Line1>
+-          <Line2 xsi:nil="true"></Line2>
+-          <Line3 xsi:nil="true"></Line3>
+-          <Longitude xsi:nil="true"></Longitude>
+-          <Name xsi:nil="true"></Name>
+-          <PostalCode xsi:nil="true"></PostalCode>
+-          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+-          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+-          <ShippingMethodCode>1</ShippingMethodCode>
+-          <StateOrProvince xsi:nil="true"></StateOrProvince>
+-          <Telephone1 xsi:nil="true"></Telephone1>
+-          <Telephone2 xsi:nil="true"></Telephone2>
+-          <Telephone3 xsi:nil="true"></Telephone3>
+-          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+-          <UPSZone xsi:nil="true"></UPSZone>
+-          <UTCOffset xsi:nil="true"></UTCOffset>
+-          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+-        </Address>
+-      </Addresses>
+-    </Publisher>
+-    <RootComponents />
+-    <MissingDependencies />
+-  </SolutionManifest>
+-</ImportExportXml>
+\ No newline at end of file
+diff --git a/pcfconfig.json b/pcfconfig.json
+deleted file mode 100755
+index 93d7732..0000000
+--- a/pcfconfig.json
++++ /dev/null
+@@ -1,3 +0,0 @@
+-{
+-    "outDir": "./out/controls"
+-}
+\ No newline at end of file
+diff --git a/TomTomNavigation/.gitignore b/src/.gitignore
+similarity index 100%
+rename from TomTomNavigation/.gitignore
+rename to src/.gitignore
+diff --git a/TomTomNavigation/ControlManifest.Input.xml b/src/ControlManifest.Input.xml
+similarity index 100%
+rename from TomTomNavigation/ControlManifest.Input.xml
+rename to src/ControlManifest.Input.xml
+diff --git a/TomTomNavigation/IControlEvent.ts b/src/IControlEvent.ts
+similarity index 100%
+rename from TomTomNavigation/IControlEvent.ts
+rename to src/IControlEvent.ts
+diff --git a/TomTomNavigation/app/App.js b/src/app/App.js
+similarity index 100%
+rename from TomTomNavigation/app/App.js
+rename to src/app/App.js
+diff --git a/TomTomNavigation/app/AppContext.js b/src/app/AppContext.js
+similarity index 100%
+rename from TomTomNavigation/app/AppContext.js
+rename to src/app/AppContext.js
+diff --git a/TomTomNavigation/app/GeolocationDialog.js b/src/app/GeolocationDialog.js
+similarity index 100%
+rename from TomTomNavigation/app/GeolocationDialog.js
+rename to src/app/GeolocationDialog.js
+diff --git a/TomTomNavigation/app/NoApiKeyMessage.js b/src/app/NoApiKeyMessage.js
+similarity index 100%
+rename from TomTomNavigation/app/NoApiKeyMessage.js
+rename to src/app/NoApiKeyMessage.js
+diff --git a/TomTomNavigation/app/store.js b/src/app/store.js
+similarity index 100%
+rename from TomTomNavigation/app/store.js
+rename to src/app/store.js
+diff --git a/TomTomNavigation/app/themes.js b/src/app/themes.js
+similarity index 100%
+rename from TomTomNavigation/app/themes.js
+rename to src/app/themes.js
+diff --git a/TomTomNavigation/components/Divider.js b/src/components/Divider.js
+similarity index 100%
+rename from TomTomNavigation/components/Divider.js
+rename to src/components/Divider.js
+diff --git a/TomTomNavigation/components/Fade.js b/src/components/Fade.js
+similarity index 100%
+rename from TomTomNavigation/components/Fade.js
+rename to src/components/Fade.js
+diff --git a/TomTomNavigation/components/SpriteImage.js b/src/components/SpriteImage.js
+similarity index 100%
+rename from TomTomNavigation/components/SpriteImage.js
+rename to src/components/SpriteImage.js
+diff --git a/TomTomNavigation/components/Stack.js b/src/components/Stack.js
+similarity index 100%
+rename from TomTomNavigation/components/Stack.js
+rename to src/components/Stack.js
+diff --git a/TomTomNavigation/config/index.js b/src/config/index.js
+similarity index 100%
+rename from TomTomNavigation/config/index.js
+rename to src/config/index.js
+diff --git a/TomTomNavigation/config/strings.js b/src/config/strings.js
+similarity index 100%
+rename from TomTomNavigation/config/strings.js
+rename to src/config/strings.js
+diff --git a/TomTomNavigation/constants/AnnouncementTypes.js b/src/constants/AnnouncementTypes.js
+similarity index 100%
+rename from TomTomNavigation/constants/AnnouncementTypes.js
+rename to src/constants/AnnouncementTypes.js
+diff --git a/TomTomNavigation/constants/ControlEvents.js b/src/constants/ControlEvents.js
+similarity index 100%
+rename from TomTomNavigation/constants/ControlEvents.js
+rename to src/constants/ControlEvents.js
+diff --git a/TomTomNavigation/constants/Maneuvers.js b/src/constants/Maneuvers.js
+similarity index 100%
+rename from TomTomNavigation/constants/Maneuvers.js
+rename to src/constants/Maneuvers.js
+diff --git a/TomTomNavigation/constants/NavigationPerspectives.js b/src/constants/NavigationPerspectives.js
+similarity index 100%
+rename from TomTomNavigation/constants/NavigationPerspectives.js
+rename to src/constants/NavigationPerspectives.js
+diff --git a/TomTomNavigation/constants/NavigationStates.js b/src/constants/NavigationStates.js
+similarity index 100%
+rename from TomTomNavigation/constants/NavigationStates.js
+rename to src/constants/NavigationStates.js
+diff --git a/TomTomNavigation/constants/SectionTypes.js b/src/constants/SectionTypes.js
+similarity index 100%
+rename from TomTomNavigation/constants/SectionTypes.js
+rename to src/constants/SectionTypes.js
+diff --git a/TomTomNavigation/css/TomTomNavigation.css b/src/css/TomTomNavigation.css
+similarity index 100%
+rename from TomTomNavigation/css/TomTomNavigation.css
+rename to src/css/TomTomNavigation.css
+diff --git a/TomTomNavigation/features/map/Landmarks3D.js b/src/features/map/Landmarks3D.js
+similarity index 100%
+rename from TomTomNavigation/features/map/Landmarks3D.js
+rename to src/features/map/Landmarks3D.js
+diff --git a/TomTomNavigation/features/map/ManeuverArrows.js b/src/features/map/ManeuverArrows.js
+similarity index 100%
+rename from TomTomNavigation/features/map/ManeuverArrows.js
+rename to src/features/map/ManeuverArrows.js
+diff --git a/TomTomNavigation/features/map/Map.js b/src/features/map/Map.js
+similarity index 100%
+rename from TomTomNavigation/features/map/Map.js
+rename to src/features/map/Map.js
+diff --git a/TomTomNavigation/features/map/Route.js b/src/features/map/Route.js
+similarity index 100%
+rename from TomTomNavigation/features/map/Route.js
+rename to src/features/map/Route.js
+diff --git a/TomTomNavigation/features/map/SpeedLimitEU.js b/src/features/map/SpeedLimitEU.js
+similarity index 100%
+rename from TomTomNavigation/features/map/SpeedLimitEU.js
+rename to src/features/map/SpeedLimitEU.js
+diff --git a/TomTomNavigation/features/map/SpeedLimitUS.js b/src/features/map/SpeedLimitUS.js
+similarity index 100%
+rename from TomTomNavigation/features/map/SpeedLimitUS.js
+rename to src/features/map/SpeedLimitUS.js
+diff --git a/TomTomNavigation/features/map/controls/CompassControl.js b/src/features/map/controls/CompassControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/CompassControl.js
+rename to src/features/map/controls/CompassControl.js
+diff --git a/TomTomNavigation/features/map/controls/ExitControl.js b/src/features/map/controls/ExitControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/ExitControl.js
+rename to src/features/map/controls/ExitControl.js
+diff --git a/TomTomNavigation/features/map/controls/GeolocateControl.js b/src/features/map/controls/GeolocateControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/GeolocateControl.js
+rename to src/features/map/controls/GeolocateControl.js
+diff --git a/TomTomNavigation/features/map/controls/MapControl.js b/src/features/map/controls/MapControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/MapControl.js
+rename to src/features/map/controls/MapControl.js
+diff --git a/TomTomNavigation/features/map/controls/MapSwitcherControl.js b/src/features/map/controls/MapSwitcherControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/MapSwitcherControl.js
+rename to src/features/map/controls/MapSwitcherControl.js
+diff --git a/TomTomNavigation/features/map/controls/MuteControl.js b/src/features/map/controls/MuteControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/MuteControl.js
+rename to src/features/map/controls/MuteControl.js
+diff --git a/TomTomNavigation/features/map/controls/NavigationPerspectiveControl.js b/src/features/map/controls/NavigationPerspectiveControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/NavigationPerspectiveControl.js
+rename to src/features/map/controls/NavigationPerspectiveControl.js
+diff --git a/TomTomNavigation/features/map/controls/SkipControl.js b/src/features/map/controls/SkipControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/SkipControl.js
+rename to src/features/map/controls/SkipControl.js
+diff --git a/TomTomNavigation/features/map/controls/ZoomControl.js b/src/features/map/controls/ZoomControl.js
+similarity index 100%
+rename from TomTomNavigation/features/map/controls/ZoomControl.js
+rename to src/features/map/controls/ZoomControl.js
+diff --git a/TomTomNavigation/features/map/mapSlice.js b/src/features/map/mapSlice.js
+similarity index 100%
+rename from TomTomNavigation/features/map/mapSlice.js
+rename to src/features/map/mapSlice.js
+diff --git a/TomTomNavigation/features/map/markers/Chevron2DMarker.js b/src/features/map/markers/Chevron2DMarker.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/Chevron2DMarker.js
+rename to src/features/map/markers/Chevron2DMarker.js
+diff --git a/TomTomNavigation/features/map/markers/ChevronMarker.js b/src/features/map/markers/ChevronMarker.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/ChevronMarker.js
+rename to src/features/map/markers/ChevronMarker.js
+diff --git a/TomTomNavigation/features/map/markers/DefaultMarker.js b/src/features/map/markers/DefaultMarker.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/DefaultMarker.js
+rename to src/features/map/markers/DefaultMarker.js
+diff --git a/TomTomNavigation/features/map/markers/ImageMarker.js b/src/features/map/markers/ImageMarker.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/ImageMarker.js
+rename to src/features/map/markers/ImageMarker.js
+diff --git a/TomTomNavigation/features/map/markers/LocationMarker.js b/src/features/map/markers/LocationMarker.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/LocationMarker.js
+rename to src/features/map/markers/LocationMarker.js
+diff --git a/TomTomNavigation/features/map/markers/MarkerFactory.js b/src/features/map/markers/MarkerFactory.js
+similarity index 100%
+rename from TomTomNavigation/features/map/markers/MarkerFactory.js
+rename to src/features/map/markers/MarkerFactory.js
+diff --git a/TomTomNavigation/features/navigation/ArrivalPanel.js b/src/features/navigation/ArrivalPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ArrivalPanel.js
+rename to src/features/navigation/ArrivalPanel.js
+diff --git a/TomTomNavigation/features/navigation/ArrivalPanelBackgroundImages.js b/src/features/navigation/ArrivalPanelBackgroundImages.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ArrivalPanelBackgroundImages.js
+rename to src/features/navigation/ArrivalPanelBackgroundImages.js
+diff --git a/TomTomNavigation/features/navigation/BottomPanel.js b/src/features/navigation/BottomPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/BottomPanel.js
+rename to src/features/navigation/BottomPanel.js
+diff --git a/TomTomNavigation/features/navigation/ConsecutiveInstructionPanel.js b/src/features/navigation/ConsecutiveInstructionPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ConsecutiveInstructionPanel.js
+rename to src/features/navigation/ConsecutiveInstructionPanel.js
+diff --git a/TomTomNavigation/features/navigation/ETAPanel.js b/src/features/navigation/ETAPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ETAPanel.js
+rename to src/features/navigation/ETAPanel.js
+diff --git a/TomTomNavigation/features/navigation/ExitShieldEU.js b/src/features/navigation/ExitShieldEU.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ExitShieldEU.js
+rename to src/features/navigation/ExitShieldEU.js
+diff --git a/TomTomNavigation/features/navigation/ExitShieldUS.js b/src/features/navigation/ExitShieldUS.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/ExitShieldUS.js
+rename to src/features/navigation/ExitShieldUS.js
+diff --git a/TomTomNavigation/features/navigation/LaneGuidancePanel.js b/src/features/navigation/LaneGuidancePanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/LaneGuidancePanel.js
+rename to src/features/navigation/LaneGuidancePanel.js
+diff --git a/TomTomNavigation/features/navigation/Navigation.js b/src/features/navigation/Navigation.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/Navigation.js
+rename to src/features/navigation/Navigation.js
+diff --git a/TomTomNavigation/features/navigation/NavigationGuidancePanel.js b/src/features/navigation/NavigationGuidancePanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/NavigationGuidancePanel.js
+rename to src/features/navigation/NavigationGuidancePanel.js
+diff --git a/TomTomNavigation/features/navigation/NextInstructionPanel.js b/src/features/navigation/NextInstructionPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/NextInstructionPanel.js
+rename to src/features/navigation/NextInstructionPanel.js
+diff --git a/TomTomNavigation/features/navigation/Simulator.js b/src/features/navigation/Simulator.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/Simulator.js
+rename to src/features/navigation/Simulator.js
+diff --git a/TomTomNavigation/features/navigation/TrafficEventsPanel.js b/src/features/navigation/TrafficEventsPanel.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/TrafficEventsPanel.js
+rename to src/features/navigation/TrafficEventsPanel.js
+diff --git a/TomTomNavigation/features/navigation/navigationSlice.js b/src/features/navigation/navigationSlice.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/navigationSlice.js
+rename to src/features/navigation/navigationSlice.js
+diff --git a/TomTomNavigation/features/navigation/roadshield/RoadShield.js b/src/features/navigation/roadshield/RoadShield.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/roadshield/RoadShield.js
+rename to src/features/navigation/roadshield/RoadShield.js
+diff --git a/TomTomNavigation/features/navigation/roadshield/getRoadShield.js b/src/features/navigation/roadshield/getRoadShield.js
+similarity index 100%
+rename from TomTomNavigation/features/navigation/roadshield/getRoadShield.js
+rename to src/features/navigation/roadshield/getRoadShield.js
+diff --git a/TomTomNavigation/features/navigation/roadshield/sprite.json b/src/features/navigation/roadshield/sprite.json
+similarity index 100%
+rename from TomTomNavigation/features/navigation/roadshield/sprite.json
+rename to src/features/navigation/roadshield/sprite.json
+diff --git a/TomTomNavigation/functions/breakAfterFirstWord.js b/src/functions/breakAfterFirstWord.js
+similarity index 100%
+rename from TomTomNavigation/functions/breakAfterFirstWord.js
+rename to src/functions/breakAfterFirstWord.js
+diff --git a/TomTomNavigation/functions/calculateTriggerPoints.js b/src/functions/calculateTriggerPoints.js
+similarity index 100%
+rename from TomTomNavigation/functions/calculateTriggerPoints.js
+rename to src/functions/calculateTriggerPoints.js
+diff --git a/TomTomNavigation/functions/coordinatesToGeoJson.js b/src/functions/coordinatesToGeoJson.js
+similarity index 100%
+rename from TomTomNavigation/functions/coordinatesToGeoJson.js
+rename to src/functions/coordinatesToGeoJson.js
+diff --git a/TomTomNavigation/functions/countryCodeFromRoute.js b/src/functions/countryCodeFromRoute.js
+similarity index 100%
+rename from TomTomNavigation/functions/countryCodeFromRoute.js
+rename to src/functions/countryCodeFromRoute.js
+diff --git a/TomTomNavigation/functions/createManeuverLineStrings.js b/src/functions/createManeuverLineStrings.js
+similarity index 100%
+rename from TomTomNavigation/functions/createManeuverLineStrings.js
+rename to src/functions/createManeuverLineStrings.js
+diff --git a/TomTomNavigation/functions/createSectionedRoute.js b/src/functions/createSectionedRoute.js
+similarity index 100%
+rename from TomTomNavigation/functions/createSectionedRoute.js
+rename to src/functions/createSectionedRoute.js
+diff --git a/TomTomNavigation/functions/createWalkingLeg.js b/src/functions/createWalkingLeg.js
+similarity index 100%
+rename from TomTomNavigation/functions/createWalkingLeg.js
+rename to src/functions/createWalkingLeg.js
+diff --git a/TomTomNavigation/functions/detectColorScheme.js b/src/functions/detectColorScheme.js
+similarity index 100%
+rename from TomTomNavigation/functions/detectColorScheme.js
+rename to src/functions/detectColorScheme.js
+diff --git a/TomTomNavigation/functions/expandBoundsByPercentage.js b/src/functions/expandBoundsByPercentage.js
+similarity index 100%
+rename from TomTomNavigation/functions/expandBoundsByPercentage.js
+rename to src/functions/expandBoundsByPercentage.js
+diff --git a/TomTomNavigation/functions/expandDirectionAbbreviation.js b/src/functions/expandDirectionAbbreviation.js
+similarity index 100%
+rename from TomTomNavigation/functions/expandDirectionAbbreviation.js
+rename to src/functions/expandDirectionAbbreviation.js
+diff --git a/TomTomNavigation/functions/expandStreetName.js b/src/functions/expandStreetName.js
+similarity index 100%
+rename from TomTomNavigation/functions/expandStreetName.js
+rename to src/functions/expandStreetName.js
+diff --git a/TomTomNavigation/functions/expandUnits.js b/src/functions/expandUnits.js
+similarity index 100%
+rename from TomTomNavigation/functions/expandUnits.js
+rename to src/functions/expandUnits.js
+diff --git a/TomTomNavigation/functions/fireEvent.js b/src/functions/fireEvent.js
+similarity index 100%
+rename from TomTomNavigation/functions/fireEvent.js
+rename to src/functions/fireEvent.js
+diff --git a/TomTomNavigation/functions/formatDistance.js b/src/functions/formatDistance.js
+similarity index 100%
+rename from TomTomNavigation/functions/formatDistance.js
+rename to src/functions/formatDistance.js
+diff --git a/TomTomNavigation/functions/formatDuration.js b/src/functions/formatDuration.js
+similarity index 100%
+rename from TomTomNavigation/functions/formatDuration.js
+rename to src/functions/formatDuration.js
+diff --git a/TomTomNavigation/functions/formatTime.js b/src/functions/formatTime.js
+similarity index 100%
+rename from TomTomNavigation/functions/formatTime.js
+rename to src/functions/formatTime.js
+diff --git a/TomTomNavigation/functions/geoJsonBounds.js b/src/functions/geoJsonBounds.js
+similarity index 100%
+rename from TomTomNavigation/functions/geoJsonBounds.js
+rename to src/functions/geoJsonBounds.js
+diff --git a/TomTomNavigation/functions/getLaneIcon.js b/src/functions/getLaneIcon.js
+similarity index 100%
+rename from TomTomNavigation/functions/getLaneIcon.js
+rename to src/functions/getLaneIcon.js
+diff --git a/TomTomNavigation/functions/getManeuverIcon.js b/src/functions/getManeuverIcon.js
+similarity index 100%
+rename from TomTomNavigation/functions/getManeuverIcon.js
+rename to src/functions/getManeuverIcon.js
+diff --git a/TomTomNavigation/functions/getSectionTypesForTravelMode.js b/src/functions/getSectionTypesForTravelMode.js
+similarity index 100%
+rename from TomTomNavigation/functions/getSectionTypesForTravelMode.js
+rename to src/functions/getSectionTypesForTravelMode.js
+diff --git a/TomTomNavigation/functions/getTrafficEventIcon.js b/src/functions/getTrafficEventIcon.js
+similarity index 100%
+rename from TomTomNavigation/functions/getTrafficEventIcon.js
+rename to src/functions/getTrafficEventIcon.js
+diff --git a/TomTomNavigation/functions/metersToMiles.js b/src/functions/metersToMiles.js
+similarity index 100%
+rename from TomTomNavigation/functions/metersToMiles.js
+rename to src/functions/metersToMiles.js
+diff --git a/TomTomNavigation/functions/objectToQueryString.js b/src/functions/objectToQueryString.js
+similarity index 100%
+rename from TomTomNavigation/functions/objectToQueryString.js
+rename to src/functions/objectToQueryString.js
+diff --git a/TomTomNavigation/functions/parseCoordinateString.js b/src/functions/parseCoordinateString.js
+similarity index 100%
+rename from TomTomNavigation/functions/parseCoordinateString.js
+rename to src/functions/parseCoordinateString.js
+diff --git a/TomTomNavigation/functions/roundUp.js b/src/functions/roundUp.js
+similarity index 100%
+rename from TomTomNavigation/functions/roundUp.js
+rename to src/functions/roundUp.js
+diff --git a/TomTomNavigation/functions/routeToGeoJson.js b/src/functions/routeToGeoJson.js
+similarity index 100%
+rename from TomTomNavigation/functions/routeToGeoJson.js
+rename to src/functions/routeToGeoJson.js
+diff --git a/TomTomNavigation/functions/routeUtils.js b/src/functions/routeUtils.js
+similarity index 100%
+rename from TomTomNavigation/functions/routeUtils.js
+rename to src/functions/routeUtils.js
+diff --git a/TomTomNavigation/functions/shouldAnimateCamera.js b/src/functions/shouldAnimateCamera.js
+similarity index 100%
+rename from TomTomNavigation/functions/shouldAnimateCamera.js
+rename to src/functions/shouldAnimateCamera.js
+diff --git a/TomTomNavigation/functions/styles.js b/src/functions/styles.js
+similarity index 100%
+rename from TomTomNavigation/functions/styles.js
+rename to src/functions/styles.js
+diff --git a/TomTomNavigation/functions/tomtom2mapbox.js b/src/functions/tomtom2mapbox.js
+similarity index 100%
+rename from TomTomNavigation/functions/tomtom2mapbox.js
+rename to src/functions/tomtom2mapbox.js
+diff --git a/TomTomNavigation/hooks/useButtonStyles.js b/src/hooks/useButtonStyles.js
+similarity index 100%
+rename from TomTomNavigation/hooks/useButtonStyles.js
+rename to src/hooks/useButtonStyles.js
+diff --git a/TomTomNavigation/hooks/useMicrosoftSpeech.js b/src/hooks/useMicrosoftSpeech.js
+similarity index 100%
+rename from TomTomNavigation/hooks/useMicrosoftSpeech.js
+rename to src/hooks/useMicrosoftSpeech.js
+diff --git a/TomTomNavigation/hooks/usePrevPropValue.js b/src/hooks/usePrevPropValue.js
+similarity index 100%
+rename from TomTomNavigation/hooks/usePrevPropValue.js
+rename to src/hooks/usePrevPropValue.js
+diff --git a/TomTomNavigation/hooks/useSelectorRef.js b/src/hooks/useSelectorRef.js
+similarity index 100%
+rename from TomTomNavigation/hooks/useSelectorRef.js
+rename to src/hooks/useSelectorRef.js
+diff --git a/TomTomNavigation/hooks/useSpeech.js b/src/hooks/useSpeech.js
+similarity index 100%
+rename from TomTomNavigation/hooks/useSpeech.js
+rename to src/hooks/useSpeech.js
+diff --git a/TomTomNavigation/hooks/useTextStyles.js b/src/hooks/useTextStyles.js
+similarity index 100%
+rename from TomTomNavigation/hooks/useTextStyles.js
+rename to src/hooks/useTextStyles.js
+diff --git a/TomTomNavigation/icons/ArrowLeftIcon.js b/src/icons/ArrowLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/ArrowLeftIcon.js
+rename to src/icons/ArrowLeftIcon.js
+diff --git a/TomTomNavigation/icons/ArrowRightIcon.js b/src/icons/ArrowRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/ArrowRightIcon.js
+rename to src/icons/ArrowRightIcon.js
+diff --git a/TomTomNavigation/icons/Chevron2DIcon.js b/src/icons/Chevron2DIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/Chevron2DIcon.js
+rename to src/icons/Chevron2DIcon.js
+diff --git a/TomTomNavigation/icons/ChevronIcon.js b/src/icons/ChevronIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/ChevronIcon.js
+rename to src/icons/ChevronIcon.js
+diff --git a/TomTomNavigation/icons/ChevronOutlineIcon.js b/src/icons/ChevronOutlineIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/ChevronOutlineIcon.js
+rename to src/icons/ChevronOutlineIcon.js
+diff --git a/TomTomNavigation/icons/CompassIcon.js b/src/icons/CompassIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/CompassIcon.js
+rename to src/icons/CompassIcon.js
+diff --git a/TomTomNavigation/icons/CrossIcon.js b/src/icons/CrossIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/CrossIcon.js
+rename to src/icons/CrossIcon.js
+diff --git a/TomTomNavigation/icons/CrosshairIcon.js b/src/icons/CrosshairIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/CrosshairIcon.js
+rename to src/icons/CrosshairIcon.js
+diff --git a/TomTomNavigation/icons/ExitRightIcon.js b/src/icons/ExitRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/ExitRightIcon.js
+rename to src/icons/ExitRightIcon.js
+diff --git a/TomTomNavigation/icons/JamIcon.js b/src/icons/JamIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/JamIcon.js
+rename to src/icons/JamIcon.js
+diff --git a/TomTomNavigation/icons/LayersIcon.js b/src/icons/LayersIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/LayersIcon.js
+rename to src/icons/LayersIcon.js
+diff --git a/TomTomNavigation/icons/MinusIcon.js b/src/icons/MinusIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/MinusIcon.js
+rename to src/icons/MinusIcon.js
+diff --git a/TomTomNavigation/icons/MuteIcon.js b/src/icons/MuteIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/MuteIcon.js
+rename to src/icons/MuteIcon.js
+diff --git a/TomTomNavigation/icons/PinIcon.js b/src/icons/PinIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/PinIcon.js
+rename to src/icons/PinIcon.js
+diff --git a/TomTomNavigation/icons/PlusIcon.js b/src/icons/PlusIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/PlusIcon.js
+rename to src/icons/PlusIcon.js
+diff --git a/TomTomNavigation/icons/RoadClosedIcon.js b/src/icons/RoadClosedIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RoadClosedIcon.js
+rename to src/icons/RoadClosedIcon.js
+diff --git a/TomTomNavigation/icons/RoadworkIcon.js b/src/icons/RoadworkIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RoadworkIcon.js
+rename to src/icons/RoadworkIcon.js
+diff --git a/TomTomNavigation/icons/RoadworkMajorIcon.js b/src/icons/RoadworkMajorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RoadworkMajorIcon.js
+rename to src/icons/RoadworkMajorIcon.js
+diff --git a/TomTomNavigation/icons/RoadworkMinorIcon.js b/src/icons/RoadworkMinorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RoadworkMinorIcon.js
+rename to src/icons/RoadworkMinorIcon.js
+diff --git a/TomTomNavigation/icons/RoadworkModerateIcon.js b/src/icons/RoadworkModerateIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RoadworkModerateIcon.js
+rename to src/icons/RoadworkModerateIcon.js
+diff --git a/TomTomNavigation/icons/RouteIcon.js b/src/icons/RouteIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/RouteIcon.js
+rename to src/icons/RouteIcon.js
+diff --git a/TomTomNavigation/icons/SkipForwardIcon.js b/src/icons/SkipForwardIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/SkipForwardIcon.js
+rename to src/icons/SkipForwardIcon.js
+diff --git a/TomTomNavigation/icons/TimeIcon.js b/src/icons/TimeIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TimeIcon.js
+rename to src/icons/TimeIcon.js
+diff --git a/TomTomNavigation/icons/TrafficIcon.js b/src/icons/TrafficIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficIcon.js
+rename to src/icons/TrafficIcon.js
+diff --git a/TomTomNavigation/icons/TrafficMajorIcon.js b/src/icons/TrafficMajorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficMajorIcon.js
+rename to src/icons/TrafficMajorIcon.js
+diff --git a/TomTomNavigation/icons/TrafficMinorIcon.js b/src/icons/TrafficMinorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficMinorIcon.js
+rename to src/icons/TrafficMinorIcon.js
+diff --git a/TomTomNavigation/icons/TrafficModerateIcon.js b/src/icons/TrafficModerateIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficModerateIcon.js
+rename to src/icons/TrafficModerateIcon.js
+diff --git a/TomTomNavigation/icons/TrafficOtherIcon.js b/src/icons/TrafficOtherIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficOtherIcon.js
+rename to src/icons/TrafficOtherIcon.js
+diff --git a/TomTomNavigation/icons/TrafficOtherMajorIcon.js b/src/icons/TrafficOtherMajorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficOtherMajorIcon.js
+rename to src/icons/TrafficOtherMajorIcon.js
+diff --git a/TomTomNavigation/icons/TrafficOtherMinorIcon.js b/src/icons/TrafficOtherMinorIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficOtherMinorIcon.js
+rename to src/icons/TrafficOtherMinorIcon.js
+diff --git a/TomTomNavigation/icons/TrafficOtherModerateIcon.js b/src/icons/TrafficOtherModerateIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/TrafficOtherModerateIcon.js
+rename to src/icons/TrafficOtherModerateIcon.js
+diff --git a/TomTomNavigation/icons/UnmuteIcon.js b/src/icons/UnmuteIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/UnmuteIcon.js
+rename to src/icons/UnmuteIcon.js
+diff --git a/TomTomNavigation/icons/nip/BearLeftIcon.js b/src/icons/nip/BearLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/BearLeftIcon.js
+rename to src/icons/nip/BearLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/BearRightIcon.js b/src/icons/nip/BearRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/BearRightIcon.js
+rename to src/icons/nip/BearRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/DestinationIcon.js b/src/icons/nip/DestinationIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/DestinationIcon.js
+rename to src/icons/nip/DestinationIcon.js
+diff --git a/TomTomNavigation/icons/nip/DestinationLeftIcon.js b/src/icons/nip/DestinationLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/DestinationLeftIcon.js
+rename to src/icons/nip/DestinationLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/DestinationRightIcon.js b/src/icons/nip/DestinationRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/DestinationRightIcon.js
+rename to src/icons/nip/DestinationRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/FerryIcon.js b/src/icons/nip/FerryIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/FerryIcon.js
+rename to src/icons/nip/FerryIcon.js
+diff --git a/TomTomNavigation/icons/nip/KeepLeftIcon.js b/src/icons/nip/KeepLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/KeepLeftIcon.js
+rename to src/icons/nip/KeepLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/KeepRightIcon.js b/src/icons/nip/KeepRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/KeepRightIcon.js
+rename to src/icons/nip/KeepRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/MotorwayIcon.js b/src/icons/nip/MotorwayIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/MotorwayIcon.js
+rename to src/icons/nip/MotorwayIcon.js
+diff --git a/TomTomNavigation/icons/nip/RoundaboutAround.js b/src/icons/nip/RoundaboutAround.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/RoundaboutAround.js
+rename to src/icons/nip/RoundaboutAround.js
+diff --git a/TomTomNavigation/icons/nip/RoundaboutCrossIcon.js b/src/icons/nip/RoundaboutCrossIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/RoundaboutCrossIcon.js
+rename to src/icons/nip/RoundaboutCrossIcon.js
+diff --git a/TomTomNavigation/icons/nip/RoundaboutLeftIcon.js b/src/icons/nip/RoundaboutLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/RoundaboutLeftIcon.js
+rename to src/icons/nip/RoundaboutLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/RoundaboutRightIcon.js b/src/icons/nip/RoundaboutRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/RoundaboutRightIcon.js
+rename to src/icons/nip/RoundaboutRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/SharpLeftIcon.js b/src/icons/nip/SharpLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/SharpLeftIcon.js
+rename to src/icons/nip/SharpLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/SharpRightIcon.js b/src/icons/nip/SharpRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/SharpRightIcon.js
+rename to src/icons/nip/SharpRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/StraightIcon.js b/src/icons/nip/StraightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/StraightIcon.js
+rename to src/icons/nip/StraightIcon.js
+diff --git a/TomTomNavigation/icons/nip/TurnLeftIcon.js b/src/icons/nip/TurnLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/TurnLeftIcon.js
+rename to src/icons/nip/TurnLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/TurnRightIcon.js b/src/icons/nip/TurnRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/TurnRightIcon.js
+rename to src/icons/nip/TurnRightIcon.js
+diff --git a/TomTomNavigation/icons/nip/UTurnIcon.js b/src/icons/nip/UTurnIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/UTurnIcon.js
+rename to src/icons/nip/UTurnIcon.js
+diff --git a/TomTomNavigation/icons/nip/WaypointIcon.js b/src/icons/nip/WaypointIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/WaypointIcon.js
+rename to src/icons/nip/WaypointIcon.js
+diff --git a/TomTomNavigation/icons/nip/WaypointLeftIcon.js b/src/icons/nip/WaypointLeftIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/WaypointLeftIcon.js
+rename to src/icons/nip/WaypointLeftIcon.js
+diff --git a/TomTomNavigation/icons/nip/WaypointRightIcon.js b/src/icons/nip/WaypointRightIcon.js
+similarity index 100%
+rename from TomTomNavigation/icons/nip/WaypointRightIcon.js
+rename to src/icons/nip/WaypointRightIcon.js
+diff --git a/TomTomNavigation/index.ts b/src/index.ts
+similarity index 100%
+rename from TomTomNavigation/index.ts
+rename to src/index.ts
+diff --git a/TomTomNavigation/services/routing.js b/src/services/routing.js
+similarity index 100%
+rename from TomTomNavigation/services/routing.js
+rename to src/services/routing.js
+diff --git a/tomtom-navigation-pcf.pcfproj b/tomtom-navigation-pcf.pcfproj
+deleted file mode 100644
+index 8e04496..0000000
+--- a/tomtom-navigation-pcf.pcfproj
++++ /dev/null
+@@ -1,47 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+-  <PropertyGroup>
+-    <PowerAppsTargetsPath>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\PowerApps</PowerAppsTargetsPath>
+-  </PropertyGroup>
+-
+-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+-  <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props')" />
+-
+-  <PropertyGroup>
+-    <Name>tomtom-navigation-pcf</Name>
+-    <ProjectGuid>61b1374e-bdf1-4e26-bbb2-0d06d818d0bd</ProjectGuid>
+-    <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
+-    <PcfBuildMode>production</PcfBuildMode>
+-  </PropertyGroup>
+-
+-  <PropertyGroup>
+-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+-    <!--Remove TargetFramework when this is available in 16.1-->
+-    <TargetFramework>net462</TargetFramework>
+-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+-  </PropertyGroup>
+-
+-  <ItemGroup>
+-    <PackageReference Include="Microsoft.PowerApps.MSBuild.Pcf" Version="1.*" />
+-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+-  </ItemGroup>
+-
+-  <ItemGroup>
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\.gitignore" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\bin\**" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\obj\**" />
+-    <ExcludeDirectories Include="$(OutputPath)\**" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.pcfproj" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.pcfproj.user" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.sln" />
+-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\node_modules\**" />
+-  </ItemGroup>
+-
+-  <ItemGroup>
+-    <None Include="$(MSBuildThisFileDirectory)\**" Exclude="@(ExcludeDirectories)" />
+-  </ItemGroup>
+-
+-  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+-  <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.targets" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.targets')" />
+-
+-</Project>
+diff --git a/tsconfig.json b/tsconfig.json
+deleted file mode 100755
+index 09b7788..0000000
+--- a/tsconfig.json
++++ /dev/null
+@@ -1,8 +0,0 @@
+-{
+-  "extends": "./node_modules/pcf-scripts/tsconfig_base.json",
+-  "compilerOptions": {
+-    "allowJs": true,
+-    "esModuleInterop": true,
+-    "typeRoots": ["node_modules/@types"]
+-  }
+-}
+diff --git a/~/Library/Microsoft/PowerAppsCli/usersettings.json b/~/Library/Microsoft/PowerAppsCli/usersettings.json
+deleted file mode 100644
+index 3ae8958..0000000
+--- a/~/Library/Microsoft/PowerAppsCli/usersettings.json
++++ /dev/null
+@@ -1 +0,0 @@
+-{"settingVersion":"1.0","uniqueId":"93259dce-ad46-4817-86e8-56da41598fca","telemetryEnabled":true}
+\ No newline at end of file
+-- 
+2.39.5 (Apple Git-154)
+

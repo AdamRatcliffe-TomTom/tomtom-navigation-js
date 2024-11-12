@@ -1,0 +1,27 @@
+From c93b1a3be9291b4b849d9eecb536dfaaf6a9b191 Mon Sep 17 00:00:00 2001
+From: Adam Ratcliffe <adam.ratcliffe@tomtom.com>
+Date: Sun, 10 Nov 2024 16:52:54 -0800
+Subject: [PATCH 21/22] Separate out scripts watching for file changes from
+ building only.
+
+---
+ package.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/package.json b/package.json
+index 286ca71..83ce8dc 100755
+--- a/package.json
++++ b/package.json
+@@ -10,7 +10,8 @@
+   },
+   "type": "module",
+   "scripts": {
+-    "build": "rollup -cw",
++    "build": "rollup -c",
++    "dev": "rollup -c -w",
+     "prepare": "yarn build"
+   },
+   "dependencies": {
+-- 
+2.39.5 (Apple Git-154)
+

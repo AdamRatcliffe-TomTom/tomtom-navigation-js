@@ -9,6 +9,7 @@ import Map from "../features/map/Map";
 import Navigation from "../features/navigation/Navigation";
 import GeolocationDialog from "./GeolocationDialog";
 import getSectionTypesForTravelMode from "../functions/getSectionTypesForTravelMode";
+import detectColorScheme from "../functions/detectColorScheme";
 import { lightTheme, darkTheme } from "./themes";
 import strings from "../config/strings";
 
@@ -30,29 +31,30 @@ import {
 
 function App({
   apiKey,
-  theme,
-  language,
-  measurementSystem,
+  theme = detectColorScheme(),
+  language = "en-US",
+  measurementSystem = "auto",
   width,
   height,
   guidanceVoice,
   guidanceVoiceVolume,
-  simulationSpeed,
-  mapOptions,
+  simulationSpeed = "3x",
+  mapOptions = {},
   initialCenter,
   initialZoom,
-  routeOptions,
+  routeOptions = {},
   automaticRouteCalculation,
-  showBottomPanel,
-  showGuidancePanel,
-  showArrivalPanel,
-  showContinueButton,
+  guidancePanelYOffset = 0,
+  showBottomPanel = true,
+  showGuidancePanel = true,
+  showArrivalPanel = true,
+  showContinueButton = false,
   routeUrl,
-  onNavigationStarted,
-  onNavigationStopped,
-  onProgressUpdate,
-  onDestinationReached,
-  onNavigationContinue
+  onNavigationStarted = () => {},
+  onNavigationStopped = () => {},
+  onProgressUpdate = () => {},
+  onDestinationReached = () => {},
+  onNavigationContinue = () => {}
 }) {
   strings.setLanguage(language);
 
@@ -139,6 +141,7 @@ function App({
         <div className="TomTomNavigation">
           <Map preCalculatedRoute={preCalculatedRoute} {...mapOptions}>
             <Navigation
+              guidancePanelYOffset={guidancePanelYOffset}
               preCalculatedRoute={preCalculatedRoute}
               onNavigationStarted={onNavigationStarted}
               onNavigationStopped={onNavigationStopped}
