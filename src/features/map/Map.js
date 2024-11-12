@@ -287,6 +287,7 @@ const Map = ({
       const control = map.getAttributionControl();
       map.removeControl(control);
     } catch (e) {}
+    setMapSprite(map);
   };
 
   const handleGeolocationControlClick = (coords) => {
