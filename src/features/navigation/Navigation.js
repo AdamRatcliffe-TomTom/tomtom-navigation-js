@@ -58,8 +58,6 @@ import {
   PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
 } from "../../config";
 
-let ruler;
-
 const Navigation = ({
   map,
   guidancePanelYOffset,
@@ -322,8 +320,6 @@ const Navigation = ({
     onDestinationReached();
   };
 
-  const handleStopNavigation = () => stopNavigation(true);
-
   const getRuler = () => {
     if (!rulerRef.current && routeFeature) {
       const startCoordinate = routeFeature.geometry.coordinates[0];
@@ -341,7 +337,7 @@ const Navigation = ({
         <BottomPanel
           route={route}
           onStartNavigation={startNavigation}
-          onStopNavigation={handleStopNavigation}
+          onStopNavigation={stopNavigation}
           onNavigationContinue={onNavigationContinue}
         />
       )}

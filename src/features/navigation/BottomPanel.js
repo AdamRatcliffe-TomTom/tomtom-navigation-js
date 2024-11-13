@@ -47,6 +47,8 @@ const BottomPanel = ({
   const showArrivalPanel = useSelector(getShowArrivalPanel);
   const hasReachedDestination = useSelector(getHasReachedDestination);
 
+  const handleStopNavigation = () => onStopNavigation(true);
+
   return route ? (
     <div className={classes.root}>
       {hasReachedDestination ? (
@@ -62,7 +64,7 @@ const BottomPanel = ({
           measurementSystem={measurementSystem}
           isNavigating={isNavigating}
           onStartNavigation={onStartNavigation}
-          onStopNavigation={onStopNavigation}
+          onStopNavigation={handleStopNavigation}
         />
       )}
     </div>
