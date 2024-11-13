@@ -2,13 +2,13 @@ import { useState, useEffect, useCallback } from "react";
 import { useCalculateRouteQuery } from "../../../services/routing";
 import tomtom2mapbox from "../../../functions/tomtom2mapbox";
 
-const useNavigationRoute = (
+const useNavigationRoute = ({
   apiKey,
   routeOptions,
   automaticRouteCalculation,
   preCalculatedRoute,
   setETA
-) => {
+}) => {
   const [navigationRoute, setNavigationRoute] = useState(null);
 
   const { data: { route } = {} } = useCalculateRouteQuery({

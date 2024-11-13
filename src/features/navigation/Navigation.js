@@ -9,13 +9,11 @@ import { useAppContext } from "../../app/AppContext";
 import useSelectorRef from "../../hooks/useSelectorRef";
 import useSpeech from "../../hooks/useMicrosoftSpeech";
 import useNavigationRoute from "./hooks/useNavigationRoute";
+import useNavigationSimulation from "./hooks/useNavigationSimulation";
 import BottomPanel from "./BottomPanel";
 import NavigationGuidancePanel from "./NavigationGuidancePanel";
 import Simulator from "./Simulator";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
-import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
-import coordinatesToGeoJson from "../../functions/coordinatesToGeoJson";
-import geoJsonBounds from "../../functions/geoJsonBounds";
 import fireEvent from "../../functions/fireEvent";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
 import ControlEvents from "../../constants/ControlEvents";
@@ -27,7 +25,6 @@ import {
   getViewTransitioning,
   setCamera,
   setBounds,
-  setPitch,
   setFitBoundsOptions,
   setViewTransitioning
 } from "../map/mapSlice";
@@ -42,15 +39,13 @@ import {
   getCurrentLocation,
   getLastInstruction,
   getVoiceAnnouncementsEnabled,
-  setIsNavigating,
   setNavigationPerspective,
   setCurrentLocation,
   setDistanceRemaining,
   setTimeRemaining,
   setEta,
   setHasReachedDestination,
-  setSimulationShouldEnd,
-  resetNavigation
+  setSimulationShouldEnd
 } from "../navigation/navigationSlice";
 
 import {
@@ -58,7 +53,6 @@ import {
   ARRIVAL_PANEL_HEIGHT,
   FIT_BOUNDS_PADDING_TOP,
   FIT_BOUNDS_PADDING_RIGHT,
-  FIT_BOUNDS_PADDING_BOTTOM,
   FIT_BOUNDS_PADDING_LEFT,
   VEHICLE_NAVIGATION_SIMULATION_ZOOM,
   PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
@@ -77,6 +71,7 @@ const Navigation = ({
   onNavigationContinue
 }) => {
   const dispatch = useDispatch();
+  const rulerRef = useRef(null);
   const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
   const {
     apiKey,
@@ -108,13 +103,13 @@ const Navigation = ({
     });
   };
 
-  const { route, navigationRoute } = useNavigationRoute(
+  const { route, navigationRoute } = useNavigationRoute({
     apiKey,
     routeOptions,
     automaticRouteCalculation,
     preCalculatedRoute,
     setETA
-  );
+  });
   const { features: [routeFeature] = [] } = route || {};
 
   const viewTransitioning = useSelector(getViewTransitioning);
@@ -152,6 +147,24 @@ const Navigation = ({
         : VEHICLE_NAVIGATION_SIMULATION_ZOOM,
     [isPedestrian]
   );
+  const voice = useMemo(
+    () => guidanceVoice || getVoiceForLanguage(language) || "en-US-JennyNeural",
+    [guidanceVoice, language]
+  );
+  const { startNavigation, stopNavigation } = useNavigationSimulation({
+    map,
+    route: route || null,
+    routeFeature,
+    onNavigationStarted,
+    onNavigationStopped,
+    navigationPaddingTopRef,
+    voiceAnnouncementsEnabledRef,
+    speechAvailable,
+    speak,
+    voice,
+    isPedestrian,
+    setETA
+  });
 
   useEffect(() => {
     navigationPaddingTopRef.current = navigationPaddingTop;
@@ -175,103 +188,9 @@ const Navigation = ({
 
   useEffect(() => {
     if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
-      const voice = getGuidanceVoice();
       speak({ voice, text: announcement.text, volume: guidanceVoiceVolume });
     }
   }, [announcement, voiceAnnouncementsEnabled]);
-
-  const startNavigation = () => {
-    // Center the map on the first coordinate of the route
-    const routeCoordinates = routeFeature.geometry.coordinates;
-    const center = routeCoordinates[0];
-    const movingMethod = shouldAnimateCamera(map.getBounds(), center)
-      ? "flyTo"
-      : "jumpTo";
-
-    // Make map non-interactive when navigating
-    setMapInteractive(false);
-
-    batch(() => {
-      dispatch(setViewTransitioning(true));
-      dispatch(setIsNavigating(true));
-      dispatch(
-        setCamera({
-          movingMethod,
-          center,
-          pitch: 60,
-          zoom: 18,
-          animationOptions: {
-            padding: {
-              top: navigationPaddingTopRef.current,
-              left: isTablet ? TABLET_PANEL_WIDTH : 0
-            }
-          }
-        })
-      );
-    });
-
-    if (
-      !isPedestrian &&
-      speechAvailable &&
-      voiceAnnouncementsEnabledRef?.current
-    ) {
-      const voice = getGuidanceVoice();
-      const announcement = strings.DEPART;
-      speak({ voice, text: announcement, volume: guidanceVoiceVolume });
-    }
-
-    map.once("moveend", () => dispatch(setViewTransitioning(false)));
-
-    fireEvent(ControlEvents.OnNavigationStarted);
-    onNavigationStarted();
-  };
-
-  const stopNavigation = (userCancelled = false) => {
-    let geojson = coordinatesToGeoJson(
-      routeOptions.locations.map((location) => location.coordinates)
-    );
-    const mergedFeatures = [...route.features, ...geojson.features];
-    geojson = featureCollection(mergedFeatures);
-    const bounds = geoJsonBounds(geojson);
-
-    // Reset the map's field of view padding
-    map.__om.setPadding({ top: 0, left: 0 });
-
-    batch(() => {
-      dispatch(setViewTransitioning(true));
-      dispatch(resetNavigation());
-      dispatch(setPitch(0));
-      dispatch(
-        setFitBoundsOptions({
-          padding: {
-            top: FIT_BOUNDS_PADDING_TOP,
-            right: FIT_BOUNDS_PADDING_RIGHT,
-            bottom: FIT_BOUNDS_PADDING_BOTTOM,
-            left: FIT_BOUNDS_PADDING_LEFT
-          },
-          animate: true
-        })
-      );
-      dispatch(setBounds(bounds));
-
-      // Reset the ETA
-      setETA(routeFeature);
-    });
-
-    map.once("moveend", () => dispatch(setViewTransitioning(false)));
-
-    // Restore map interaction
-    setMapInteractive(true);
-
-    fireEvent(ControlEvents.OnNavigationStopped);
-    onNavigationStopped({ userCancelled });
-  };
-
-  const setMapInteractive = (interactive) => {
-    map.__om._canvas.parentElement.style.pointerEvents = interactive
-      ? "all"
-      : "none";
-  };
 
   const handleSimulatorUpdate = (event) => {
     if (viewTransitioning) {
@@ -287,9 +206,7 @@ const Navigation = ({
       }
     } = routeFeature;
 
-    if (!ruler) {
-      ruler = new CheapRuler(coordinates[0][1], "meters");
-    }
+    const ruler = getRuler(coordinates);
 
     const { point, index: pointIndex } = ruler.pointOnLine(
       coordinates,
@@ -393,7 +310,6 @@ const Navigation = ({
     map.once("moveend", () => dispatch(setViewTransitioning(false)));
 
     if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
-      const voice = getGuidanceVoice();
       const instruction = lastInstructionRef?.current;
 
       if (instruction) {
@@ -406,8 +322,15 @@ const Navigation = ({
     onDestinationReached();
   };
 
-  const getGuidanceVoice = () =>
-    guidanceVoice || getVoiceForLanguage(language) || "en-US-JennyNeural";
+  const handleStopNavigation = () => stopNavigation(true);
+
+  const getRuler = () => {
+    if (!rulerRef.current && routeFeature) {
+      const startCoordinate = routeFeature.geometry.coordinates[0];
+      rulerRef.current = new CheapRuler(startCoordinate[1], "meters");
+    }
+    return rulerRef.current;
+  };
 
   return (
     <>
@@ -418,7 +341,7 @@ const Navigation = ({
         <BottomPanel
           route={route}
           onStartNavigation={startNavigation}
-          onStopNavigation={() => stopNavigation(true)}
+          onStopNavigation={handleStopNavigation}
           onNavigationContinue={onNavigationContinue}
         />
       )}
