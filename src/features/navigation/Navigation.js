@@ -2,21 +2,20 @@ import tt from "@tomtom-international/web-sdk-maps";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import CheapRuler from "cheap-ruler";
-import add from "date-fns/add";
+import { add } from "date-fns";
 import { featureCollection, lineString } from "@turf/helpers";
 import { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
 import useSelectorRef from "../../hooks/useSelectorRef";
 import useSpeech from "../../hooks/useMicrosoftSpeech";
+import useNavigationRoute from "./hooks/useNavigationRoute";
 import BottomPanel from "./BottomPanel";
 import NavigationGuidancePanel from "./NavigationGuidancePanel";
 import Simulator from "./Simulator";
-import { useCalculateRouteQuery } from "../../services/routing";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import coordinatesToGeoJson from "../../functions/coordinatesToGeoJson";
 import geoJsonBounds from "../../functions/geoJsonBounds";
-import tomtom2mapbox from "../../functions/tomtom2mapbox";
 import fireEvent from "../../functions/fireEvent";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
 import ControlEvents from "../../constants/ControlEvents";
@@ -92,6 +91,32 @@ const Navigation = ({
   const showBottomPanel = useSelector(getShowBottomPanel);
   const showGuidancePanel = useSelector(getShowGuidancePanel);
   const isNavigating = useSelector(getIsNavigating);
+  const routeOptions = useSelector(getRouteOptions);
+  const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
+  const [previousRoute, setPreviousRoute] = useState(null);
+
+  const setETA = (feature) => {
+    const { lengthInMeters, travelTimeInSeconds } = feature.properties.summary;
+    const eta = add(new Date(), {
+      seconds: travelTimeInSeconds
+    }).toISOString();
+
+    batch(() => {
+      dispatch(setDistanceRemaining(lengthInMeters));
+      dispatch(setTimeRemaining(travelTimeInSeconds));
+      dispatch(setEta(eta));
+    });
+  };
+
+  const { route, navigationRoute } = useNavigationRoute(
+    apiKey,
+    routeOptions,
+    automaticRouteCalculation,
+    preCalculatedRoute,
+    setETA
+  );
+  const { features: [routeFeature] = [] } = route || {};
+
   const viewTransitioning = useSelector(getViewTransitioning);
   const navigationPerspectiveRef = useSelectorRef(getNavigationPerspective).at(
     1
@@ -102,16 +127,6 @@ const Navigation = ({
   const lastInstructionRef = useSelectorRef(getLastInstruction).at(1);
   const [voiceAnnouncementsEnabled, voiceAnnouncementsEnabledRef] =
     useSelectorRef(getVoiceAnnouncementsEnabled);
-  const routeOptions = useSelector(getRouteOptions);
-  const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
-  const { data: { route } = {} } = useCalculateRouteQuery({
-    key: apiKey,
-    preCalculatedRoute,
-    automaticRouteCalculation,
-    ...routeOptions
-  });
-  const { features: [routeFeature] = [] } = route || {};
-  const [navigationRoute, setNavigationRoute] = useState();
   const destination = useMemo(
     () =>
       routeOptions.locations?.length
@@ -119,7 +134,10 @@ const Navigation = ({
         : routeFeature?.geometry.coordinates.at(-1),
     [routeOptions.locations, route]
   );
-  const navigationPaddingTop = Math.max(height - (isTablet ? 210 : 390), 0);
+  const navigationPaddingTop = useMemo(
+    () => Math.max(height - (isTablet ? 210 : 390), 0),
+    [height, isTablet]
+  );
   const navigationPaddingTopRef = useRef(navigationPaddingTop);
   const guidancePanelIsVisible =
     showGuidancePanel && isNavigating && !hasReachedDestination;
@@ -127,9 +145,13 @@ const Navigation = ({
   const simulatorIsActive =
     navigationRoute && isNavigating && !hasReachedDestination;
   const isPedestrian = isPedestrianRoute(routeFeature);
-  const simulatorZoom = isPedestrian
-    ? PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
-    : VEHICLE_NAVIGATION_SIMULATION_ZOOM;
+  const simulatorZoom = useMemo(
+    () =>
+      isPedestrian
+        ? PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
+        : VEHICLE_NAVIGATION_SIMULATION_ZOOM,
+    [isPedestrian]
+  );
 
   useEffect(() => {
     navigationPaddingTopRef.current = navigationPaddingTop;
@@ -137,15 +159,12 @@ const Navigation = ({
 
   useEffect(() => {
     if (route) {
-      if (isNavigating) {
+      if (isNavigating && route !== previousRoute) {
         stopNavigation();
       }
-
-      const navigationRoute = tomtom2mapbox(routeFeature);
-      setNavigationRoute(navigationRoute);
-      setETA();
+      setPreviousRoute(route);
     }
-  }, [route]);
+  }, [isNavigating, route, previousRoute]);
 
   useEffect(() => {
     if (Boolean(simulationShouldEnd)) {
@@ -160,20 +179,6 @@ const Navigation = ({
       speak({ voice, text: announcement.text, volume: guidanceVoiceVolume });
     }
   }, [announcement, voiceAnnouncementsEnabled]);
-
-  const setETA = () => {
-    const { lengthInMeters, travelTimeInSeconds } =
-      routeFeature.properties.summary;
-    const eta = add(new Date(), {
-      seconds: travelTimeInSeconds
-    }).toISOString();
-
-    batch(() => {
-      dispatch(setDistanceRemaining(lengthInMeters));
-      dispatch(setTimeRemaining(travelTimeInSeconds));
-      dispatch(setEta(eta));
-    });
-  };
 
   const startNavigation = () => {
     // Center the map on the first coordinate of the route
@@ -197,7 +202,7 @@ const Navigation = ({
           zoom: 18,
           animationOptions: {
             padding: {
-              top: navigationPaddingTop,
+              top: navigationPaddingTopRef.current,
               left: isTablet ? TABLET_PANEL_WIDTH : 0
             }
           }
@@ -250,7 +255,7 @@ const Navigation = ({
       dispatch(setBounds(bounds));
 
       // Reset the ETA
-      setETA();
+      setETA(routeFeature);
     });
 
     map.once("moveend", () => dispatch(setViewTransitioning(false)));
@@ -345,8 +350,7 @@ const Navigation = ({
           routeProgress,
           route,
           measurementSystem,
-          language,
-          ruler
+          language
         })
       );
     });

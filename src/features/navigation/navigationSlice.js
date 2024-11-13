@@ -1,4 +1,5 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
+import CheapRuler from "cheap-ruler";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import {
   lastInstruction,
@@ -39,6 +40,8 @@ const initialState = {
   eta: null
 };
 
+let ruler;
+
 const navigationSlice = createSlice({
   name: "navigation",
   initialState,
@@ -71,22 +74,25 @@ const navigationSlice = createSlice({
         routeProgress,
         route,
         measurementSystem,
-        language,
-        ruler
+        language
       } = action.payload;
 
-      const selectedRoute = route.features[0];
-      const { coordinates } = selectedRoute.geometry;
-      const useMessageProp = isPedestrianRoute(selectedRoute);
-      const speedLimit = speedLimitByIndex(selectedRoute, pointIndex);
-      const instruction = instructionByIndex(selectedRoute, pointIndex);
+      const routeFeature = route.features[0];
+      const { coordinates } = routeFeature.geometry;
+      const useMessageProp = isPedestrianRoute(routeFeature);
+      const speedLimit = speedLimitByIndex(routeFeature, pointIndex);
+      const instruction = instructionByIndex(routeFeature, pointIndex);
       const { possibleCombineWithNext } = instruction;
+
+      if (!ruler) {
+        ruler = new CheapRuler(coordinates[0][1], "meters");
+      }
 
       let consecutiveInstruction;
 
       if (possibleCombineWithNext) {
         consecutiveInstruction = instructionByIndex(
-          selectedRoute,
+          routeFeature,
           instruction.pointIndex + 1
         );
       } else {
@@ -106,7 +112,7 @@ const navigationSlice = createSlice({
       let announcement;
       if (pointIndex !== state.currentLocation?.pointIndex) {
         announcement = announcementByIndex(
-          selectedRoute,
+          routeFeature,
           pointIndex,
           measurementSystem,
           language,
@@ -114,9 +120,9 @@ const navigationSlice = createSlice({
         );
       }
 
-      const laneGuidance = laneGuidanceByIndex(selectedRoute, pointIndex);
+      const laneGuidance = laneGuidanceByIndex(routeFeature, pointIndex);
 
-      const trafficEvents = trafficEventsByIndex(selectedRoute, pointIndex);
+      const trafficEvents = trafficEventsByIndex(routeFeature, pointIndex);
 
       state.currentLocation = {
         pointIndex,
@@ -135,7 +141,7 @@ const navigationSlice = createSlice({
       state.timeRemaining = timeRemaining;
 
       if (!state.lastInstruction) {
-        state.lastInstruction = lastInstruction(selectedRoute);
+        state.lastInstruction = lastInstruction(routeFeature);
       }
     },
     setDistanceRemaining: (state, action) => {
