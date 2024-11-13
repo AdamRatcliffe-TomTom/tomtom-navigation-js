@@ -145,9 +145,10 @@ const Navigation = ({
         : VEHICLE_NAVIGATION_SIMULATION_ZOOM,
     [isPedestrian]
   );
+
   const voice = useMemo(
     () => guidanceVoice || getVoiceForLanguage(language) || "en-US-JennyNeural",
-    [guidanceVoice, language]
+    [guidanceVoice, getVoiceForLanguage, language]
   );
   const { startNavigation, stopNavigation } = useNavigationSimulation({
     map,
