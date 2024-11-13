@@ -103,7 +103,8 @@ function getAnnouncementText(
 
   const maneuverText = strings[maneuver];
   const includeDistance =
-    distanceInMeters > 0 && maneuver !== Maneuvers.STRAIGHT;
+    distanceInMeters > 0 &&
+    ![Maneuvers.STRAIGHT, Maneuvers.WAYPOINT_REACHED].includes(maneuver);
 
   if (includeDistance) {
     const announcementTemplate = street

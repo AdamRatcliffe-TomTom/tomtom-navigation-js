@@ -1,8 +1,9 @@
 import tt from "@tomtom-international/web-sdk-maps";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
+import CheapRuler from "cheap-ruler";
 import add from "date-fns/add";
-import { featureCollection } from "@turf/helpers";
+import { featureCollection, lineString } from "@turf/helpers";
 import { withMap } from "react-tomtom-maps";
 import { useAppContext } from "../../app/AppContext";
 import useSelectorRef from "../../hooks/useSelectorRef";
@@ -63,6 +64,8 @@ import {
   VEHICLE_NAVIGATION_SIMULATION_ZOOM,
   PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
 } from "../../config";
+
+let ruler;
 
 const Navigation = ({
   map,
@@ -272,6 +275,45 @@ const Navigation = ({
 
     const { pitch, zoom, stepCoords, stepBearing, stepTime, duration } = event;
     const elapsedTime = Math.floor(stepTime / 1000);
+    const {
+      geometry: { coordinates },
+      properties: {
+        summary: { travelTimeInSeconds }
+      }
+    } = routeFeature;
+
+    if (!ruler) {
+      ruler = new CheapRuler(coordinates[0][1], "meters");
+    }
+
+    const { point, index: pointIndex } = ruler.pointOnLine(
+      coordinates,
+      stepCoords
+    );
+
+    const traveledPart = ruler.lineSlice(coordinates[0], point, coordinates);
+    if (traveledPart.length === 1) {
+      traveledPart.push(coordinates[0]);
+    }
+
+    const remainingPart = ruler.lineSlice(
+      point,
+      coordinates[coordinates.length - 1],
+      coordinates
+    );
+
+    const distanceRemaining = ruler.lineDistance(remainingPart);
+    const timeRemaining = Math.max(travelTimeInSeconds - elapsedTime, 0);
+    const routeProgress = featureCollection([lineString(traveledPart)]);
+
+    const progress = {
+      coordinates: stepCoords,
+      bearing: stepBearing,
+      elapsedTime,
+      timeRemaining,
+      distanceRemaining,
+      routeProgress
+    };
 
     batch(() => {
       if (navigationPerspectiveRef.current === NavigationPerspectives.FOLLOW) {
@@ -295,23 +337,22 @@ const Navigation = ({
 
       dispatch(
         setCurrentLocation({
-          location: stepCoords,
+          point,
+          pointIndex,
           bearing: stepBearing,
-          elapsedTime,
+          timeRemaining,
+          distanceRemaining,
+          routeProgress,
           route,
           measurementSystem,
-          language
+          language,
+          ruler
         })
       );
     });
 
-    const progress = {
-      coordinates: stepCoords,
-      bearing: stepBearing,
-      elapsedTime
-    };
-
     fireEvent(ControlEvents.OnProgressUpdate, { progress });
+
     onProgressUpdate(progress);
   };
 

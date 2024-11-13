@@ -1,6 +1,4 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
-import { featureCollection, lineString } from "@turf/helpers";
-import CheapRuler from "cheap-ruler";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import {
   lastInstruction,
@@ -41,8 +39,6 @@ const initialState = {
   eta: null
 };
 
-let ruler;
-
 const navigationSlice = createSlice({
   name: "navigation",
   initialState,
@@ -67,44 +63,23 @@ const navigationSlice = createSlice({
     },
     setCurrentLocation: (state, action) => {
       const {
-        location,
+        point,
+        pointIndex,
         bearing,
-        elapsedTime,
+        timeRemaining,
+        distanceRemaining,
+        routeProgress,
         route,
         measurementSystem,
-        language
+        language,
+        ruler
       } = action.payload;
 
       const selectedRoute = route.features[0];
-      const {
-        summary: { travelTimeInSeconds }
-      } = selectedRoute.properties;
       const { coordinates } = selectedRoute.geometry;
       const useMessageProp = isPedestrianRoute(selectedRoute);
-
-      if (!ruler) {
-        ruler = new CheapRuler(coordinates[0][1], "meters");
-      }
-
-      const { point, index: currentPointIndex } = ruler.pointOnLine(
-        coordinates,
-        location
-      );
-
-      const traveledPart = ruler.lineSlice(coordinates[0], point, coordinates);
-      if (traveledPart.length === 1) {
-        traveledPart.push(coordinates[0]);
-      }
-
-      const remainingPart = ruler.lineSlice(
-        point,
-        coordinates[coordinates.length - 1],
-        coordinates
-      );
-      const distanceRemaining = ruler.lineDistance(remainingPart);
-      const timeRemaining = Math.max(travelTimeInSeconds - elapsedTime, 0);
-      const speedLimit = speedLimitByIndex(selectedRoute, currentPointIndex);
-      const instruction = instructionByIndex(selectedRoute, currentPointIndex);
+      const speedLimit = speedLimitByIndex(selectedRoute, pointIndex);
+      const instruction = instructionByIndex(selectedRoute, pointIndex);
       const { possibleCombineWithNext } = instruction;
 
       let consecutiveInstruction;
@@ -129,28 +104,22 @@ const navigationSlice = createSlice({
       }
 
       let announcement;
-      if (currentPointIndex !== state.currentLocation?.pointIndex) {
+      if (pointIndex !== state.currentLocation?.pointIndex) {
         announcement = announcementByIndex(
           selectedRoute,
-          currentPointIndex,
+          pointIndex,
           measurementSystem,
           language,
           useMessageProp
         );
       }
 
-      const laneGuidance = laneGuidanceByIndex(
-        selectedRoute,
-        currentPointIndex
-      );
+      const laneGuidance = laneGuidanceByIndex(selectedRoute, pointIndex);
 
-      const trafficEvents = trafficEventsByIndex(
-        selectedRoute,
-        currentPointIndex
-      );
+      const trafficEvents = trafficEventsByIndex(selectedRoute, pointIndex);
 
       state.currentLocation = {
-        pointIndex: currentPointIndex,
+        pointIndex,
         point,
         bearing,
         speedLimit,
@@ -160,8 +129,8 @@ const navigationSlice = createSlice({
       };
       state.nextInstruction = instruction;
       state.consecutiveInstruction = consecutiveInstruction;
-      state.routeProgress = featureCollection([lineString(traveledPart)]);
-      state.distanceRemaining = distanceRemaining;
+      (state.routeProgress = routeProgress),
+        (state.distanceRemaining = distanceRemaining);
       state.distanceToNextManeuver = distanceToNextManeuver;
       state.timeRemaining = timeRemaining;
 
@@ -197,7 +166,6 @@ const navigationSlice = createSlice({
       state.lastInstruction = undefined;
       state.routeProgress = undefined;
       // state.distanceRemaining = undefined;
-      ruler = undefined;
     }
   }
 });
