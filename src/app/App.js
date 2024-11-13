@@ -82,6 +82,7 @@ function App({
     dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
     dispatch(
       setRouteOptions({
+        language,
         ...routeOptions,
         sectionType: getSectionTypesForTravelMode(routeOptions.travelMode)
       })
