@@ -17,7 +17,8 @@ export default function AppContextProvider({
   simulationSpeed,
   theme,
   guidanceVoice,
-  guidanceVoiceVolume
+  guidanceVoiceVolume,
+  safeAreaInsets
 }) {
   const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
   const [guidancePanelHeight, setGuidancePanelHeight] = useState(0);
@@ -37,6 +38,7 @@ export default function AppContextProvider({
       theme,
       guidanceVoice,
       guidanceVoiceVolume,
+      safeAreaInsets,
       guidancePanelHeight,
       setGuidancePanelHeight,
       mapStyles: {
@@ -70,6 +72,7 @@ export default function AppContextProvider({
       theme,
       guidanceVoice,
       guidanceVoiceVolume,
+      safeAreaInsets,
       guidancePanelHeight
     ]
   );

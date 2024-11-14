@@ -9,7 +9,9 @@ export const lightTheme = {
     nipEUHighlight: "#0C2341",
     nipUSEmphasis: "#72A395",
     nipEUEmphasis: "#5D7EA7",
-    alert: "#F7B84F"
+    alert: "#F7B84F",
+    inputBackground: "#ffffff",
+    inputIcon: "#727C85"
   },
   palette: {
     themePrimary: "#1988CF",
@@ -34,7 +36,9 @@ export const darkTheme = {
     nipEUHighlight: "#0C2341",
     nipUSEmphasis: "#9ABDB4",
     nipEUEmphasis: "#8CA3C0",
-    alert: "#F7B84F"
+    alert: "#F7B84F",
+    inputBackground: "#202C37",
+    inputIcon: "#ffffff"
   },
   palette: {
     themePrimary: "#1988CF",

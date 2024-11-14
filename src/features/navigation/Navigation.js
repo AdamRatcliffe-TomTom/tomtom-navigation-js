@@ -60,7 +60,6 @@ import {
 
 const Navigation = ({
   map,
-  guidancePanelYOffset,
   preCalculatedRoute,
   onNavigationStarted,
   onNavigationStopped,
@@ -331,9 +330,7 @@ const Navigation = ({
 
   return (
     <>
-      {guidancePanelIsVisible && (
-        <NavigationGuidancePanel route={route} yOffset={guidancePanelYOffset} />
-      )}
+      {guidancePanelIsVisible && <NavigationGuidancePanel route={route} />}
       {bottomPanelIsVisible && (
         <BottomPanel
           route={route}

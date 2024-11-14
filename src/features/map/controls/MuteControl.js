@@ -28,7 +28,7 @@ const Mute = ({ visible, voiceAnnouncementsEnabled, onClick = () => {} }) => {
   return (
     <Fade show={visible} duration="0.15s">
       <div className={buttonClasses.mapControlButton} onClick={handleClick}>
-        <Icon color={theme.palette.black} />
+        <Icon color={theme.palette.black} size={32} />
       </div>
     </Fade>
   );

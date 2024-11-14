@@ -31,13 +31,13 @@ const useStyles = ({
   isTablet,
   landscapeMinimal,
   countryCode,
-  yOffset,
+  top,
   pedestrianRoute
 }) =>
   makeStyles((theme) => ({
     root: {
       position: "absolute",
-      top: yOffset,
+      top: top,
       left: 0,
       margin: `${theme.spacing.m} ${theme.spacing.m} 0`,
       ...(isTablet && {
@@ -85,7 +85,7 @@ const useStyles = ({
 
 const styleId = "guidance-ctrl-margin-adjustment";
 
-const NavigationGuidancePanel = ({ route, yOffset = 0 }) => {
+const NavigationGuidancePanel = ({ route }) => {
   // Using offsetSize option to useMeasure is necessary to ignore the parent scale
   // transformation Power Apps will apply if "Scale to fit" is enabled
   const [guidancePanelRef, bounds] = useMeasure({ offsetSize: true });
@@ -94,7 +94,8 @@ const NavigationGuidancePanel = ({ route, yOffset = 0 }) => {
     isPhone,
     isTablet,
     landscapeMinimal,
-    setGuidancePanelHeight
+    setGuidancePanelHeight,
+    safeAreaInsets: { top }
   } = useAppContext();
   const countryCode = useSelector(getCountryCode);
   const classes = useStyles({
@@ -103,7 +104,7 @@ const NavigationGuidancePanel = ({ route, yOffset = 0 }) => {
     isTablet,
     landscapeMinimal,
     countryCode,
-    yOffset,
+    top,
     pedestrianRoute: isPedestrianRoute(route)
   })();
   const guidancePanelHeight = bounds.height;
@@ -125,7 +126,7 @@ const NavigationGuidancePanel = ({ route, yOffset = 0 }) => {
       addStyleToDocument(
         styleId,
         `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {
-           margin-top: ${guidancePanelHeight + yOffset + 8}px;
+           margin-top: ${guidancePanelHeight + top + 8}px;
          }
          .TomTomNavigation .mapboxgl-ctrl-bottom-right, .TomTomNavigation .mapboxgl-ctrl-bottom-left {
            margin-bottom: ${ETA_PANEL_HEIGHT}px;

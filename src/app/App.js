@@ -6,12 +6,15 @@ import { useGeolocated } from "react-geolocated";
 import AppContextProvider from "./AppContext";
 import NoApiKeyMessage from "./NoApiKeyMessage";
 import Map from "../features/map/Map";
+import Search from "../features/search/Search";
 import Navigation from "../features/navigation/Navigation";
 import GeolocationDialog from "./GeolocationDialog";
 import getSectionTypesForTravelMode from "../functions/getSectionTypesForTravelMode";
 import detectColorScheme from "../functions/detectColorScheme";
 import { lightTheme, darkTheme } from "./themes";
 import strings from "../config/strings";
+
+import { DEFAULT_SAFE_AREA_INSETS } from "../config";
 
 import {
   setCenter,
@@ -44,7 +47,8 @@ function App({
   initialZoom,
   routeOptions = {},
   automaticRouteCalculation,
-  guidancePanelYOffset = 0,
+  safeAreaInsets,
+  showSearch = false,
   showBottomPanel = true,
   showGuidancePanel = true,
   showArrivalPanel = true,
@@ -63,6 +67,11 @@ function App({
   const { isGeolocationAvailable, isGeolocationEnabled } = useGeolocated();
   const [hideGeolocationDialog, { toggle: toggleHideGeolocationDialog }] =
     useBoolean(true);
+
+  const mergedSafeAreaInsets = {
+    ...DEFAULT_SAFE_AREA_INSETS,
+    ...safeAreaInsets
+  };
 
   useEffect(() => {
     if (!isGeolocationAvailable || !isGeolocationEnabled) {
@@ -138,11 +147,12 @@ function App({
         guidanceVoiceVolume={guidanceVoiceVolume}
         simulationSpeed={simulationSpeed}
         theme={theme}
+        safeAreaInsets={mergedSafeAreaInsets}
       >
         <div className="TomTomNavigation">
           <Map preCalculatedRoute={preCalculatedRoute} {...mapOptions}>
+            {showSearch && <Search />}
             <Navigation
-              guidancePanelYOffset={guidancePanelYOffset}
               preCalculatedRoute={preCalculatedRoute}
               onNavigationStarted={onNavigationStarted}
               onNavigationStopped={onNavigationStopped}

@@ -25,3 +25,9 @@ export const PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM = 20;
 export const TABLET_PANEL_WIDTH = 390;
 export const ETA_PANEL_HEIGHT = 96;
 export const ARRIVAL_PANEL_HEIGHT = 226;
+export const DEFAULT_SAFE_AREA_INSETS = {
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0
+};

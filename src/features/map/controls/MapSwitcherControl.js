@@ -33,6 +33,7 @@ const useStyles = (props) =>
     },
     itemLabel: {
       fontFamily: "Noto Sans",
+      fontSize: 16,
       textAlign: "center",
       marginTop: theme.spacing.s1
     }
@@ -134,7 +135,7 @@ const MapSwitcher = ({
           ref={refs.setReference}
           onClick={togglePopup}
         >
-          <LayersIcon color={theme.palette.black} />
+          <LayersIcon color={theme.palette.black} size={32} />
         </div>
       </Fade>
       <MapStylesPopup
