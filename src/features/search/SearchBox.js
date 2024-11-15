@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "12px 16px",
     width: "100%",
     height: 56,
-    border: `2px solid color-mix(in srgb, ${theme.palette.black}, transparent 85%)`,
+    // border: `2px solid color-mix(in srgb, ${theme.palette.black}, transparent 85%)`,
     borderRadius: 100,
     fontFamily: "Noto Sans",
     fontSize: 20,

@@ -10,7 +10,7 @@ export const lightTheme = {
     nipUSEmphasis: "#72A395",
     nipEUEmphasis: "#5D7EA7",
     alert: "#F7B84F",
-    inputBackground: "#ffffff",
+    inputBackground: "#F4F5F6",
     inputIcon: "#727C85"
   },
   palette: {
