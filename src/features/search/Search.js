@@ -10,13 +10,13 @@ import {
 
 import { TABLET_PANEL_WIDTH } from "../../config";
 
-const useStyles = ({ top, isPhone, isTablet }) =>
+const useStyles = ({ position, top, isPhone, isTablet }) =>
   makeStyles((theme) => ({
     root: {
       position: "absolute",
-      top,
+      ...(position === "bottom" ? { bottom: 0 } : { top }),
       left: 0,
-      margin: theme.spacing.m,
+      margin: isPhone ? theme.spacing.s1 : theme.spacing.m,
       padding: `${theme.spacing.m} ${theme.spacing.l1}`,
       backgroundColor: theme.palette.white,
       borderRadius: theme.spacing.m,
@@ -28,23 +28,28 @@ const useStyles = ({ top, isPhone, isTablet }) =>
         right: 0
       }),
       transition: "background-color 0.15s",
-      zIndex: 1000
+      zIndex: 1000,
+      ...(position === "bottom" && {
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        marginBottom: 0
+      })
     }
   }));
 
 const styleId = "search-ctrl-margin-adjustment";
 
-const Search = () => {
+const Search = ({ position }) => {
   const {
     isPhone,
     isTablet,
     safeAreaInsets: { top }
   } = useAppContext();
   const theme = useTheme();
-  const classes = useStyles({ top, isPhone, isTablet })();
+  const classes = useStyles({ position, top, isPhone, isTablet })();
 
   useEffect(() => {
-    if (isPhone) {
+    if (isPhone && position === "top") {
       removeStyleFromDocument(styleId);
       addStyleToDocument(
         styleId,

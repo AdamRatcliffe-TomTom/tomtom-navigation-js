@@ -33,6 +33,7 @@ import {
 } from "../features/navigation/navigationSlice";
 
 function App({
+  style,
   apiKey,
   theme = detectColorScheme(),
   language = "en-US",
@@ -49,6 +50,7 @@ function App({
   automaticRouteCalculation,
   safeAreaInsets,
   showSearch = false,
+  searchPosition = "bottom",
   showBottomPanel = true,
   showGuidancePanel = true,
   showArrivalPanel = true,
@@ -149,9 +151,9 @@ function App({
         theme={theme}
         safeAreaInsets={mergedSafeAreaInsets}
       >
-        <div className="TomTomNavigation">
+        <div className="TomTomNavigation" style={style}>
           <Map preCalculatedRoute={preCalculatedRoute} {...mapOptions}>
-            {showSearch && <Search />}
+            {showSearch && <Search position={searchPosition} />}
             <Navigation
               preCalculatedRoute={preCalculatedRoute}
               onNavigationStarted={onNavigationStarted}
