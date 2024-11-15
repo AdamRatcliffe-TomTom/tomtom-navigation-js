@@ -80,6 +80,7 @@ const easing = (v) => v;
 
 const Map = ({
   enableGeolocation = true,
+  simulatedLocation,
   showTrafficFlow = false,
   showTrafficIncidents = false,
   showPoi = false,
@@ -146,7 +147,8 @@ const Map = ({
   const routeIsVisible = !!route;
   const maneuverArrowsAreVisible =
     showManeuverArrows && !!route && isNavigating;
-  const geolocateControlIsVisible = enableGeolocation && !isNavigating;
+  const geolocateControlIsVisible =
+    enableGeolocation && !simulatedLocation && !isNavigating;
   const muteControlVisible =
     showMuteControl && isNavigating && !hasReachedDestination;
   const mapSwitcherControlIsVisible = showMapSwitcherControl && !isNavigating;
@@ -229,6 +231,12 @@ const Map = ({
       });
     }
   }, [mapRef.current, showPoi]);
+
+  useEffect(() => {
+    if (simulatedLocation) {
+      dispatch(setUserLocation(simulatedLocation));
+    }
+  }, [simulatedLocation]);
 
   const setMapSprite = async (map) => {
     try {

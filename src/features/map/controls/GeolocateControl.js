@@ -22,14 +22,17 @@ const Geolocate = ({
 }) => {
   const theme = useTheme();
   const buttonClasses = useButtonStyles();
+
   const { coords, isGeolocationEnabled } = useGeolocated({
     watchPosition,
     positionOptions
   });
 
   useEffect(() => {
-    onLocationChange(coords);
-  }, [coords]);
+    if (visible) {
+      onLocationChange(coords);
+    }
+  }, [coords, visible]);
 
   const handleClick = () => {
     onClick(coords);

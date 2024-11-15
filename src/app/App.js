@@ -50,7 +50,7 @@ function App({
   automaticRouteCalculation,
   safeAreaInsets,
   showSearch = false,
-  searchPosition = "bottom",
+  searchPosition,
   showBottomPanel = true,
   showGuidancePanel = true,
   showArrivalPanel = true,
