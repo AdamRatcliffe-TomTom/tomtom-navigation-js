@@ -86,7 +86,7 @@ Fired when a route has been calculated for the provided waypoints.
 ##### Message Properties
 
 | Name                            | Value                               | Description                                 |
-| ------------------------------- | ----------------------------------- | ------------------------------------------- |                          |
+| ------------------------------- | ----------------------------------- | ------------------------------------------- |                          
 | `summary`                       | `Object`                            | Route summary data.                         |
 | `summary.lengthInMeters`        | `number`                            | The route length in meters.                 |
 | `summary.travelTimeInSeconds`   | `number`                            | The route travel time in seconds.           |
