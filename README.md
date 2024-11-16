@@ -57,11 +57,10 @@ Available component properties:
 | onDestinationReached | `function` | | Fired when the destination is reached. |
 | onContinue | `function` | | Fired when the arrival panel's continue button is clicked. |
 
-## Route Waypoints
+## Route Waypoint
 
-The navigation component sources the route waypoints from a `DataSet`. The dataset must have `longitude` and `latitude` columns, other columns are optional.
+Route waypoint records must have `longitude` and `latitude` properties, other properties are optional.
 
-The names shown in the table are the defaults that will be expected by the component if column mappings are not specified using the mapping input properties.
 
 | Name          | Type              | Required | Description                                                                                                                                                                                                               |
 | ------------- | ----------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
