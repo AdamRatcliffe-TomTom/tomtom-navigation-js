@@ -137,7 +137,7 @@ Fired when the arrival panel's continue button is clicked.
 
 ### Event handling using window.postMessage()
 
-The navigation component uses the `window.postMessage()` method to communicate state changes to other PCF components. To listen for events dispatched by the component add an event listener to the `window` for the "message" event e.g.
+To listen for events dispatched by the component using `window.postMessage()` add an event listener to the `window` for the "message" event e.g.
 
 ```
 window.addEventListener(
