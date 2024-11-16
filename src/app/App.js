@@ -46,6 +46,7 @@ function App({
   mapOptions = {},
   initialCenter,
   initialZoom,
+  routeWaypoints,
   routeOptions = {},
   automaticRouteCalculation,
   safeAreaInsets,
@@ -95,11 +96,17 @@ function App({
       setRouteOptions({
         language,
         ...routeOptions,
+        locations: routeWaypoints,
         sectionType: getSectionTypesForTravelMode(routeOptions.travelMode)
       })
     );
     dispatch(setMovingMethod("jumpTo"));
-  }, [automaticRouteCalculation, JSON.stringify(routeOptions)]);
+  }, [
+    automaticRouteCalculation,
+    language,
+    JSON.stringify(routeOptions),
+    JSON.stringify(routeWaypoints)
+  ]);
 
   useEffect(() => {
     dispatch(setShowBottomPanel(showBottomPanel));
