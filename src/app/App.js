@@ -33,6 +33,7 @@ import {
 } from "../features/navigation/navigationSlice";
 
 function App({
+  children,
   style,
   apiKey,
   theme = detectColorScheme(),
@@ -178,6 +179,7 @@ function App({
           onToggleHide={toggleHideGeolocationDialog}
           hidden={hideGeolocationDialog}
         />
+        {children}
       </AppContextProvider>
     </ThemeProvider>
   );

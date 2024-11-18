@@ -135,7 +135,7 @@ const MapSwitcher = ({
           ref={refs.setReference}
           onClick={togglePopup}
         >
-          <LayersIcon color={theme.palette.black} size={32} />
+          <LayersIcon color={theme.palette.black} size={28} />
         </div>
       </Fade>
       <MapStylesPopup
