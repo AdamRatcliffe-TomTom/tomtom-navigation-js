@@ -8,6 +8,7 @@ import { useAppContext } from "../../app/AppContext";
 import {
   getIsNavigating,
   getHasReachedDestination,
+  getShowETAPanel,
   getShowArrivalPanel
 } from "./navigationSlice";
 
@@ -44,21 +45,19 @@ const BottomPanel = ({
   const { measurementSystem, isPhone, isTablet } = useAppContext();
   const classes = useStyles({ isPhone, isTablet })();
   const isNavigating = useSelector(getIsNavigating);
+  const showETAPanel = useSelector(getShowETAPanel);
   const showArrivalPanel = useSelector(getShowArrivalPanel);
   const hasReachedDestination = useSelector(getHasReachedDestination);
 
   const handleStopNavigation = () => onStopNavigation(true);
 
-  return route ? (
-    <div className={classes.root}>
-      {hasReachedDestination ? (
-        showArrivalPanel ? (
-          <ArrivalPanel
-            onStopNavigation={onStopNavigation}
-            onNavigationContinue={onNavigationContinue}
-          />
-        ) : null
-      ) : (
+  if (!route) {
+    return null;
+  }
+
+  if (!hasReachedDestination && showETAPanel) {
+    return (
+      <div className={classes.root}>
         <ETAPanel
           route={route}
           measurementSystem={measurementSystem}
@@ -66,9 +65,22 @@ const BottomPanel = ({
           onStartNavigation={onStartNavigation}
           onStopNavigation={handleStopNavigation}
         />
-      )}
-    </div>
-  ) : null;
+      </div>
+    );
+  }
+
+  if (hasReachedDestination && showArrivalPanel) {
+    return (
+      <div className={classes.root}>
+        <ArrivalPanel
+          onStopNavigation={onStopNavigation}
+          onNavigationContinue={onNavigationContinue}
+        />
+      </div>
+    );
+  }
+
+  return null;
 };
 
 export default BottomPanel;

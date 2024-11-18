@@ -25,7 +25,7 @@ import {
 } from "../features/map/mapSlice";
 
 import {
-  setShowBottomPanel,
+  setShowETAPanel,
   setShowGuidancePanel,
   setShowArrivalPanel,
   setShowContinueButton,
@@ -53,7 +53,7 @@ function App({
   safeAreaInsets,
   showSearch = false,
   searchPosition,
-  showBottomPanel = true,
+  showETAPanel = true,
   showGuidancePanel = true,
   showArrivalPanel = true,
   showContinueButton = false,
@@ -110,8 +110,8 @@ function App({
   ]);
 
   useEffect(() => {
-    dispatch(setShowBottomPanel(showBottomPanel));
-  }, [showBottomPanel]);
+    dispatch(setShowETAPanel(showETAPanel));
+  }, [showETAPanel]);
 
   useEffect(() => {
     dispatch(setShowGuidancePanel(showGuidancePanel));

@@ -30,7 +30,6 @@ import {
 } from "../map/mapSlice";
 
 import {
-  getShowBottomPanel,
   getShowGuidancePanel,
   getIsNavigating,
   getNavigationPerspective,
@@ -80,7 +79,6 @@ const Navigation = ({
     guidanceVoiceVolume,
     isTablet
   } = useAppContext();
-  const showBottomPanel = useSelector(getShowBottomPanel);
   const showGuidancePanel = useSelector(getShowGuidancePanel);
   const isNavigating = useSelector(getIsNavigating);
   const routeOptions = useSelector(getRouteOptions);
@@ -133,7 +131,6 @@ const Navigation = ({
   const navigationPaddingTopRef = useRef(navigationPaddingTop);
   const guidancePanelIsVisible =
     showGuidancePanel && isNavigating && !hasReachedDestination;
-  const bottomPanelIsVisible = showBottomPanel;
   const simulatorIsActive =
     navigationRoute && isNavigating && !hasReachedDestination;
   const isPedestrian = isPedestrianRoute(routeFeature);
@@ -331,14 +328,12 @@ const Navigation = ({
   return (
     <>
       {guidancePanelIsVisible && <NavigationGuidancePanel route={route} />}
-      {bottomPanelIsVisible && (
-        <BottomPanel
-          route={route}
-          onStartNavigation={startNavigation}
-          onStopNavigation={stopNavigation}
-          onNavigationContinue={onNavigationContinue}
-        />
-      )}
+      <BottomPanel
+        route={route}
+        onStartNavigation={startNavigation}
+        onStopNavigation={stopNavigation}
+        onNavigationContinue={onNavigationContinue}
+      />
       {simulatorIsActive && (
         <Simulator
           route={navigationRoute}

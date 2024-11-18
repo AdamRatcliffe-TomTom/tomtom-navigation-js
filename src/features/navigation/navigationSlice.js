@@ -14,7 +14,7 @@ import NavigationPerspectives from "../../constants/NavigationPerspectives";
 
 const initialState = {
   voiceAnnouncementsEnabled: true,
-  showBottomPanel: true,
+  showETAPanel: true,
   showGuidancePanel: true,
   showArrivalPanel: true,
   showContinueButton: false,
@@ -46,8 +46,8 @@ const navigationSlice = createSlice({
   name: "navigation",
   initialState,
   reducers: {
-    setShowBottomPanel: (state, action) => {
-      state.showBottomPanel = action.payload;
+    setShowETAPanel: (state, action) => {
+      state.showETAPanel = action.payload;
     },
     setShowGuidancePanel: (state, action) => {
       state.showGuidancePanel = action.payload;
@@ -178,9 +178,9 @@ const navigationSlice = createSlice({
 
 const rootSelector = (state) => state.navigation;
 
-const getShowBottomPanel = createSelector(
+const getShowETAPanel = createSelector(
   rootSelector,
-  (state) => state.showBottomPanel
+  (state) => state.showETAPanel
 );
 
 const getShowGuidancePanel = createSelector(
@@ -266,7 +266,7 @@ const getVoiceAnnouncementsEnabled = createSelector(
 );
 
 export {
-  getShowBottomPanel,
+  getShowETAPanel,
   getShowGuidancePanel,
   getShowArrivalPanel,
   getShowContinueButton,
@@ -287,7 +287,7 @@ export {
 };
 
 export const {
-  setShowBottomPanel,
+  setShowETAPanel,
   setShowGuidancePanel,
   setShowArrivalPanel,
   setShowContinueButton,
