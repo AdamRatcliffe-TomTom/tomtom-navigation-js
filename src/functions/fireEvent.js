@@ -1,6 +1,5 @@
 import ControlEvents from "../constants/ControlEvents";
-
-const EVENT_PREFIX = "TomTomNavigation";
+import { EVENT_PREFIX } from "../config";
 
 export default function fireEvent(name, data) {
   if (!Object.keys(ControlEvents).includes(name)) {

@@ -18,6 +18,14 @@ const useButtonStyles = makeStyles((theme) => ({
     borderWidth: 2,
     borderRadius: 24,
     color: theme.palette.black,
+    ":hover": {
+      borderWidth: 2,
+      color: theme.palette.black
+    },
+    ":active": {
+      borderWidth: 2,
+      color: theme.palette.black
+    },
     "&.ms-Button--primary": {
       color: "white"
     }
@@ -32,9 +40,11 @@ const useButtonStyles = makeStyles((theme) => ({
     borderRadius: 28,
     color: theme.palette.black,
     ":hover": {
+      borderWidth: 2,
       color: theme.palette.black
     },
     ":active": {
+      borderWidth: 2,
       color: theme.palette.black
     },
     "&.ms-Button--primary": {

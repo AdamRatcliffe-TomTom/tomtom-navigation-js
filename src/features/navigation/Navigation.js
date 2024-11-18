@@ -146,6 +146,7 @@ const Navigation = ({
     () => guidanceVoice || getVoiceForLanguage(language) || "en-US-JennyNeural",
     [guidanceVoice, getVoiceForLanguage, language]
   );
+
   const { startNavigation, stopNavigation } = useNavigationSimulation({
     map,
     route: route || null,

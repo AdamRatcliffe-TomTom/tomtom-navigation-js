@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import { featureCollection } from "@turf/helpers";
 import { useAppContext } from "../../../app/AppContext";
@@ -18,6 +19,7 @@ import {
 import { setIsNavigating, resetNavigation } from "../navigationSlice";
 
 import {
+  EVENT_PREFIX,
   TABLET_PANEL_WIDTH,
   FIT_BOUNDS_PADDING_TOP,
   FIT_BOUNDS_PADDING_RIGHT,
@@ -45,6 +47,42 @@ function useNavigationSimulation({
   const dispatch = useDispatch();
   const routeOptions = useSelector(getRouteOptions);
   const { guidanceVoiceVolume, isTablet } = useAppContext();
+
+  useEffect(() => {
+    const onMessage = (event) => {
+      const {
+        data: { type }
+      } = event;
+
+      switch (type) {
+        case `${EVENT_PREFIX}.${ControlEvents.StartNavigation}`:
+          startNavigation();
+          break;
+        case `${EVENT_PREFIX}.${ControlEvents.StopNavigation}`:
+          stopNavigation();
+          break;
+        default:
+        // do nothing
+      }
+    };
+
+    window.addEventListener("message", onMessage, false);
+
+    return () => window.removeEventListener("message", onMessage, false);
+  }, [
+    map,
+    route,
+    routeFeature,
+    onNavigationStarted,
+    onNavigationStopped,
+    navigationPaddingTopRef.current,
+    voiceAnnouncementsEnabledRef.current,
+    speechAvailable,
+    speak,
+    voice,
+    isPedestrian,
+    setETA
+  ]);
 
   const setMapInteractive = (interactive) => {
     map.__om._canvas.parentElement.style.pointerEvents = interactive

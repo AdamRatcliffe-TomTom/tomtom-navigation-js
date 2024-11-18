@@ -31,3 +31,6 @@ export const DEFAULT_SAFE_AREA_INSETS = {
   bottom: 0,
   left: 0
 };
+
+// Misc
+export const EVENT_PREFIX = "TomTomNavigation";

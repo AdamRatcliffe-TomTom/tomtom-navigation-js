@@ -7,6 +7,12 @@ export function useAppContext() {
   return useContext(AppContext);
 }
 
+export function calculateDeviceType(width) {
+  const isPhone = width <= 428;
+  const isTablet = width > 428;
+  return { isPhone, isTablet };
+}
+
 export default function AppContextProvider({
   children,
   apiKey,
@@ -22,6 +28,7 @@ export default function AppContextProvider({
 }) {
   const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
   const [guidancePanelHeight, setGuidancePanelHeight] = useState(0);
+  const { isPhone, isTablet } = calculateDeviceType(width);
 
   const contextValue = useMemo(
     () => ({
@@ -32,8 +39,8 @@ export default function AppContextProvider({
       simulationSpeed,
       isPortrait: height > width,
       isLandscape: width > height,
-      isPhone: width <= 428,
-      isTablet: width > 428,
+      isPhone,
+      isTablet,
       landscapeMinimal: height < 500,
       theme,
       guidanceVoice,

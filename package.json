@@ -21,7 +21,6 @@
     "@deck.gl/layers": "^8.9.32",
     "@deck.gl/mapbox": "^8.9.32",
     "@floating-ui/react": "^0.26.2",
-    "@fluentui/react": "8.29.0",
     "@reduxjs/toolkit": "2.0.1",
     "@turf/bbox": "^6.5.0",
     "@turf/bbox-polygon": "^6.5.0",
@@ -63,6 +62,7 @@
     "rollup-plugin-terser": "^7.0.2"
   },
   "peerDependencies": {
+    "@fluentui/react": "^8.0.0",
     "@tomtom-international/web-sdk-maps": "^6.0.0",
     "@tomtom-international/web-sdk-services": "^6.0.0",
     "guidance-replay": "^0.1.4",
