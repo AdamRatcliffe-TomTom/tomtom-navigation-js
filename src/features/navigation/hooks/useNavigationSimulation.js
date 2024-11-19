@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import { featureCollection } from "@turf/helpers";
-import { useAppContext } from "../../../app/AppContext";
+import { useNavigationContext } from "../../../core/NavigationContext";
 import ControlEvents from "../../../constants/ControlEvents";
 import fireEvent from "../../../functions/fireEvent";
 import geoJsonBounds from "../../../functions/geoJsonBounds";
@@ -46,7 +46,7 @@ function useNavigationSimulation({
 }) {
   const dispatch = useDispatch();
   const routeOptions = useSelector(getRouteOptions);
-  const { guidanceVoiceVolume, isTablet } = useAppContext();
+  const { guidanceVoiceVolume, isTablet } = useNavigationContext();
 
   useEffect(() => {
     const onMessage = (event) => {

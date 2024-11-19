@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
 import _startCase from "lodash.startcase";
-import { useAppContext } from "../../app/AppContext";
+import { useNavigationContext } from "../../core/NavigationContext";
 import useTextStyles from "../../hooks/useTextStyles";
 import ExitShieldUS from "./ExitShieldUS";
 import ExitShieldEU from "./ExitShieldEU";
@@ -64,7 +64,7 @@ const NextInstructionPanel = ({ route, instruction }) => {
   }
 
   const theme = useTheme();
-  const { landscapeMinimal, measurementSystem } = useAppContext();
+  const { landscapeMinimal, measurementSystem } = useNavigationContext();
   const classes = useStyles();
   const textClasses = useTextStyles();
   const countryCode = useSelector(getCountryCode);

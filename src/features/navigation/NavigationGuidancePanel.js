@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@fluentui/react";
 import useMeasure from "react-use-measure";
-import { useAppContext } from "../../app/AppContext";
+import { useNavigationContext } from "../../core/NavigationContext";
 import Stack from "../../components/Stack";
 import NextInstructionPanel from "./NextInstructionPanel";
 import ConsecutiveInstructionPanel from "./ConsecutiveInstructionPanel";
@@ -96,7 +96,7 @@ const NavigationGuidancePanel = ({ route }) => {
     landscapeMinimal,
     setGuidancePanelHeight,
     safeAreaInsets: { top }
-  } = useAppContext();
+  } = useNavigationContext();
   const countryCode = useSelector(getCountryCode);
   const classes = useStyles({
     appTheme,

@@ -5,7 +5,7 @@ import CheapRuler from "cheap-ruler";
 import { add } from "date-fns";
 import { featureCollection, lineString } from "@turf/helpers";
 import { withMap } from "react-tomtom-maps";
-import { useAppContext } from "../../app/AppContext";
+import { useNavigationContext } from "../../core/NavigationContext";
 import useSelectorRef from "../../hooks/useSelectorRef";
 import useSpeech from "../../hooks/useMicrosoftSpeech";
 import useNavigationRoute from "./hooks/useNavigationRoute";
@@ -78,7 +78,7 @@ const Navigation = ({
     guidanceVoice,
     guidanceVoiceVolume,
     isTablet
-  } = useAppContext();
+  } = useNavigationContext();
   const showGuidancePanel = useSelector(getShowGuidancePanel);
   const isNavigating = useSelector(getIsNavigating);
   const routeOptions = useSelector(getRouteOptions);

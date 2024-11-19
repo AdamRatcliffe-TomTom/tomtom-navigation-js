@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@fluentui/react";
-import { useAppContext } from "../../app/AppContext";
+import { useNavigationContext } from "../../core/NavigationContext";
 import Fade from "../../components/Fade";
 
 import { ETA_PANEL_HEIGHT } from "../../config";
@@ -30,7 +30,7 @@ const useStyles = ({ isPhone, isTablet }) =>
   }));
 
 const SpeedLimitEU = ({ value, visible }) => {
-  const { isPhone, isTablet } = useAppContext();
+  const { isPhone, isTablet } = useNavigationContext();
   const classes = useStyles({ isPhone, isTablet })();
 
   return (

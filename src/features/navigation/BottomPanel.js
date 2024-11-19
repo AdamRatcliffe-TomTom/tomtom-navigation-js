@@ -3,7 +3,7 @@ import { makeStyles } from "@fluentui/react";
 import { useSelector } from "react-redux";
 import ETAPanel from "./ETAPanel";
 import ArrivalPanel from "./ArrivalPanel";
-import { useAppContext } from "../../app/AppContext";
+import { useNavigationContext } from "../../core/NavigationContext";
 
 import {
   getIsNavigating,
@@ -42,7 +42,7 @@ const BottomPanel = ({
   onStopNavigation,
   onNavigationContinue
 }) => {
-  const { measurementSystem, isPhone, isTablet } = useAppContext();
+  const { measurementSystem, isPhone, isTablet } = useNavigationContext();
   const classes = useStyles({ isPhone, isTablet })();
   const isNavigating = useSelector(getIsNavigating);
   const showETAPanel = useSelector(getShowETAPanel);

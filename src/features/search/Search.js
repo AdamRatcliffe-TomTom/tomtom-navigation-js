@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { makeStyles, useTheme, Stack } from "@fluentui/react";
-import { useAppContext } from "../../app/AppContext";
+import { useNavigationContext } from "../../core/NavigationContext";
 import SearchBox from "./SearchBox";
 import POIStrip from "./POIStrip";
 import {
@@ -71,7 +71,7 @@ const Search = ({ position }) => {
     isPhone,
     isTablet,
     safeAreaInsets: { top }
-  } = useAppContext();
+  } = useNavigationContext();
   const theme = useTheme();
   const resolvedPosition = position || (isPhone ? "bottom" : "top");
   const classes = useSearchStyles({

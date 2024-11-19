@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import { featureCollection } from "@turf/helpers";
-import { useAppContext } from "../../app/AppContext";
+import { useNavigationContext } from "../../core/NavigationContext";
 import ReactMap from "react-tomtom-maps";
 import GeolocateControl from "./controls/GeolocateControl";
 import MuteControl from "./controls/MuteControl";
@@ -108,7 +108,7 @@ const Map = ({
     guidancePanelHeight,
     setMeasurementSystemAuto,
     isPhone
-  } = useAppContext();
+  } = useNavigationContext();
   const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
   const isNavigating = useSelector(getIsNavigating);
   const hasReachedDestination = useSelector(getHasReachedDestination);

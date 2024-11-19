@@ -3,7 +3,7 @@ import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
 import CheapRuler from "cheap-ruler";
 import Divider from "../../components/Divider";
 import TimeIcon from "../../icons/TimeIcon";
-import { useAppContext } from "../../app/AppContext";
+import { useNavigationContext } from "../../core/NavigationContext";
 import useTextStyles from "../../hooks/useTextStyles";
 import getTrafficEventIcon from "../../functions/getTrafficEventIcon";
 import formatDistance from "../../functions/formatDistance";
@@ -64,7 +64,7 @@ function calculateDistanceToEvent(currentLocation, event, coordinates, ruler) {
 
 const TrafficEvent = ({ event, distance }) => {
   const theme = useTheme();
-  const { measurementSystem, isTablet } = useAppContext();
+  const { measurementSystem, isTablet } = useNavigationContext();
   const { delayInSeconds } = event;
   const classes = useStyles({ isTablet })();
   const textClasses = useTextStyles();
@@ -107,7 +107,7 @@ const TrafficEvent = ({ event, distance }) => {
 };
 
 const TrafficEventsPanel = ({ events, currentLocation, route }) => {
-  const { isPhone, isTablet } = useAppContext();
+  const { isPhone, isTablet } = useNavigationContext();
   const classes = useStyles({ isTablet })();
   const { coordinates } = route.features[0].geometry;
   const ruler = useMemo(

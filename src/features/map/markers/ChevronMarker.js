@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppContext } from "../../../app/AppContext";
+import { useNavigationContext } from "../../../core/NavigationContext";
 import Fade from "../../../components/Fade";
 import ChevronIcon from "../../../icons/ChevronIcon";
 import { makeStyles } from "@fluentui/react";
@@ -19,7 +19,7 @@ const useStyles = ({ isTablet }) =>
   });
 
 const ChevronMarker = ({ visible }) => {
-  const { isTablet } = useAppContext();
+  const { isTablet } = useNavigationContext();
   const classes = useStyles({ isTablet })();
 
   return (

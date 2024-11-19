@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import strings from "../config/strings";
 
-const AppContext = createContext();
+const NavigationContext = createContext();
 
-export function useAppContext() {
-  return useContext(AppContext);
+export function useNavigationContext() {
+  return useContext(NavigationContext);
 }
 
 export function calculateDeviceType(width) {
@@ -13,7 +13,7 @@ export function calculateDeviceType(width) {
   return { isPhone, isTablet };
 }
 
-export default function AppContextProvider({
+export default function NavigationContextProvider({
   children,
   apiKey,
   language = navigator.language,
@@ -84,5 +84,7 @@ export default function AppContextProvider({
     ]
   );
 
-  return <AppContext.Provider value={contextValue} children={children} />;
+  return (
+    <NavigationContext.Provider value={contextValue} children={children} />
+  );
 }

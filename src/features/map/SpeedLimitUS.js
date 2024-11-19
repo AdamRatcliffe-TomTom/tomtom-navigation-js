@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@fluentui/react";
-import { useAppContext } from "../../app/AppContext";
+import { useNavigationContext } from "../../core/NavigationContext";
 import Fade from "../../components/Fade";
 import metersToMiles from "../../functions/metersToMiles";
 
@@ -37,7 +37,7 @@ const useStyles = ({ isPhone, isTablet }) =>
   }));
 
 const SpeedLimitUS = ({ value, visible }) => {
-  const { isPhone, isTablet } = useAppContext();
+  const { isPhone, isTablet } = useNavigationContext();
   const classes = useStyles({ isPhone, isTablet })();
   const speedLimit = value ? Math.round(metersToMiles(value * 1000)) : "\u2014";
 

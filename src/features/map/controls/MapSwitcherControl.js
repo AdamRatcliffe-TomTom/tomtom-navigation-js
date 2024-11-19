@@ -5,7 +5,7 @@ import { withMap } from "react-tomtom-maps";
 import MapControl from "./MapControl";
 import LayersIcon from "../../../icons/LayersIcon";
 import Fade from "../../../components/Fade";
-import { useAppContext } from "../../../app/AppContext";
+import { useNavigationContext } from "../../../core/NavigationContext";
 import useButtonStyles from "../../../hooks/useButtonStyles";
 
 const useStyles = (props) =>
@@ -49,7 +49,7 @@ const imageSources = {
 };
 
 const MapItem = ({ mapStyle, selected, onSelected }) => {
-  const { theme } = useAppContext();
+  const { theme } = useNavigationContext();
   const classes = useStyles({ selected })();
   const { name, label } = mapStyle;
   const sourceName = name === "satellite" ? "satellite" : `${name}-${theme}`;
@@ -72,7 +72,7 @@ const MapStylesPopup = React.forwardRef(
   ({ isOpen, selected, onSelected, onDismiss, ...otherProps }, ref) => {
     const theme = useTheme();
     const classes = useStyles()();
-    const { mapStyles } = useAppContext();
+    const { mapStyles } = useNavigationContext();
 
     const items = useMemo(
       () =>

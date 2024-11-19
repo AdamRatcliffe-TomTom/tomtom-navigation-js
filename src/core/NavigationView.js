@@ -3,7 +3,7 @@ import { useDispatch, batch } from "react-redux";
 import { ThemeProvider } from "@fluentui/react";
 import { useBoolean } from "@fluentui/react-hooks";
 import { useGeolocated } from "react-geolocated";
-import AppContextProvider from "./AppContext";
+import NavigationContextProvider from "./NavigationContext";
 import NoApiKeyMessage from "./NoApiKeyMessage";
 import Map from "../features/map/Map";
 import Search from "../features/search/Search";
@@ -147,7 +147,7 @@ function App({
 
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-      <AppContextProvider
+      <NavigationContextProvider
         apiKey={apiKey}
         language={language}
         measurementSystem={measurementSystem}
@@ -180,7 +180,7 @@ function App({
           hidden={hideGeolocationDialog}
         />
         {children}
-      </AppContextProvider>
+      </NavigationContextProvider>
     </ThemeProvider>
   );
 }
