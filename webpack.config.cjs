@@ -31,7 +31,7 @@ module.exports = {
   },
   plugins: [
     new CopyWebpackPlugin({
-      patterns: [{ from: "@types", to: "dist/@types" }]
+      patterns: [{ from: "@types", to: "@types" }]
     })
   ],
   mode: "production" // Minify and optimize the output
