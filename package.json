@@ -21,6 +21,8 @@
     "@fluentui/react": "^8.121.11",
     "@fluentui/react-hooks": "^8.8.16",
     "@reduxjs/toolkit": "2.0.1",
+    "@tomtom-international/web-sdk-maps": "^6.25.0",
+    "@tomtom-international/web-sdk-services": "^6.25.0",
     "@turf/bbox": "^6.5.0",
     "@turf/bbox-polygon": "^6.5.0",
     "@turf/bearing": "^6.5.0",
@@ -53,15 +55,11 @@
     "@babel/preset-react": "^7.25.9",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
     "style-loader": "^4.0.0",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
   },
   "peerDependencies": {
-    "@tomtom-international/web-sdk-maps": "^6.25.0",
-    "@tomtom-international/web-sdk-services": "^6.0.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   }

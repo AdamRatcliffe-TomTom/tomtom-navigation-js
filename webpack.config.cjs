@@ -1,5 +1,4 @@
 const path = require("path");
-const { peerDependencies } = require("./package.json");
 
 module.exports = {
   entry: "./src/index.js", // Entry point for your library
@@ -12,10 +11,10 @@ module.exports = {
       type: "umd"
     }
   },
-  externals: Object.keys(peerDependencies).reduce((externals, pkg) => {
-    externals[pkg] = pkg; // Treat each peer dependency as an external
-    return externals;
-  }, {}),
+  externals: {
+    react: "react",
+    "react-dom": "react-dom"
+  },
   module: {
     rules: [
       {
