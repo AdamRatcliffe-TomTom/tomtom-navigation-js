@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "build": "webpack",
+    "build:watch": "webpack --watch",
     "prepare": "yarn build"
   },
   "dependencies": {
