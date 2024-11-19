@@ -1,4 +1,5 @@
 const path = require("path");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js", // Entry point for your library
@@ -28,5 +29,10 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [{ from: "@types", to: "dist/@types" }]
+    })
+  ],
   mode: "production" // Minify and optimize the output
 };
