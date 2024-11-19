@@ -27,6 +27,7 @@
     "@turf/helpers": "^6.5.0",
     "cheap-ruler": "^3.0.2",
     "date-fns": "^2.30.0",
+    "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git",
     "lodash.capitalize": "^4.2.1",
     "lodash.isempty": "^4.4.0",
     "lodash.isnil": "^4.0.0",
@@ -45,7 +46,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.25.9",
     "@babel/plugin-transform-runtime": "^7.25.9",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
@@ -60,8 +60,6 @@
     "@fluentui/react-hooks": "^8.0.0",
     "@tomtom-international/web-sdk-maps": "^6.25.0",
     "@tomtom-international/web-sdk-services": "^6.0.0",
-    "guidance-replay": "^0.1.4",
-    "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   }
