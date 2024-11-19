@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "TomTom navigation component for Javascript.",
   "main": "dist/index.js",
+  "types": "dist/@types/tomtom-navigation-js.d.ts",
   "files": [
     "dist/",
     "README.md"
