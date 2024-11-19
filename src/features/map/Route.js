@@ -1,4 +1,4 @@
-import { PureComponent } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import PropTypes from "prop-types";
 import _isNil from "lodash.isnil";
 import { withMap } from "react-tomtom-maps";
@@ -7,41 +7,53 @@ import { GeoJsonLayer } from "@deck.gl/layers";
 import { PathStyleExtension } from "@deck.gl/extensions";
 import { v4 as uuid } from "uuid";
 
-class Route extends PureComponent {
-  id = `Route-${uuid()}`;
+const Route = ({
+  map,
+  data,
+  progress,
+  walkingLeg,
+  before,
+  isPedestrianRoute
+}) => {
+  const id = useMemo(() => `Route-${uuid()}`, []);
+  const controlRef = useRef(null);
 
-  componentDidMount() {
-    const { map } = this.props;
+  useEffect(() => {
+    if (!map) return;
 
-    this.control = new MapboxOverlay({
+    const control = new MapboxOverlay({
       interleaved: true,
-      layers: this.createLayers()
+      layers: []
     });
+    controlRef.current = control;
 
-    map.addControl(this.control);
-  }
+    map.addControl(control);
 
-  componentWillUnmount() {
-    const { map } = this.props;
+    return () => {
+      try {
+        map.removeControl(control);
+        controlRef.current = null;
+      } catch (e) {
+        // Suppress errors during cleanup
+      }
+    };
+  }, [map]);
 
-    try {
-      map.removeControl(this.control);
-      this.control = undefined;
-    } catch (e) {
-      // do nothing
+  useEffect(() => {
+    if (controlRef.current) {
+      controlRef.current.setProps({
+        layers: createLayers()
+      });
     }
-  }
+  }, [data, progress, walkingLeg, before, isPedestrianRoute]);
 
-  createLayers() {
-    const { data, progress, walkingLeg, before, isPedestrianRoute } =
-      this.props;
-
+  const createLayers = () => {
     if (!data) return null;
 
     if (isPedestrianRoute) {
       return [
         new GeoJsonLayer({
-          id: `${this.id}--Pedestrian_Route`,
+          id: `${id}--Pedestrian_Route`,
           beforeId: before,
           data,
           filled: true,
@@ -62,7 +74,7 @@ class Route extends PureComponent {
 
     const layers = [
       new GeoJsonLayer({
-        id: `${this.id}--Casing`,
+        id: `${id}--Casing`,
         beforeId: before,
         data,
         filled: true,
@@ -76,12 +88,12 @@ class Route extends PureComponent {
         lineJointRounded: true
       }),
       new GeoJsonLayer({
-        id: `${this.id}--Line`,
+        id: `${id}--Line`,
         beforeId: before,
         data,
         filled: true,
         stroked: true,
-        getLineColor: this.getLineColor,
+        getLineColor: getLineColor,
         getLineWidth: 6,
         lineWidthMinPixels: 6,
         lineWidthMaxPixels: 13,
@@ -90,7 +102,7 @@ class Route extends PureComponent {
         lineJointRounded: true
       }),
       new GeoJsonLayer({
-        id: `${this.id}--Progress_Casing`,
+        id: `${id}--Progress_Casing`,
         beforeId: before,
         data: progress,
         filled: true,
@@ -104,7 +116,7 @@ class Route extends PureComponent {
         lineJointRounded: true
       }),
       new GeoJsonLayer({
-        id: `${this.id}--Progress_Line`,
+        id: `${id}--Progress_Line`,
         beforeId: before,
         data: progress,
         filled: true,
@@ -118,7 +130,7 @@ class Route extends PureComponent {
         lineJointRounded: true
       }),
       new GeoJsonLayer({
-        id: `${this.id}--Walking_Leg`,
+        id: `${id}--Walking_Leg`,
         beforeId: before,
         data: walkingLeg,
         filled: true,
@@ -137,9 +149,9 @@ class Route extends PureComponent {
     ];
 
     return layers;
-  }
+  };
 
-  getLineColor(feature) {
+  const getLineColor = (feature) => {
     const {
       properties: { magnitudeOfDelay }
     } = feature;
@@ -154,20 +166,10 @@ class Route extends PureComponent {
       default:
         return [59, 174, 227, 255];
     }
-  }
+  };
 
-  render() {
-    if (!this.control) {
-      return null;
-    }
-
-    this.control.setProps({
-      layers: this.createLayers()
-    });
-
-    return null;
-  }
-}
+  return null;
+};
 
 Route.propTypes = {
   map: PropTypes.object,
