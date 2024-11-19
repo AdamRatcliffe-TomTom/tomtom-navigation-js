@@ -16,10 +16,25 @@ module.exports = {
     externals[pkg] = pkg; // Treat each peer dependency as an external
     return externals;
   }, {}),
+  resolve: {
+    modules: [path.resolve(__dirname, "src"), "node_modules"],
+    fallback: {
+      stream: require.resolve("stream-browserify"),
+      buffer: require.resolve("buffer"),
+      crypto: require.resolve("crypto-browserify"),
+      process: require.resolve("process"),
+      os: require.resolve("os-browserify"),
+      path: require.resolve("path-browserify"),
+      constants: require.resolve("constants-browserify"),
+      vm: require.resolve("vm-browserify"),
+      fs: false // Disable fs module
+    },
+    extensions: [".js", ".jsx", ".ts", ".tsx"] // Resolve these extensions
+  },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/, // Transpile JavaScript and JSX
+        test: /\.(js|jsx|ts|tsx)$/, // Transpile JavaScript and JSX
         exclude: /node_modules/,
         use: "babel-loader"
       },
@@ -28,10 +43,6 @@ module.exports = {
         use: ["style-loader", "css-loader"]
       }
     ]
-  },
-  resolve: {
-    modules: [path.resolve(__dirname, "src"), "node_modules"],
-    extensions: [".js", ".jsx"] // Resolve these extensions
   },
   mode: "production" // Minify and optimize the output
 };
