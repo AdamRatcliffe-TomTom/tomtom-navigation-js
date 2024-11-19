@@ -53,6 +53,8 @@
     "@babel/preset-react": "^7.25.9",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "style-loader": "^4.0.0",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
