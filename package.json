@@ -2,17 +2,13 @@
   "name": "tomtom-navigation-js",
   "version": "1.0.0",
   "description": "TomTom navigation component for Javascript.",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  ".": {
-    "require": "./dist/index.cjs.js",
-    "import": "./dist/index.esm.js"
-  },
-  "./style": "./dist/index.esm.css",
-  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist/",
+    "README.md"
+  ],
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "webpack",
     "prepare": "yarn build"
   },
   "dependencies": {
@@ -48,30 +44,24 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.25.9",
+    "@babel/plugin-transform-runtime": "^7.25.9",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
-    "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^28.0.1",
-    "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^15.3.0",
-    "postcss": "^8.4.47",
-    "rollup": "^4.24.4",
-    "rollup-plugin-import-css": "^3.5.6",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-terser": "^7.0.2"
+    "babel-loader": "^9.2.1",
+    "css-loader": "^7.1.2",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
   },
   "peerDependencies": {
     "@fluentui/react": "^8.0.0",
-    "@tomtom-international/web-sdk-maps": "^6.0.0",
+    "@fluentui/react-hooks": "^8.0.0",
+    "@tomtom-international/web-sdk-maps": "^6.25.0",
     "@tomtom-international/web-sdk-services": "^6.0.0",
     "guidance-replay": "^0.1.4",
     "guidance-sim": "ssh://git@github.com:AdamRatcliffe-TomTom/guidance-sim.git",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
-  },
-  "browser": {
-    "worker_threads": false,
-    "react-dom/server": false
   }
 }

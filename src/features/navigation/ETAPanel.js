@@ -1,9 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useTheme, DefaultButton, PrimaryButton } from "@fluentui/react";
-import { makeStyles } from "@fluentui/react";
-import { Stack } from "@fluentui/react/lib/Stack";
-import { Text } from "@fluentui/react/lib/Text";
+import {
+  useTheme,
+  makeStyles,
+  DefaultButton,
+  PrimaryButton,
+  Stack,
+  Text
+} from "@fluentui/react";
 import CrossIcon from "../../icons/CrossIcon";
 import JamIcon from "../../icons/JamIcon";
 import useTextStyles from "../../hooks/useTextStyles";
