@@ -77,6 +77,7 @@ const Navigation = ({
     measurementSystem,
     guidanceVoice,
     guidanceVoiceVolume,
+    guidanceVoicePlaybackRate,
     isTablet
   } = useNavigationContext();
   const showGuidancePanel = useSelector(getShowGuidancePanel);
@@ -155,8 +156,6 @@ const Navigation = ({
     onNavigationStopped,
     navigationPaddingTopRef,
     voiceAnnouncementsEnabledRef,
-    speechAvailable,
-    speak,
     voice,
     isPedestrian,
     setETA
@@ -184,7 +183,12 @@ const Navigation = ({
 
   useEffect(() => {
     if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
-      speak({ voice, text: announcement.text, volume: guidanceVoiceVolume });
+      speak({
+        voice,
+        text: announcement.text,
+        volume: guidanceVoiceVolume,
+        playbackRate: guidanceVoicePlaybackRate
+      });
     }
   }, [announcement, voiceAnnouncementsEnabled]);
 
@@ -310,7 +314,12 @@ const Navigation = ({
 
       if (instruction) {
         const announcement = strings[instruction.maneuver];
-        speak({ voice, text: announcement, volume: guidanceVoiceVolume });
+        speak({
+          voice,
+          text: announcement,
+          volume: guidanceVoiceVolume,
+          playbackRate: guidanceVoicePlaybackRate
+        });
       }
     }
 

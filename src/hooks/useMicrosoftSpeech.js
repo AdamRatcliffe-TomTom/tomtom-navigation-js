@@ -74,7 +74,7 @@ const useMicrosoftSpeech = () => {
     [voicesAvailable, voices]
   );
 
-  const speak = ({ text, voice, volume = 0.5 }) => {
+  const speak = ({ text, voice, volume = 0.5, playbackRate = 1 }) => {
     if (isSpeaking) {
       return;
     }
@@ -107,10 +107,11 @@ const useMicrosoftSpeech = () => {
         }
 
         activePlayer = new Audio();
-        activePlayer.volume = volume;
         activePlayer.src = URL.createObjectURL(
           new Blob([audioData], { type: "audio/mp3" })
         );
+        activePlayer.playbackRate = playbackRate;
+        activePlayer.volume = volume;
         activePlayer.addEventListener("ended", () => {
           activePlayer = null;
           isSpeaking = false;

@@ -58,7 +58,7 @@ const useSpeech = () => {
     [voicesAvailable, voices]
   );
 
-  const speak = ({ text, voice, volume = 0.5 }) => {
+  const speak = ({ text, voice, volume = 0.5, playbackRate = 1 }) => {
     if (voicesAvailable) {
       if (synth.speaking) return;
 
@@ -70,6 +70,7 @@ const useSpeech = () => {
         : getDefaultVoice();
       utterance.voice = voiceObject;
       utterance.volume = volume;
+      utterance.rate = playbackRate;
       utterance.onerror = (error) => {
         console.error("Speech synthesis error: ", error);
       };

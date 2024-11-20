@@ -43,6 +43,7 @@ function App({
   height = 100,
   guidanceVoice,
   guidanceVoiceVolume,
+  guidanceVoicePlaybackRate = 1,
   simulationSpeed = "3x",
   mapOptions = {},
   initialCenter,
@@ -155,6 +156,7 @@ function App({
         height={height}
         guidanceVoice={guidanceVoice}
         guidanceVoiceVolume={guidanceVoiceVolume}
+        guidanceVoicePlaybackRate={guidanceVoicePlaybackRate}
         simulationSpeed={simulationSpeed}
         theme={theme}
         safeAreaInsets={mergedSafeAreaInsets}

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import { featureCollection } from "@turf/helpers";
 import { useNavigationContext } from "../../../core/NavigationContext";
+import useSpeech from "../../../hooks/useMicrosoftSpeech";
 import ControlEvents from "../../../constants/ControlEvents";
 import fireEvent from "../../../functions/fireEvent";
 import geoJsonBounds from "../../../functions/geoJsonBounds";
@@ -38,15 +39,15 @@ function useNavigationSimulation({
   onNavigationStopped,
   navigationPaddingTopRef,
   voiceAnnouncementsEnabledRef,
-  speechAvailable,
-  speak,
   voice,
   isPedestrian,
   setETA
 }) {
   const dispatch = useDispatch();
   const routeOptions = useSelector(getRouteOptions);
-  const { guidanceVoiceVolume, isTablet } = useNavigationContext();
+  const { guidanceVoiceVolume, guidanceVoicePlaybackRate, isTablet } =
+    useNavigationContext();
+  const { speechAvailable, speak } = useSpeech();
 
   useEffect(() => {
     const onMessage = (event) => {
@@ -126,7 +127,8 @@ function useNavigationSimulation({
       speak({
         voice,
         text: strings.DEPART,
-        volume: guidanceVoiceVolume
+        volume: guidanceVoiceVolume,
+        playbackRate: guidanceVoicePlaybackRate
       });
     }
 

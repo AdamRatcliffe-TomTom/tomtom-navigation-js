@@ -172,6 +172,7 @@ const Map = ({
     navigationPerspective === NavigationPerspectives.FOLLOW;
   const chevron2DMarkerIsVisible =
     isNavigating &&
+    !isResizing &&
     !viewTransitioning &&
     navigationPerspective === NavigationPerspectives.OVERVIEW &&
     currentLocation;

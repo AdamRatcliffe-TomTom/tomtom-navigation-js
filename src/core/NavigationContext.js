@@ -24,6 +24,7 @@ export default function NavigationContextProvider({
   theme,
   guidanceVoice,
   guidanceVoiceVolume,
+  guidanceVoicePlaybackRate,
   safeAreaInsets
 }) {
   const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
@@ -45,6 +46,7 @@ export default function NavigationContextProvider({
       theme,
       guidanceVoice,
       guidanceVoiceVolume,
+      guidanceVoicePlaybackRate,
       safeAreaInsets,
       guidancePanelHeight,
       setGuidancePanelHeight,
@@ -79,6 +81,7 @@ export default function NavigationContextProvider({
       theme,
       guidanceVoice,
       guidanceVoiceVolume,
+      guidanceVoicePlaybackRate,
       safeAreaInsets,
       guidancePanelHeight
     ]
