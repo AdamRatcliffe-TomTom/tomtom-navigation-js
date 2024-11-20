@@ -109,6 +109,7 @@ function useNavigationSimulation({
           center,
           pitch: 60,
           zoom: 18,
+          bearing: map.getBearing(),
           animationOptions: {
             padding: {
               top: navigationPaddingTopRef.current,
