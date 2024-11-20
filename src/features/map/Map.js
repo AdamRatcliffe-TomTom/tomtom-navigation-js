@@ -93,6 +93,7 @@ const Map = ({
   showManeuverArrows = true,
   preCalculatedRoute,
   fitRoute = true,
+  alwaysUseDrivingStyle = false,
   onRouteCalculated = () => {},
   onComponentExit = () => {},
   children
@@ -396,7 +397,7 @@ const Map = ({
 
   const currentStyle = useMemo(
     () =>
-      isNavigating && mapStyle.styleDriving
+      (isNavigating || alwaysUseDrivingStyle) && mapStyle.styleDriving
         ? mapStyle.styleDriving
         : mapStyle.style,
     [mapStyle, isNavigating]
