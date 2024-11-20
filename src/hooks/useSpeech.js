@@ -58,7 +58,7 @@ const useSpeech = () => {
     [voicesAvailable, voices]
   );
 
-  const speak = ({ text, voice, volume = 0.5, playbackRate = 1 }) => {
+  const speak = ({ text, voice, volume = 1, playbackRate = 1 }) => {
     if (voicesAvailable) {
       if (synth.speaking) return;
 
