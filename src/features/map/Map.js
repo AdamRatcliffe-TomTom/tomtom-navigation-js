@@ -134,6 +134,7 @@ const Map = ({
   const userLocation = useSelector(getUserLocation);
   const countryCode = useSelector(getCountryCode);
   const [mapStyle, setMapStyle] = useState(mapStyles.street);
+  const [isResizing, setIsResizing] = useState(false);
   const {
     data: { route, sectionedRoute, walkingLeg, maneuverLineStrings } = {}
   } = useCalculateRouteQuery({
@@ -165,6 +166,7 @@ const Map = ({
     enableGeolocation && showLocationMarker && userLocation && !isNavigating;
   const chevronMarkerIsVisible =
     isNavigating &&
+    !isResizing &&
     !viewTransitioning &&
     !hasReachedDestination &&
     navigationPerspective === NavigationPerspectives.FOLLOW;
@@ -174,6 +176,25 @@ const Map = ({
     navigationPerspective === NavigationPerspectives.OVERVIEW &&
     currentLocation;
   const haveWaypoints = routeOptions?.locations.length > 0;
+
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (!map) return;
+
+    const handleResizeStart = () => {
+      setIsResizing(true);
+
+      setTimeout(() => handleResizeEnd(), 2000);
+    };
+
+    const handleResizeEnd = () => setIsResizing(false);
+
+    map.on("resize", handleResizeStart);
+
+    return () => {
+      map.off("resize", handleResizeStart);
+    };
+  }, []);
 
   useEffect(() => {
     const map = mapRef.current?.getMap();

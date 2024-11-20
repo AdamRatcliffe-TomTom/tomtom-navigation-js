@@ -19,44 +19,45 @@ import {
 } from "../map/mapSlice";
 import { getDistanceToNextManeuver } from "./navigationSlice";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "grid",
-    gridTemplateColumns: "56px 1fr",
-    gap: theme.spacing.m
-  },
-  distanceContainer: {
-    marginBottom: theme.spacing.s1
-  },
-  distance: {
-    fontSize: 28,
-    color: "white"
-  },
-  street: {
-    fontFamily: "Noto Sans",
-    fontSize: 20,
-    color: "white",
-    lineHeight: "1.5",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap"
-  },
-  towards: {
-    fontFamily: "Noto Sans",
-    fontSize: 20,
-    color: "white",
-    lineHeight: "1.5",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap"
-  },
-  affixes: {
-    fontFamily: "Noto Sans",
-    fontSize: 20,
-    fontWeight: 600,
-    color: "white"
-  }
-}));
+const useStyles = ({ textColor }) =>
+  makeStyles((theme) => ({
+    root: {
+      display: "grid",
+      gridTemplateColumns: "56px 1fr",
+      gap: theme.spacing.m
+    },
+    distanceContainer: {
+      marginBottom: theme.spacing.s1
+    },
+    distance: {
+      fontSize: 28,
+      color: textColor
+    },
+    street: {
+      fontFamily: "Noto Sans",
+      fontSize: 20,
+      color: textColor,
+      lineHeight: "1.5",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    },
+    towards: {
+      fontFamily: "Noto Sans",
+      fontSize: 20,
+      color: textColor,
+      lineHeight: "1.5",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    },
+    affixes: {
+      fontFamily: "Noto Sans",
+      fontSize: 20,
+      fontWeight: 600,
+      color: textColor
+    }
+  }));
 
 const NextInstructionPanel = ({ route, instruction }) => {
   if (!route || !instruction) {
@@ -64,14 +65,22 @@ const NextInstructionPanel = ({ route, instruction }) => {
   }
 
   const theme = useTheme();
-  const { landscapeMinimal, measurementSystem } = useNavigationContext();
-  const classes = useStyles();
+  const {
+    theme: navigationTheme,
+    landscapeMinimal,
+    measurementSystem
+  } = useNavigationContext();
+
+  const pedestrianRoute = isPedestrianRoute(route?.features[0]);
+  const textColor =
+    pedestrianRoute && navigationTheme === "light" ? "black" : "white";
+  const classes = useStyles({ textColor })();
   const textClasses = useTextStyles();
   const countryCode = useSelector(getCountryCode);
   const spriteImageUrl = useSelector(getSpriteImageUrl);
   const spriteJson = useSelector(getSpriteJson);
   const distanceToNextManeuver = useSelector(getDistanceToNextManeuver);
-  const shouldRoundDistance = !isPedestrianRoute(route?.features[0]);
+  const shouldRoundDistance = !pedestrianRoute;
   const formattedDistanceToNextManeuver = formatDistance(
     distanceToNextManeuver,
     measurementSystem,
@@ -87,7 +96,7 @@ const NextInstructionPanel = ({ route, instruction }) => {
     exitNumber
   } = instruction;
   const maneuverIcon = getManeuverIcon(maneuver, {
-    color: "white"
+    color: textColor
   });
 
   if (!maneuverIcon) {
