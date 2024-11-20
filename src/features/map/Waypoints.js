@@ -43,7 +43,7 @@ const Waypoints = ({
         }
       });
     }
-  }, [map]);
+  }, [map, data]);
 
   return data ? (
     <GeoJSONLayer

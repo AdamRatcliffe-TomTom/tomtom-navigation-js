@@ -92,6 +92,7 @@ const Map = ({
   showSkipControl = false,
   showManeuverArrows = true,
   preCalculatedRoute,
+  fitRoute = true,
   onRouteCalculated = () => {},
   onComponentExit = () => {},
   children
@@ -217,7 +218,7 @@ const Map = ({
   }, [theme]);
 
   useEffect(() => {
-    if (routeOptions?.locations.length || route) {
+    if (fitRoute && (routeOptions?.locations.length || route)) {
       fitRouteOrWaypoints({ animate: false });
     }
   }, [JSON.stringify(routeOptions.locations), route]);

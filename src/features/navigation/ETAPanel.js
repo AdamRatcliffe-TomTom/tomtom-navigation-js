@@ -15,6 +15,7 @@ import useButtonStyles from "../../hooks/useButtonStyles";
 import formatTime from "../../functions/formatTime";
 import formatDuration from "../../functions/formatDuration";
 import formatDistance from "../../functions/formatDistance";
+import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import strings from "../../config/strings";
 
 import {
@@ -50,11 +51,13 @@ const ETA = ({
   const { summary } = route.features[0].properties;
   const { trafficDelayInSeconds } = summary;
   const duration = formatDuration(timeRemaining);
+  const pedestrianRoute = isPedestrianRoute(route?.features[0]);
+  const shouldRoundDistance = !pedestrianRoute;
   const formattedDistanceRemaining = formatDistance(
     distanceRemaining,
     measurementSystem,
     false,
-    true
+    shouldRoundDistance
   );
   const formattedArrival = formatTime(new Date(eta));
   const formattedDelay = formatDuration(trafficDelayInSeconds);
