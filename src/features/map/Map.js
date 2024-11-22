@@ -74,6 +74,7 @@ import {
 } from "../../config";
 
 const poiLayerId = "POI";
+const buildings3DLayerId = "3D - Building";
 const before = "Borders - Treaty label";
 
 const easing = (v) => v;
@@ -84,6 +85,7 @@ const Map = ({
   showTrafficFlow = false,
   showTrafficIncidents = false,
   showPoi = false,
+  showBuildings3D = true,
   showLocationMarker = true,
   showMapSwitcherControl = true,
   showMuteControl = true,
@@ -243,19 +245,37 @@ const Map = ({
 
   useEffect(() => {
     const map = mapRef.current?.getMap();
+    const visibility = showPoi ? "visible" : "none";
 
     if (map.isStyleLoaded()) {
       if (map.getLayer(poiLayerId)) {
-        map.setLayoutProperty(poiLayerId, "visibility", "none");
+        map.setLayoutProperty(poiLayerId, "visibility", visibility);
       }
     } else {
       map.on("style.load", () => {
         if (map.getLayer(poiLayerId)) {
-          map.setLayoutProperty(poiLayerId, "visibility", "none");
+          map.setLayoutProperty(poiLayerId, "visibility", visibility);
         }
       });
     }
   }, [mapRef.current, showPoi]);
+
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    const visibility = showBuildings3D ? "visible" : "none";
+
+    if (map.isStyleLoaded()) {
+      if (map.getLayer(buildings3DLayerId)) {
+        map.setLayoutProperty(buildings3DLayerId, "visibility", visibility);
+      }
+    } else {
+      map.on("style.load", () => {
+        if (map.getLayer(buildings3DLayerId)) {
+          map.setLayoutProperty(buildings3DLayerId, "visibility", visibility);
+        }
+      });
+    }
+  }, [mapRef.current, showBuildings3D]);
 
   useEffect(() => {
     if (simulatedLocation) {
