@@ -51,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
     lineHeight: "1.5"
   },
-  button: {
-    margin: theme.spacing.l1
+  continueButton: {
+    margin: `${theme.spacing.s1} ${theme.spacing.l1} ${theme.spacing.l1}`
   }
 }));
 
@@ -156,7 +156,7 @@ const Arrival = ({
         </Stack>
         {showContinueButton && (
           <PrimaryButton
-            className={`${buttonClasses.pillButtonLarge} ${classes.button}`}
+            className={`${buttonClasses.pillButtonLarge} ${classes.continueButton}`}
             text={strings.continueWalking}
             onClick={handleContinue}
           />

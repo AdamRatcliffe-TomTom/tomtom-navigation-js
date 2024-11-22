@@ -91,6 +91,7 @@ const Map = ({
   showZoomControl = false,
   showSkipControl = false,
   showManeuverArrows = true,
+  renderLayers,
   preCalculatedRoute,
   fitRoute = true,
   alwaysUseDrivingStyle = false,
@@ -472,6 +473,7 @@ const Map = ({
       {haveWaypoints && (
         <Waypoints id="Waypoints" data={routeOptions.locations} />
       )}
+      {renderLayers && renderLayers(mapRef.current?.getMap())}
       {maneuverArrowsAreVisible && (
         <ManeuverArrows
           before="Waypoints-symbol"

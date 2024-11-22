@@ -59,6 +59,7 @@ function App({
   showArrivalPanel = true,
   showContinueButton = false,
   routeUrl,
+  renderLayers,
   onNavigationStarted = () => {},
   onNavigationStopped = () => {},
   onProgressUpdate = () => {},
@@ -162,7 +163,11 @@ function App({
         safeAreaInsets={mergedSafeAreaInsets}
       >
         <div className="TomTomNavigation" style={style}>
-          <Map preCalculatedRoute={preCalculatedRoute} {...mapOptions}>
+          <Map
+            renderLayers={renderLayers}
+            preCalculatedRoute={preCalculatedRoute}
+            {...mapOptions}
+          >
             {showSearch && <Search position={searchPosition} />}
             <Navigation
               preCalculatedRoute={preCalculatedRoute}

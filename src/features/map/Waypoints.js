@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { point, featureCollection } from "@turf/helpers";
-import { GeoJSONLayer } from "react-tomtom-maps";
-import { withMap } from "react-tomtom-maps";
+import { GeoJSONLayer, withMap } from "react-tomtom-maps";
 import { v4 as uuid } from "uuid";
 
 const Waypoints = ({
@@ -12,16 +11,20 @@ const Waypoints = ({
 }) => {
   const imageKey = (url, width, height) => `${url}-${width}-${height}`;
 
-  const features = data.map(
-    ({ coordinates, icon: { url, width, height, anchor, offset } }) =>
-      point(coordinates, {
-        iconImage: imageKey(url, width, height),
-        iconAnchor: anchor,
-        iconOffset: offset
-      })
+  const geojson = useMemo(
+    () =>
+      featureCollection(
+        data.map(
+          ({ coordinates, icon: { url, width, height, anchor, offset } }) =>
+            point(coordinates, {
+              iconImage: imageKey(url, width, height),
+              iconAnchor: anchor,
+              iconOffset: offset
+            })
+        )
+      ),
+    [data]
   );
-
-  const geojson = featureCollection(features);
 
   useEffect(() => {
     if (map) {
