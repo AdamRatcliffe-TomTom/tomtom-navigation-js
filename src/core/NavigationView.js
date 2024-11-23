@@ -3,7 +3,6 @@ import { useDispatch, batch } from "react-redux";
 import { ThemeProvider } from "@fluentui/react";
 import { useBoolean } from "@fluentui/react-hooks";
 import { useGeolocated } from "react-geolocated";
-import ControlEvents from "../constants/ControlEvents";
 import NavigationContextProvider from "./NavigationContext";
 import NoApiKeyMessage from "./NoApiKeyMessage";
 import { LayersProvider } from "../features/map/hooks/LayersContext";
@@ -13,7 +12,6 @@ import Navigation from "../features/navigation/Navigation";
 import GeolocationDialog from "./GeolocationDialog";
 import getSectionTypesForTravelMode from "../functions/getSectionTypesForTravelMode";
 import detectColorScheme from "../functions/detectColorScheme";
-import fireEvent from "../functions/fireEvent";
 import { lightTheme, darkTheme } from "./themes";
 import strings from "../config/strings";
 
@@ -152,15 +150,15 @@ function App({
     fetchRoute();
   }, [routeUrl]);
 
-  useEffect(() => {
-    if (preCalculatedRoute) {
-      const summary = preCalculatedRoute.features[0]?.properties.summary;
-      const event = { summary };
+  // useEffect(() => {
+  //   if (preCalculatedRoute) {
+  //     const summary = preCalculatedRoute.features[0]?.properties.summary;
+  //     const event = { summary };
 
-      fireEvent(ControlEvents.OnRouteUpdated, event);
-      onRouteUpdated(event);
-    }
-  }, [preCalculatedRoute, onRouteUpdated]);
+  //     fireEvent(ControlEvents.OnRouteUpdated, event);
+  //     onRouteUpdated(event);
+  //   }
+  // }, [preCalculatedRoute, onRouteUpdated]);
 
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
