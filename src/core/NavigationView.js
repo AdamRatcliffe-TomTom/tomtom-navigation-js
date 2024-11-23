@@ -5,6 +5,7 @@ import { useBoolean } from "@fluentui/react-hooks";
 import { useGeolocated } from "react-geolocated";
 import NavigationContextProvider from "./NavigationContext";
 import NoApiKeyMessage from "./NoApiKeyMessage";
+import { LayersProvider } from "../features/map/hooks/LayersContext";
 import Map from "../features/map/Map";
 import Search from "../features/search/Search";
 import Navigation from "../features/navigation/Navigation";
@@ -163,21 +164,23 @@ function App({
         safeAreaInsets={mergedSafeAreaInsets}
       >
         <div className="TomTomNavigation" style={style}>
-          <Map
-            renderLayers={renderLayers}
-            preCalculatedRoute={preCalculatedRoute}
-            {...mapOptions}
-          >
-            {showSearch && <Search position={searchPosition} />}
-            <Navigation
+          <LayersProvider>
+            <Map
+              renderLayers={renderLayers}
               preCalculatedRoute={preCalculatedRoute}
-              onNavigationStarted={onNavigationStarted}
-              onNavigationStopped={onNavigationStopped}
-              onProgressUpdate={onProgressUpdate}
-              onDestinationReached={onDestinationReached}
-              onNavigationContinue={onNavigationContinue}
-            />
-          </Map>
+              {...mapOptions}
+            >
+              {showSearch && <Search position={searchPosition} />}
+              <Navigation
+                preCalculatedRoute={preCalculatedRoute}
+                onNavigationStarted={onNavigationStarted}
+                onNavigationStopped={onNavigationStopped}
+                onProgressUpdate={onProgressUpdate}
+                onDestinationReached={onDestinationReached}
+                onNavigationContinue={onNavigationContinue}
+              />
+            </Map>
+          </LayersProvider>
         </div>
         {!apiKey && <NoApiKeyMessage />}
         <GeolocationDialog

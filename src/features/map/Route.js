@@ -1,53 +1,31 @@
-import { useEffect, useRef, useMemo } from "react";
-import PropTypes from "prop-types";
-import _isNil from "lodash.isnil";
-import { withMap } from "react-tomtom-maps";
-import { MapboxOverlay } from "@deck.gl/mapbox";
+import { useEffect, useMemo } from "react";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import { PathStyleExtension } from "@deck.gl/extensions";
 import { v4 as uuid } from "uuid";
+import { useLayers } from "./hooks/LayersContext";
 
-const Route = ({
-  map,
-  data,
-  progress,
-  walkingLeg,
-  before,
-  isPedestrianRoute
-}) => {
+const Route = ({ data, progress, walkingLeg, before, isPedestrianRoute }) => {
   const id = useMemo(() => `Route-${uuid()}`, []);
-  const controlRef = useRef(null);
+  const { addLayer, removeLayer } = useLayers();
 
-  useEffect(() => {
-    if (!map) return;
+  const getLineColor = (feature) => {
+    const {
+      properties: { magnitudeOfDelay }
+    } = feature;
 
-    const control = new MapboxOverlay({
-      interleaved: true,
-      layers: []
-    });
-    controlRef.current = control;
-
-    map.addControl(control);
-
-    return () => {
-      try {
-        map.removeControl(control);
-        controlRef.current = null;
-      } catch (e) {
-        // Suppress errors during cleanup
-      }
-    };
-  }, [map]);
-
-  useEffect(() => {
-    if (controlRef.current) {
-      controlRef.current.setProps({
-        layers: createLayers()
-      });
+    switch (magnitudeOfDelay) {
+      case 1:
+        return [255, 193, 5, 255];
+      case 2:
+        return [251, 45, 9, 255];
+      case 3:
+        return [173, 0, 0, 255];
+      default:
+        return [59, 174, 227, 255];
     }
-  }, [data, progress, walkingLeg, before, isPedestrianRoute]);
+  };
 
-  const createLayers = () => {
+  const memoizedLayers = useMemo(() => {
     if (!data) return null;
 
     if (isPedestrianRoute) {
@@ -72,7 +50,7 @@ const Route = ({
       ];
     }
 
-    const layers = [
+    return [
       new GeoJsonLayer({
         id: `${id}--Casing`,
         beforeId: before,
@@ -147,37 +125,22 @@ const Route = ({
         extensions: [new PathStyleExtension({ dash: true })]
       })
     ];
+  }, [data, progress, walkingLeg, before, isPedestrianRoute]);
 
-    return layers;
-  };
-
-  const getLineColor = (feature) => {
-    const {
-      properties: { magnitudeOfDelay }
-    } = feature;
-
-    switch (magnitudeOfDelay) {
-      case 1:
-        return [255, 193, 5, 255];
-      case 2:
-        return [251, 45, 9, 255];
-      case 3:
-        return [173, 0, 0, 255];
-      default:
-        return [59, 174, 227, 255];
+  useEffect(() => {
+    if (memoizedLayers) {
+      addLayer(memoizedLayers);
     }
-  };
+
+    return () => {
+      if (memoizedLayers) {
+        const layerIds = memoizedLayers.map((layer) => layer.id);
+        removeLayer(layerIds);
+      }
+    };
+  }, [memoizedLayers, addLayer, removeLayer]);
 
   return null;
 };
 
-Route.propTypes = {
-  map: PropTypes.object,
-  data: PropTypes.object,
-  progress: PropTypes.object,
-  walkingLeg: PropTypes.object,
-  before: PropTypes.string,
-  isPedestrianRoute: PropTypes.bool
-};
-
-export default withMap(Route);
+export default Route;

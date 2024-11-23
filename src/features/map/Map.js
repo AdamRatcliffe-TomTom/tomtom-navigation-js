@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import { featureCollection } from "@turf/helpers";
-import { useNavigationContext } from "../../core/NavigationContext";
 import ReactMap from "react-tomtom-maps";
+import { MapboxOverlay } from "@deck.gl/mapbox";
+import { useLayers } from "./hooks/LayersContext";
+import { useNavigationContext } from "../../core/NavigationContext";
 import GeolocateControl from "./controls/GeolocateControl";
 import MuteControl from "./controls/MuteControl";
 import CompassControl from "./controls/CompassControl";
@@ -103,6 +105,7 @@ const Map = ({
 }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
+  const deckOverlayRef = useRef();
   const {
     apiKey,
     language,
@@ -114,6 +117,7 @@ const Map = ({
     setMeasurementSystemAuto,
     isPhone
   } = useNavigationContext();
+  const { layers } = useLayers();
   const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
   const isNavigating = useSelector(getIsNavigating);
   const hasReachedDestination = useSelector(getHasReachedDestination);
@@ -206,12 +210,26 @@ const Map = ({
     const map = mapRef.current?.getMap();
 
     if (map) {
+      const deckOverlay = new MapboxOverlay({ interleaved: true, layers: [] });
+      map.addControl(deckOverlay);
+      deckOverlayRef.current = deckOverlay;
+
       const container = map.getContainer();
       const observer = new ResizeObserver(() => map.resize());
       observer.observe(container);
       return () => observer?.unobserve(container);
     }
   }, [mapRef.current]);
+
+  useEffect(() => {
+    const deckOverlay = deckOverlayRef.current;
+
+    if (deckOverlay) {
+      deckOverlay.setProps({
+        layers
+      });
+    }
+  }, [deckOverlayRef.current, layers]);
 
   useEffect(() => {
     setMeasurementSystemAuto(countryCode === "US" ? "imperial" : "metric");
