@@ -99,7 +99,7 @@ const Map = ({
   preCalculatedRoute,
   fitRoute = true,
   alwaysUseDrivingStyle = false,
-  onRouteCalculated = () => {},
+  onRouteUpdated = () => {},
   onComponentExit = () => {},
   children
 }) => {
@@ -254,10 +254,10 @@ const Map = ({
     if (route) {
       setCountryCodeFromRoute();
 
-      const summary = route.features[0].properties.summary;
-      fireEvent(ControlEvents.OnRouteCalculated, { summary });
+      const summary = route.features[0]?.properties.summary;
+      fireEvent(ControlEvents.OnRouteUpdated, { summary });
 
-      onRouteCalculated();
+      onRouteUpdated({ summary });
     }
   }, [route, apiKey, dispatch]);
 

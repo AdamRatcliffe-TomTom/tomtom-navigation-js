@@ -1,7 +1,7 @@
 export default {
   StartNavigation: "StartNavigation",
   StopNavigation: "StopNavigation",
-  OnRouteCalculated: "OnRouteCalculated",
+  OnRouteUpdated: "OnRouteUpdated",
   OnNavigationStarted: "OnNavigationStarted",
   OnNavigationStopped: "OnNavigationStopped",
   OnDestinationReached: "OnDestinationReached",
