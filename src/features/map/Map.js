@@ -19,6 +19,9 @@ import Route from "./Route";
 import Waypoints from "./Waypoints";
 import ManeuverArrows from "./ManeuverArrows";
 import LocationMarker from "./markers/LocationMarker";
+import LocationIcon from "../../icons/LocationIcon";
+import ChevronIcon from "../../icons/ChevronIcon";
+import Chevron2DIcon from "../../icons/Chevron2DIcon";
 import ChevronMarker from "./markers/ChevronMarker";
 import Chevron2DMarker from "./markers/Chevron2DMarker";
 import { useCalculateRouteQuery } from "../../services/routing";
@@ -156,7 +159,10 @@ const Map = ({
 
   const routeIsVisible = !!route;
   const maneuverArrowsAreVisible =
-    showManeuverArrows && !!route && isNavigating;
+    showManeuverArrows &&
+    !!route &&
+    isNavigating &&
+    navigationPerspective === NavigationPerspectives.FOLLOW;
   const geolocateControlIsVisible =
     enableGeolocation && !simulatedLocation && !isNavigating;
   const muteControlVisible =
@@ -185,7 +191,7 @@ const Map = ({
     !viewTransitioning &&
     navigationPerspective === NavigationPerspectives.OVERVIEW &&
     currentLocation;
-  const haveWaypoints = routeOptions?.locations.length > 0;
+  const haveWaypoints = routeOptions?.locations?.length > 0;
 
   useEffect(() => {
     const map = mapRef.current?.getMap();
@@ -333,7 +339,10 @@ const Map = ({
     // If we have a route, extend the location geojson to include
     // the route geometry
     if (route) {
-      const mergedFeatures = [...route.features, ...geojson.features];
+      const mergedFeatures = [
+        ...route.features,
+        ...(geojson ? geojson.features : [])
+      ];
       geojson = featureCollection(mergedFeatures);
     }
 
@@ -508,23 +517,32 @@ const Map = ({
           isPedestrianRoute={pedestrianRoute}
         />
       )}
-      {haveWaypoints && (
-        <Waypoints id="Waypoints" data={routeOptions.locations} />
-      )}
-      {renderLayers && renderLayers(mapRef.current?.getMap())}
       {maneuverArrowsAreVisible && (
         <ManeuverArrows
-          before="Waypoints-symbol"
           data={maneuverLineStrings}
           nextInstructionPointIndex={nextInstruction?.pointIndex}
         />
       )}
-      <ChevronMarker visible={chevronMarkerIsVisible} />
+      {renderLayers && renderLayers(mapRef.current?.getMap())}
+      {haveWaypoints && (
+        <Waypoints id="Waypoints" data={routeOptions.locations} />
+      )}
+      <ChevronMarker
+        visible={chevronMarkerIsVisible}
+        icon={
+          pedestrianRoute ? (
+            <LocationIcon />
+          ) : (
+            <ChevronIcon style={{ marginBottom: -54 }} />
+          )
+        }
+      />
       <Chevron2DMarker
         visible={chevron2DMarkerIsVisible}
         coordinates={currentLocation}
         bearing={currentLocationBearing}
         animationDuration={animationOptions.duration}
+        icon={pedestrianRoute ? <LocationIcon /> : <Chevron2DIcon />}
       />
       <SpeedLimitControl
         value={speedLimit}

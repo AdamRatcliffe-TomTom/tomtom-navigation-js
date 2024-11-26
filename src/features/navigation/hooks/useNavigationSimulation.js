@@ -41,6 +41,7 @@ function useNavigationSimulation({
   voiceAnnouncementsEnabledRef,
   voice,
   isPedestrian,
+  simulatorZoom,
   setETA
 }) {
   const dispatch = useDispatch();
@@ -52,12 +53,12 @@ function useNavigationSimulation({
   useEffect(() => {
     const onMessage = (event) => {
       const {
-        data: { type }
+        data: { type, bearing }
       } = event;
 
       switch (type) {
         case `${EVENT_PREFIX}.${ControlEvents.StartNavigation}`:
-          startNavigation();
+          startNavigation({ bearing });
           break;
         case `${EVENT_PREFIX}.${ControlEvents.StopNavigation}`:
           stopNavigation();
@@ -91,7 +92,7 @@ function useNavigationSimulation({
       : "none";
   };
 
-  const startNavigation = () => {
+  const startNavigation = ({ bearing }) => {
     const routeCoordinates = routeFeature.geometry.coordinates;
     const center = routeCoordinates[0];
     const movingMethod = shouldAnimateCamera(map.getBounds(), center)
@@ -108,8 +109,8 @@ function useNavigationSimulation({
           movingMethod,
           center,
           pitch: 60,
-          zoom: 18,
-          bearing: map.getBearing(),
+          zoom: simulatorZoom,
+          bearing: bearing || map.getBearing(),
           animationOptions: {
             padding: {
               top: navigationPaddingTopRef.current,
@@ -141,10 +142,12 @@ function useNavigationSimulation({
 
   const stopNavigation = (userCancelled = false) => {
     const geojson = featureCollection([
-      ...routeOptions.locations.map((loc) => ({
-        type: "Feature",
-        geometry: { type: "Point", coordinates: loc.coordinates }
-      })),
+      ...(routeOptions.locations
+        ? routeOptions.locations.map((loc) => ({
+            type: "Feature",
+            geometry: { type: "Point", coordinates: loc.coordinates }
+          }))
+        : []),
       ...route.features
     ]);
     const bounds = geoJsonBounds(geojson);

@@ -158,6 +158,7 @@ const Navigation = ({
     voiceAnnouncementsEnabledRef,
     voice,
     isPedestrian,
+    simulatorZoom,
     setETA
   });
 
@@ -212,6 +213,9 @@ const Navigation = ({
       coordinates,
       stepCoords
     );
+
+    // TODO: this is a workaround for the walking navigation transition and needs further investigation
+    if (pointIndex === 0 && stepBearing === 0) return;
 
     const traveledPart = ruler.lineSlice(coordinates[0], point, coordinates);
     if (traveledPart.length === 1) {

@@ -1,7 +1,9 @@
 import React from "react";
 
-const ChevronIcon = () => (
+const ChevronIcon = React.forwardRef(({ style }, ref) => (
   <svg
+    ref={ref}
+    style={style}
     width="60"
     height="53"
     viewBox="0 0 60 53"
@@ -143,6 +145,6 @@ const ChevronIcon = () => (
       </linearGradient>
     </defs>
   </svg>
-);
+));
 
 export default ChevronIcon;
