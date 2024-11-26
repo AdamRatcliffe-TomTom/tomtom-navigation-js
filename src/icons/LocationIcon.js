@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     background: "rgb(59, 174, 227)",
     border: "3px solid white",
     borderRadius: "50%",
-    boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.075)"
+    boxShadow: "0px 0px 16px 4px rgba(0, 0, 0, 0.15)"
   }
 });
 
