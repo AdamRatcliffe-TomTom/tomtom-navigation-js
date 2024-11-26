@@ -84,18 +84,13 @@ The navigation component uses 2 mechanisms for communicating state changes, call
 
 #### onRouteUpdated
 
-Fired when the route has been updated for the provided waypoints. Also fired when a precalculated route has been fetched.
+Fired when the route has been updated for the provided waypoints. Also fired when a precalculated route has been fetched. The route GeoJSON is passed to the callback.
 
 ##### Message Properties
 
 | Name                            | Value    | Description                                 |
 | ------------------------------- | -------- | ------------------------------------------- |
-| `summary`                       | `Object` | Route summary data.                         |
-| `summary.lengthInMeters`        | `number` | The route length in meters.                 |
-| `summary.travelTimeInSeconds`   | `number` | The route travel time in seconds.           |
-| `summary.trafficDelayInSeconds` | `number` | The traffic delay in seconds.               |
-| `summary.departureTime`         | `number` | The estimated departure time for the route. |
-| `summary.arrivalTime`           | `number` | The estimated arrival time for the route.   |
+| `route`                       | `Object` | Route GeoJSON data.                         |
 
 #### onNavigationStarted
 

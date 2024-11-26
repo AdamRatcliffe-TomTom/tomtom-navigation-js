@@ -261,10 +261,12 @@ const Map = ({
     if (route) {
       setCountryCodeFromRoute();
 
-      const summary = route.features[0]?.properties.summary;
-      fireEvent(ControlEvents.OnRouteUpdated, { summary });
+      const routeFeature = route.features[0];
+      const eventData = { route: routeFeature };
 
-      onRouteUpdated({ summary });
+      fireEvent(ControlEvents.OnRouteUpdated, eventData);
+
+      onRouteUpdated(eventData);
     }
   }, [route, apiKey, dispatch]);
 
@@ -532,10 +534,17 @@ const Map = ({
       <ChevronMarker
         visible={chevronMarkerIsVisible}
         icon={
-          false ? (
-            <LocationIcon />
+          pedestrianRoute ? (
+            <LocationIcon
+              size={30}
+              style={{
+                marginBottom: -15,
+                transform: `rotateX(${pitch}deg)`,
+                transition: "0.1s"
+              }}
+            />
           ) : (
-            <ChevronIcon style={{ marginBottom: -54 }} />
+            <ChevronIcon style={{ marginBottom: -53 }} />
           )
         }
       />

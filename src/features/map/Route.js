@@ -47,6 +47,23 @@ const Route = ({ data, progress, walkingLeg, before, isPedestrianRoute }) => {
           dashJustified: true,
           extensions: [new PathStyleExtension({ dash: true })]
         })
+        // new GeoJsonLayer({
+        //   id: `${id}--Pedestrian_Route--Progress`,
+        //   beforeId: before,
+        //   data: progress,
+        //   filled: true,
+        //   stroked: true,
+        //   getLineColor: [33, 75, 100, 255],
+        //   getLineWidth: 8,
+        //   lineWidthMinPixels: 8,
+        //   lineWidthMaxPixels: 12,
+        //   lineWidthUnits: "meters",
+        //   lineCapRounded: true,
+        //   lineJointRounded: true,
+        //   getDashArray: [0.2, 4],
+        //   dashJustified: true,
+        //   extensions: [new PathStyleExtension({ dash: true })]
+        // })
       ];
     }
 
