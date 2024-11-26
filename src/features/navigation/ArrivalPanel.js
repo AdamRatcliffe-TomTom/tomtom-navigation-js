@@ -73,7 +73,7 @@ const Arrival = ({
   const showContinueButton = useSelector(getShowContinueButton);
   const { maneuver } = useSelector(getLastInstruction) || {};
   const { locations } = useSelector(getRouteOptions);
-  const destination = locations.at(-1);
+  const destination = locations?.at(-1);
 
   if (!destination) return null;
 
