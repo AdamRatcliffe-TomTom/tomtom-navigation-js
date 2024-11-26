@@ -80,7 +80,8 @@ import {
 
 const poiLayerId = "POI";
 const buildings3DLayerId = "3D - Building";
-const before = "Borders - Treaty label";
+const routeBeforeId = "Borders - Treaty label";
+const maneuverArrowsBeforeId = "Places - Country name";
 
 const easing = (v) => v;
 
@@ -510,7 +511,7 @@ const Map = ({
       {locationMarkerIsVisible && <LocationMarker coordinates={userLocation} />}
       {routeIsVisible && (
         <Route
-          before={before}
+          before={routeBeforeId}
           data={sectionedRoute}
           progress={routeProgress}
           walkingLeg={walkingLeg}
@@ -519,6 +520,7 @@ const Map = ({
       )}
       {maneuverArrowsAreVisible && (
         <ManeuverArrows
+          before={maneuverArrowsBeforeId}
           data={maneuverLineStrings}
           nextInstructionPointIndex={nextInstruction?.pointIndex}
         />
@@ -530,7 +532,7 @@ const Map = ({
       <ChevronMarker
         visible={chevronMarkerIsVisible}
         icon={
-          pedestrianRoute ? (
+          false ? (
             <LocationIcon />
           ) : (
             <ChevronIcon style={{ marginBottom: -54 }} />
