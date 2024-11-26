@@ -284,6 +284,7 @@ const Navigation = ({
   const handleSimulatorEnd = () => {
     const { coordinates } = routeFeature.geometry;
     const lastCoordinate = coordinates[coordinates.length - 1];
+    const lastInstruction = lastInstructionRef?.current;
     const bounds = new tt.LngLatBounds(lastCoordinate, lastCoordinate);
     bounds.extend(destination.coordinates);
 
@@ -314,10 +315,8 @@ const Navigation = ({
     map.once("moveend", () => dispatch(setViewTransitioning(false)));
 
     if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
-      const instruction = lastInstructionRef?.current;
-
-      if (instruction) {
-        const announcement = strings[instruction.maneuver];
+      if (lastInstruction) {
+        const announcement = strings[lastInstruction.maneuver];
         speak({
           voice,
           text: announcement,
@@ -327,8 +326,13 @@ const Navigation = ({
       }
     }
 
-    fireEvent(ControlEvents.OnDestinationReached, { destination });
-    onDestinationReached();
+    const eventData = {
+      maneuver: lastInstruction.maneuver,
+      destination
+    };
+
+    fireEvent(ControlEvents.OnDestinationReached, eventData);
+    onDestinationReached(eventData);
   };
 
   const getRuler = () => {

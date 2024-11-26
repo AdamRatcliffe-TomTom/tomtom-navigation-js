@@ -121,6 +121,8 @@ Fired when the destination is reached.
 
 | Name                      | Value    | Description                                                         |
 | ------------------------- | -------- | ------------------------------------------------------------------- |
+| `manuever`                | `string` | The maneuver code for the last maneuver taken.
+|                      
 | `destination`             | `Object` | Route destination record.                                           |
 | `destination.coordinates` | `Array`  | The destination coordinates in the format [`longitude`, `latitude`] |
 | `destination.name`        | `string` | The destination name (if provided).                                 |
