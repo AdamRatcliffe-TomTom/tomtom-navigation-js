@@ -17,6 +17,20 @@ const useTextStyles = makeStyles((theme) => ({
     fontSize: 20,
     fontWeight: 400
   },
+  tertiaryText: {
+    fontFamily: "Noto Sans",
+    color: theme.palette.black,
+    fontSize: 18,
+    fontWeight: 400,
+    lineHeight: "1.5em"
+  },
+  tertiaryTextSemibold: {
+    fontFamily: "Noto Sans",
+    color: theme.palette.black,
+    fontSize: 18,
+    fontWeight: 500,
+    lineHeight: "1.5em"
+  },
   warningText: {
     fontFamily: "Noto Sans",
     color: theme.semanticColors.warningIcon,

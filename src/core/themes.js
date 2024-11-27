@@ -18,7 +18,8 @@ export const lightTheme = {
     themeDarkAlt: "#0568A8",
     themeDark: "#105287",
     black: "#263543",
-    neutralSecondary: "#727c85"
+    neutralSecondary: "#727c85",
+    ttSecondary: "#F3F9FD"
   },
   floatingElementShadow: "0 0 25px 0 rgba(0, 0, 0, 0.15)"
 };
@@ -46,7 +47,8 @@ export const darkTheme = {
     themeDark: "#105287",
     white: "#18212a",
     black: "#fff",
-    neutralSecondary: "#abafb3"
+    neutralSecondary: "#abafb3",
+    ttSecondary: "#152C39"
   },
   floatingElementShadow: "0 0 25px 0 rgba(0, 0, 0, 0.15)"
 };
