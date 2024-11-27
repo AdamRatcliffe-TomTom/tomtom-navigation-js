@@ -539,9 +539,9 @@ const Map = ({
         icon={
           pedestrianRoute ? (
             <LocationIcon
-              size={30}
+              size={34}
               style={{
-                marginBottom: -8,
+                marginBottom: -16,
                 transform: `rotateX(${pitch}deg)`,
                 transformOrigin: "center",
                 transition: "0.1s"

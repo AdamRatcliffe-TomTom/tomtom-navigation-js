@@ -10,7 +10,7 @@ const useStyles = ({ size }) =>
       background: "rgb(59, 174, 227)",
       border: "3px solid white",
       borderRadius: "50%",
-      boxShadow: "0px 0px 16px 4px rgba(0, 0, 0, 0.15)"
+      boxShadow: "0px 0px 16px 2px rgba(0, 0, 0, 0.1)"
     }
   });
 
