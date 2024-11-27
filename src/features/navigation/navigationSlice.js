@@ -2,7 +2,6 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 import CheapRuler from "cheap-ruler";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import {
-  lastInstruction,
   instructionByIndex,
   speedLimitByIndex,
   announcementByIndex,
@@ -141,10 +140,9 @@ const navigationSlice = createSlice({
       state.distanceRemaining = distanceRemaining;
       state.distanceToNextManeuver = distanceToNextManeuver;
       state.timeRemaining = timeRemaining;
-
-      if (!state.lastInstruction) {
-        state.lastInstruction = lastInstruction(routeFeature);
-      }
+    },
+    setLastInstruction: (state, action) => {
+      state.lastInstruction = action.payload;
     },
     setDistanceRemaining: (state, action) => {
       state.distanceRemaining = action.payload;
@@ -308,6 +306,7 @@ export const {
   setDistanceRemaining,
   setTimeRemaining,
   setRouteRemaining,
+  setLastInstruction,
   setEta,
   setHasReachedDestination,
   setSimulationShouldEnd,

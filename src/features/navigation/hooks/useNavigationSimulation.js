@@ -7,6 +7,7 @@ import ControlEvents from "../../../constants/ControlEvents";
 import fireEvent from "../../../functions/fireEvent";
 import geoJsonBounds from "../../../functions/geoJsonBounds";
 import shouldAnimateCamera from "../../../functions/shouldAnimateCamera";
+import { getLastInstruction } from "../../../functions/routeUtils";
 import strings from "../../../config/strings";
 
 import {
@@ -20,6 +21,7 @@ import {
 import {
   setIsNavigating,
   setRouteRemaining,
+  setLastInstruction,
   resetNavigation
 } from "../navigationSlice";
 
@@ -99,6 +101,7 @@ function useNavigationSimulation({
   const startNavigation = ({ bearing }) => {
     const routeCoordinates = routeFeature.geometry.coordinates;
     const center = routeCoordinates[0];
+    const lastInstruction = getLastInstruction(routeFeature);
     const movingMethod = shouldAnimateCamera(map.getBounds(), center)
       ? "flyTo"
       : "jumpTo";
@@ -109,6 +112,7 @@ function useNavigationSimulation({
       dispatch(setViewTransitioning(true));
       dispatch(setIsNavigating(true));
       dispatch(setRouteRemaining(routeFeature));
+      dispatch(setLastInstruction(lastInstruction));
       dispatch(
         setCamera({
           movingMethod,

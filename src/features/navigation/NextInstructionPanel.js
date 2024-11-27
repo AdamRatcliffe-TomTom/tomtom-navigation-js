@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { makeStyles, useTheme, Stack, Text } from "@fluentui/react";
-import _startCase from "lodash.startcase";
+import _capitalize from "lodash.capitalize";
 import { useNavigationContext } from "../../core/NavigationContext";
 import useTextStyles from "../../hooks/useTextStyles";
 import ExitShieldUS from "./ExitShieldUS";
@@ -91,6 +91,7 @@ const NextInstructionPanel = ({ route, instruction }) => {
     maneuver,
     street,
     signpostText,
+    towards,
     roadShieldReferences,
     signpostRoadShieldReferences,
     exitNumber
@@ -109,7 +110,7 @@ const NextInstructionPanel = ({ route, instruction }) => {
     haveRoadShieldReferences || haveSignpostRoadShieldReferences;
   const exitNumberIsVisible = !!exitNumber;
   const streetIsVisible = !landscapeMinimal && !!street && !!!signpostText;
-  const towardsIsVisible = !landscapeMinimal && !!signpostText;
+  const towardsIsVisible = !landscapeMinimal && (!!signpostText || !!towards);
 
   const renderRoadShields = () => {
     const references = signpostRoadShieldReferences || roadShieldReferences;
@@ -146,7 +147,9 @@ const NextInstructionPanel = ({ route, instruction }) => {
         </Stack>
         {streetIsVisible && <Text className={classes.street}>{street}</Text>}
         {towardsIsVisible && (
-          <Text className={classes.towards}>{_startCase(signpostText)}</Text>
+          <Text className={classes.towards}>
+            {_capitalize(signpostText || towards)}
+          </Text>
         )}
         {roadShieldsAreVisible && (
           <Stack
