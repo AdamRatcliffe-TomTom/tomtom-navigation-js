@@ -230,7 +230,8 @@ const Navigation = ({
 
     const distanceRemaining = ruler.lineDistance(remainingPart);
     const timeRemaining = Math.max(travelTimeInSeconds - elapsedTime, 0);
-    const routeProgress = featureCollection([lineString(traveledPart)]);
+    const routeTravelled = featureCollection([lineString(traveledPart)]);
+    const routeRemaining = featureCollection([lineString(remainingPart)]);
 
     const progress = {
       coordinates: stepCoords,
@@ -238,7 +239,8 @@ const Navigation = ({
       elapsedTime,
       timeRemaining,
       distanceRemaining,
-      routeProgress
+      routeTravelled,
+      routeRemaining
     };
 
     batch(() => {
@@ -268,7 +270,8 @@ const Navigation = ({
           bearing: stepBearing,
           timeRemaining,
           distanceRemaining,
-          routeProgress,
+          routeTravelled,
+          routeRemaining,
           route,
           measurementSystem,
           language

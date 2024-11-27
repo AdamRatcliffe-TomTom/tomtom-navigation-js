@@ -17,7 +17,11 @@ import {
   setFitBoundsOptions,
   setBounds
 } from "../../../features/map/mapSlice";
-import { setIsNavigating, resetNavigation } from "../navigationSlice";
+import {
+  setIsNavigating,
+  setRouteRemaining,
+  resetNavigation
+} from "../navigationSlice";
 
 import {
   EVENT_PREFIX,
@@ -104,6 +108,7 @@ function useNavigationSimulation({
     batch(() => {
       dispatch(setViewTransitioning(true));
       dispatch(setIsNavigating(true));
+      dispatch(setRouteRemaining(routeFeature));
       dispatch(
         setCamera({
           movingMethod,

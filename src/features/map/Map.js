@@ -66,7 +66,8 @@ import {
   getNavigationPerspective,
   getCurrentLocation,
   getNextInstruction,
-  getRouteProgress,
+  getRouteTravelled,
+  getRouteRemaining,
   setVoiceAnnouncementsEnabled,
   setNavigationPerspective,
   setSimulationShouldEnd
@@ -127,7 +128,8 @@ const Map = ({
   const hasReachedDestination = useSelector(getHasReachedDestination);
   const viewTransitioning = useSelector(getViewTransitioning);
   const navigationPerspective = useSelector(getNavigationPerspective);
-  const routeProgress = useSelector(getRouteProgress);
+  const routeTravelled = useSelector(getRouteTravelled);
+  const routeRemaining = useSelector(getRouteRemaining);
   const {
     point: currentLocation,
     bearing: currentLocationBearing,
@@ -515,7 +517,8 @@ const Map = ({
         <Route
           before={routeBeforeId}
           data={sectionedRoute}
-          progress={routeProgress}
+          routeTravelled={routeTravelled}
+          routeRemaining={routeRemaining}
           walkingLeg={walkingLeg}
           isPedestrianRoute={pedestrianRoute}
         />
@@ -538,8 +541,9 @@ const Map = ({
             <LocationIcon
               size={30}
               style={{
-                marginBottom: -15,
+                marginBottom: -8,
                 transform: `rotateX(${pitch}deg)`,
+                transformOrigin: "center",
                 transition: "0.1s"
               }}
             />

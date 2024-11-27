@@ -34,7 +34,7 @@ const initialState = {
   nextInstruction: undefined,
   consecutiveInstruction: undefined,
   lastInstruction: undefined,
-  routeProgress: undefined,
+  routeTravelled: undefined,
   distanceRemaining: undefined,
   timeRemaining: undefined,
   eta: null
@@ -71,7 +71,8 @@ const navigationSlice = createSlice({
         bearing,
         timeRemaining,
         distanceRemaining,
-        routeProgress,
+        routeTravelled,
+        routeRemaining,
         route,
         measurementSystem,
         language
@@ -135,8 +136,9 @@ const navigationSlice = createSlice({
       };
       state.nextInstruction = instruction;
       state.consecutiveInstruction = consecutiveInstruction;
-      (state.routeProgress = routeProgress),
-        (state.distanceRemaining = distanceRemaining);
+      state.routeTravelled = routeTravelled;
+      state.routeRemaining = routeRemaining;
+      state.distanceRemaining = distanceRemaining;
       state.distanceToNextManeuver = distanceToNextManeuver;
       state.timeRemaining = timeRemaining;
 
@@ -149,6 +151,9 @@ const navigationSlice = createSlice({
     },
     setTimeRemaining: (state, action) => {
       state.timeRemaining = action.payload;
+    },
+    setRouteRemaining: (state, action) => {
+      state.routeRemaining = action.payload;
     },
     setEta: (state, action) => {
       state.eta = action.payload;
@@ -170,7 +175,7 @@ const navigationSlice = createSlice({
       state.nextInstruction = undefined;
       state.consecutiveInstruction = undefined;
       state.lastInstruction = undefined;
-      state.routeProgress = undefined;
+      state.routeTravelled = undefined;
       // state.distanceRemaining = undefined;
     }
   }
@@ -245,9 +250,14 @@ const getTimeRemaining = createSelector(
 
 const getEta = createSelector(rootSelector, (state) => state.eta);
 
-const getRouteProgress = createSelector(
+const getRouteTravelled = createSelector(
   rootSelector,
-  (state) => state.routeProgress
+  (state) => state.routeTravelled
+);
+
+const getRouteRemaining = createSelector(
+  rootSelector,
+  (state) => state.routeRemaining
 );
 
 const getHasReachedDestination = createSelector(
@@ -280,7 +290,8 @@ export {
   getDistanceToNextManeuver,
   getTimeRemaining,
   getEta,
-  getRouteProgress,
+  getRouteTravelled,
+  getRouteRemaining,
   getHasReachedDestination,
   getSimulationShouldEnd,
   getVoiceAnnouncementsEnabled
@@ -296,6 +307,7 @@ export const {
   setCurrentLocation,
   setDistanceRemaining,
   setTimeRemaining,
+  setRouteRemaining,
   setEta,
   setHasReachedDestination,
   setSimulationShouldEnd,

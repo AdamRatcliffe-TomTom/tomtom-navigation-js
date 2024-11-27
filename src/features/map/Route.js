@@ -4,7 +4,14 @@ import { PathStyleExtension } from "@deck.gl/extensions";
 import { v4 as uuid } from "uuid";
 import { useLayers } from "./hooks/LayersContext";
 
-const Route = ({ data, progress, walkingLeg, before, isPedestrianRoute }) => {
+const Route = ({
+  data,
+  routeTravelled,
+  routeRemaining,
+  walkingLeg,
+  before,
+  isPedestrianRoute
+}) => {
   const id = useMemo(() => `Route-${uuid()}`, []);
   const { addLayer, removeLayer } = useLayers();
 
@@ -31,9 +38,9 @@ const Route = ({ data, progress, walkingLeg, before, isPedestrianRoute }) => {
     if (isPedestrianRoute) {
       return [
         new GeoJsonLayer({
-          id: `${id}--Pedestrian_Route`,
+          id: `${id}--Pedestrian`,
           beforeId: before,
-          data,
+          data: routeRemaining,
           filled: true,
           stroked: true,
           getLineColor: [59, 174, 227, 255],
@@ -46,24 +53,24 @@ const Route = ({ data, progress, walkingLeg, before, isPedestrianRoute }) => {
           getDashArray: [0.2, 4],
           dashJustified: true,
           extensions: [new PathStyleExtension({ dash: true })]
+        }),
+        new GeoJsonLayer({
+          id: `${id}--Pedestrian--Travelled`,
+          beforeId: before,
+          data: routeTravelled,
+          filled: true,
+          stroked: true,
+          getLineColor: [33, 75, 100, 255],
+          getLineWidth: 8,
+          lineWidthMinPixels: 8,
+          lineWidthMaxPixels: 12,
+          lineWidthUnits: "meters",
+          lineCapRounded: true,
+          lineJointRounded: true,
+          getDashArray: [0.2, 4],
+          dashJustified: true,
+          extensions: [new PathStyleExtension({ dash: true })]
         })
-        // new GeoJsonLayer({
-        //   id: `${id}--Pedestrian_Route--Progress`,
-        //   beforeId: before,
-        //   data: progress,
-        //   filled: true,
-        //   stroked: true,
-        //   getLineColor: [33, 75, 100, 255],
-        //   getLineWidth: 8,
-        //   lineWidthMinPixels: 8,
-        //   lineWidthMaxPixels: 12,
-        //   lineWidthUnits: "meters",
-        //   lineCapRounded: true,
-        //   lineJointRounded: true,
-        //   getDashArray: [0.2, 4],
-        //   dashJustified: true,
-        //   extensions: [new PathStyleExtension({ dash: true })]
-        // })
       ];
     }
 
@@ -97,9 +104,9 @@ const Route = ({ data, progress, walkingLeg, before, isPedestrianRoute }) => {
         lineJointRounded: true
       }),
       new GeoJsonLayer({
-        id: `${id}--Progress_Casing`,
+        id: `${id}--Travelled_Casing`,
         beforeId: before,
-        data: progress,
+        data: routeTravelled,
         filled: true,
         stroked: true,
         getLineColor: [33, 75, 100, 255],
@@ -111,9 +118,9 @@ const Route = ({ data, progress, walkingLeg, before, isPedestrianRoute }) => {
         lineJointRounded: true
       }),
       new GeoJsonLayer({
-        id: `${id}--Progress_Line`,
+        id: `${id}--Travelled_Line`,
         beforeId: before,
-        data: progress,
+        data: routeTravelled,
         filled: true,
         stroked: true,
         getLineColor: [33, 75, 100, 255],
@@ -142,7 +149,14 @@ const Route = ({ data, progress, walkingLeg, before, isPedestrianRoute }) => {
         extensions: [new PathStyleExtension({ dash: true })]
       })
     ];
-  }, [data, progress, walkingLeg, before, isPedestrianRoute]);
+  }, [
+    data,
+    routeTravelled,
+    routeRemaining,
+    walkingLeg,
+    before,
+    isPedestrianRoute
+  ]);
 
   useEffect(() => {
     if (memoizedLayers) {
