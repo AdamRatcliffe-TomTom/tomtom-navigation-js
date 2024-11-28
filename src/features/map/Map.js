@@ -5,6 +5,7 @@ import ReactMap from "react-tomtom-maps";
 import { MapboxOverlay } from "@deck.gl/mapbox";
 import { useLayers } from "./hooks/LayersContext";
 import { useNavigationContext } from "../../core/NavigationContext";
+import { useFieldOfView } from "./hooks/useFieldOfView";
 import GeolocateControl from "./controls/GeolocateControl";
 import MuteControl from "./controls/MuteControl";
 import CompassControl from "./controls/CompassControl";
@@ -104,6 +105,7 @@ const Map = ({
   preCalculatedRoute,
   fitRoute = true,
   alwaysUseDrivingStyle = false,
+  debugFOV = false,
   onRouteUpdated = () => {},
   onComponentExit = () => {},
   children
@@ -120,7 +122,8 @@ const Map = ({
     theme,
     guidancePanelHeight,
     setMeasurementSystemAuto,
-    isPhone
+    isPhone,
+    safeAreaInsets
   } = useNavigationContext();
   const { layers } = useLayers();
   const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
@@ -158,6 +161,10 @@ const Map = ({
     automaticRouteCalculation,
     ...routeOptions
   });
+  const fieldOfView = useFieldOfView(mapRef, debugFOV, safeAreaInsets, [
+    animationOptions,
+    fitBoundsOptions
+  ]);
   const pedestrianRoute = isPedestrianRoute(route);
 
   const routeIsVisible = !!route;
@@ -564,6 +571,7 @@ const Map = ({
         visible={speedLimitControlIsVisible}
       />
       {children}
+      {fieldOfView}
     </ReactMap>
   );
 };

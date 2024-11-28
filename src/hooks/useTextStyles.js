@@ -22,14 +22,14 @@ const useTextStyles = makeStyles((theme) => ({
     color: theme.palette.black,
     fontSize: 18,
     fontWeight: 400,
-    lineHeight: "1.5em"
+    lineHeight: "1.6em"
   },
   tertiaryTextSemibold: {
     fontFamily: "Noto Sans",
     color: theme.palette.black,
     fontSize: 18,
     fontWeight: 500,
-    lineHeight: "1.5em"
+    lineHeight: "1.6em"
   },
   warningText: {
     fontFamily: "Noto Sans",
