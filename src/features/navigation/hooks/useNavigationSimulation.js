@@ -52,8 +52,12 @@ function useNavigationSimulation({
 }) {
   const dispatch = useDispatch();
   const routeOptions = useSelector(getRouteOptions);
-  const { guidanceVoiceVolume, guidanceVoicePlaybackRate, isTablet } =
-    useNavigationContext();
+  const {
+    guidanceVoiceVolume,
+    guidanceVoicePlaybackRate,
+    isTablet,
+    bottomPanelHeight
+  } = useNavigationContext();
   const { speechAvailable, speak } = useSpeech();
 
   useEffect(() => {

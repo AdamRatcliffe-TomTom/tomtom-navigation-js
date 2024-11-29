@@ -153,6 +153,9 @@ const navigationSlice = createSlice({
     setRouteRemaining: (state, action) => {
       state.routeRemaining = action.payload;
     },
+    setRouteTravelled: (state, action) => {
+      state.routeTravelled = action.payload;
+    },
     setEta: (state, action) => {
       state.eta = action.payload;
     },
@@ -174,6 +177,7 @@ const navigationSlice = createSlice({
       state.consecutiveInstruction = undefined;
       state.lastInstruction = undefined;
       state.routeTravelled = undefined;
+      state.routeRemaining = undefined;
       // state.distanceRemaining = undefined;
     }
   }
@@ -306,6 +310,7 @@ export const {
   setDistanceRemaining,
   setTimeRemaining,
   setRouteRemaining,
+  setRouteTravelled,
   setLastInstruction,
   setEta,
   setHasReachedDestination,

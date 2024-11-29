@@ -61,6 +61,7 @@ function App({
   showContinueButton = false,
   routeUrl,
   renderLayers,
+  etaPanel,
   onRouteUpdated = () => {},
   onNavigationStarted = () => {},
   onNavigationStopped = () => {},
@@ -150,16 +151,6 @@ function App({
     fetchRoute();
   }, [routeUrl]);
 
-  // useEffect(() => {
-  //   if (preCalculatedRoute) {
-  //     const summary = preCalculatedRoute.features[0]?.properties.summary;
-  //     const event = { summary };
-
-  //     fireEvent(ControlEvents.OnRouteUpdated, event);
-  //     onRouteUpdated(event);
-  //   }
-  // }, [preCalculatedRoute, onRouteUpdated]);
-
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <NavigationContextProvider
@@ -186,6 +177,7 @@ function App({
             >
               {showSearch && <Search position={searchPosition} />}
               <Navigation
+                etaPanel={etaPanel}
                 preCalculatedRoute={preCalculatedRoute}
                 onNavigationStarted={onNavigationStarted}
                 onNavigationStopped={onNavigationStopped}

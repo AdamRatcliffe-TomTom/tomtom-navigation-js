@@ -61,6 +61,7 @@ import {
 
 const Navigation = ({
   map,
+  etaPanel,
   preCalculatedRoute,
   onNavigationStarted,
   onNavigationStopped,
@@ -360,6 +361,7 @@ const Navigation = ({
     <>
       {guidancePanelIsVisible && <NavigationGuidancePanel route={route} />}
       <BottomPanel
+        etaPanel={etaPanel}
         route={route}
         onStartNavigation={startNavigation}
         onStopNavigation={stopNavigation}

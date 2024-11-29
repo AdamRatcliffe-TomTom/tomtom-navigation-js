@@ -38,6 +38,7 @@ const useStyles = ({ isPhone, isTablet }) =>
   }));
 
 const BottomPanel = ({
+  etaPanel,
   route,
   onStartNavigation,
   onStopNavigation,
@@ -67,21 +68,31 @@ const BottomPanel = ({
 
   if (!hasReachedDestination && showETAPanel) {
     return (
-      <div ref={bottomPanelRef} className={classes.root}>
-        <ETAPanel
-          route={route}
-          measurementSystem={measurementSystem}
-          isNavigating={isNavigating}
-          onStartNavigation={onStartNavigation}
-          onStopNavigation={handleStopNavigation}
-        />
+      <div ref={bottomPanelRef} className={`BottomPanel ${classes.root}`}>
+        {etaPanel ? (
+          React.cloneElement(etaPanel, {
+            route,
+            measurementSystem,
+            isNavigating,
+            onStartNavigation,
+            onStopNavigation: handleStopNavigation
+          })
+        ) : (
+          <ETAPanel
+            route={route}
+            measurementSystem={measurementSystem}
+            isNavigating={isNavigating}
+            onStartNavigation={onStartNavigation}
+            onStopNavigation={handleStopNavigation}
+          />
+        )}
       </div>
     );
   }
 
   if (hasReachedDestination && showArrivalPanel) {
     return (
-      <div ref={bottomPanelRef} className={classes.root}>
+      <div ref={bottomPanelRef} className={`BottomPanel ${classes.root}`}>
         <ArrivalPanel
           onStopNavigation={onStopNavigation}
           onNavigationContinue={onNavigationContinue}
