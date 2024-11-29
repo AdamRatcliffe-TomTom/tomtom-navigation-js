@@ -1,33 +1,34 @@
 import React from "react";
-import useMeasure from "react-use-measure";
 import { useNavigationContext } from "../../../core/NavigationContext";
 import Fade from "../../../components/Fade";
 import { makeStyles } from "@fluentui/react";
-import { TABLET_PANEL_WIDTH } from "../../../config";
+import {
+  TABLET_PANEL_WIDTH,
+  TABLET_CHEVRON_BOTTOM_OFFSET,
+  PHONE_CHEVRON_BOTTOM_OFFSET
+} from "../../../config";
 
-const useStyles = ({ isTablet, iconHeight }) =>
+const useStyles = ({ isTablet, bottomPanelHeight }) =>
   makeStyles({
     root: {
       position: "absolute",
       left: "50%",
-      bottom: isTablet ? 78 + iconHeight : 168 + iconHeight,
-      transform: "translateX(-50%)",
+      bottom: isTablet
+        ? TABLET_CHEVRON_BOTTOM_OFFSET
+        : bottomPanelHeight + PHONE_CHEVRON_BOTTOM_OFFSET,
+      transform: "translate(-50%,50%)",
       zIndex: 10,
       ...(isTablet && { marginLeft: TABLET_PANEL_WIDTH / 2 })
     }
   });
 
 const ChevronMarker = ({ icon, visible }) => {
-  const [iconRef, bounds] = useMeasure({ offsetSize: true });
-  const { isTablet } = useNavigationContext();
-  const iconHeight = bounds.height;
-  const classes = useStyles({ isTablet, iconHeight })();
+  const { isTablet, bottomPanelHeight } = useNavigationContext();
+  const classes = useStyles({ isTablet, bottomPanelHeight })();
 
   return (
     <Fade show={visible} duration=".15s">
-      <div className={`ChevronMarker ${classes.root}`}>
-        {React.cloneElement(icon, { ref: iconRef })}
-      </div>
+      <div className={`ChevronMarker ${classes.root}`}>{icon}</div>
     </Fade>
   );
 };

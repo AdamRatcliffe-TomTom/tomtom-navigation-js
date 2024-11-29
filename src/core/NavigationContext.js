@@ -29,6 +29,7 @@ export default function NavigationContextProvider({
 }) {
   const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
   const [guidancePanelHeight, setGuidancePanelHeight] = useState(0);
+  const [bottomPanelHeight, setBottomPanelHeight] = useState(0);
   const { isPhone, isTablet } = calculateDeviceType(width);
 
   const contextValue = useMemo(
@@ -50,6 +51,8 @@ export default function NavigationContextProvider({
       safeAreaInsets,
       guidancePanelHeight,
       setGuidancePanelHeight,
+      bottomPanelHeight,
+      setBottomPanelHeight,
       mapStyles: {
         street: {
           name: "street",
@@ -83,7 +86,8 @@ export default function NavigationContextProvider({
       guidanceVoiceVolume,
       guidanceVoicePlaybackRate,
       safeAreaInsets,
-      guidancePanelHeight
+      guidancePanelHeight,
+      bottomPanelHeight
     ]
   );
 

@@ -41,7 +41,7 @@ const useStyles = ({ padding, safeAreaInsets }) =>
     },
     widthLabel: {
       position: "absolute",
-      top: padding.top === 0 ? safeAreaInsets.top : 10,
+      top: padding.top === 0 ? safeAreaInsets.top + 10 : 10,
       left: "50%",
       transform: "translateX(-50%)",
       color: "lime",

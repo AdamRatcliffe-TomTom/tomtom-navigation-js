@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@fluentui/react";
 import { useSelector } from "react-redux";
+import useMeasure from "react-use-measure";
 import ETAPanel from "./ETAPanel";
 import ArrivalPanel from "./ArrivalPanel";
 import { useNavigationContext } from "../../core/NavigationContext";
@@ -42,12 +43,21 @@ const BottomPanel = ({
   onStopNavigation,
   onNavigationContinue
 }) => {
-  const { measurementSystem, isPhone, isTablet } = useNavigationContext();
+  const [bottomPanelRef, bounds] = useMeasure({
+    offsetSize: true
+  });
+  const { measurementSystem, isPhone, isTablet, setBottomPanelHeight } =
+    useNavigationContext();
   const classes = useStyles({ isPhone, isTablet })();
   const isNavigating = useSelector(getIsNavigating);
   const showETAPanel = useSelector(getShowETAPanel);
   const showArrivalPanel = useSelector(getShowArrivalPanel);
   const hasReachedDestination = useSelector(getHasReachedDestination);
+  const bottomPanelHeight = bounds.height;
+
+  useEffect(() => {
+    setBottomPanelHeight(bottomPanelHeight);
+  }, [bottomPanelHeight]);
 
   const handleStopNavigation = () => onStopNavigation(true);
 
@@ -57,7 +67,7 @@ const BottomPanel = ({
 
   if (!hasReachedDestination && showETAPanel) {
     return (
-      <div className={classes.root}>
+      <div ref={bottomPanelRef} className={classes.root}>
         <ETAPanel
           route={route}
           measurementSystem={measurementSystem}
@@ -71,7 +81,7 @@ const BottomPanel = ({
 
   if (hasReachedDestination && showArrivalPanel) {
     return (
-      <div className={classes.root}>
+      <div ref={bottomPanelRef} className={classes.root}>
         <ArrivalPanel
           onStopNavigation={onStopNavigation}
           onNavigationContinue={onNavigationContinue}

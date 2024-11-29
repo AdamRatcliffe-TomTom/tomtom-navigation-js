@@ -548,14 +548,14 @@ const Map = ({
             <LocationIcon
               size={34}
               style={{
-                marginBottom: -16,
+                marginBottom: 16,
                 transform: `rotateX(${pitch}deg)`,
                 transformOrigin: "center",
                 transition: "0.1s"
               }}
             />
           ) : (
-            <ChevronIcon style={{ marginBottom: -53 }} />
+            <ChevronIcon />
           )
         }
       />

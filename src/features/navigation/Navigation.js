@@ -49,6 +49,8 @@ import {
 
 import {
   TABLET_PANEL_WIDTH,
+  TABLET_CHEVRON_BOTTOM_OFFSET,
+  PHONE_CHEVRON_BOTTOM_OFFSET,
   ARRIVAL_PANEL_HEIGHT,
   FIT_BOUNDS_PADDING_TOP,
   FIT_BOUNDS_PADDING_RIGHT,
@@ -78,7 +80,8 @@ const Navigation = ({
     guidanceVoice,
     guidanceVoiceVolume,
     guidanceVoicePlaybackRate,
-    isTablet
+    isTablet,
+    bottomPanelHeight
   } = useNavigationContext();
   const showGuidancePanel = useSelector(getShowGuidancePanel);
   const isNavigating = useSelector(getIsNavigating);
@@ -126,8 +129,15 @@ const Navigation = ({
     [routeOptions.locations, route]
   );
   const navigationPaddingTop = useMemo(
-    () => Math.max(height - (isTablet ? 210 : 390), 0),
-    [height, isTablet]
+    () =>
+      Math.max(
+        height -
+          (isTablet
+            ? TABLET_CHEVRON_BOTTOM_OFFSET * 2
+            : (bottomPanelHeight + PHONE_CHEVRON_BOTTOM_OFFSET) * 2),
+        0
+      ),
+    [height, isTablet, bottomPanelHeight]
   );
   const navigationPaddingTopRef = useRef(navigationPaddingTop);
   const guidancePanelIsVisible =

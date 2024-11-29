@@ -23,6 +23,8 @@ export const PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM = 20;
 
 // Dimensions
 export const TABLET_PANEL_WIDTH = 390;
+export const TABLET_CHEVRON_BOTTOM_OFFSET = 100;
+export const PHONE_CHEVRON_BOTTOM_OFFSET = 100;
 export const ETA_PANEL_HEIGHT = 96;
 export const ARRIVAL_PANEL_HEIGHT = 226;
 export const DEFAULT_SAFE_AREA_INSETS = {
