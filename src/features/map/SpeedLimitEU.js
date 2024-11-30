@@ -3,9 +3,7 @@ import { makeStyles } from "@fluentui/react";
 import { useNavigationContext } from "../../core/NavigationContext";
 import Fade from "../../components/Fade";
 
-import { ETA_PANEL_HEIGHT } from "../../config";
-
-const useStyles = ({ isPhone, isTablet }) =>
+const useStyles = ({ isPhone, isTablet, bottomPanelHeight }) =>
   makeStyles((theme) => ({
     shield: {
       display: "flex",
@@ -13,7 +11,7 @@ const useStyles = ({ isPhone, isTablet }) =>
       justifyContent: "center",
       position: "absolute",
       ...(isTablet && { top: 16, right: 88 }),
-      ...(isPhone && { bottom: ETA_PANEL_HEIGHT + 16, left: 20 }),
+      ...(isPhone && { bottom: bottomPanelHeight + 16, left: 20 }),
       background: "white",
       width: 56,
       height: 56,
@@ -30,8 +28,8 @@ const useStyles = ({ isPhone, isTablet }) =>
   }));
 
 const SpeedLimitEU = ({ value, visible }) => {
-  const { isPhone, isTablet } = useNavigationContext();
-  const classes = useStyles({ isPhone, isTablet })();
+  const { isPhone, isTablet, bottomPanelHeight } = useNavigationContext();
+  const classes = useStyles({ isPhone, isTablet, bottomPanelHeight })();
 
   return (
     <Fade show={visible} duration="0.3s">

@@ -4,14 +4,12 @@ import { useNavigationContext } from "../../core/NavigationContext";
 import Fade from "../../components/Fade";
 import metersToMiles from "../../functions/metersToMiles";
 
-import { ETA_PANEL_HEIGHT } from "../../config";
-
-const useStyles = ({ isPhone, isTablet }) =>
+const useStyles = ({ isPhone, isTablet, bottomPanelHeight }) =>
   makeStyles((theme) => ({
     shield: {
       position: "absolute",
       ...(isTablet && { top: 16, right: 88 }),
-      ...(isPhone && { bottom: ETA_PANEL_HEIGHT + 18, left: 20 }),
+      ...(isPhone && { bottom: bottomPanelHeight + 18, left: 20 }),
       background: "white",
       padding: 3,
       borderRadius: 6,
@@ -37,8 +35,8 @@ const useStyles = ({ isPhone, isTablet }) =>
   }));
 
 const SpeedLimitUS = ({ value, visible }) => {
-  const { isPhone, isTablet } = useNavigationContext();
-  const classes = useStyles({ isPhone, isTablet })();
+  const { isPhone, isTablet, bottomPanelHeight } = useNavigationContext();
+  const classes = useStyles({ isPhone, isTablet, bottomPanelHeight })();
   const speedLimit = value ? Math.round(metersToMiles(value * 1000)) : "\u2014";
 
   return (

@@ -23,7 +23,7 @@ import {
   getConsecutiveInstruction
 } from "./navigationSlice";
 
-import { TABLET_PANEL_WIDTH, ETA_PANEL_HEIGHT } from "../../config";
+import { TABLET_PANEL_WIDTH } from "../../config";
 
 const useStyles = ({
   appTheme,
@@ -95,6 +95,7 @@ const NavigationGuidancePanel = ({ route }) => {
     isTablet,
     landscapeMinimal,
     setGuidancePanelHeight,
+    bottomPanelHeight,
     safeAreaInsets: { top }
   } = useNavigationContext();
   const countryCode = useSelector(getCountryCode);
@@ -129,7 +130,7 @@ const NavigationGuidancePanel = ({ route }) => {
            margin-top: ${guidancePanelHeight + top + 8}px;
          }
          .TomTomNavigation .mapboxgl-ctrl-bottom-right, .TomTomNavigation .mapboxgl-ctrl-bottom-left {
-           margin-bottom: ${ETA_PANEL_HEIGHT}px;
+           margin-bottom: ${bottomPanelHeight}px;
          }
         `
       );
@@ -139,7 +140,7 @@ const NavigationGuidancePanel = ({ route }) => {
     setGuidancePanelHeight(guidancePanelHeight);
 
     return () => removeStyleFromDocument(styleId);
-  }, [isPhone, guidancePanelHeight]);
+  }, [isPhone, guidancePanelHeight, bottomPanelHeight]);
 
   // Navigation guidance cannot be shown if there's no next instruction
   if (!nextInstruction) {
