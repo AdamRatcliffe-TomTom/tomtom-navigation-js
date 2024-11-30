@@ -27,7 +27,7 @@ const useStyles = ({ isPhone, isTablet, bottomPanelHeight }) =>
     }
   }));
 
-const SpeedLimitEU = ({ value, visible }) => {
+const SpeedLimitEU = React.memo(({ value, visible }) => {
   const { isPhone, isTablet, bottomPanelHeight } = useNavigationContext();
   const classes = useStyles({ isPhone, isTablet, bottomPanelHeight })();
 
@@ -38,6 +38,6 @@ const SpeedLimitEU = ({ value, visible }) => {
       </div>
     </Fade>
   );
-};
+});
 
 export default SpeedLimitEU;

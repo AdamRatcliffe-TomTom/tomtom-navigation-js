@@ -34,7 +34,7 @@ const useStyles = ({ isPhone, isTablet, bottomPanelHeight }) =>
     }
   }));
 
-const SpeedLimitUS = ({ value, visible }) => {
+const SpeedLimitUS = React.memo(({ value, visible }) => {
   const { isPhone, isTablet, bottomPanelHeight } = useNavigationContext();
   const classes = useStyles({ isPhone, isTablet, bottomPanelHeight })();
   const speedLimit = value ? Math.round(metersToMiles(value * 1000)) : "\u2014";
@@ -47,6 +47,6 @@ const SpeedLimitUS = ({ value, visible }) => {
       </div>
     </Fade>
   );
-};
+});
 
 export default SpeedLimitUS;
