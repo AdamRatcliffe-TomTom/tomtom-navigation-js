@@ -2,8 +2,8 @@ import CheapRuler from "cheap-ruler";
 import { featureCollection, lineString } from "@turf/helpers";
 import isPedestrianRoute from "./isPedestrianRoute";
 
-const VEHICLE_BEFORE_LENGTH_METERS = 30;
-const VEHICLE_AFTER_LENGTH_METERS = 30;
+const VEHICLE_BEFORE_LENGTH_METERS = 20;
+const VEHICLE_AFTER_LENGTH_METERS = 20;
 
 const PEDESTRIAN_BEFORE_LENGTH_METERS = 2.5;
 const PEDESTRIAN_AFTER_LENGTH_METERS = 2.5;

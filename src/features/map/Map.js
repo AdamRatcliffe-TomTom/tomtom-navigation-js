@@ -551,7 +551,7 @@ const Map = ({
                 marginBottom: 16,
                 transform: `rotateX(${pitch}deg)`,
                 transformOrigin: "center",
-                transition: "0.1s"
+                transition: "transform 0.1s"
               }}
             />
           ) : (
