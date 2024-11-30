@@ -91,7 +91,8 @@ const ManeuverArrows = ({
           "line-color": "rgb(33, 75, 100)"
         }}
         lineLayout={{
-          "line-join": "round"
+          "line-join": "round",
+          "line-cap": "square"
         }}
         layerOptions={{
           filter,
@@ -146,7 +147,8 @@ const ManeuverArrows = ({
           "line-color": "#ffffff"
         }}
         lineLayout={{
-          "line-join": "round"
+          "line-join": "round",
+          "line-cap": "square"
         }}
         layerOptions={{
           filter,
