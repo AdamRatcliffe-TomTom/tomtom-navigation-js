@@ -39,6 +39,7 @@ const useStyles = ({ isPhone, isTablet }) =>
 
 const BottomPanel = ({
   etaPanel,
+  arrivalPanel,
   route,
   onStartNavigation,
   onStopNavigation,
@@ -93,10 +94,17 @@ const BottomPanel = ({
   if (hasReachedDestination && showArrivalPanel) {
     return (
       <div ref={bottomPanelRef} className={`BottomPanel ${classes.root}`}>
-        <ArrivalPanel
-          onStopNavigation={onStopNavigation}
-          onNavigationContinue={onNavigationContinue}
-        />
+        {arrivalPanel ? (
+          React.cloneElement(arrivalPanel, {
+            onStopNavigation: onStopNavigation,
+            onNavigationContinue: onNavigationContinue
+          })
+        ) : (
+          <ArrivalPanel
+            onStopNavigation={onStopNavigation}
+            onNavigationContinue={onNavigationContinue}
+          />
+        )}
       </div>
     );
   }
