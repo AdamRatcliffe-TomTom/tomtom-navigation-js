@@ -21,16 +21,18 @@ const ManeuverArrows = ({
         if (!map.hasImage(id)) {
           const img = new Image(size, size);
           img.addEventListener("load", () => {
-            map.addImage(id, img);
+            if (!map.hasImage(id)) {
+              map.addImage(id, img);
 
-            const handleStyleImageMissing = ({ id: imageId }) => {
-              if (imageId === id && !map.hasImage(imageId)) {
-                map.addImage(id, img);
-              }
-            };
+              const handleStyleImageMissing = ({ id: imageId }) => {
+                if (imageId === id && !map.hasImage(imageId)) {
+                  map.addImage(id, img);
+                }
+              };
 
-            // Listen for the styleimagemissing event as a backup
-            map.on("styleimagemissing", handleStyleImageMissing);
+              // Listen for the styleimagemissing event as a backup
+              map.on("styleimagemissing", handleStyleImageMissing);
+            }
           });
           img.src = url;
         }

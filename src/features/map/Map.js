@@ -240,7 +240,7 @@ const Map = ({
   useEffect(() => {
     const deckOverlay = deckOverlayRef.current;
 
-    if (deckOverlay) {
+    if (deckOverlay && layers.length) {
       deckOverlay.setProps({
         layers
       });

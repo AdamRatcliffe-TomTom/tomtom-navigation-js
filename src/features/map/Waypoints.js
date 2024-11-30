@@ -35,12 +35,14 @@ const Waypoints = ({
           const img = new Image(width, height);
           img.crossOrigin = "Anonymous";
           img.addEventListener("load", () => {
-            map.addImage(key, img);
-            map.on("styleimagemissing", ({ id }) => {
-              if (id === key) {
-                map.addImage(key, img);
-              }
-            });
+            if (!map.hasImage(key)) {
+              map.addImage(key, img);
+              map.on("styleimagemissing", ({ id }) => {
+                if (id === key) {
+                  map.addImage(key, img);
+                }
+              });
+            }
           });
           img.src = url;
         }
