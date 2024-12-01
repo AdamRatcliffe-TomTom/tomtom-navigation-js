@@ -113,6 +113,7 @@ const Map = ({
   const dispatch = useDispatch();
   const mapRef = useRef();
   const deckOverlayRef = useRef();
+  const styleLoaded = useRef(false);
   const {
     apiKey,
     language,
@@ -233,19 +234,37 @@ const Map = ({
       const container = map.getContainer();
       const observer = new ResizeObserver(() => map.resize());
       observer.observe(container);
-      return () => observer?.unobserve(container);
+
+      const onStyleLoad = () => (styleLoaded.current = true);
+
+      map.on("style.load", onStyleLoad);
+
+      return () => {
+        observer?.unobserve(container);
+        map.off("style.load", onStyleLoad);
+      };
     }
   }, [mapRef.current]);
 
   useEffect(() => {
+    const map = mapRef.current?.getMap();
     const deckOverlay = deckOverlayRef.current;
 
-    if (deckOverlay) {
-      deckOverlay.setProps({
-        layers
-      });
+    if (map && deckOverlay) {
+      if (styleLoaded.current) {
+        deckOverlay.setProps({
+          layers
+        });
+      } else {
+        map.once("style.load", () => {
+          deckOverlay.setProps({
+            layers
+          });
+          1;
+        });
+      }
     }
-  }, [deckOverlayRef.current, layers]);
+  }, [mapRef.current, deckOverlayRef.current, styleLoaded.current, layers]);
 
   useEffect(() => {
     setMeasurementSystemAuto(countryCode === "US" ? "imperial" : "metric");
