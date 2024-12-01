@@ -61,8 +61,8 @@ function App({
   showContinueButton = false,
   routeUrl,
   renderLayers,
-  etaPanel,
-  arrivalPanel,
+  renderETAPanel,
+  renderArrivalPanel,
   onRouteUpdated = () => {},
   onNavigationStarted = () => {},
   onNavigationStopped = () => {},
@@ -178,8 +178,8 @@ function App({
             >
               {showSearch && <Search position={searchPosition} />}
               <Navigation
-                etaPanel={etaPanel}
-                arrivalPanel={arrivalPanel}
+                renderETAPanel={renderETAPanel}
+                renderArrivalPanel={renderArrivalPanel}
                 preCalculatedRoute={preCalculatedRoute}
                 onNavigationStarted={onNavigationStarted}
                 onNavigationStopped={onNavigationStopped}

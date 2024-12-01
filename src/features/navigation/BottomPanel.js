@@ -38,8 +38,8 @@ const useStyles = ({ isPhone, isTablet }) =>
   }));
 
 const BottomPanel = ({
-  etaPanel,
-  arrivalPanel,
+  renderETAPanel,
+  renderArrivalPanel,
   route,
   onStartNavigation,
   onStopNavigation,
@@ -70,8 +70,8 @@ const BottomPanel = ({
   if (!hasReachedDestination && showETAPanel) {
     return (
       <div ref={bottomPanelRef} className={`BottomPanel ${classes.root}`}>
-        {etaPanel ? (
-          React.cloneElement(etaPanel, {
+        {renderETAPanel ? (
+          renderETAPanel({
             route,
             measurementSystem,
             isNavigating,
@@ -94,10 +94,10 @@ const BottomPanel = ({
   if (hasReachedDestination && showArrivalPanel) {
     return (
       <div ref={bottomPanelRef} className={`BottomPanel ${classes.root}`}>
-        {arrivalPanel ? (
-          React.cloneElement(arrivalPanel, {
-            onStopNavigation: onStopNavigation,
-            onNavigationContinue: onNavigationContinue
+        {renderArrivalPanel ? (
+          renderArrivalPanel({
+            onStopNavigation,
+            onNavigationContinue
           })
         ) : (
           <ArrivalPanel
