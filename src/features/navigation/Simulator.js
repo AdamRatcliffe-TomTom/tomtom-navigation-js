@@ -1,6 +1,6 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
-import { simulate, setSpeed, util } from "guidance-sim";
+import { simulate, setSpeed, stepsTaken, util } from "guidance-sim";
 import { withMap } from "react-tomtom-maps";
 
 class Simulator extends Component {
@@ -19,8 +19,9 @@ class Simulator extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { route, speed, paused } = this.props;
+    const { route, speed, seek, paused } = this.props;
     const speedChanged = prevProps.speed !== speed;
+    const seekChanged = prevProps.seek !== seek;
     const restarted = prevProps.paused && !paused;
 
     if (prevProps.route !== route) {
@@ -35,6 +36,14 @@ class Simulator extends Component {
         newSpeed,
         { ...this.state.options }
       );
+    }
+
+    if (seek && seekChanged) {
+      const { emitter } = this.state.options;
+
+      if (emitter) {
+        stepsTaken(emitter, seek);
+      }
     }
 
     if (paused && !prevProps.paused) {
@@ -68,7 +77,6 @@ class Simulator extends Component {
     const duration = 1000 / Number(speed.slice(0, speed.indexOf("x")));
 
     this.setState({ options: data.options });
-
     this.props.onUpdate({ duration, ...data });
   };
 
@@ -85,6 +93,7 @@ Simulator.propTypes = {
   speed: PropTypes.string,
   spacing: PropTypes.string,
   maneuvers: PropTypes.array,
+  seek: PropTypes.number,
   updateCamera: PropTypes.bool,
   onUpdate: PropTypes.func,
   onEnd: PropTypes.func

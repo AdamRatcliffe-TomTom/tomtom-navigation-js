@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles, useTheme } from "@fluentui/react";
 import { withMap } from "react-tomtom-maps";
-import Fade from "../../../components/Fade";
+// import Fade from "../../../components/Fade";
 import MapControl from "./MapControl";
 import PlusIcon from "../../../icons/PlusIcon";
 import MinusIcon from "../../../icons/MinusIcon";
@@ -60,20 +60,20 @@ const ZoomControl = ({
     map.easeTo({ zoom: newZoom, animate });
   };
 
-  return (
-    <Fade show={visible} duration="0.15s">
-      <MapControl position={position}>
-        <div className={classes.root}>
-          <div className={classes.zoomIn} onClick={handleZoomIn}>
-            <PlusIcon color={theme.palette.black} size={28} />
-          </div>
-          <div className={classes.zoomOut} onClick={handleZoomOut}>
-            <MinusIcon color={theme.palette.black} size={28} />
-          </div>
+  return visible ? (
+    // <Fade show={visible} duration="0.15s">
+    <MapControl position={position}>
+      <div className={classes.root}>
+        <div className={classes.zoomIn} onClick={handleZoomIn}>
+          <PlusIcon color={theme.palette.black} size={28} />
         </div>
-      </MapControl>
-    </Fade>
-  );
+        <div className={classes.zoomOut} onClick={handleZoomOut}>
+          <MinusIcon color={theme.palette.black} size={28} />
+        </div>
+      </div>
+    </MapControl>
+  ) : // </Fade>
+  null;
 };
 
 export default withMap(ZoomControl);

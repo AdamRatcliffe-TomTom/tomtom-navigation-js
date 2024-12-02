@@ -25,15 +25,19 @@ export default function NavigationContextProvider({
   guidanceVoice,
   guidanceVoiceVolume,
   guidanceVoicePlaybackRate,
-  safeAreaInsets
+  safeAreaInsets,
+  mapStyles = {} // New prop for style overrides
 }) {
   const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
   const [guidancePanelHeight, setGuidancePanelHeight] = useState(0);
   const [bottomPanelHeight, setBottomPanelHeight] = useState(0);
   const { isPhone, isTablet } = calculateDeviceType(width);
 
-  const contextValue = useMemo(
-    () => ({
+  const contextValue = useMemo(() => {
+    const streetStyles = mapStyles.street || {};
+    const drivingStyles = mapStyles.driving || {};
+
+    return {
       apiKey,
       language,
       width,
@@ -57,8 +61,18 @@ export default function NavigationContextProvider({
         street: {
           name: "street",
           label: strings.street,
-          style: `https://api.tomtom.com/maps/orbis/assets/styles/0.2.*/style.json?apiVersion=1&map=basic_street-${theme}&trafficFlow=flow_relative-${theme}&trafficIncidents=incidents_${theme}`,
-          styleDriving: `https://api.tomtom.com/maps/orbis/assets/styles/0.2.*/style.json?apiVersion=1&map=basic_street-${theme}-driving&trafficFlow=flow_relative-${theme}&trafficIncidents=incidents_${theme}`
+          style:
+            theme === "light"
+              ? streetStyles.light ||
+                `https://api.tomtom.com/maps/orbis/assets/styles/0.2.*/style.json?apiVersion=1&map=basic_street-light&trafficFlow=flow_relative-light&trafficIncidents=incidents_light`
+              : streetStyles.dark ||
+                `https://api.tomtom.com/maps/orbis/assets/styles/0.2.*/style.json?apiVersion=1&map=basic_street-dark&trafficFlow=flow_relative-dark&trafficIncidents=incidents_dark`,
+          styleDriving:
+            theme === "light"
+              ? drivingStyles.light ||
+                `https://api.tomtom.com/maps/orbis/assets/styles/0.2.*/style.json?apiVersion=1&map=basic_street-light-driving&trafficFlow=flow_relative-light&trafficIncidents=incidents_light`
+              : drivingStyles.dark ||
+                `https://api.tomtom.com/maps/orbis/assets/styles/0.2.*/style.json?apiVersion=1&map=basic_street-dark-driving&trafficFlow=flow_relative-dark&trafficIncidents=incidents_dark`
         },
         satellite: {
           name: "satellite",
@@ -72,24 +86,24 @@ export default function NavigationContextProvider({
           ? measurementSystemAuto
           : measurementSystem,
       setMeasurementSystemAuto
-    }),
-    [
-      apiKey,
-      language,
-      measurementSystem,
-      measurementSystemAuto,
-      width,
-      height,
-      simulationSpeed,
-      theme,
-      guidanceVoice,
-      guidanceVoiceVolume,
-      guidanceVoicePlaybackRate,
-      safeAreaInsets,
-      guidancePanelHeight,
-      bottomPanelHeight
-    ]
-  );
+    };
+  }, [
+    apiKey,
+    language,
+    measurementSystem,
+    measurementSystemAuto,
+    width,
+    height,
+    simulationSpeed,
+    theme,
+    guidanceVoice,
+    guidanceVoiceVolume,
+    guidanceVoicePlaybackRate,
+    safeAreaInsets,
+    guidancePanelHeight,
+    bottomPanelHeight,
+    mapStyles
+  ]);
 
   return (
     <NavigationContext.Provider value={contextValue} children={children} />

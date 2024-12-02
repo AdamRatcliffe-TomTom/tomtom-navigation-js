@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@fluentui/react";
 import { useNavigationContext } from "../../core/NavigationContext";
-import Fade from "../../components/Fade";
+// import Fade from "../../components/Fade";
 import metersToMiles from "../../functions/metersToMiles";
 
 const useStyles = ({ isPhone, isTablet, bottomPanelHeight }) =>
@@ -39,14 +39,13 @@ const SpeedLimitUS = React.memo(({ value, visible }) => {
   const classes = useStyles({ isPhone, isTablet, bottomPanelHeight })();
   const speedLimit = value ? Math.round(metersToMiles(value * 1000)) : "\u2014";
 
-  return (
-    <Fade show={visible} duration="0.3s">
-      <div className={`SpeedLimitUS ${classes.shield}`}>
-        <div className={classes.label}>Speed Limit</div>
-        <div className={classes.value}>{speedLimit}</div>
-      </div>
-    </Fade>
-  );
+  return visible ? (
+    // <Fade show={visible} duration="0.3s">
+    <div className={`SpeedLimitUS ${classes.shield}`}>
+      <div className={classes.label}>Speed Limit</div>
+      <div className={classes.value}>{speedLimit}</div>
+    </div>
+  ) : null;
 });
 
 export default SpeedLimitUS;

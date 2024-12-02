@@ -3,7 +3,7 @@ import { makeStyles, useTheme } from "@fluentui/react";
 import { withMap } from "react-tomtom-maps";
 import MapControl from "./MapControl";
 import CompassIcon from "../../../icons/CompassIcon";
-import Fade from "../../../components/Fade";
+// import Fade from "../../../components/Fade";
 
 const useStyles = makeStyles((theme) => ({
   control: {
@@ -41,13 +41,13 @@ function Compass({ map, visible = true, onClick = () => {} }) {
     transition: "transform 0.1s"
   };
 
-  return (
-    <Fade show={visible && bearing !== 0} duration="0.15s">
-      <div className={classes.control} onClick={onClick}>
-        <CompassIcon color={theme.palette.black} style={iconStyle} size={28} />
-      </div>
-    </Fade>
-  );
+  return visible && bearing !== 0 ? (
+    // <Fade show={visible && bearing !== 0} duration="0.15s">
+    <div className={classes.control} onClick={onClick}>
+      <CompassIcon color={theme.palette.black} style={iconStyle} size={28} />
+    </div>
+  ) : // </Fade>
+  null;
 }
 
 const CompassControl = ({ position = "top-right", ...otherProps }) => (

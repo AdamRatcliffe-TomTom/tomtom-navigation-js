@@ -7,6 +7,11 @@ import expandDirectionAbbreviation from "./expandDirectionAbbreviation";
 import strings from "../config/strings";
 import SectionTypes from "../constants/SectionTypes";
 
+function getFirstInstruction(route) {
+  const { instructions } = route.properties.guidance;
+  return instructions[0];
+}
+
 function getLastInstruction(route) {
   const { instructions } = route.properties.guidance;
   return instructions.at(-1);
@@ -152,6 +157,7 @@ function trafficEventsByIndex(route, index) {
 }
 
 export {
+  getFirstInstruction,
   getLastInstruction,
   instructionByIndex,
   speedLimitByIndex,

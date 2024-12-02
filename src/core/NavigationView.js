@@ -33,7 +33,7 @@ import {
   resetNavigation
 } from "../features/navigation/navigationSlice";
 
-function App({
+function NavigationView({
   children,
   style,
   apiKey,
@@ -47,11 +47,13 @@ function App({
   guidanceVoicePlaybackRate = 1,
   simulationSpeed = "3x",
   mapOptions = {},
+  mapStyles = {},
   initialCenter,
   initialZoom,
   routeWaypoints,
   routeOptions = {},
   automaticRouteCalculation,
+  arriveNorth = false,
   safeAreaInsets,
   showSearch = false,
   searchPosition,
@@ -165,6 +167,7 @@ function App({
         guidanceVoicePlaybackRate={guidanceVoicePlaybackRate}
         simulationSpeed={simulationSpeed}
         theme={theme}
+        mapStyles={mapStyles}
         safeAreaInsets={mergedSafeAreaInsets}
       >
         <div className="TomTomNavigation" style={style}>
@@ -178,6 +181,7 @@ function App({
             >
               {showSearch && <Search position={searchPosition} />}
               <Navigation
+                arriveNorth={arriveNorth}
                 renderETAPanel={renderETAPanel}
                 renderArrivalPanel={renderArrivalPanel}
                 preCalculatedRoute={preCalculatedRoute}
@@ -203,4 +207,4 @@ function App({
   );
 }
 
-export default App;
+export default NavigationView;

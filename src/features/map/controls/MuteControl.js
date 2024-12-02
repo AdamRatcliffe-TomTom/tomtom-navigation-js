@@ -2,7 +2,7 @@ import React from "react";
 import { useTheme } from "@fluentui/react";
 import { withMap } from "react-tomtom-maps";
 import useSpeech from "../../../hooks/useMicrosoftSpeech";
-import Fade from "../../../components/Fade";
+// import Fade from "../../../components/Fade";
 import MapControl from "./MapControl";
 import MuteIcon from "../../../icons/MuteIcon";
 import UnmuteIcon from "../../../icons/UnmuteIcon";
@@ -25,13 +25,13 @@ const Mute = ({ visible, voiceAnnouncementsEnabled, onClick = () => {} }) => {
 
   const Icon = voiceAnnouncementsEnabled ? UnmuteIcon : MuteIcon;
 
-  return (
-    <Fade show={visible} duration="0.15s">
-      <div className={buttonClasses.mapControlButton} onClick={handleClick}>
-        <Icon color={theme.palette.black} size={28} />
-      </div>
-    </Fade>
-  );
+  return visible ? (
+    // <Fade show={visible} duration="0.15s">
+    <div className={buttonClasses.mapControlButton} onClick={handleClick}>
+      <Icon color={theme.palette.black} size={28} />
+    </div>
+  ) : // </Fade>
+  null;
 };
 
 const MuteControl = ({ position = "top-right", ...otherProps }) => (

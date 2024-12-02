@@ -26,6 +26,7 @@ import Chevron2DIcon from "../../icons/Chevron2DIcon";
 import ChevronMarker from "./markers/ChevronMarker";
 import Chevron2DMarker from "./markers/Chevron2DMarker";
 import { useCalculateRouteQuery } from "../../services/routing";
+import calculateFitBoundsOptions from "../../functions/calculateFitBoundsOptions";
 import coordinatesToGeoJson from "../../functions/coordinatesToGeoJson";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
@@ -74,15 +75,9 @@ import {
   setSimulationShouldEnd
 } from "../navigation/navigationSlice";
 
-import {
-  TABLET_PANEL_WIDTH,
-  FIT_BOUNDS_PADDING_TOP,
-  FIT_BOUNDS_PADDING_LEFT
-} from "../../config";
-
 const poiLayerId = "POI";
 const buildings3DLayerId = "3D - Building";
-const routeBeforeId = "Borders - Treaty label";
+const routeBeforeId = "TransitLabels - Ferry";
 const maneuverArrowsBeforeId = "Places - Country name";
 
 const easing = (v) => v;
@@ -104,6 +99,7 @@ const Map = ({
   renderLayers,
   preCalculatedRoute,
   fitRoute = true,
+  animateFitRoute = false,
   alwaysUseDrivingStyle = false,
   debugFOV = false,
   onRouteUpdated = () => {},
@@ -122,6 +118,7 @@ const Map = ({
     mapStyles,
     theme,
     guidancePanelHeight,
+    bottomPanelHeight,
     setMeasurementSystemAuto,
     isPhone,
     safeAreaInsets
@@ -167,6 +164,23 @@ const Map = ({
     fitBoundsOptions
   ]);
   const pedestrianRoute = isPedestrianRoute(route);
+  const routeFitBoundsOptions = useMemo(
+    () =>
+      calculateFitBoundsOptions({
+        isPhone,
+        guidancePanelHeight,
+        bottomPanelHeight,
+        safeAreaInsets,
+        animate: animateFitRoute
+      }),
+    [
+      isPhone,
+      animateFitRoute,
+      guidancePanelHeight,
+      bottomPanelHeight,
+      safeAreaInsets
+    ]
+  );
 
   const routeIsVisible = !!route;
   const maneuverArrowsAreVisible =
@@ -275,10 +289,23 @@ const Map = ({
   }, [theme]);
 
   useEffect(() => {
-    if (fitRoute && (routeOptions?.locations.length || route)) {
-      fitRouteOrWaypoints({ animate: false });
+    if (
+      fitRoute &&
+      !isNavigating &&
+      (routeOptions?.locations?.length || route)
+    ) {
+      fitRouteOrWaypoints(routeFitBoundsOptions);
     }
-  }, [JSON.stringify(routeOptions.locations), route]);
+  }, [
+    useMemo(
+      () => JSON.stringify(routeOptions.locations),
+      [routeOptions.locations]
+    ),
+    route,
+    fitRoute,
+    isNavigating,
+    routeFitBoundsOptions
+  ]);
 
   useEffect(() => {
     const setCountryCodeFromRoute = async () => {
@@ -302,7 +329,7 @@ const Map = ({
     const map = mapRef.current?.getMap();
     const visibility = showPoi ? "visible" : "none";
 
-    if (map.isStyleLoaded()) {
+    if (styleLoaded.current) {
       if (map.getLayer(poiLayerId)) {
         map.setLayoutProperty(poiLayerId, "visibility", visibility);
       }
@@ -319,7 +346,7 @@ const Map = ({
     const map = mapRef.current?.getMap();
     const visibility = showBuildings3D ? "visible" : "none";
 
-    if (map.isStyleLoaded()) {
+    if (styleLoaded.current) {
       if (map.getLayer(buildings3DLayerId)) {
         map.setLayoutProperty(buildings3DLayerId, "visibility", visibility);
       }
@@ -383,6 +410,7 @@ const Map = ({
       batch(() => {
         dispatch(
           setFitBoundsOptions({
+            bearing: 0,
             pitch: 0,
             duration: 500,
             ...fitBoundsOptions
@@ -439,16 +467,7 @@ const Map = ({
         dispatch(setCenter(currentLocation));
       } else {
         map.__om.setPadding({ top: 0, left: 0 });
-
-        fitRouteOrWaypoints({
-          animate: true,
-          padding: {
-            top: isPhone ? guidancePanelHeight + 24 : FIT_BOUNDS_PADDING_TOP,
-            left: isPhone
-              ? FIT_BOUNDS_PADDING_LEFT
-              : TABLET_PANEL_WIDTH + FIT_BOUNDS_PADDING_LEFT
-          }
-        });
+        fitRouteOrWaypoints(routeFitBoundsOptions);
       }
     });
 

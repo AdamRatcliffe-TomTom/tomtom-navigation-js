@@ -56,7 +56,8 @@ const useStyles = ({
             theme.spacing.m
           }`
         }
-      })
+      }),
+      minHeight: 96
     },
     nipPanel: {
       backgroundColor: pedestrianRoute
@@ -128,9 +129,11 @@ const NavigationGuidancePanel = ({ route }) => {
         styleId,
         `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {
            margin-top: ${guidancePanelHeight + top + 8}px;
+
          }
          .TomTomNavigation .mapboxgl-ctrl-bottom-right, .TomTomNavigation .mapboxgl-ctrl-bottom-left {
            margin-bottom: ${bottomPanelHeight}px;
+
          }
         `
       );

@@ -4,7 +4,7 @@ import { useFloating, offset } from "@floating-ui/react";
 import { withMap } from "react-tomtom-maps";
 import MapControl from "./MapControl";
 import LayersIcon from "../../../icons/LayersIcon";
-import Fade from "../../../components/Fade";
+// import Fade from "../../../components/Fade";
 import { useNavigationContext } from "../../../core/NavigationContext";
 import useButtonStyles from "../../../hooks/useButtonStyles";
 
@@ -129,15 +129,19 @@ const MapSwitcher = ({
 
   return (
     <>
-      <Fade show={visible} duration="0.15s">
-        <div
-          className={buttonClasses.mapControlButton}
-          ref={refs.setReference}
-          onClick={togglePopup}
-        >
-          <LayersIcon color={theme.palette.black} size={28} />
-        </div>
-      </Fade>
+      {
+        visible && (
+          // <Fade show={visible} duration="0.15s">
+          <div
+            className={buttonClasses.mapControlButton}
+            ref={refs.setReference}
+            onClick={togglePopup}
+          >
+            <LayersIcon color={theme.palette.black} size={28} />
+          </div>
+        )
+        // </Fade>
+      }
       <MapStylesPopup
         ref={refs.setFloating}
         style={floatingStyles}

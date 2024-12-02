@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from "@fluentui/react";
 import MapControl from "./MapControl";
-import Fade from "../../../components/Fade";
+// import Fade from "../../../components/Fade";
 import RouteIcon from "../../../icons/RouteIcon";
 import ChevronOutlineIcon from "../../../icons/ChevronOutlineIcon";
 import useButtonStyles from "../../../hooks/useButtonStyles";
@@ -29,13 +29,13 @@ const NavigationPerspective = ({
       ? RouteIcon
       : ChevronOutlineIcon;
 
-  return (
-    <Fade show={visible} duration="0.15s">
-      <div className={buttonClasses.mapControlButton} onClick={handleClick}>
-        <Icon color={theme.palette.black} size={28} />
-      </div>
-    </Fade>
-  );
+  return visible ? (
+    // <Fade show={visible} duration="0.15s">
+    <div className={buttonClasses.mapControlButton} onClick={handleClick}>
+      <Icon color={theme.palette.black} size={28} />
+    </div>
+  ) : // </Fade>
+  null;
 };
 
 const NavigationPerspectiveControl = ({

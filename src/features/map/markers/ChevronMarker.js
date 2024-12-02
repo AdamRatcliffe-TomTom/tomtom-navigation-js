@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigationContext } from "../../../core/NavigationContext";
-import Fade from "../../../components/Fade";
+// import Fade from "../../../components/Fade";
 import { makeStyles } from "@fluentui/react";
 import {
   TABLET_PANEL_WIDTH,
@@ -22,15 +22,15 @@ const useStyles = ({ isTablet, bottomPanelHeight }) =>
     }
   });
 
-const ChevronMarker = ({ icon, visible }) => {
+const ChevronMarker = ({ map, icon, visible }) => {
   const { isTablet, bottomPanelHeight } = useNavigationContext();
   const classes = useStyles({ isTablet, bottomPanelHeight })();
 
-  return (
-    <Fade show={visible} duration=".15s">
-      <div className={`ChevronMarker ${classes.root}`}>{icon}</div>
-    </Fade>
-  );
+  return visible ? (
+    // <Fade show={visible} duration=".15s">
+    <div className={`ChevronMarker ${classes.root}`}>{icon}</div>
+  ) : // </Fade>
+  null;
 };
 
 export default ChevronMarker;

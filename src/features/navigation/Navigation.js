@@ -61,6 +61,7 @@ import {
 
 const Navigation = ({
   map,
+  arriveNorth,
   renderETAPanel,
   renderArrivalPanel,
   preCalculatedRoute,
@@ -90,6 +91,7 @@ const Navigation = ({
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
   const [previousRoute, setPreviousRoute] = useState(null);
+  const [seek, setSeek] = useState(null);
 
   const setETA = (feature) => {
     const { lengthInMeters, travelTimeInSeconds } = feature.properties.summary;
@@ -189,8 +191,17 @@ const Navigation = ({
 
   useEffect(() => {
     if (Boolean(simulationShouldEnd)) {
-      handleSimulatorEnd();
-      dispatch(setSimulationShouldEnd(false));
+      const {
+        properties: {
+          summary: { travelTimeInSeconds }
+        }
+      } = routeFeature;
+
+      setSeek(travelTimeInSeconds * 1000);
+
+      batch(() => {
+        dispatch(setSimulationShouldEnd(false));
+      });
     }
   }, [simulationShouldEnd]);
 
@@ -206,6 +217,7 @@ const Navigation = ({
   }, [announcement, voiceAnnouncementsEnabled]);
 
   const handleSimulatorUpdate = (event) => {
+    // Don't want to process updates while the view is transitioning, such as when changing navigation perspective.
     if (viewTransitioning) {
       return;
     }
@@ -259,7 +271,7 @@ const Navigation = ({
       if (navigationPerspectiveRef.current === NavigationPerspectives.FOLLOW) {
         dispatch(
           setCamera({
-            movingMethod: "easeTo",
+            movingMethod: seek ? "jumpTo" : "easeTo",
             center: stepCoords,
             zoom,
             pitch,
@@ -294,12 +306,20 @@ const Navigation = ({
     fireEvent(ControlEvents.OnProgressUpdate, { progress });
 
     onProgressUpdate(progress);
+
+    if (seek) {
+      setSeek(null);
+    }
   };
 
   const handleSimulatorEnd = () => {
     const { coordinates } = routeFeature.geometry;
-    const lastCoordinate = coordinates[coordinates.length - 1];
+    const ruler = getRuler(coordinates);
+    const lastCoordinate = coordinates.at(-1);
     const lastInstruction = lastInstructionRef?.current;
+    const bearing = arriveNorth
+      ? 0
+      : ruler.bearing(coordinates.at(-2), lastCoordinate);
     const bounds = new tt.LngLatBounds(lastCoordinate, lastCoordinate);
     bounds.extend(destination.coordinates);
 
@@ -313,8 +333,9 @@ const Navigation = ({
       dispatch(
         setFitBoundsOptions({
           animate: true,
+          bearing,
           pitch: 0,
-          duration: 500,
+          duration: 1000,
           maxZoom: 18,
           padding: {
             top: FIT_BOUNDS_PADDING_TOP,
@@ -394,6 +415,7 @@ const Navigation = ({
             }
           ]}
           spacing="acceldecel"
+          seek={seek}
           updateCamera={false}
           speed={simulationSpeed}
           onUpdate={handleSimulatorUpdate}

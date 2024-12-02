@@ -1,6 +1,6 @@
 import React from "react";
 import { Marker } from "react-tomtom-maps";
-import Fade from "../../../components/Fade";
+// import Fade from "../../../components/Fade";
 
 const Chevron2DMarker = ({
   visible,
@@ -15,21 +15,19 @@ const Chevron2DMarker = ({
     transition: `transform ${animationDuration}ms linear`
   };
 
-  return (
-    <Fade show={visible} duration=".15s">
-      {coordinates && (
-        <Marker
-          className="Chevron2DMarker"
-          style={style}
-          coordinates={coordinates}
-          anchor="center"
-          {...otherProps}
-        >
-          {icon}
-        </Marker>
-      )}
-    </Fade>
-  );
+  return visible && coordinates ? (
+    // <Fade show={visible} duration=".15s">
+    <Marker
+      className="Chevron2DMarker"
+      style={style}
+      coordinates={coordinates}
+      anchor="center"
+      {...otherProps}
+    >
+      {icon}
+    </Marker>
+  ) : // </Fade>
+  null;
 };
 
 export default Chevron2DMarker;
