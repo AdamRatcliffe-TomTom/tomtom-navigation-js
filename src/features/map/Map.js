@@ -79,6 +79,7 @@ import {
 const poiLayerId = "POI";
 const buildings3DLayerId = "3D - Building";
 const routeBeforeId = "TransitLabels - Ferry";
+const pedestrianRouteBeforeId = "Borders - Treaty";
 const maneuverArrowsBeforeId = "Places - Country name";
 
 const easing = (v) => v;
@@ -566,6 +567,7 @@ const Map = ({
       {routeIsVisible && (
         <Route
           before={routeBeforeId}
+          pedestrianBefore={pedestrianRouteBeforeId}
           data={sectionedRoute}
           routeTravelled={routeTravelled}
           routeRemaining={routeRemaining}

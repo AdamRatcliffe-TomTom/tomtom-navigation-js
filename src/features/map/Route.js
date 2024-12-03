@@ -6,10 +6,11 @@ import { useLayers } from "./hooks/LayersContext";
 
 const Route = ({
   data,
+  before,
+  pedestrianBefore,
   routeTravelled,
   routeRemaining,
   walkingLeg,
-  before,
   isPedestrianRoute
 }) => {
   const id = useMemo(() => `Route-${uuid()}`, []);
@@ -39,7 +40,7 @@ const Route = ({
       return [
         new GeoJsonLayer({
           id: `${id}--Pedestrian`,
-          beforeId: before,
+          beforeId: pedestrianBefore,
           data: routeRemaining,
           filled: true,
           stroked: true,
@@ -56,7 +57,7 @@ const Route = ({
         }),
         new GeoJsonLayer({
           id: `${id}--Pedestrian--Travelled`,
-          beforeId: before,
+          beforeId: pedestrianBefore,
           data: routeTravelled,
           filled: true,
           stroked: true,
@@ -151,10 +152,11 @@ const Route = ({
     ];
   }, [
     data,
+    before,
+    pedestrianBefore,
     routeTravelled,
     routeRemaining,
     walkingLeg,
-    before,
     isPedestrianRoute
   ]);
 
