@@ -52,7 +52,7 @@ Available component properties:
 | simulationSpeed                   | `string` possible values are "1x", "1.5x", "2x", "3x", "4x", "5x"                                        | "3x"                                                                  | The navigation simulation speed.                                                                                                                                                                                                                        |
 | keepScreenOn                      | `boolean`                                                                                                | `true`                                                                | Prevents the device from falling asleep.                                                                                                                                                                                                                |
 | automaticRouteCalculation         | `boolean`                                                                                                | `false`                                                               | Automatically calculates a route when more than 1 waypoint is provided.                                                                                                                                                                                 |
-| routeUrl                          | `string`                                                                                                 |                                                                       | URL to a precalculated route result. This is expected to be a GeoJSON representation of a result from the TomTom Maps Routing API calculateRoute endpoint.                                                                                             |
+| routeData                         | `string` \| `object`                                                                                   |                                                                       | URL to a precalculated route result or the route result data. This is expected to be a GeoJSON representation of a result from the TomTom Maps Routing API calculateRoute endpoint.                                                                     |
 | renderLayers                      | `Function`                                                                                               |                                                                       | A render prop that can be used to render custom map layers e.g. `renderLayers={(map) => (<CustomLayer map={map} />)}`                                                                                                                                   |
 | routeWaypoints                    | `[Waypoint]`                                                                                             |                                                                       | An array of records for the route's waypoints. See description of the `Waypoint` record below.                                                                                                                                                          |
 | onRouteUpdated                    | `function`                                                                                               |                                                                       | Fired when the route has been updated for the provided waypoints. Also fired when a precalculated route has been fetched.                                                                                                                               |
@@ -88,9 +88,9 @@ Fired when the route has been updated for the provided waypoints. Also fired whe
 
 ##### Message Properties
 
-| Name                            | Value    | Description                                 |
-| ------------------------------- | -------- | ------------------------------------------- |
-| `route`                       | `Object` | Route GeoJSON data.                         |
+| Name    | Value    | Description         |
+| ------- | -------- | ------------------- |
+| `route` | `Object` | Route GeoJSON data. |
 
 #### onNavigationStarted
 
@@ -119,15 +119,16 @@ Fired each time a location update occurs during navigation.
 
 Fired when the destination is reached.
 
-| Name                      | Value    | Description                                                         |
-| ------------------------- | -------- | ------------------------------------------------------------------- |
-| `manuever`                | `string` | The maneuver code for the last maneuver taken.
-|                      
-| `destination`             | `Object` | Route destination record.                                           |
-| `destination.coordinates` | `Array`  | The destination coordinates in the format [`longitude`, `latitude`] |
-| `destination.name`        | `string` | The destination name (if provided).                                 |
-| `destination.address`     | `string` | The destination address (if provided).                              |
-| `destination.icon`        | `Object` | Properties specifying the icon for the record (if provided).        |
+| Name       | Value    | Description                                    |
+| ---------- | -------- | ---------------------------------------------- |
+| `manuever` | `string` | The maneuver code for the last maneuver taken. |
+
+|  
+| `destination` | `Object` | Route destination record. |
+| `destination.coordinates` | `Array` | The destination coordinates in the format [`longitude`, `latitude`] |
+| `destination.name` | `string` | The destination name (if provided). |
+| `destination.address` | `string` | The destination address (if provided). |
+| `destination.icon` | `Object` | Properties specifying the icon for the record (if provided). |
 
 #### onContinue
 

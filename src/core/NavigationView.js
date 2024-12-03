@@ -61,7 +61,7 @@ function NavigationView({
   showGuidancePanel = true,
   showArrivalPanel = true,
   showContinueButton = false,
-  routeUrl,
+  routeData,
   renderLayers,
   renderETAPanel,
   renderArrivalPanel,
@@ -136,23 +136,31 @@ function NavigationView({
 
   useEffect(() => {
     const fetchRoute = async () => {
-      if (routeUrl) {
-        try {
-          const response = await fetch(routeUrl);
-          if (!response.ok) {
-            throw new Error(`HTTP error. Status: ${response.status}`);
+      if (routeData) {
+        if (typeof routeData === "string") {
+          try {
+            const response = await fetch(routeData);
+            if (!response.ok) {
+              throw new Error(`HTTP error. Status: ${response.status}`);
+            }
+            const route = await response.json();
+            setPreCalculatedRoute(route);
+          } catch (error) {
+            console.error("Error fetching static route:", error);
           }
-          const route = await response.json();
-          setPreCalculatedRoute(route);
-        } catch (error) {
-          console.error("Error fetching static route:", error);
+        } else if (typeof routeData === "object" && routeData !== null) {
+          setPreCalculatedRoute(routeData);
+        } else {
+          console.error("Invalid routeData: Expected a string or an object.");
+          setPreCalculatedRoute(null);
         }
       } else {
         setPreCalculatedRoute(null);
       }
     };
+
     fetchRoute();
-  }, [routeUrl]);
+  }, [routeData]);
 
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>

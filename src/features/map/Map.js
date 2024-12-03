@@ -3,6 +3,7 @@ import { useSelector, useDispatch, batch } from "react-redux";
 import { featureCollection } from "@turf/helpers";
 import ReactMap from "react-tomtom-maps";
 import { MapboxOverlay } from "@deck.gl/mapbox";
+import { GeoJsonLayer } from "@deck.gl/layers";
 import { useLayers } from "./hooks/LayersContext";
 import { useNavigationContext } from "../../core/NavigationContext";
 import { useFieldOfView } from "./hooks/useFieldOfView";
@@ -123,7 +124,7 @@ const Map = ({
     isPhone,
     safeAreaInsets
   } = useNavigationContext();
-  const { layers } = useLayers();
+  const { layers, addLayer, removeLayer } = useLayers();
   const voiceAnnouncementsEnabled = useSelector(getVoiceAnnouncementsEnabled);
   const isNavigating = useSelector(getIsNavigating);
   const hasReachedDestination = useSelector(getHasReachedDestination);
@@ -265,14 +266,18 @@ const Map = ({
     const deckOverlay = deckOverlayRef.current;
 
     if (map && deckOverlay) {
+      const instantiatedLayers = layers.map((layer) =>
+        layer instanceof GeoJsonLayer ? layer : new GeoJsonLayer(layer)
+      );
+
       if (styleLoaded.current) {
         deckOverlay.setProps({
-          layers
+          layers: instantiatedLayers
         });
       } else {
         map.once("style.load", () => {
           deckOverlay.setProps({
-            layers
+            layers: instantiatedLayers
           });
           1;
         });
@@ -575,7 +580,12 @@ const Map = ({
           nextInstructionPointIndex={nextInstruction?.pointIndex}
         />
       )}
-      {renderLayers && renderLayers(mapRef.current?.getMap())}
+      {renderLayers &&
+        renderLayers({
+          map: mapRef.current?.getMap(),
+          addLayer,
+          removeLayer
+        })}
       {haveWaypoints && (
         <Waypoints id="Waypoints" data={routeOptions.locations} />
       )}
