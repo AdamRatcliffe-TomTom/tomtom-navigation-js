@@ -1,5 +1,6 @@
 import React from "react";
 import Maneuvers from "../constants/Maneuvers";
+import ArrowIcon from "../icons/nip/ArrowIcon";
 import StraightIcon from "../icons/nip/StraightIcon";
 import KeepLeftIcon from "../icons/nip/KeepLeftIcon";
 import TurnLeftIcon from "../icons/nip/TurnLeftIcon";
@@ -33,6 +34,7 @@ export default function getManeuverIcon(
   { size = 56, color = "white" } = {}
 ) {
   return {
+    [Maneuvers.DEPART]: <ArrowIcon size={size} color={color} />,
     [Maneuvers.STRAIGHT]: <StraightIcon size={size} color={color} />,
     [Maneuvers.KEEP_LEFT]: <KeepLeftIcon size={size} color={color} />,
     [Maneuvers.TURN_LEFT]: <TurnLeftIcon size={size} color={color} />,

@@ -9,15 +9,34 @@ import ExitShieldEU from "./ExitShieldEU";
 import RoadShield from "./roadshield/RoadShield";
 import getRoadShield from "./roadshield/getRoadShield";
 import getManeuverIcon from "../../functions/getManeuverIcon";
+import bearingToDirectionIcon from "../../functions/bearingToDirectionIcon";
 import formatDistance from "../../functions/formatDistance";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
-
+import Maneuvers from "../../constants/Maneuvers";
+import strings from "../../config/strings";
 import {
   getSpriteImageUrl,
   getSpriteJson,
   getCountryCode
 } from "../map/mapSlice";
 import { getDistanceToNextManeuver } from "./navigationSlice";
+
+const DepartContainer = ({ isPedestrianRoute }) => {
+  const textClasses = useTextStyles();
+  const textColor = isPedestrianRoute ? "black" : "white";
+
+  return (
+    <Stack className={useStyles({ textColor }).departContainer}>
+      <Text
+        className={`${textClasses.primaryText} ${
+          useStyles({ textColor }).depart
+        }`}
+      >
+        {isPedestrianRoute ? strings.DEPART_PEDESTRIAN : strings.DEPART}
+      </Text>
+    </Stack>
+  );
+};
 
 const useStyles = ({ textColor }) =>
   makeStyles((theme) => ({
@@ -26,8 +45,15 @@ const useStyles = ({ textColor }) =>
       gridTemplateColumns: "56px 1fr",
       gap: theme.spacing.m
     },
+    departContainer: {
+      marginBottom: theme.spacing.s1
+    },
     distanceContainer: {
       marginBottom: theme.spacing.s1
+    },
+    depart: {
+      fontSize: 24,
+      color: textColor
     },
     distance: {
       fontSize: 28,
@@ -94,16 +120,19 @@ const NextInstructionPanel = ({ route, instruction }) => {
     towards,
     roadShieldReferences,
     signpostRoadShieldReferences,
-    exitNumber
+    exitNumber,
+    turnAngleInDecimalDegrees
   } = instruction;
   const maneuverIcon = getManeuverIcon(maneuver, {
     color: textColor
   });
+  const directionIcon = bearingToDirectionIcon(turnAngleInDecimalDegrees);
 
   if (!maneuverIcon) {
     console.error(`Couldn't find icon for maneuver ${maneuver}`);
   }
 
+  const isDeparture = maneuver === Maneuvers.DEPART;
   const haveRoadShieldReferences = !!roadShieldReferences;
   const haveSignpostRoadShieldReferences = !!signpostRoadShieldReferences;
   const roadShieldsAreVisible =
@@ -131,20 +160,24 @@ const NextInstructionPanel = ({ route, instruction }) => {
   return (
     <div className={`NextInstructionPanel ${classes.root}`}>
       <Stack horizontalAlign="center" horizontal>
-        {maneuverIcon}
+        {isDeparture ? directionIcon : maneuverIcon}
       </Stack>
       <Stack grow="1">
-        <Stack
-          className={classes.distanceContainer}
-          verticalAlign="center"
-          horizontalAlign="space-between"
-          horizontal
-        >
-          <Text className={`${textClasses.primaryText} ${classes.distance}`}>
-            {`${formattedDistanceToNextManeuver.value} ${formattedDistanceToNextManeuver.units}`}
-          </Text>
-          {exitNumberIsVisible && <ExitShield text={exitNumber} />}
-        </Stack>
+        {isDeparture ? (
+          <DepartContainer isPedestrianRoute={pedestrianRoute} />
+        ) : (
+          <Stack
+            className={classes.distanceContainer}
+            verticalAlign="center"
+            horizontalAlign="space-between"
+            horizontal
+          >
+            <Text className={`${textClasses.primaryText} ${classes.distance}`}>
+              {`${formattedDistanceToNextManeuver.value} ${formattedDistanceToNextManeuver.units}`}
+            </Text>
+            {exitNumberIsVisible && <ExitShield text={exitNumber} />}
+          </Stack>
+        )}
         {streetIsVisible && <Text className={classes.street}>{street}</Text>}
         {towardsIsVisible && (
           <Text className={classes.towards}>
