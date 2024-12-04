@@ -8,12 +8,14 @@ import ExitShieldUS from "./ExitShieldUS";
 import ExitShieldEU from "./ExitShieldEU";
 import RoadShield from "./roadshield/RoadShield";
 import getRoadShield from "./roadshield/getRoadShield";
+import bearingToNearestDirection from "../../functions/bearingToNearestDirection";
 import getManeuverIcon from "../../functions/getManeuverIcon";
-import bearingToDirectionIcon from "../../functions/bearingToDirectionIcon";
+import getDirectionIcon from "../../functions/getDirectionIcon";
 import formatDistance from "../../functions/formatDistance";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import Maneuvers from "../../constants/Maneuvers";
 import strings from "../../config/strings";
+
 import {
   getSpriteImageUrl,
   getSpriteJson,
@@ -21,19 +23,52 @@ import {
 } from "../map/mapSlice";
 import { getDistanceToNextManeuver } from "./navigationSlice";
 
-const DepartContainer = ({ isPedestrianRoute }) => {
-  const textClasses = useTextStyles();
-  const textColor = isPedestrianRoute ? "black" : "white";
+const DepartContainer = ({
+  classes,
+  textClasses,
+  direction,
+  street,
+  pedestrianRoute
+}) => {
+  const message =
+    direction !== strings.unknown
+      ? strings.formatString(strings.headInDirectionTemplate, { direction })
+      : pedestrianRoute
+      ? strings.DEPART_PEDESTRIAN
+      : strings.DEPART;
+
+  if (direction !== strings.unknown && street) {
+    message += ` ${strings.on}`;
+  }
 
   return (
-    <Stack className={useStyles({ textColor }).departContainer}>
-      <Text
-        className={`${textClasses.primaryText} ${
-          useStyles({ textColor }).depart
-        }`}
-      >
-        {isPedestrianRoute ? strings.DEPART_PEDESTRIAN : strings.DEPART}
+    <Stack className={classes.departContainer}>
+      <Text className={`${textClasses.primaryText} ${classes.depart}`}>
+        {message}
       </Text>
+    </Stack>
+  );
+};
+
+const DistanceContainer = ({
+  classes,
+  textClasses,
+  formattedDistanceToNextManeuver,
+  exitNumberIsVisible,
+  countryCode
+}) => {
+  const ExitShield = countryCode === "US" ? ExitShieldUS : ExitShieldEU;
+  return (
+    <Stack
+      className={classes.distanceContainer}
+      verticalAlign="center"
+      horizontalAlign="space-between"
+      horizontal
+    >
+      <Text className={`${textClasses.primaryText} ${classes.distance}`}>
+        {`${formattedDistanceToNextManeuver.value} ${formattedDistanceToNextManeuver.units}`}
+      </Text>
+      {exitNumberIsVisible && <ExitShield text={exitNumberIsVisible} />}
     </Stack>
   );
 };
@@ -123,10 +158,11 @@ const NextInstructionPanel = ({ route, instruction }) => {
     exitNumber,
     turnAngleInDecimalDegrees
   } = instruction;
+  const direction = bearingToNearestDirection(turnAngleInDecimalDegrees);
   const maneuverIcon = getManeuverIcon(maneuver, {
     color: textColor
   });
-  const directionIcon = bearingToDirectionIcon(turnAngleInDecimalDegrees);
+  const directionIcon = getDirectionIcon(direction);
 
   if (!maneuverIcon) {
     console.error(`Couldn't find icon for maneuver ${maneuver}`);
@@ -155,8 +191,6 @@ const NextInstructionPanel = ({ route, instruction }) => {
     });
   };
 
-  const ExitShield = countryCode === "US" ? ExitShieldUS : ExitShieldEU;
-
   return (
     <div className={`NextInstructionPanel ${classes.root}`}>
       <Stack horizontalAlign="center" horizontal>
@@ -164,19 +198,21 @@ const NextInstructionPanel = ({ route, instruction }) => {
       </Stack>
       <Stack grow="1">
         {isDeparture ? (
-          <DepartContainer isPedestrianRoute={pedestrianRoute} />
+          <DepartContainer
+            classes={classes}
+            textClasses={textClasses}
+            direction={direction}
+            street={street}
+            pedestrianRoute={pedestrianRoute}
+          />
         ) : (
-          <Stack
-            className={classes.distanceContainer}
-            verticalAlign="center"
-            horizontalAlign="space-between"
-            horizontal
-          >
-            <Text className={`${textClasses.primaryText} ${classes.distance}`}>
-              {`${formattedDistanceToNextManeuver.value} ${formattedDistanceToNextManeuver.units}`}
-            </Text>
-            {exitNumberIsVisible && <ExitShield text={exitNumber} />}
-          </Stack>
+          <DistanceContainer
+            classes={classes}
+            textClasses={textClasses}
+            formattedDistanceToNextManeuver={formattedDistanceToNextManeuver}
+            exitNumberIsVisible={exitNumberIsVisible}
+            countryCode={countryCode}
+          />
         )}
         {streetIsVisible && <Text className={classes.street}>{street}</Text>}
         {towardsIsVisible && (

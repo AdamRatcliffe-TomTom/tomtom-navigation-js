@@ -8,29 +8,24 @@ import SouthWestIcon from "../icons/nip/SouthWestIcon";
 import WestIcon from "../icons/nip/WestIcon";
 import NorthWestIcon from "../icons/nip/NorthWestIcon";
 import ArrowIcon from "../icons/nip/ArrowIcon";
+import strings from "../config/strings";
 
-export default function bearingToDirectionIcon(
-  bearing,
+export default function getDirectionIcon(
+  direction,
   { size = 48, color = "white" } = {}
 ) {
-  const directions = [
-    NorthIcon,
-    NorthEastIcon,
-    EastIcon,
-    SouthEastIcon,
-    SouthIcon,
-    SouthWestIcon,
-    WestIcon,
-    NorthWestIcon
-  ];
+  const icons = {
+    [strings.north]: NorthIcon,
+    [strings.northEast]: NorthEastIcon,
+    [strings.east]: EastIcon,
+    [strings.southEast]: SouthEastIcon,
+    [strings.south]: SouthIcon,
+    [strings.southWest]: SouthWestIcon,
+    [strings.west]: WestIcon,
+    [strings.northWest]: NorthWestIcon
+  };
 
-  // Normalize the bearing to be between 0 and 360
-  const normalizedBearing = (bearing + 360) % 360;
-
-  // Determine which of the 8 directions the bearing falls into
-  const index = Math.floor((normalizedBearing + 22.5) / 45) % 8;
-
-  const Icon = directions[index] || ArrowIcon;
+  const Icon = icons[direction] || ArrowIcon;
 
   return <Icon size={size} color={color} />;
 }
