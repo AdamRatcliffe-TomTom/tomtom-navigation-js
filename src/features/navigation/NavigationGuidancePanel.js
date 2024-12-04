@@ -64,8 +64,7 @@ const useStyles = ({
         ? theme.palette.white
         : countryCode === "US"
         ? theme.semanticColors.nipUSBackground
-        : theme.semanticColors.nipEUBackground,
-      transition: "background-color 0.15s"
+        : theme.semanticColors.nipEUBackground
     },
     consecutiveInstructionPanel: {
       backgroundColor:
