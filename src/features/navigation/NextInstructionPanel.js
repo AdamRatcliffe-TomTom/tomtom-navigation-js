@@ -30,21 +30,21 @@ const DepartContainer = ({
   street,
   pedestrianRoute
 }) => {
-  const message =
+  let text =
     direction !== strings.unknown
       ? strings.formatString(strings.headInDirectionTemplate, { direction })
       : pedestrianRoute
       ? strings.DEPART_PEDESTRIAN
       : strings.DEPART;
 
-  if (direction !== strings.unknown && street) {
-    message += ` ${strings.on}`;
+  if (street) {
+    text += ` ${strings.on}`;
   }
 
   return (
     <Stack className={classes.departContainer}>
       <Text className={`${textClasses.primaryText} ${classes.depart}`}>
-        {message}
+        {text}
       </Text>
     </Stack>
   );
