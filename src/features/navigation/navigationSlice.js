@@ -171,7 +171,7 @@ const navigationSlice = createSlice({
     setVoiceAnnouncementsEnabled: (state, action) => {
       state.voiceAnnouncementsEnabled = action.payload;
     },
-    resetNavigation: (state) => {
+    resetNavigation: (state, action) => {
       state.isNavigating = false;
       state.navigationPerspective = NavigationPerspectives.FOLLOW;
       state.hasReachedDestination = false;
@@ -180,7 +180,7 @@ const navigationSlice = createSlice({
       state.consecutiveInstruction = undefined;
       state.lastInstruction = undefined;
       state.routeTravelled = undefined;
-      state.routeRemaining = undefined;
+      state.routeRemaining = action.payload;
       // state.distanceRemaining = undefined;
     }
   }

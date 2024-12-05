@@ -53,7 +53,7 @@ function NavigationView({
   routeWaypoints,
   routeOptions = {},
   automaticRouteCalculation,
-  arriveNorth = false,
+  arriveNorth = true,
   safeAreaInsets,
   showSearch = false,
   searchPosition,

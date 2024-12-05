@@ -71,6 +71,8 @@ import {
   getNextInstruction,
   getRouteTravelled,
   getRouteRemaining,
+  setRouteTravelled,
+  setRouteRemaining,
   setVoiceAnnouncementsEnabled,
   setNavigationPerspective,
   setSimulationShouldEnd
@@ -323,8 +325,13 @@ const Map = ({
       setCountryCodeFromRoute();
 
       const routeFeature = route.features[0];
-      const eventData = { route: routeFeature };
 
+      batch(() => {
+        dispatch(setRouteTravelled(null));
+        dispatch(setRouteRemaining(routeFeature));
+      });
+
+      const eventData = { route: routeFeature };
       fireEvent(ControlEvents.OnRouteUpdated, eventData);
 
       onRouteUpdated(eventData);
@@ -568,7 +575,6 @@ const Map = ({
         <Route
           before={routeBeforeId}
           pedestrianBefore={pedestrianRouteBeforeId}
-          data={sectionedRoute}
           routeTravelled={routeTravelled}
           routeRemaining={routeRemaining}
           walkingLeg={walkingLeg}

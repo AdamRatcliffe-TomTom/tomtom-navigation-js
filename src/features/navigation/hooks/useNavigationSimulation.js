@@ -23,7 +23,6 @@ import {
 } from "../../../features/map/mapSlice";
 import {
   setIsNavigating,
-  setRouteRemaining,
   setLastInstruction,
   setNextInstruction,
   resetNavigation
@@ -116,7 +115,6 @@ function useNavigationSimulation({
     batch(() => {
       dispatch(setViewTransitioning(true));
       dispatch(setIsNavigating(true));
-      dispatch(setRouteRemaining(routeFeature));
       dispatch(setNextInstruction(firstInstruction));
       dispatch(setLastInstruction(lastInstruction));
       dispatch(
@@ -171,7 +169,7 @@ function useNavigationSimulation({
 
     batch(() => {
       dispatch(setViewTransitioning(true));
-      dispatch(resetNavigation());
+      dispatch(resetNavigation(routeFeature));
       dispatch(setPitch(0));
       dispatch(
         setFitBoundsOptions({

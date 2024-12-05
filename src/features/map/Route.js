@@ -5,7 +5,6 @@ import { v4 as uuid } from "uuid";
 import { useLayers } from "./hooks/LayersContext";
 
 const Route = ({
-  data,
   before,
   pedestrianBefore,
   routeTravelled,
@@ -34,7 +33,9 @@ const Route = ({
   };
 
   const memoizedLayers = useMemo(() => {
-    if (!data) return null;
+    if (!routeRemaining && !routeTravelled) {
+      return null;
+    }
 
     if (isPedestrianRoute) {
       return [
@@ -79,7 +80,7 @@ const Route = ({
       new GeoJsonLayer({
         id: `${id}--Casing`,
         beforeId: before,
-        data,
+        data: routeRemaining,
         filled: true,
         stroked: true,
         getLineColor: [5, 104, 168, 255],
@@ -93,7 +94,7 @@ const Route = ({
       new GeoJsonLayer({
         id: `${id}--Line`,
         beforeId: before,
-        data,
+        data: routeRemaining,
         filled: true,
         stroked: true,
         getLineColor: getLineColor,
@@ -151,13 +152,13 @@ const Route = ({
       })
     ];
   }, [
-    data,
     before,
     pedestrianBefore,
     routeTravelled,
     routeRemaining,
     walkingLeg,
-    isPedestrianRoute
+    isPedestrianRoute,
+    id
   ]);
 
   useEffect(() => {
