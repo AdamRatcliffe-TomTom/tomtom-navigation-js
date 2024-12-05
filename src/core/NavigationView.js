@@ -64,6 +64,7 @@ function NavigationView({
   renderLayers,
   renderETAPanel,
   renderArrivalPanel,
+  onMapReady = () => {},
   onRouteUpdated = () => {},
   onNavigationStarted = () => {},
   onNavigationStopped = () => {},
@@ -185,6 +186,7 @@ function NavigationView({
             <Map
               renderLayers={renderLayers}
               preCalculatedRoute={preCalculatedRoute}
+              onMapReady={onMapReady}
               onRouteUpdated={onRouteUpdated}
               onComponentExit={onComponentExit}
               {...mapOptions}

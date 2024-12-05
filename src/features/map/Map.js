@@ -106,6 +106,7 @@ const Map = ({
   animateFitRoute = false,
   alwaysUseDrivingStyle = false,
   debugFOV = false,
+  onMapReady = () => {},
   onRouteUpdated = () => {},
   onComponentExit = () => {},
   children
@@ -246,6 +247,10 @@ const Map = ({
     const handleResizeEnd = () => setIsResizing(false);
 
     map.on("resize", handleResizeStart);
+
+    const eventData = { map };
+
+    onMapReady(eventData);
 
     return () => {
       map.off("resize", handleResizeStart);
