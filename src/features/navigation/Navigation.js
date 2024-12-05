@@ -180,14 +180,14 @@ const Navigation = ({
     navigationPaddingTopRef.current = navigationPaddingTop;
   }, [navigationPaddingTop]);
 
-  useEffect(() => {
-    if (route) {
-      if (isNavigating && route !== previousRoute) {
-        stopNavigation();
-      }
-      setPreviousRoute(route);
-    }
-  }, [isNavigating, route, previousRoute]);
+  // useEffect(() => {
+  //   if (route) {
+  //     if (isNavigating && route !== previousRoute) {
+  //       stopNavigation();
+  //     }
+  //     setPreviousRoute(route);
+  //   }
+  // }, [isNavigating, route, previousRoute]);
 
   useEffect(() => {
     if (Boolean(simulationShouldEnd)) {

@@ -58,7 +58,11 @@ const BottomPanel = ({
   const bottomPanelHeight = bounds.height;
 
   useEffect(() => {
-    setBottomPanelHeight(bottomPanelHeight);
+    return () => setBottomPanelHeight(0);
+  }, []);
+
+  useEffect(() => {
+    setBottomPanelHeight(bottomPanelHeight || 0);
   }, [bottomPanelHeight]);
 
   const handleStopNavigation = () => onStopNavigation(true);

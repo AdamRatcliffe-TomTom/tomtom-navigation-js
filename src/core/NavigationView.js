@@ -29,8 +29,7 @@ import {
   setShowETAPanel,
   setShowGuidancePanel,
   setShowArrivalPanel,
-  setShowContinueButton,
-  resetNavigation
+  setShowContinueButton
 } from "../features/navigation/navigationSlice";
 
 function NavigationView({
@@ -102,10 +101,6 @@ function NavigationView({
   }, []);
 
   useEffect(() => {
-    if (routeWaypoints?.length) {
-      dispatch(resetNavigation());
-    }
-
     batch(() => {
       dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
       dispatch(

@@ -180,7 +180,7 @@ const navigationSlice = createSlice({
       state.consecutiveInstruction = undefined;
       state.lastInstruction = undefined;
       state.routeTravelled = undefined;
-      state.routeRemaining = action.payload;
+      state.routeRemaining = action.payload?.routeRemaining;
       // state.distanceRemaining = undefined;
     }
   }

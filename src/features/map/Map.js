@@ -72,8 +72,7 @@ import {
   getNextInstruction,
   getRouteTravelled,
   getRouteRemaining,
-  setRouteTravelled,
-  setRouteRemaining,
+  resetNavigation,
   setVoiceAnnouncementsEnabled,
   setNavigationPerspective,
   setSimulationShouldEnd
@@ -115,6 +114,7 @@ const Map = ({
   const mapRef = useRef();
   const deckOverlayRef = useRef();
   const styleLoaded = useRef(false);
+
   const {
     apiKey,
     language,
@@ -164,6 +164,7 @@ const Map = ({
     automaticRouteCalculation,
     ...routeOptions
   });
+
   const fieldOfView = useFieldOfView(mapRef, debugFOV, safeAreaInsets, [
     animationOptions,
     fitBoundsOptions
@@ -308,8 +309,9 @@ const Map = ({
 
   useEffect(() => {
     if (
-      fitRoute &&
+      !viewTransitioning &&
       !isNavigating &&
+      fitRoute &&
       (routeOptions?.locations?.length || route)
     ) {
       fitRouteOrWaypoints(routeFitBoundsOptions);
@@ -322,7 +324,8 @@ const Map = ({
     route,
     fitRoute,
     isNavigating,
-    routeFitBoundsOptions
+    routeFitBoundsOptions,
+    viewTransitioning
   ]);
 
   useEffect(() => {
@@ -331,20 +334,23 @@ const Map = ({
       dispatch(setCountryCode(countryCode));
     };
 
+    const updateRoute = () => {
+      const routeFeature = route.features[0];
+      const eventData = { route: routeFeature };
+
+      dispatch(resetNavigation({ routeRemaining: routeFeature }));
+
+      // TODO: timeout should not be necessary as store should already be updated using
+      // the thunk
+      setTimeout(() => {
+        fireEvent(ControlEvents.OnRouteUpdated, eventData);
+        onRouteUpdated(eventData);
+      }, 50);
+    };
+
     if (route) {
       setCountryCodeFromRoute();
-
-      const routeFeature = route.features[0];
-
-      batch(() => {
-        dispatch(setRouteTravelled(null));
-        dispatch(setRouteRemaining(routeFeature));
-      });
-
-      const eventData = { route: routeFeature };
-      fireEvent(ControlEvents.OnRouteUpdated, eventData);
-
-      onRouteUpdated(eventData);
+      updateRoute();
     }
   }, [route, apiKey, dispatch]);
 
@@ -431,7 +437,9 @@ const Map = ({
       const map = mapRef.current.getMap();
       const bounds = geoJsonBounds(geojson);
       const center = turfCenter(geojson);
-      const shouldAnimate = shouldAnimateCamera(map.getBounds(), center);
+      const shouldAnimate =
+        fitBoundsOptions.animate &&
+        shouldAnimateCamera(map.getBounds(), center);
 
       batch(() => {
         dispatch(

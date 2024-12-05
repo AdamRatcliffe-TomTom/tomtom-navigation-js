@@ -22,7 +22,7 @@ const useStyles = ({ isTablet, bottomPanelHeight }) =>
     }
   });
 
-const ChevronMarker = ({ map, icon, visible }) => {
+const ChevronMarker = ({ icon, visible }) => {
   const { isTablet, bottomPanelHeight } = useNavigationContext();
   const classes = useStyles({ isTablet, bottomPanelHeight })();
 

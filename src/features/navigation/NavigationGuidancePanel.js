@@ -122,6 +122,13 @@ const NavigationGuidancePanel = ({ route }) => {
   const haveTrafficEvents = !!!landscapeMinimal && trafficEvents.length;
 
   useEffect(() => {
+    return () => {
+      setGuidancePanelHeight(0);
+      removeStyleFromDocument(styleId);
+    };
+  }, []);
+
+  useEffect(() => {
     if (isPhone) {
       removeStyleFromDocument(styleId);
       addStyleToDocument(
@@ -139,7 +146,8 @@ const NavigationGuidancePanel = ({ route }) => {
     } else {
       removeStyleFromDocument(styleId);
     }
-    setGuidancePanelHeight(guidancePanelHeight);
+
+    setGuidancePanelHeight(guidancePanelHeight || 0);
 
     return () => removeStyleFromDocument(styleId);
   }, [isPhone, guidancePanelHeight, bottomPanelHeight]);
