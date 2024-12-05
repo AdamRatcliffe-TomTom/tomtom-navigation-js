@@ -425,7 +425,7 @@ const Map = ({
           setFitBoundsOptions({
             bearing: 0,
             pitch: 0,
-            duration: 500,
+            duration: 1000,
             ...fitBoundsOptions
           })
         );
