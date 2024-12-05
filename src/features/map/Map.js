@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import { featureCollection } from "@turf/helpers";
+import turfCenter from "@turf/center";
 import ReactMap from "react-tomtom-maps";
 import { MapboxOverlay } from "@deck.gl/mapbox";
 import { GeoJsonLayer } from "@deck.gl/layers";
@@ -418,7 +419,10 @@ const Map = ({
     }
 
     if (geojson) {
+      const map = mapRef.current.getMap();
       const bounds = geoJsonBounds(geojson);
+      const center = turfCenter(geojson);
+      const shouldAnimate = shouldAnimateCamera(map.getBounds(), center);
 
       batch(() => {
         dispatch(
@@ -426,7 +430,8 @@ const Map = ({
             bearing: 0,
             pitch: 0,
             duration: 1000,
-            ...fitBoundsOptions
+            ...fitBoundsOptions,
+            animate: shouldAnimate
           })
         );
         dispatch(setBounds(bounds));

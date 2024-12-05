@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, batch } from "react-redux";
 import { ThemeProvider } from "@fluentui/react";
 import { useBoolean } from "@fluentui/react-hooks";
@@ -78,13 +78,15 @@ function NavigationView({
   const dispatch = useDispatch();
   const [preCalculatedRoute, setPreCalculatedRoute] = useState();
   const { isGeolocationAvailable, isGeolocationEnabled } = useGeolocated();
+  const mergedSafeAreaInsets = useMemo(
+    () => ({
+      ...DEFAULT_SAFE_AREA_INSETS,
+      ...safeAreaInsets
+    }),
+    [DEFAULT_SAFE_AREA_INSETS, safeAreaInsets]
+  );
   const [hideGeolocationDialog, { toggle: toggleHideGeolocationDialog }] =
     useBoolean(true);
-
-  const mergedSafeAreaInsets = {
-    ...DEFAULT_SAFE_AREA_INSETS,
-    ...safeAreaInsets
-  };
 
   useEffect(() => {
     if (!isGeolocationAvailable || !isGeolocationEnabled) {
