@@ -102,17 +102,22 @@ function NavigationView({
   }, []);
 
   useEffect(() => {
-    dispatch(resetNavigation());
-    dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
-    dispatch(
-      setRouteOptions({
-        language,
-        ...routeOptions,
-        locations: routeWaypoints,
-        sectionType: getSectionTypesForTravelMode(routeOptions.travelMode)
-      })
-    );
-    dispatch(setMovingMethod("jumpTo"));
+    if (routeWaypoints?.length) {
+      dispatch(resetNavigation());
+    }
+
+    batch(() => {
+      dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
+      dispatch(
+        setRouteOptions({
+          language,
+          ...routeOptions,
+          locations: routeWaypoints,
+          sectionType: getSectionTypesForTravelMode(routeOptions.travelMode)
+        })
+      );
+      dispatch(setMovingMethod("jumpTo"));
+    });
   }, [
     automaticRouteCalculation,
     language,

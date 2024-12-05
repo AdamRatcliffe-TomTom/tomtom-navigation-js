@@ -186,6 +186,15 @@ const Map = ({
       safeAreaInsets
     ]
   );
+  const locationIconStyle = useMemo(
+    () => ({
+      marginBottom: 16,
+      transform: `rotateX(${pitch}deg)`,
+      transformOrigin: "center",
+      transition: "transform 0.1s"
+    }),
+    [pitch]
+  );
 
   const routeIsVisible = !!route;
   const maneuverArrowsAreVisible =
@@ -606,15 +615,7 @@ const Map = ({
         visible={chevronMarkerIsVisible}
         icon={
           pedestrianRoute ? (
-            <LocationIcon
-              size={34}
-              style={{
-                marginBottom: 16,
-                transform: `rotateX(${pitch}deg)`,
-                transformOrigin: "center",
-                transition: "transform 0.1s"
-              }}
-            />
+            <LocationIcon size={34} style={locationIconStyle} />
           ) : (
             <ChevronIcon />
           )
