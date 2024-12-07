@@ -50,7 +50,7 @@ function useNavigationSimulation({
   voiceAnnouncementsEnabledRef,
   voice,
   isPedestrian,
-  simulatorZoom,
+  zoomForTravelMode,
   setETA
 }) {
   const dispatch = useDispatch();
@@ -122,7 +122,7 @@ function useNavigationSimulation({
           movingMethod,
           center,
           pitch: 60,
-          zoom: simulatorZoom,
+          zoom: zoomForTravelMode,
           bearing: bearing || map.getBearing(),
           animationOptions: {
             padding: {

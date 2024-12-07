@@ -4,7 +4,7 @@ export default {
   OnRouteUpdated: "OnRouteUpdated",
   OnNavigationStarted: "OnNavigationStarted",
   OnNavigationStopped: "OnNavigationStopped",
+  OnProgressUpdate: "OnProgressUpdate",
   OnDestinationReached: "OnDestinationReached",
-  OnContinue: "OnContinue",
-  OnProgressUpdate: "OnProgressUpdate"
+  OnContinue: "OnContinue"
 };
