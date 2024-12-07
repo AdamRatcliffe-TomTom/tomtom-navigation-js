@@ -54,9 +54,7 @@ import {
   ARRIVAL_PANEL_HEIGHT,
   FIT_BOUNDS_PADDING_TOP,
   FIT_BOUNDS_PADDING_RIGHT,
-  FIT_BOUNDS_PADDING_LEFT,
-  VEHICLE_NAVIGATION_SIMULATION_ZOOM,
-  PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
+  FIT_BOUNDS_PADDING_LEFT
 } from "../../config";
 
 const Navigation = ({
@@ -77,6 +75,7 @@ const Navigation = ({
   const {
     apiKey,
     simulationSpeed,
+    simulationZoom,
     height,
     language,
     measurementSystem,
@@ -90,7 +89,6 @@ const Navigation = ({
   const isNavigating = useSelector(getIsNavigating);
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
-  const [previousRoute, setPreviousRoute] = useState(null);
   const [seek, setSeek] = useState(null);
 
   const setETA = (feature) => {
@@ -149,11 +147,8 @@ const Navigation = ({
   const simulatorIsActive =
     navigationRoute && isNavigating && !hasReachedDestination;
   const isPedestrian = isPedestrianRoute(routeFeature);
-  const simulatorZoom = useMemo(
-    () =>
-      isPedestrian
-        ? PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
-        : VEHICLE_NAVIGATION_SIMULATION_ZOOM,
+  const zoomForTravelMode = useMemo(
+    () => (isPedestrian ? simulationZoom.pedestrian : simulationZoom.vehicle),
     [isPedestrian]
   );
 
@@ -172,7 +167,7 @@ const Navigation = ({
     voiceAnnouncementsEnabledRef,
     voice,
     isPedestrian,
-    simulatorZoom,
+    zoomForTravelMode,
     setETA
   });
 
@@ -270,7 +265,7 @@ const Navigation = ({
           setCamera({
             movingMethod: seek ? "jumpTo" : "easeTo",
             center: stepCoords,
-            zoom,
+            zoom: !isNaN(zoom) ? zoom : zoomForTravelMode, // On occasion zoom can be NaN
             pitch,
             bearing: stepBearing,
             animationOptions: {
@@ -390,28 +385,28 @@ const Navigation = ({
       {simulatorIsActive && (
         <Simulator
           route={navigationRoute}
-          zoom={simulatorZoom}
+          zoom={zoomForTravelMode}
           maneuvers={[
             {
               type: ["arrive"],
               buffer: 0.0621371,
-              zoom: simulatorZoom + 1,
+              zoom: zoomForTravelMode + 1,
               pitch: 40
             },
             {
               type: ["turn left", "turn right"],
               buffer: 0.0621371,
-              zoom: simulatorZoom + 1,
+              zoom: zoomForTravelMode + 1,
               pitch: 40
             },
             {
               type: ["bear right"],
               buffer: 0.0621371,
-              zoom: simulatorZoom + 1,
+              zoom: zoomForTravelMode + 1,
               pitch: 40
             }
           ]}
-          spacing="acceldecel"
+          spacing="constant"
           seek={seek}
           updateCamera={false}
           speed={simulationSpeed}

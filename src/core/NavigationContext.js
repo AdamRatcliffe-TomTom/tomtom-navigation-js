@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import strings from "../config/strings";
+import {
+  VEHICLE_NAVIGATION_SIMULATION_ZOOM,
+  PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
+} from "../config";
 
 const NavigationContext = createContext();
 
@@ -21,12 +25,13 @@ export default function NavigationContextProvider({
   width,
   height,
   simulationSpeed,
+  simulationZoom = {},
   theme,
   guidanceVoice,
   guidanceVoiceVolume,
   guidanceVoicePlaybackRate,
   safeAreaInsets,
-  mapStyles = {} // New prop for style overrides
+  mapStyles = {}
 }) {
   const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
   const [guidancePanelHeight, setGuidancePanelHeight] = useState(0);
@@ -43,6 +48,11 @@ export default function NavigationContextProvider({
       width,
       height,
       simulationSpeed,
+      simulationZoom: {
+        vehicle: simulationZoom.vehicle || VEHICLE_NAVIGATION_SIMULATION_ZOOM,
+        pedestrian:
+          simulationZoom.pedestrian || PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
+      },
       isPortrait: height > width,
       isLandscape: width > height,
       isPhone,
@@ -95,6 +105,7 @@ export default function NavigationContextProvider({
     width,
     height,
     simulationSpeed,
+    simulationZoom,
     theme,
     guidanceVoice,
     guidanceVoiceVolume,

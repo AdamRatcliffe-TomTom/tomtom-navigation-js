@@ -45,6 +45,7 @@ function NavigationView({
   guidanceVoiceVolume,
   guidanceVoicePlaybackRate = 1,
   simulationSpeed = "3x",
+  simulationZoom = {},
   mapOptions = {},
   mapStyles = {},
   initialCenter,
@@ -177,6 +178,7 @@ function NavigationView({
         guidanceVoiceVolume={guidanceVoiceVolume}
         guidanceVoicePlaybackRate={guidanceVoicePlaybackRate}
         simulationSpeed={simulationSpeed}
+        simulationZoom={simulationZoom}
         theme={theme}
         mapStyles={mapStyles}
         safeAreaInsets={mergedSafeAreaInsets}
