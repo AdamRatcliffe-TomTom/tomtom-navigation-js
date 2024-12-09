@@ -167,6 +167,7 @@ const Map = ({
   });
 
   const fieldOfView = useFieldOfView(mapRef, debugFOV, safeAreaInsets, [
+    safeAreaInsets,
     animationOptions,
     fitBoundsOptions
   ]);
@@ -189,13 +190,18 @@ const Map = ({
     ]
   );
   const locationIconStyle = useMemo(
-    () => ({
-      marginBottom: 16,
-      transform: `rotateX(${pitch}deg)`,
-      transformOrigin: "center",
-      transition: "transform 0.1s"
-    }),
-    [pitch]
+    () =>
+      pedestrianRoute
+        ? {
+            marginBottom: 24,
+            transform: `rotateX(${pitch}deg)`,
+            transformOrigin: "center",
+            transition: "transform 0.1s"
+          }
+        : {
+            marginBottom: 28
+          },
+    [pedestrianRoute, pitch]
   );
 
   const routeIsVisible = !!route;
@@ -630,7 +636,7 @@ const Map = ({
           pedestrianRoute ? (
             <LocationIcon size={34} style={locationIconStyle} />
           ) : (
-            <ChevronIcon />
+            <ChevronIcon style={locationIconStyle} />
           )
         }
       />

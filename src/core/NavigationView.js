@@ -44,8 +44,7 @@ function NavigationView({
   guidanceVoice,
   guidanceVoiceVolume,
   guidanceVoicePlaybackRate = 1,
-  simulationSpeed = "3x",
-  simulationZoom = {},
+  simulationOptions = {},
   mapOptions = {},
   mapStyles = {},
   initialCenter,
@@ -177,8 +176,6 @@ function NavigationView({
         guidanceVoice={guidanceVoice}
         guidanceVoiceVolume={guidanceVoiceVolume}
         guidanceVoicePlaybackRate={guidanceVoicePlaybackRate}
-        simulationSpeed={simulationSpeed}
-        simulationZoom={simulationZoom}
         theme={theme}
         mapStyles={mapStyles}
         safeAreaInsets={mergedSafeAreaInsets}
@@ -195,6 +192,7 @@ function NavigationView({
             >
               {showSearch && <Search position={searchPosition} />}
               <Navigation
+                simulationOptions={simulationOptions}
                 arriveNorth={arriveNorth}
                 renderETAPanel={renderETAPanel}
                 renderArrivalPanel={renderArrivalPanel}

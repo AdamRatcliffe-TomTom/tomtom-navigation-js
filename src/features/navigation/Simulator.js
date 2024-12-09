@@ -74,7 +74,7 @@ class Simulator extends Component {
 
   handleUpdate = (data) => {
     const { speed } = this.props;
-    const duration = (1000 / Number(speed.slice(0, speed.indexOf("x")))) * 1.5;
+    const duration = (1000 / Number(speed.slice(0, speed.indexOf("x")))) * 1.75;
 
     this.setState({ options: data.options });
     this.props.onUpdate({ duration, ...data });

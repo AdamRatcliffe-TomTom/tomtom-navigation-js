@@ -1,9 +1,5 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import strings from "../config/strings";
-import {
-  VEHICLE_NAVIGATION_SIMULATION_ZOOM,
-  PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
-} from "../config";
 
 const NavigationContext = createContext();
 
@@ -24,8 +20,6 @@ export default function NavigationContextProvider({
   measurementSystem = "metric",
   width,
   height,
-  simulationSpeed,
-  simulationZoom = {},
   theme,
   guidanceVoice,
   guidanceVoiceVolume,
@@ -47,12 +41,6 @@ export default function NavigationContextProvider({
       language,
       width,
       height,
-      simulationSpeed,
-      simulationZoom: {
-        vehicle: simulationZoom.vehicle || VEHICLE_NAVIGATION_SIMULATION_ZOOM,
-        pedestrian:
-          simulationZoom.pedestrian || PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
-      },
       isPortrait: height > width,
       isLandscape: width > height,
       isPhone,
@@ -104,8 +92,6 @@ export default function NavigationContextProvider({
     measurementSystemAuto,
     width,
     height,
-    simulationSpeed,
-    simulationZoom,
     theme,
     guidanceVoice,
     guidanceVoiceVolume,

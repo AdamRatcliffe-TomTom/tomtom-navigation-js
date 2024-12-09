@@ -54,11 +54,23 @@ import {
   ARRIVAL_PANEL_HEIGHT,
   FIT_BOUNDS_PADDING_TOP,
   FIT_BOUNDS_PADDING_RIGHT,
-  FIT_BOUNDS_PADDING_LEFT
+  FIT_BOUNDS_PADDING_LEFT,
+  VEHICLE_NAVIGATION_SIMULATION_ZOOM,
+  PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
 } from "../../config";
+
+const defaultSimulationOptions = {
+  zoom: {
+    pedestrian: PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM,
+    vehicle: VEHICLE_NAVIGATION_SIMULATION_ZOOM
+  },
+  speed: "1x",
+  spacing: "acceldecel"
+};
 
 const Navigation = ({
   map,
+  simulationOptions,
   arriveNorth,
   renderETAPanel,
   renderArrivalPanel,
@@ -74,8 +86,6 @@ const Navigation = ({
   const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
   const {
     apiKey,
-    simulationSpeed,
-    simulationZoom,
     height,
     language,
     measurementSystem,
@@ -85,6 +95,24 @@ const Navigation = ({
     isTablet,
     bottomPanelHeight
   } = useNavigationContext();
+
+  const mergedSimulationOptions = useMemo(
+    () => ({
+      ...defaultSimulationOptions,
+      ...simulationOptions,
+      zoom: {
+        ...defaultSimulationOptions.zoom,
+        ...simulationOptions.zoom
+      }
+    }),
+    [simulationOptions]
+  );
+
+  const {
+    speed: simulationSpeed,
+    zoom: simulationZoom,
+    spacing: simulationSpacing
+  } = mergedSimulationOptions;
   const showGuidancePanel = useSelector(getShowGuidancePanel);
   const isNavigating = useSelector(getIsNavigating);
   const routeOptions = useSelector(getRouteOptions);
@@ -149,7 +177,7 @@ const Navigation = ({
   const isPedestrian = isPedestrianRoute(routeFeature);
   const zoomForTravelMode = useMemo(
     () => (isPedestrian ? simulationZoom.pedestrian : simulationZoom.vehicle),
-    [isPedestrian]
+    [isPedestrian, simulationZoom]
   );
 
   const voice = useMemo(
@@ -406,7 +434,7 @@ const Navigation = ({
               pitch: 40
             }
           ]}
-          spacing="constant"
+          spacing={simulationSpacing}
           seek={seek}
           updateCamera={false}
           speed={simulationSpeed}
