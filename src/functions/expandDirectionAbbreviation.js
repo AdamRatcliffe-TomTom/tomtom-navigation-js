@@ -1,5 +1,5 @@
-const endRegExp = /([NSEW])\s*$/;
-const startRegExp = /^([NSEW])\s*/;
+const endRegExp = /\b([NSEW])\s*$/;
+const startRegExp = /^\s*([NSEW])\b/;
 const directionMapping = {
   N: "North",
   E: "East",
