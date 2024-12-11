@@ -53,6 +53,7 @@ function NavigationView({
   routeOptions = {},
   automaticRouteCalculation,
   arriveNorth = true,
+  destinationReachedDelay = 0,
   safeAreaInsets,
   showSearch = false,
   searchPosition,
@@ -194,6 +195,7 @@ function NavigationView({
               <Navigation
                 simulationOptions={simulationOptions}
                 arriveNorth={arriveNorth}
+                destinationReachedDelay={destinationReachedDelay}
                 renderETAPanel={renderETAPanel}
                 renderArrivalPanel={renderArrivalPanel}
                 preCalculatedRoute={preCalculatedRoute}

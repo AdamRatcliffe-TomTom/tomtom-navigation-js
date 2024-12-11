@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch, batch } from "react-redux";
 import { featureCollection } from "@turf/helpers";
+import isPlainObject from "lodash.isplainobject";
 import turfCenter from "@turf/center";
 import ReactMap from "react-tomtom-maps";
 import { MapboxOverlay } from "@deck.gl/mapbox";
@@ -292,7 +293,7 @@ const Map = ({
 
     if (map && deckOverlay) {
       const instantiatedLayers = layers.map((layer) =>
-        layer instanceof GeoJsonLayer ? layer : new GeoJsonLayer(layer)
+        isPlainObject(layer) ? new GeoJsonLayer(layer) : layer
       );
 
       if (styleLoaded.current) {
@@ -609,7 +610,7 @@ const Map = ({
           before={routeBeforeId}
           pedestrianBefore={pedestrianRouteBeforeId}
           routeTravelled={routeTravelled}
-          routeRemaining={routeRemaining}
+          routeRemaining={pedestrianRoute ? route.features[0] : routeRemaining}
           walkingLeg={walkingLeg}
           isPedestrianRoute={pedestrianRoute}
         />
@@ -627,9 +628,7 @@ const Map = ({
           addLayer,
           removeLayer
         })}
-      {haveWaypoints && (
-        <Waypoints id="Waypoints" data={routeOptions.locations} />
-      )}
+      {haveWaypoints && <Waypoints data={routeOptions.locations} />}
       <ChevronMarker
         visible={chevronMarkerIsVisible}
         icon={
