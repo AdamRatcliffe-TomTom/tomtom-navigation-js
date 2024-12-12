@@ -95,7 +95,6 @@ const NavigationGuidancePanel = ({ route }) => {
     isTablet,
     landscapeMinimal,
     setGuidancePanelHeight,
-    bottomPanelHeight,
     safeAreaInsets: { top }
   } = useNavigationContext();
   const countryCode = useSelector(getCountryCode);
@@ -135,11 +134,6 @@ const NavigationGuidancePanel = ({ route }) => {
         styleId,
         `.TomTomNavigation .mapboxgl-ctrl-top-right, .TomTomNavigation .mapboxgl-ctrl-top-left {
            margin-top: ${guidancePanelHeight + top + 8}px;
-
-         }
-         .TomTomNavigation .mapboxgl-ctrl-bottom-right, .TomTomNavigation .mapboxgl-ctrl-bottom-left {
-           margin-bottom: ${bottomPanelHeight}px;
-
          }
         `
       );
@@ -150,7 +144,7 @@ const NavigationGuidancePanel = ({ route }) => {
     setGuidancePanelHeight(guidancePanelHeight || 0);
 
     return () => removeStyleFromDocument(styleId);
-  }, [isPhone, guidancePanelHeight, bottomPanelHeight]);
+  }, [isPhone, guidancePanelHeight]);
 
   // Navigation guidance cannot be shown if there's no next instruction
   if (!nextInstruction) {

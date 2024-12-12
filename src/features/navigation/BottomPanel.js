@@ -5,6 +5,10 @@ import useMeasure from "react-use-measure";
 import ETAPanel from "./ETAPanel";
 import ArrivalPanel from "./ArrivalPanel";
 import { useNavigationContext } from "../../core/NavigationContext";
+import {
+  addStyleToDocument,
+  removeStyleFromDocument
+} from "../../functions/styles";
 
 import {
   getIsNavigating,
@@ -37,6 +41,8 @@ const useStyles = ({ isPhone, isTablet }) =>
     }
   }));
 
+const styleId = "bottom-panel-ctrl-margin-adjustment";
+
 const BottomPanel = ({
   renderETAPanel,
   renderArrivalPanel,
@@ -58,12 +64,28 @@ const BottomPanel = ({
   const bottomPanelHeight = bounds.height;
 
   useEffect(() => {
-    return () => setBottomPanelHeight(0);
+    return () => {
+      setBottomPanelHeight(0);
+      removeStyleFromDocument(styleId);
+    };
   }, []);
 
   useEffect(() => {
+    if (isPhone) {
+      removeStyleFromDocument(styleId);
+      addStyleToDocument(
+        styleId,
+        `.TomTomNavigation .mapboxgl-ctrl-bottom-right, .TomTomNavigation .mapboxgl-ctrl-bottom-left {
+           margin-bottom: ${bottomPanelHeight}px;
+         }
+        `
+      );
+    } else {
+      removeStyleFromDocument(styleId);
+    }
+
     setBottomPanelHeight(bottomPanelHeight || 0);
-  }, [bottomPanelHeight]);
+  }, [isPhone, bottomPanelHeight]);
 
   const handleStopNavigation = () => onStopNavigation(true);
 

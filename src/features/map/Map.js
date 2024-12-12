@@ -14,6 +14,7 @@ import MuteControl from "./controls/MuteControl";
 import CompassControl from "./controls/CompassControl";
 import MapSwitcherControl from "./controls/MapSwitcherControl";
 import NavigationPerspectiveControl from "./controls/NavigationPerspectiveControl";
+import WatermarkControl from "./controls/WatermarkControl";
 import ZoomControl from "./controls/ZoomControl";
 import ExitControl from "./controls/ExitControl";
 import SkipControl from "./controls/SkipControl";
@@ -211,6 +212,7 @@ const Map = ({
     !!route &&
     isNavigating &&
     navigationPerspective === NavigationPerspectives.FOLLOW;
+  const watermarkControlVisible = !isNavigating;
   const geolocateControlIsVisible =
     enableGeolocation && !simulatedLocation && !isNavigating;
   const muteControlVisible =
@@ -576,6 +578,7 @@ const Map = ({
       pitch={pitch}
       onLoad={handleMapLoad}
     >
+      <WatermarkControl visible={watermarkControlVisible} />
       <GeolocateControl
         watchPosition={true}
         visible={geolocateControlIsVisible}
