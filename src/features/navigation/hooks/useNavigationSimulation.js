@@ -62,7 +62,7 @@ function useNavigationSimulation({
   useEffect(() => {
     const onMessage = (event) => {
       const {
-        data: { type, bearing }
+        data: { type, bearing, fitBounds }
       } = event;
 
       switch (type) {
@@ -70,7 +70,7 @@ function useNavigationSimulation({
           startNavigation({ bearing });
           break;
         case `${EVENT_PREFIX}.${ControlEvents.StopNavigation}`:
-          stopNavigation();
+          stopNavigation({ fitBounds });
           break;
         default:
         // do nothing
@@ -153,17 +153,20 @@ function useNavigationSimulation({
     if (onNavigationStarted) onNavigationStarted();
   };
 
-  const stopNavigation = (userCancelled = false) => {
-    const geojson = featureCollection([
-      ...(routeOptions.locations
-        ? routeOptions.locations.map((loc) => ({
-            type: "Feature",
-            geometry: { type: "Point", coordinates: loc.coordinates }
-          }))
-        : []),
-      ...route.features
-    ]);
-    const bounds = geoJsonBounds(geojson);
+  const stopNavigation = ({ fitBounds, userCancelled = false }) => {
+    const bounds =
+      fitBounds ||
+      geoJsonBounds(
+        featureCollection([
+          ...(routeOptions.locations
+            ? routeOptions.locations.map((loc) => ({
+                type: "Feature",
+                geometry: { type: "Point", coordinates: loc.coordinates }
+              }))
+            : []),
+          ...route.features
+        ])
+      );
 
     map.__om.setPadding({ top: 0, left: 0 });
 

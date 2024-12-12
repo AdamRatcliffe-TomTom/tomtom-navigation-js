@@ -62,7 +62,7 @@ const arrivalMessages = {
   ARRIVE_RIGHT: strings.arrivalRight
 };
 
-const Arrival = ({
+const ArrivalPanel = ({
   onStopNavigation = () => {},
   onNavigationContinue = () => {}
 }) => {
@@ -166,4 +166,4 @@ const Arrival = ({
   );
 };
 
-export default Arrival;
+export default ArrivalPanel;
