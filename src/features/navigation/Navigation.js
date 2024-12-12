@@ -72,7 +72,6 @@ const Navigation = ({
   map,
   simulationOptions,
   arriveNorth,
-  destinationReachedDelay,
   renderETAPanel,
   renderArrivalPanel,
   preCalculatedRoute,
@@ -344,62 +343,52 @@ const Navigation = ({
     const bounds = new tt.LngLatBounds(lastCoordinate, lastCoordinate);
     bounds.extend(destination.coordinates);
 
-    const delay = destinationReachedDelay > 0 ? destinationReachedDelay : 0;
+    // Reset the map's field of view padding
+    map.__om.setPadding({ top: 0, left: 0 });
 
-    const executeActions = () => {
-      // Reset the map's field of view padding
-      map.__om.setPadding({ top: 0, left: 0 });
+    batch(() => {
+      dispatch(setViewTransitioning(true));
+      dispatch(setHasReachedDestination(true));
+      dispatch(setNavigationPerspective(NavigationPerspectives.OVERVIEW));
+      dispatch(
+        setFitBoundsOptions({
+          animate: true,
+          bearing,
+          pitch: 0,
+          duration: 1000,
+          maxZoom: 18,
+          padding: {
+            top: FIT_BOUNDS_PADDING_TOP,
+            right: FIT_BOUNDS_PADDING_RIGHT,
+            bottom: ARRIVAL_PANEL_HEIGHT + 16,
+            left: FIT_BOUNDS_PADDING_LEFT
+          }
+        })
+      );
+      dispatch(setBounds(bounds.toArray()));
+    });
 
-      batch(() => {
-        dispatch(setViewTransitioning(true));
-        dispatch(setHasReachedDestination(true));
-        dispatch(setNavigationPerspective(NavigationPerspectives.OVERVIEW));
-        dispatch(
-          setFitBoundsOptions({
-            animate: true,
-            bearing,
-            pitch: 0,
-            duration: 1000,
-            maxZoom: 18,
-            padding: {
-              top: FIT_BOUNDS_PADDING_TOP,
-              right: FIT_BOUNDS_PADDING_RIGHT,
-              bottom: ARRIVAL_PANEL_HEIGHT + 16,
-              left: FIT_BOUNDS_PADDING_LEFT
-            }
-          })
-        );
-        dispatch(setBounds(bounds.toArray()));
-      });
+    map.once("moveend", () => dispatch(setViewTransitioning(false)));
 
-      map.once("moveend", () => dispatch(setViewTransitioning(false)));
-
-      if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
-        if (lastInstruction) {
-          const announcement = strings[lastInstruction.maneuver];
-          speak({
-            voice,
-            text: announcement,
-            volume: guidanceVoiceVolume,
-            playbackRate: guidanceVoicePlaybackRate
-          });
-        }
+    if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
+      if (lastInstruction) {
+        const announcement = strings[lastInstruction.maneuver];
+        speak({
+          voice,
+          text: announcement,
+          volume: guidanceVoiceVolume,
+          playbackRate: guidanceVoicePlaybackRate
+        });
       }
+    }
 
-      const eventData = {
-        maneuver: lastInstruction.maneuver,
-        destination
-      };
-
-      fireEvent(ControlEvents.OnDestinationReached, eventData);
-      onDestinationReached(eventData);
+    const eventData = {
+      maneuver: lastInstruction.maneuver,
+      destination
     };
 
-    if (delay > 0) {
-      setTimeout(executeActions, delay);
-    } else {
-      executeActions();
-    }
+    fireEvent(ControlEvents.OnDestinationReached, eventData);
+    onDestinationReached(eventData);
   };
 
   const getRuler = () => {
