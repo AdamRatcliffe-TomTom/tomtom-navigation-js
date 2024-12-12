@@ -20,7 +20,7 @@ import SkipControl from "./controls/SkipControl";
 import SpeedLimitEU from "./SpeedLimitEU";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
-import Waypoints from "./Waypoints";
+import MarkerLayer from "./MarkerLayer";
 import ManeuverArrows from "./ManeuverArrows";
 import LocationMarker from "./markers/LocationMarker";
 import LocationIcon from "../../icons/LocationIcon";
@@ -628,7 +628,7 @@ const Map = ({
           addLayer,
           removeLayer
         })}
-      {haveWaypoints && <Waypoints data={routeOptions.locations} />}
+      {haveWaypoints && <MarkerLayer data={routeOptions.locations} />}
       <ChevronMarker
         visible={chevronMarkerIsVisible}
         icon={
