@@ -2,10 +2,12 @@ import React from "react";
 import { withMap } from "react-tomtom-maps";
 import { useTheme } from "@fluentui/react";
 import MapControl from "./MapControl";
+import { useNavigationContext } from "../../../core/NavigationContext";
 import Logo from "../Logo";
 
 const Watermark = ({ visible = true, onClick = () => {} }) => {
   const theme = useTheme();
+  const { isPhone } = useNavigationContext();
 
   const handleClick = () => {
     onClick();
@@ -13,7 +15,10 @@ const Watermark = ({ visible = true, onClick = () => {} }) => {
 
   return visible ? (
     <div onClick={handleClick}>
-      <Logo width={81} height={16} color={theme.palette.black} />
+      <Logo
+        color={theme.palette.black}
+        {...(isPhone && { width: 91, height: 18 })}
+      />
     </div>
   ) : null;
 };
