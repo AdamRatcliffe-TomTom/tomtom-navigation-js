@@ -24,7 +24,7 @@ const Watermark = ({ visible = true, onClick = () => {} }) => {
 };
 
 const WatermarkControl = ({ position = "bottom-right", ...otherProps }) => (
-  <MapControl position={position}>
+  <MapControl position={position} style={{ pointerEvents: "none" }}>
     <Watermark {...otherProps} />
   </MapControl>
 );

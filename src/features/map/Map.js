@@ -102,6 +102,7 @@ const Map = ({
   showZoomControl = false,
   showSkipControl = false,
   showManeuverArrows = true,
+  showWalkingLeg = true,
   renderLayers,
   preCalculatedRoute,
   fitRoute = true,
@@ -614,7 +615,7 @@ const Map = ({
           pedestrianBefore={pedestrianRouteBeforeId}
           routeTravelled={routeTravelled}
           routeRemaining={pedestrianRoute ? route.features[0] : routeRemaining}
-          walkingLeg={walkingLeg}
+          walkingLeg={showWalkingLeg ? walkingLeg : null}
           isPedestrianRoute={pedestrianRoute}
         />
       )}

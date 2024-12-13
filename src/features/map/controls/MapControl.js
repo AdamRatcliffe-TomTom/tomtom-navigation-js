@@ -31,8 +31,14 @@ class MapControl extends React.Component {
   }
 
   createContainer() {
+    const { style } = this.props;
     const container = document.createElement("div");
     container.className = "mapboxgl-ctrl";
+
+    if (style) {
+      Object.assign(container.style, style);
+    }
+
     return container;
   }
 
@@ -64,7 +70,8 @@ class MapControl extends React.Component {
 }
 
 MapControl.propTypes = {
-  position: PropTypes.string
+  position: PropTypes.string,
+  style: PropTypes.object
 };
 
 MapControl.defaultProps = {
