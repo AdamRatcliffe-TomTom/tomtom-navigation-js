@@ -33,7 +33,7 @@ const useStyles = (props) =>
     },
     itemLabel: {
       fontFamily: "Noto Sans",
-      fontSize: 16,
+      fontSize: 14,
       textAlign: "center",
       marginTop: theme.spacing.s1
     }
