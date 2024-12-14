@@ -155,7 +155,7 @@ function NavigationView({
             const route = await response.json();
             setPreCalculatedRoute(route);
           } catch (error) {
-            console.error("Error fetching static route:", error);
+            console.error(`Error fetching static route (${routeData}):`, error);
           }
         } else if (typeof routeData === "object" && routeData !== null) {
           setPreCalculatedRoute(routeData);
