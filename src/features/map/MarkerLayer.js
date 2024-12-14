@@ -128,7 +128,7 @@ const MarkerLayer = ({ data = featureCollection([]), before }) => {
         removeLayer([id]);
       }
     };
-  }, [memoizedLayer, addLayer, removeLayer]);
+  }, [memoizedLayer, addLayer, removeLayer, id]);
 
   return null;
 };
