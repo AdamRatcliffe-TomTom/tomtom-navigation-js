@@ -6,8 +6,23 @@ export default function createWalkingLeg(waypoints, geojson) {
   const {
     geometry: { coordinates }
   } = route;
+
   const lastCoordinate = coordinates.at(-1);
-  const lastWaypointCoordinate = waypoints.at(-1).coordinates;
+
+  let lastWaypointCoordinate;
+  if (Array.isArray(waypoints)) {
+    lastWaypointCoordinate = waypoints.at(-1)?.geometry?.coordinates;
+  } else {
+    throw new Error(
+      "Invalid waypoints format. Expected an array of GeoJSON Point features."
+    );
+  }
+
+  if (!lastWaypointCoordinate) {
+    throw new Error(
+      "Unable to determine the coordinates of the last waypoint."
+    );
+  }
 
   const ruler = new CheapRuler(lastCoordinate[1], "meters");
   const distance = ruler.distance(lastCoordinate, lastWaypointCoordinate);

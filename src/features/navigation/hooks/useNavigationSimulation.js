@@ -158,11 +158,8 @@ function useNavigationSimulation({
       fitBounds ||
       geoJsonBounds(
         featureCollection([
-          ...(routeOptions.locations
-            ? routeOptions.locations.map((loc) => ({
-                type: "Feature",
-                geometry: { type: "Point", coordinates: loc.coordinates }
-              }))
+          ...(Array.isArray(routeOptions.locations)
+            ? routeOptions.locations
             : []),
           ...route.features
         ])

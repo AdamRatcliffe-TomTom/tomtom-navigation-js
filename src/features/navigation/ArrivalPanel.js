@@ -78,11 +78,14 @@ const ArrivalPanel = ({
   const continueButtonText = useSelector(getContinueButtonText);
   const { maneuver } = useSelector(getLastInstruction) || {};
   const { locations } = useSelector(getRouteOptions);
-  const destination = locations?.at(-1);
+  const destination = Array.isArray(locations) ? locations.at(-1) : null;
 
   if (!destination) return null;
 
-  const { name, address, coordinates } = destination;
+  const {
+    geometry: { coordinates },
+    properties: { name, address }
+  } = destination;
   const arrivalMessage = arrivalMessages[maneuver];
   const haveNameAddress = !_isEmpty(name) || !_isEmpty(address);
 

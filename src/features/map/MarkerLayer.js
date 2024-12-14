@@ -1,9 +1,10 @@
 import { useEffect, useState, useMemo } from "react";
-import { IconLayer } from "@deck.gl/layers";
+import { GeoJsonLayer } from "@deck.gl/layers";
 import { v4 as uuid } from "uuid";
+import { featureCollection } from "@turf/helpers";
 import { useLayers } from "./hooks/LayersContext";
 
-const MarkerLayer = ({ data = [], before }) => {
+const MarkerLayer = ({ data = featureCollection([]), before }) => {
   const id = useMemo(() => `MarkerLayer-${uuid()}`, []);
   const { addLayer, removeLayer } = useLayers();
   const [processedData, setProcessedData] = useState([]);
@@ -46,25 +47,50 @@ const MarkerLayer = ({ data = [], before }) => {
 
   useEffect(() => {
     const processIcons = async () => {
-      const processed = await Promise.all(
-        data.map(
-          async ({ coordinates, icon: { url, width, height, anchor } }) => {
-            const rasterizedUrl = url.endsWith(".svg")
+      if (!data) return;
+
+      const featureCollection =
+        data.type === "FeatureCollection"
+          ? data
+          : { type: "FeatureCollection", features: data };
+
+      const processedFeatures = await Promise.all(
+        featureCollection.features
+          .filter((feature) => feature.geometry.type === "Point")
+          .map(async (feature) => {
+            const { properties, geometry } = feature;
+
+            const icon = properties?.icon;
+            if (!icon) {
+              return feature;
+            }
+
+            const { url, width, height, anchor } = icon;
+
+            const rasterizedUrl = url?.endsWith(".svg")
               ? await rasterizeSVG(url, width, height)
               : url;
+
             return {
-              position: coordinates,
-              icon: {
-                url: rasterizedUrl,
-                width,
-                height,
-                anchor
+              ...feature,
+              properties: {
+                ...properties,
+                icon: {
+                  ...icon,
+                  url: rasterizedUrl,
+                  width,
+                  height,
+                  anchor
+                }
               }
             };
-          }
-        )
+          })
       );
-      setProcessedData(processed);
+
+      setProcessedData({
+        type: "FeatureCollection",
+        features: processedFeatures
+      });
     };
 
     processIcons();
@@ -72,19 +98,20 @@ const MarkerLayer = ({ data = [], before }) => {
 
   const memoizedLayer = useMemo(() => {
     if (!processedData || processedData.length === 0) return null;
-    return new IconLayer({
+
+    return new GeoJsonLayer({
       id,
       beforeId: before,
       data: processedData,
-      getPosition: (d) => d.position,
-      getIcon: (d) => d.icon,
-      getSize: (d) => d.icon.height,
-      sizeMinPixels: (d) => d.icon.height,
-      sizeMaxPixels: (d) => d.icon.height,
-      getPixelOffset: (d) => {
-        const { width, height, anchor } = d.icon;
+      pointType: "icon",
+      getIcon: (f) => f.properties.icon,
+      getIconPixelOffset: (f) => {
+        const { width, height, anchor } = f.properties.icon;
         return calculateOffset(anchor, width, height);
       },
+      getIconSize: (f) => f.properties.icon.height,
+      iconSizeMinPixels: (f) => f.properties.icon.height,
+      iconSizeMaxPixels: (f) => f.properties.icon.height,
       parameters: {
         depthTest: false
       }

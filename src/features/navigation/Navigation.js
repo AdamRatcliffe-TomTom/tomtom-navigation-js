@@ -151,13 +151,19 @@ const Navigation = ({
   const lastInstructionRef = useSelectorRef(getLastInstruction).at(1);
   const [voiceAnnouncementsEnabled, voiceAnnouncementsEnabledRef] =
     useSelectorRef(getVoiceAnnouncementsEnabled);
-  const destination = useMemo(
-    () =>
-      routeOptions.locations?.length
-        ? routeOptions.locations.at(-1)
-        : routeFeature?.geometry.coordinates.at(-1),
-    [routeOptions.locations, route]
-  );
+
+  const destination = useMemo(() => {
+    if (Array.isArray(routeOptions.locations)) {
+      return routeOptions.locations.at(-1);
+    }
+
+    if (routeFeature?.geometry.coordinates.length) {
+      return routeFeature.geometry.coordinates.at(-1);
+    }
+
+    return null;
+  }, [routeOptions.locations, routeFeature]);
+
   const navigationPaddingTop = useMemo(
     () =>
       Math.max(

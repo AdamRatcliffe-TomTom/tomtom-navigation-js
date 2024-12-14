@@ -171,6 +171,22 @@ function NavigationView({
     fetchRoute();
   }, [routeData]);
 
+  useEffect(() => {
+    if (preCalculatedRoute && preCalculatedRoute.type === "FeatureCollection") {
+      const pointFeatures = preCalculatedRoute.features.filter(
+        (feature) => feature.geometry.type === "Point"
+      );
+
+      if (pointFeatures.length > 0) {
+        dispatch(
+          setRouteOptions({
+            locations: pointFeatures
+          })
+        );
+      }
+    }
+  }, [preCalculatedRoute, dispatch]);
+
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <NavigationContextProvider

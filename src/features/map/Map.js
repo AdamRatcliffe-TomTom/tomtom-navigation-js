@@ -208,6 +208,22 @@ const Map = ({
     [pedestrianRoute, pitch]
   );
 
+  const markerLayerData = useMemo(() => {
+    if (
+      preCalculatedRoute?.features?.some(
+        (feature) => feature.geometry.type === "Point"
+      )
+    ) {
+      return preCalculatedRoute;
+    }
+
+    if (routeOptions.locations) {
+      return routeOptions.locations;
+    }
+
+    return null;
+  }, [preCalculatedRoute, routeOptions.locations]);
+
   const routeIsVisible = !!route;
   const maneuverArrowsAreVisible =
     showManeuverArrows &&
@@ -243,7 +259,6 @@ const Map = ({
     !viewTransitioning &&
     navigationPerspective === NavigationPerspectives.OVERVIEW &&
     currentLocation;
-  const haveWaypoints = routeOptions?.locations?.length > 0;
 
   useEffect(() => {
     const map = mapRef.current?.getMap();
@@ -328,7 +343,7 @@ const Map = ({
       !viewTransitioning &&
       !isNavigating &&
       fitRoute &&
-      (routeOptions?.locations?.length || route)
+      (routeOptions?.locations || route)
     ) {
       fitRouteOrWaypoints(routeFitBoundsOptions);
     }
@@ -434,19 +449,25 @@ const Map = ({
   };
 
   const fitRouteOrWaypoints = (fitBoundsOptions) => {
-    // Convert the route waypoints to geojson
-    let geojson = coordinatesToGeoJson(
-      routeOptions.locations?.map((location) => location.coordinates)
-    );
+    if (
+      !route &&
+      (!routeOptions.locations ||
+        (Array.isArray(routeOptions.locations) &&
+          routeOptions.locations.length === 0))
+    ) {
+      return;
+    }
 
-    // If we have a route, extend the location geojson to include
-    // the route geometry
-    if (route) {
-      const mergedFeatures = [
-        ...route.features,
-        ...(geojson ? geojson.features : [])
-      ];
-      geojson = featureCollection(mergedFeatures);
+    let geojson = null;
+
+    if (Array.isArray(routeOptions.locations)) {
+      geojson = featureCollection(routeOptions.locations);
+    } else if (routeOptions.locations?.type === "FeatureCollection") {
+      geojson = routeOptions.locations;
+    }
+
+    if (route && geojson) {
+      geojson = featureCollection([...route.features, ...geojson.features]);
     }
 
     if (geojson) {
@@ -633,7 +654,7 @@ const Map = ({
           addLayer,
           removeLayer
         })}
-      {haveWaypoints && <MarkerLayer data={routeOptions.locations} />}
+      {markerLayerData && <MarkerLayer data={markerLayerData} />}
       <ChevronMarker
         visible={chevronMarkerIsVisible}
         icon={
