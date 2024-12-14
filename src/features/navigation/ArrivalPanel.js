@@ -21,7 +21,11 @@ import ControlEvents from "../../constants/ControlEvents";
 import strings from "../../config/strings";
 
 import { getRouteOptions } from "../map/mapSlice";
-import { getShowContinueButton, getLastInstruction } from "./navigationSlice";
+import {
+  getShowContinueButton,
+  getContinueButtonText,
+  getLastInstruction
+} from "./navigationSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,6 +75,7 @@ const ArrivalPanel = ({
   const textClasses = useTextStyles();
   const buttonClasses = useButtonStyles();
   const showContinueButton = useSelector(getShowContinueButton);
+  const continueButtonText = useSelector(getContinueButtonText);
   const { maneuver } = useSelector(getLastInstruction) || {};
   const { locations } = useSelector(getRouteOptions);
   const destination = locations?.at(-1);
@@ -157,7 +162,7 @@ const ArrivalPanel = ({
         {showContinueButton && (
           <PrimaryButton
             className={`${buttonClasses.pillButtonLarge} ${classes.continueButton}`}
-            text={strings.continueWalking}
+            text={continueButtonText}
             onClick={handleContinue}
           />
         )}

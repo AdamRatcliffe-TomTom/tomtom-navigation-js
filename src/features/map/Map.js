@@ -93,6 +93,7 @@ const Map = ({
   simulatedLocation,
   showTrafficFlow = false,
   showTrafficIncidents = false,
+  showWatermark = true,
   showPoi = false,
   showBuildings3D = true,
   showLocationMarker = true,
@@ -213,7 +214,7 @@ const Map = ({
     !!route &&
     isNavigating &&
     navigationPerspective === NavigationPerspectives.FOLLOW;
-  const watermarkControlVisible = !isNavigating;
+  const watermarkControlVisible = showWatermark && !isNavigating;
   const geolocateControlIsVisible =
     enableGeolocation && !simulatedLocation && !isNavigating;
   const muteControlVisible =

@@ -29,7 +29,8 @@ import {
   setShowETAPanel,
   setShowGuidancePanel,
   setShowArrivalPanel,
-  setShowContinueButton
+  setShowContinueButton,
+  setContinueButtonText
 } from "../features/navigation/navigationSlice";
 
 function NavigationView({
@@ -60,6 +61,7 @@ function NavigationView({
   showGuidancePanel = true,
   showArrivalPanel = true,
   showContinueButton = false,
+  continueButtonText = strings.continueWalking,
   routeData,
   renderLayers,
   renderETAPanel,
@@ -131,6 +133,10 @@ function NavigationView({
 
   useEffect(() => {
     dispatch(setShowContinueButton(showContinueButton));
+  }, [showContinueButton]);
+
+  useEffect(() => {
+    dispatch(setContinueButtonText(continueButtonText));
   }, [showContinueButton]);
 
   useEffect(() => {

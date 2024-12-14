@@ -17,6 +17,7 @@ const initialState = {
   showGuidancePanel: true,
   showArrivalPanel: true,
   showContinueButton: false,
+  continueButtonText: "",
   isNavigating: false,
   navigationPerspective: NavigationPerspectives.FOLLOW,
   hasReachedDestination: false,
@@ -56,6 +57,9 @@ const navigationSlice = createSlice({
     },
     setShowContinueButton: (state, action) => {
       state.showContinueButton = action.payload;
+    },
+    setContinueButtonText: (state, action) => {
+      state.continueButtonText = action.payload;
     },
     setIsNavigating: (state, action) => {
       state.isNavigating = action.payload;
@@ -181,7 +185,6 @@ const navigationSlice = createSlice({
       state.lastInstruction = undefined;
       state.routeTravelled = undefined;
       state.routeRemaining = action.payload?.routeRemaining;
-      // state.distanceRemaining = undefined;
     }
   }
 });
@@ -206,6 +209,11 @@ const getShowArrivalPanel = createSelector(
 const getShowContinueButton = createSelector(
   rootSelector,
   (state) => state.showContinueButton
+);
+
+const getContinueButtonText = createSelector(
+  rootSelector,
+  (state) => state.continueButtonText
 );
 
 const getIsNavigating = createSelector(
@@ -285,6 +293,7 @@ export {
   getShowGuidancePanel,
   getShowArrivalPanel,
   getShowContinueButton,
+  getContinueButtonText,
   getIsNavigating,
   getNavigationPerspective,
   getNextInstruction,
@@ -307,6 +316,7 @@ export const {
   setShowGuidancePanel,
   setShowArrivalPanel,
   setShowContinueButton,
+  setContinueButtonText,
   setIsNavigating,
   setNavigationPerspective,
   setCurrentLocation,
