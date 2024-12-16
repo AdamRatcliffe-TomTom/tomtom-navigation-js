@@ -28,6 +28,7 @@ import MergeRightIcon from "../icons/nip/MergeRightIcon";
 import CarTrainIcon from "../icons/nip/CarTrainIcon";
 import CrossBorderIcon from "../icons/nip/CrossBorderIcon";
 import TollGateIcon from "../icons/nip/TollGateIcon";
+import ElevatorIcon from "../icons/nip/ElevatorIcon";
 
 export default function getManeuverIcon(
   maneuver,
@@ -83,6 +84,7 @@ export default function getManeuverIcon(
     [Maneuvers.MERGE_RIGHT_LANE]: <MergeRightIcon size={size} color={color} />,
     [Maneuvers.CAR_TRAIN]: <CarTrainIcon size={size} color={color} />,
     [Maneuvers.CROSS_BORDER]: <CrossBorderIcon size={size} color={color} />,
-    [Maneuvers.TOLLGATE]: <TollGateIcon size={size} color={color} />
+    [Maneuvers.TOLLGATE]: <TollGateIcon size={size} color={color} />,
+    [Maneuvers.TAKE_ELEVATOR]: <ElevatorIcon size={size} color={color} />
   }[maneuver];
 }

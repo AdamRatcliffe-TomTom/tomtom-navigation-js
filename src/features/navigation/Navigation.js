@@ -245,6 +245,28 @@ const Navigation = ({
     }
   }, [announcement, voiceAnnouncementsEnabled]);
 
+  const findNearbyWaypoint = (currentPoint, threshold = 1) => {
+    const {
+      geometry: { coordinates }
+    } = routeFeature;
+
+    const ruler = getRuler(coordinates);
+
+    for (const waypoint of routeOptions.locations) {
+      const distance = ruler.distance(
+        currentPoint,
+        waypoint.geometry.coordinates
+      );
+      if (distance <= threshold) {
+        return {
+          point: waypoint.geometry.coordinates,
+          index: waypoint.properties.pointIndex
+        };
+      }
+    }
+    return null;
+  };
+
   const handleSimulatorUpdate = (event) => {
     // Don't want to process updates while the view is transitioning, such as when changing navigation perspective.
     if (viewTransitioning) {
@@ -262,10 +284,13 @@ const Navigation = ({
 
     const ruler = getRuler(coordinates);
 
-    const { point, index: pointIndex } = ruler.pointOnLine(
-      coordinates,
-      stepCoords
-    );
+    // If a nearer waypoint exists, use that preferentially
+    let nearbyPoint = findNearbyWaypoint(stepCoords);
+    if (!nearbyPoint) {
+      nearbyPoint = ruler.pointOnLine(coordinates, stepCoords);
+    }
+
+    const { point, index: pointIndex } = nearbyPoint;
 
     const traveledPart = ruler.lineSlice(coordinates[0], point, coordinates);
     if (traveledPart.length === 1) {

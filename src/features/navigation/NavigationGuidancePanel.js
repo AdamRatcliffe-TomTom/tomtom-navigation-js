@@ -60,21 +60,15 @@ const useStyles = ({
       minHeight: 96
     },
     nipPanel: {
-      backgroundColor: pedestrianRoute
-        ? theme.palette.white
-        : countryCode === "US"
-        ? theme.semanticColors.nipUSBackground
-        : theme.semanticColors.nipEUBackground
+      backgroundColor: getBackgroundColor(pedestrianRoute, countryCode, theme)
     },
     consecutiveInstructionPanel: {
-      backgroundColor:
-        countryCode === "US"
-          ? appTheme === "dark"
-            ? theme.semanticColors.nipUSHighlight
-            : theme.semanticColors.nipUSEmphasis
-          : appTheme === "dark"
-          ? theme.semanticColors.nipEUHighlight
-          : theme.semanticColors.nipEUEmphasis,
+      backgroundColor: getConsecutiveInstructionPanelBackgroundColor(
+        pedestrianRoute,
+        countryCode,
+        appTheme,
+        theme
+      ),
       transition: "background-color 0.15s"
     },
     trafficEventsPanel: {
@@ -82,6 +76,37 @@ const useStyles = ({
       transition: "background-color 0.15s"
     }
   }));
+
+const getBackgroundColor = (pedestrianRoute, countryCode, theme) => {
+  if (pedestrianRoute) {
+    return theme.palette.white;
+  }
+
+  return countryCode === "US"
+    ? theme.semanticColors.nipUSBackground
+    : theme.semanticColors.nipEUBackground;
+};
+
+const getConsecutiveInstructionPanelBackgroundColor = (
+  pedestrianRoute,
+  countryCode,
+  appTheme,
+  theme
+) => {
+  if (pedestrianRoute) {
+    return theme.palette.ttSecondary;
+  }
+
+  if (countryCode === "US") {
+    return appTheme === "dark"
+      ? theme.semanticColors.nipUSHighlight
+      : theme.semanticColors.nipUSEmphasis;
+  }
+
+  return appTheme === "dark"
+    ? theme.semanticColors.nipEUHighlight
+    : theme.semanticColors.nipEUEmphasis;
+};
 
 const styleId = "guidance-ctrl-margin-adjustment";
 
