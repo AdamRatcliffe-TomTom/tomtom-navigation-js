@@ -49,6 +49,7 @@
     "react-tomtom-maps": "ssh://git@github.com:AdamRatcliffe-TomTom/react-tomtom-maps.git",
     "react-use-measure": "^2.1.1",
     "react-usestateref": "^1.0.8",
+    "tinycolor2": "^1.6.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

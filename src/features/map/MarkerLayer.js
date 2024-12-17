@@ -4,10 +4,17 @@ import { GeoJsonLayer } from "@deck.gl/layers";
 import { v4 as uuid } from "uuid";
 import { featureCollection } from "@turf/helpers";
 import { useLayers } from "./hooks/LayersContext";
+import tinycolor from "tinycolor2";
+
+const parseColor = (color) => {
+  const { r, g, b, a } = tinycolor(color).toRgb();
+  return [r, g, b, Math.round(a * 255)];
+};
 
 const MarkerLayer = ({
   data = featureCollection([]),
   before,
+  labelColor = "rgb(251, 99, 9)",
   isNavigating
 }) => {
   const id = useMemo(() => `MarkerLayer-${uuid()}`, []);
@@ -63,7 +70,7 @@ const MarkerLayer = ({
         featureCollection.features
           .filter((feature) => feature.geometry.type === "Point")
           .map(async (feature) => {
-            const { properties, geometry } = feature;
+            const { properties } = feature;
 
             const icon = properties?.icon;
             if (!icon) {
@@ -138,16 +145,18 @@ const MarkerLayer = ({
           getText: (f) => _capitalize(f.properties.label),
           getTextColor: [255, 255, 255, 255],
           getTextSize: 14,
-          getTextAnchor: "start",
-          getTextBackgroundColor: [24, 33, 42, 255],
+          getTextAnchor: "middle",
           getTextPixelOffset: (f) => {
             const { width, height } = f.properties.icon;
-            return [(width / 2) * -1, (height + 20) * -1];
+            return [0, (height + 14) * -1];
           },
           textFontFamily: "Noto Sans",
           textFontWeight: 400,
-          textBackground: true,
-          textBackgroundPadding: [8, 4],
+          textOutlineColor: parseColor(labelColor),
+          textOutlineWidth: 4,
+          textFontSettings: {
+            sdf: true
+          },
           parameters: {
             depthTest: false
           }
@@ -156,7 +165,7 @@ const MarkerLayer = ({
     }
 
     return layers;
-  }, [processedData, id, before, isNavigating]);
+  }, [processedData, id, before, labelColor, isNavigating]);
 
   useEffect(() => {
     if (memoizedLayers) {

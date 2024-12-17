@@ -127,6 +127,7 @@ function useNavigationSimulation({
           zoom: zoomForTravelMode,
           bearing: bearing || map.getBearing(),
           animationOptions: {
+            duration: 750,
             padding: {
               top: navigationPaddingTopRef.current,
               left: isTablet ? TABLET_PANEL_WIDTH : 0
@@ -175,6 +176,7 @@ function useNavigationSimulation({
       dispatch(setPitch(0));
       dispatch(
         setFitBoundsOptions({
+          duration: 750,
           padding: {
             top: FIT_BOUNDS_PADDING_TOP,
             right: FIT_BOUNDS_PADDING_RIGHT,
