@@ -15,13 +15,16 @@ const defaultOptions = {
 
 const calculateRoute = async (options) => {
   const { key, locations, supportingPoints, ...otherOptions } = options;
+
+  const coordinates = getLocationsCoordinates(locations);
+
   const params = objectToQueryString({
     ...defaultOptions,
     ...otherOptions,
     key
   });
-  const url = `${BASE_ROUTING_URL}/${locations
-    .map(locationToString)
+  const url = `${BASE_ROUTING_URL}/${coordinates
+    .map(coordinatesToString)
     .join(":")}/json?${params}`;
 
   let fetchOptions;
@@ -48,7 +51,15 @@ const lngLatsToSupportingPoints = (coords) => {
   return { supportingPoints };
 };
 
-const locationToString = ({ coordinates }) =>
+const getLocationsCoordinates = (locations) => {
+  if (Array.isArray(locations)) {
+    return locations.map((loc) => loc.geometry.coordinates);
+  }
+
+  return [];
+};
+
+const coordinatesToString = (coordinates) =>
   `${coordinates[1]},${coordinates[0]}`;
 
 const routeBaseQuery = async (args) => {
@@ -57,7 +68,7 @@ const routeBaseQuery = async (args) => {
       args;
 
     if (preCalculatedRoute) {
-      const sectionedRoute = createSectionedRoute(preCalculatedRoute);
+      // const sectionedRoute = createSectionedRoute(preCalculatedRoute);
       const maneuverLineStrings = createManeuverLineStrings(preCalculatedRoute);
 
       calculateTriggerPoints(preCalculatedRoute);
@@ -65,7 +76,7 @@ const routeBaseQuery = async (args) => {
       return {
         data: {
           route: preCalculatedRoute,
-          sectionedRoute,
+          // sectionedRoute,
           maneuverLineStrings
         }
       };
@@ -81,11 +92,11 @@ const routeBaseQuery = async (args) => {
     translateInstructions(route);
     calculateTriggerPoints(route);
 
-    const sectionedRoute = createSectionedRoute(route);
+    // const sectionedRoute = createSectionedRoute(route);
     const walkingLeg = createWalkingLeg(args.locations, route);
     const maneuverLineStrings = createManeuverLineStrings(route);
 
-    return { data: { route, sectionedRoute, walkingLeg, maneuverLineStrings } };
+    return { data: { route, walkingLeg, maneuverLineStrings } };
   } catch (error) {
     console.error(error);
 
