@@ -92,16 +92,11 @@ const navigationSlice = createSlice({
         ruler = new CheapRuler(coordinates[0][1], "meters");
       }
 
-      let consecutiveInstruction;
-
-      if (possibleCombineWithNext) {
-        consecutiveInstruction = instructionByIndex(
-          routeFeature,
-          instruction.pointIndex + 1
-        );
-      } else {
-        consecutiveInstruction = undefined;
-      }
+      const consecutiveInstruction = instruction.consecutiveInstruction
+        ? instruction.consecutiveInstruction
+        : possibleCombineWithNext
+        ? instructionByIndex(routeFeature, instruction.pointIndex + 1)
+        : undefined;
 
       let distanceToNextManeuver = 0;
       if (instruction) {
