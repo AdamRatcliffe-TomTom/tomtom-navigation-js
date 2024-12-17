@@ -62,7 +62,7 @@ function useNavigationSimulation({
   useEffect(() => {
     const onMessage = (event) => {
       const {
-        data: { type, bearing, fitBounds }
+        data: { type, bearing, fitBounds, fitBoundsOptions }
       } = event;
 
       switch (type) {
@@ -70,7 +70,7 @@ function useNavigationSimulation({
           startNavigation({ bearing });
           break;
         case `${EVENT_PREFIX}.${ControlEvents.StopNavigation}`:
-          stopNavigation({ fitBounds });
+          stopNavigation({ fitBounds, fitBoundsOptions });
           break;
         default:
         // do nothing
@@ -156,7 +156,11 @@ function useNavigationSimulation({
     if (onNavigationStarted) onNavigationStarted();
   };
 
-  const stopNavigation = ({ fitBounds, userCancelled = false }) => {
+  const stopNavigation = ({
+    fitBounds,
+    fitBoundsOptions,
+    userCancelled = false
+  }) => {
     const bounds =
       fitBounds ||
       geoJsonBounds(
@@ -183,7 +187,8 @@ function useNavigationSimulation({
             bottom: FIT_BOUNDS_PADDING_BOTTOM,
             left: FIT_BOUNDS_PADDING_LEFT
           },
-          animate: true
+          animate: true,
+          ...fitBoundsOptions
         })
       );
       dispatch(setBounds(bounds));
