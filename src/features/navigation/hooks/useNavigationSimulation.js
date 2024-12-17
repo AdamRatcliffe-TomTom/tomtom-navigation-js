@@ -110,6 +110,8 @@ function useNavigationSimulation({
       ? "flyTo"
       : "jumpTo";
 
+    map.stop();
+
     setMapInteractive(false);
 
     batch(() => {

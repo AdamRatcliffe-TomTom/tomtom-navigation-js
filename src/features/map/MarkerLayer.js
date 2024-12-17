@@ -1,10 +1,15 @@
 import { useEffect, useState, useMemo } from "react";
+import _capitalize from "lodash.capitalize";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import { v4 as uuid } from "uuid";
 import { featureCollection } from "@turf/helpers";
 import { useLayers } from "./hooks/LayersContext";
 
-const MarkerLayer = ({ data = featureCollection([]), before }) => {
+const MarkerLayer = ({
+  data = featureCollection([]),
+  before,
+  isNavigating
+}) => {
   const id = useMemo(() => `MarkerLayer-${uuid()}`, []);
   const { addLayer, removeLayer } = useLayers();
   const [processedData, setProcessedData] = useState([]);
@@ -96,39 +101,75 @@ const MarkerLayer = ({ data = featureCollection([]), before }) => {
     processIcons();
   }, [data]);
 
-  const memoizedLayer = useMemo(() => {
+  const memoizedLayers = useMemo(() => {
     if (!processedData || processedData.length === 0) return null;
 
-    return new GeoJsonLayer({
-      id,
-      beforeId: before,
-      data: processedData,
-      pointType: "icon",
-      getIcon: (f) => f.properties.icon,
-      getIconPixelOffset: (f) => {
-        const { width, height, anchor } = f.properties.icon;
-        return calculateOffset(anchor, width, height);
-      },
-      getIconSize: (f) => f.properties.icon.height,
-      iconSizeMinPixels: (f) => f.properties.icon.height,
-      iconSizeMaxPixels: (f) => f.properties.icon.height,
-      parameters: {
-        depthTest: false
-      }
-    });
-  }, [processedData, id, before]);
+    const labelFeatures = processedData.features.filter(
+      (f) => !!f.properties.label
+    );
+
+    const layers = [
+      new GeoJsonLayer({
+        id,
+        beforeId: before,
+        data: processedData,
+        pointType: "icon",
+        getIcon: (f) => f.properties.icon,
+        getIconPixelOffset: (f) => {
+          const { width, height, anchor } = f.properties.icon;
+          return calculateOffset(anchor, width, height);
+        },
+        getIconSize: (f) => f.properties.icon.height,
+        iconSizeMinPixels: (f) => f.properties.icon.height,
+        iconSizeMaxPixels: (f) => f.properties.icon.height,
+        parameters: {
+          depthTest: false
+        }
+      })
+    ];
+
+    if (labelFeatures.length && isNavigating) {
+      layers.push(
+        new GeoJsonLayer({
+          id: `${id}-Text`,
+          beforeId: before,
+          data: labelFeatures,
+          pointType: "text",
+          getText: (f) => _capitalize(f.properties.label),
+          getTextColor: [255, 255, 255, 255],
+          getTextSize: 14,
+          getTextAnchor: "start",
+          getTextBackgroundColor: [24, 33, 42, 255],
+          getTextPixelOffset: (f) => {
+            const { width, height } = f.properties.icon;
+            return [(width / 2) * -1, (height + 20) * -1];
+          },
+          textFontFamily: "Noto Sans",
+          textFontWeight: 400,
+          textBackground: true,
+          textBackgroundPadding: [8, 4],
+          parameters: {
+            depthTest: false
+          }
+        })
+      );
+    }
+
+    return layers;
+  }, [processedData, id, before, isNavigating]);
 
   useEffect(() => {
-    if (memoizedLayer) {
-      addLayer(memoizedLayer);
+    if (memoizedLayers) {
+      addLayer(memoizedLayers);
     }
 
     return () => {
-      if (memoizedLayer) {
-        removeLayer([id]);
+      if (memoizedLayers) {
+        const layerIds = memoizedLayers.map((layer) => layer.id);
+        removeLayer(layerIds);
       }
     };
-  }, [memoizedLayer, addLayer, removeLayer, id]);
+  }, [memoizedLayers, addLayer, removeLayer, id]);
 
   return null;
 };

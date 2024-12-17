@@ -31,7 +31,6 @@ import ChevronMarker from "./markers/ChevronMarker";
 import Chevron2DMarker from "./markers/Chevron2DMarker";
 import { useCalculateRouteQuery } from "../../services/routing";
 import calculateFitBoundsOptions from "../../functions/calculateFitBoundsOptions";
-import coordinatesToGeoJson from "../../functions/coordinatesToGeoJson";
 import geoJsonBounds from "../../functions/geoJsonBounds";
 import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
@@ -654,7 +653,9 @@ const Map = ({
           addLayer,
           removeLayer
         })}
-      {markerLayerData && <MarkerLayer data={markerLayerData} />}
+      {markerLayerData && (
+        <MarkerLayer data={markerLayerData} isNavigating={isNavigating} />
+      )}
       <ChevronMarker
         visible={chevronMarkerIsVisible}
         icon={

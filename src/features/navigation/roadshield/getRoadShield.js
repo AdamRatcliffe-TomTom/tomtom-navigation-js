@@ -17,10 +17,10 @@ export default function getRoadShield(name, text, spriteImageUrl, spriteJson) {
         width={width}
         height={height}
         style={{
-          transform: "scale(0.75)",
+          transform: "scale(0.8)",
           transformOrigin: "top left",
-          marginRight: height * -0.25,
-          marginBottom: height * -0.25
+          marginRight: height * -0.2,
+          marginBottom: height * -0.2
         }}
       >
         <div
