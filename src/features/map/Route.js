@@ -46,15 +46,14 @@ const Route = ({
           filled: true,
           stroked: true,
           getLineColor: [59, 174, 227, 255],
-          getLineWidth: 8,
-          lineWidthMinPixels: 8,
-          lineWidthMaxPixels: 12,
-          lineWidthUnits: "meters",
+          getLineWidth: 12,
+          lineWidthUnits: "pixels",
           lineCapRounded: true,
           lineJointRounded: true,
           getDashArray: [0.2, 4],
           dashJustified: true,
           extensions: [new PathStyleExtension({ dash: true })]
+          // lineBillboard: true
         })
         // new GeoJsonLayer({
         //   id: `${id}--Pedestrian--Travelled`,

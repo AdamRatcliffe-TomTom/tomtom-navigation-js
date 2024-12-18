@@ -679,9 +679,7 @@ const Map = ({
           addLayer,
           removeLayer
         })}
-      {markerLayerData && (
-        <MarkerLayer data={markerLayerData} isNavigating={isNavigating} />
-      )}
+      {markerLayerData && <MarkerLayer data={markerLayerData} />}
       <ChevronMarker
         visible={chevronMarkerIsVisible}
         icon={

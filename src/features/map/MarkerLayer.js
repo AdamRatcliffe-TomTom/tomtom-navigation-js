@@ -14,8 +14,7 @@ const parseColor = (color) => {
 const MarkerLayer = ({
   data = featureCollection([]),
   before,
-  labelColor = "rgb(251, 99, 9)",
-  isNavigating
+  labelColor = "rgb(251, 99, 9)"
 }) => {
   const id = useMemo(() => `MarkerLayer-${uuid()}`, []);
   const { addLayer, removeLayer } = useLayers();
@@ -135,7 +134,7 @@ const MarkerLayer = ({
       })
     ];
 
-    if (labelFeatures.length && isNavigating) {
+    if (labelFeatures.length) {
       layers.push(
         new GeoJsonLayer({
           id: `${id}-Text`,
@@ -144,11 +143,11 @@ const MarkerLayer = ({
           pointType: "text",
           getText: (f) => _capitalize(f.properties.label),
           getTextColor: [255, 255, 255, 255],
-          getTextSize: 14,
+          getTextSize: 15,
           getTextAnchor: "middle",
           getTextPixelOffset: (f) => {
-            const { width, height } = f.properties.icon;
-            return [0, (height + 14) * -1];
+            const { height } = f.properties.icon;
+            return [0, (height + 15) * -1];
           },
           textFontFamily: "Noto Sans",
           textFontWeight: 400,
@@ -165,7 +164,7 @@ const MarkerLayer = ({
     }
 
     return layers;
-  }, [processedData, id, before, labelColor, isNavigating]);
+  }, [processedData, id, before, labelColor]);
 
   useEffect(() => {
     if (memoizedLayers) {
