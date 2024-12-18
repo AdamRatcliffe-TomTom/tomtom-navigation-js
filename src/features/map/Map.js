@@ -86,6 +86,7 @@ const pedestrianRouteBeforeId = "Borders - Treaty";
 const maneuverArrowsBeforeId = "Places - Country name";
 
 const easing = (v) => v;
+const mapOptions = { maxZoom: 20 };
 
 const Map = ({
   enableGeolocation = true,
@@ -222,6 +223,27 @@ const Map = ({
 
     return null;
   }, [preCalculatedRoute, routeOptions.locations]);
+
+  const stylesVisibility = useMemo(
+    () => ({
+      trafficFlow: showTrafficFlow,
+      trafficIncidents: showTrafficIncidents
+    }),
+    [showTrafficFlow, showTrafficIncidents]
+  );
+
+  const memoizedAnimationOptions = useMemo(
+    () => ({ ...animationOptions, easing }),
+    [animationOptions, easing]
+  );
+
+  const containerStyle = useMemo(
+    () => ({
+      width: `${width}px`,
+      height: `${height}px`
+    }),
+    [width, height]
+  );
 
   const routeIsVisible = !!route;
   const maneuverArrowsAreVisible =
@@ -580,18 +602,13 @@ const Map = ({
       key={apiKey}
       apiKey={apiKey}
       mapStyle={currentStyle}
-      stylesVisibility={{
-        trafficFlow: showTrafficFlow,
-        trafficIncidents: showTrafficIncidents
-      }}
+      stylesVisibility={stylesVisibility}
       language={language}
-      containerStyle={{
-        width: `${width}px`,
-        height: `${height}px`
-      }}
+      containerStyle={containerStyle}
+      mapOptions={mapOptions}
       fitBoundsOptions={fitBoundsOptions}
       movingMethod={movingMethod}
-      animationOptions={{ ...animationOptions, easing }}
+      animationOptions={memoizedAnimationOptions}
       attributionControl={false}
       center={center}
       zoom={zoom}
