@@ -57,7 +57,7 @@ function useNavigationSimulation({
   const routeOptions = useSelector(getRouteOptions);
   const { guidanceVoiceVolume, guidanceVoicePlaybackRate, isTablet } =
     useNavigationContext();
-  const { speechAvailable, speak } = useSpeech();
+  const { speechAvailable, speak, cancelSpeech } = useSpeech();
 
   useEffect(() => {
     const onMessage = (event) => {
@@ -161,6 +161,8 @@ function useNavigationSimulation({
     fitBoundsOptions,
     userCancelled = false
   }) => {
+    cancelSpeech();
+
     const bounds =
       fitBounds ||
       geoJsonBounds(
