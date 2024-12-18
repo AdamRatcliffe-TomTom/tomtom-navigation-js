@@ -86,7 +86,7 @@ const pedestrianRouteBeforeId = "Borders - Treaty";
 const maneuverArrowsBeforeId = "Places - Country name";
 
 const easing = (v) => v;
-const mapOptions = { maxZoom: 20 };
+const defaultMapOptions = { maxZoom: 20 };
 
 const Map = ({
   enableGeolocation = true,
@@ -104,6 +104,7 @@ const Map = ({
   showSkipControl = false,
   showManeuverArrows = true,
   showWalkingLeg = true,
+  mapConfig = {},
   renderLayers,
   preCalculatedRoute,
   fitRoute = true,
@@ -243,6 +244,14 @@ const Map = ({
       height: `${height}px`
     }),
     [width, height]
+  );
+
+  const mapOptions = useMemo(
+    () => ({
+      ...defaultMapOptions,
+      ...mapConfig
+    }),
+    [mapConfig]
   );
 
   const routeIsVisible = !!route;
