@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
-
+import { useState, useEffect, useCallback, useRef } from "react";
+import { v4 as uuid } from "uuid";
+import JSZip from "jszip";
 import {
   MS_SPEECH_SERVICE_REGION,
   MS_SPEECH_SERVICE_SUBSCRIPTION_KEY
@@ -8,13 +9,14 @@ import {
 const defaultVoiceName = "en-US-JennyNeural";
 const audioSupported = typeof Audio !== "undefined";
 
-let activePlayer;
-let isSpeaking;
-let isCancelled;
+let activePlayer = null;
+let isSpeaking = false;
 
 const useMicrosoftSpeech = () => {
   const [voices, setVoices] = useState();
   const [voicesAvailable, setVoicesAvailable] = useState(false);
+  const audioCache = useRef(new Map());
+  const [lastRouteHash, setLastRouteHash] = useState(null);
 
   useEffect(() => {
     getAvailableVoices();
@@ -43,51 +45,125 @@ const useMicrosoftSpeech = () => {
     return null;
   }, [voicesAvailable, voices]);
 
-  const getVoiceForLanguage = useCallback(
-    (lang) => {
-      if (voicesAvailable) {
-        const exactMatch = voices.find((voice) => voice.Locale === lang);
+  const createBatchRequest = async (texts, voiceName) => {
+    const jobId = `batch-synthesis-${uuid()}`;
+    const url = `https://${MS_SPEECH_SERVICE_REGION}.api.cognitive.microsoft.com/texttospeech/batchsyntheses/${jobId}?api-version=2024-04-01`;
 
-        if (exactMatch) {
-          return exactMatch;
+    const inputs = texts.map((text) => ({
+      content: `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+                  <voice name="${voiceName}">${text}</voice>
+                </speak>`
+    }));
+
+    const payload = {
+      inputKind: "SSML",
+      inputs: inputs,
+      properties: {
+        outputFormat: "riff-24khz-16bit-mono-pcm",
+        timeToLiveInHours: 744
+      }
+    };
+
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Ocp-Apim-Subscription-Key": MS_SPEECH_SERVICE_SUBSCRIPTION_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Batch synthesis request failed: ${response.statusText}`);
+    }
+
+    return jobId;
+  };
+
+  const pollBatchStatus = async (jobId) => {
+    const url = `https://${MS_SPEECH_SERVICE_REGION}.api.cognitive.microsoft.com/texttospeech/batchsyntheses/${jobId}?api-version=2024-04-01`;
+
+    while (true) {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Ocp-Apim-Subscription-Key": MS_SPEECH_SERVICE_SUBSCRIPTION_KEY
         }
+      });
 
-        const languageMatch = voices.find((voice) =>
-          voice.Locale.startsWith(lang + "-")
-        );
-
-        return languageMatch || getDefaultVoice();
-      } else {
-        return null;
+      if (!response.ok) {
+        throw new Error(`Failed to get batch status: ${response.statusText}`);
       }
-    },
-    [voicesAvailable, voices, getDefaultVoice]
-  );
 
-  const getVoiceByName = useCallback(
-    (name) => {
-      if (voicesAvailable) {
-        return voices.find((voice) => voice.ShortName === name);
+      const data = await response.json();
+      const status = data.status;
+
+      if (status === "Succeeded") {
+        return data.outputs.result;
+      } else if (status === "Failed") {
+        throw new Error("Batch synthesis failed");
       }
-      return null;
-    },
-    [voicesAvailable, voices]
-  );
 
-  const speak = ({ text, voice, volume = 1, playbackRate = 1 }) => {
-    if (isSpeaking) {
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Poll every second
+    }
+  };
+
+  const fetchAndExtractZip = async (zipUrl, texts) => {
+    const response = await fetch(zipUrl);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch results ZIP: ${response.statusText}`);
+    }
+
+    const zipData = await response.arrayBuffer();
+    const zip = await JSZip.loadAsync(zipData);
+
+    const audioMap = new Map();
+    const audioPromises = texts.map(async (text, index) => {
+      const fileIndex = String(index + 1).padStart(4, "0");
+      const wavFile = zip.file(`${fileIndex}.wav`);
+      if (wavFile) {
+        const audioBlob = await wavFile.async("blob");
+        audioMap.set(text, new Blob([audioBlob], { type: "audio/wav" }));
+      }
+    });
+
+    await Promise.all(audioPromises);
+    return audioMap;
+  };
+
+  const prefetchAudio = async (texts, routeHash) => {
+    if (routeHash === lastRouteHash) {
+      console.log("Using cached audio for route");
       return;
     }
-    isSpeaking = true;
-    isCancelled = false;
 
-    const voiceName =
-      (typeof voice === "object" ? voice.ShortName : voice) ||
-      getDefaultVoice()?.ShortName;
+    audioCache.current.clear();
+    setLastRouteHash(routeHash);
 
+    const voiceName = getDefaultVoice()?.ShortName;
+    if (!voiceName) {
+      throw new Error("No default voice available");
+    }
+
+    try {
+      const jobId = await createBatchRequest(texts, voiceName);
+      const zipUrl = await pollBatchStatus(jobId);
+      const audioMap = await fetchAndExtractZip(zipUrl, texts);
+
+      // Update cache with extracted audio
+      for (const [text, audioBlob] of audioMap.entries()) {
+        audioCache.current.set(text, audioBlob);
+      }
+    } catch (error) {
+      console.error("Batch audio prefetch failed:", error);
+    }
+  };
+
+  const fetchSingleAudio = async ({ text, voiceName }) => {
     const url = `https://${MS_SPEECH_SERVICE_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
 
-    fetch(url, {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Ocp-Apim-Subscription-Key": MS_SPEECH_SERVICE_SUBSCRIPTION_KEY,
@@ -99,39 +175,55 @@ const useMicrosoftSpeech = () => {
                  ${text}
                </voice>
              </speak>`
-    })
-      .then((response) => response.arrayBuffer())
-      .then((audioData) => {
-        if (isCancelled) {
-          return;
-        }
+    });
 
-        activePlayer = new Audio();
-        activePlayer.src = URL.createObjectURL(
-          new Blob([audioData], { type: "audio/mp3" })
-        );
-        activePlayer.playbackRate = playbackRate;
-        activePlayer.volume = volume;
-        activePlayer.addEventListener("ended", () => {
-          activePlayer = null;
-          isSpeaking = false;
-        });
-        activePlayer.play();
-      })
-      .catch((error) => {
-        console.error("Speech synthesis failed: " + error);
-      });
+    if (!response.ok) {
+      throw new Error(`Text-to-speech request failed: ${response.statusText}`);
+    }
+
+    return await response.blob();
   };
 
-  // API has no method for canceling any existing utterance. Achieve that
-  // by pausing and closing the active player
+  const speak = async ({ text, volume = 1, playbackRate = 1 }) => {
+    if (isSpeaking) {
+      console.log("Already speaking, cannot play a new text.");
+      return;
+    }
+    isSpeaking = true;
+
+    let audioBlob = audioCache.current.get(text);
+
+    if (!audioBlob) {
+      console.log("Text not found in cache, fetching dynamically...");
+      try {
+        const voiceName = getDefaultVoice()?.ShortName;
+        audioBlob = await fetchSingleAudio({ text, voiceName });
+        audioCache.current.set(text, audioBlob);
+      } catch (error) {
+        console.error("Dynamic text-to-speech failed:", error);
+        isSpeaking = false;
+        return;
+      }
+    } else {
+      console.log("Text found in cache");
+    }
+
+    activePlayer = new Audio(URL.createObjectURL(audioBlob));
+    activePlayer.volume = volume;
+    activePlayer.playbackRate = playbackRate;
+    activePlayer.addEventListener("ended", () => {
+      activePlayer = null;
+      isSpeaking = false;
+    });
+    activePlayer.play();
+  };
+
   const cancelSpeech = () => {
     if (activePlayer) {
       activePlayer.pause();
       activePlayer = null;
       isSpeaking = false;
-    } else {
-      isCancelled = true;
+      console.log("Speech cancelled.");
     }
   };
 
@@ -140,10 +232,9 @@ const useMicrosoftSpeech = () => {
     voicesAvailable,
     voices,
     speak,
+    prefetchAudio,
     cancelSpeech,
-    getDefaultVoice,
-    getVoiceByName,
-    getVoiceForLanguage
+    getDefaultVoice
   };
 };
 

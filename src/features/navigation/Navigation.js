@@ -83,7 +83,8 @@ const Navigation = ({
 }) => {
   const dispatch = useDispatch();
   const rulerRef = useRef(null);
-  const { speechAvailable, getVoiceForLanguage, speak } = useSpeech();
+  const { speechAvailable, prefetchAudio, getVoiceForLanguage, speak } =
+    useSpeech();
   const {
     apiKey,
     height,
@@ -217,6 +218,23 @@ const Navigation = ({
   //     setPreviousRoute(route);
   //   }
   // }, [isNavigating, route, previousRoute]);
+
+  useEffect(() => {
+    if (routeFeature) {
+      const shouldPrefetchAudio = speechAvailable && isPedestrian;
+
+      if (shouldPrefetchAudio) {
+        const {
+          properties: {
+            guidance: { instructions }
+          }
+        } = routeFeature;
+        const messages = instructions.map((instruction) => instruction.message);
+
+        prefetchAudio(messages, JSON.stringify(messages));
+      }
+    }
+  }, [speechAvailable, routeFeature, isPedestrian]);
 
   useEffect(() => {
     if (Boolean(simulationShouldEnd)) {
