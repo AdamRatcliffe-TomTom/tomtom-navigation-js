@@ -45,6 +45,37 @@ const useMicrosoftSpeech = () => {
     return null;
   }, [voicesAvailable, voices]);
 
+  const getVoiceForLanguage = useCallback(
+    (lang) => {
+      if (voicesAvailable) {
+        const exactMatch = voices.find((voice) => voice.Locale === lang);
+
+        if (exactMatch) {
+          return exactMatch;
+        }
+
+        const languageMatch = voices.find((voice) =>
+          voice.Locale.startsWith(lang + "-")
+        );
+
+        return languageMatch || getDefaultVoice();
+      } else {
+        return null;
+      }
+    },
+    [voicesAvailable, voices, getDefaultVoice]
+  );
+
+  const getVoiceByName = useCallback(
+    (name) => {
+      if (voicesAvailable) {
+        return voices.find((voice) => voice.ShortName === name);
+      }
+      return null;
+    },
+    [voicesAvailable, voices]
+  );
+
   const createBatchRequest = async (texts, voiceName) => {
     const jobId = `batch-synthesis-${uuid()}`;
     const url = `https://${MS_SPEECH_SERVICE_REGION}.api.cognitive.microsoft.com/texttospeech/batchsyntheses/${jobId}?api-version=2024-04-01`;
@@ -234,7 +265,9 @@ const useMicrosoftSpeech = () => {
     speak,
     prefetchAudio,
     cancelSpeech,
-    getDefaultVoice
+    getDefaultVoice,
+    getVoiceByName,
+    getVoiceForLanguage
   };
 };
 

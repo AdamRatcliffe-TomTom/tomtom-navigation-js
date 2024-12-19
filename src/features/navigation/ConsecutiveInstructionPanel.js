@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, Stack, Text } from "@fluentui/react";
 import getManeuverIcon from "../../functions/getManeuverIcon";
+import { useTheme } from "@fluentui/react";
 import strings from "../../config/strings";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,9 +24,13 @@ const ConsecutiveInstructionPanel = ({ instruction }) => {
     return null;
   }
 
+  const theme = useTheme();
   const classes = useStyles();
   const { maneuver } = instruction;
-  const maneuverIcon = getManeuverIcon(maneuver, { size: 40 });
+  const maneuverIcon = getManeuverIcon(maneuver, {
+    size: 40,
+    color: theme.palette.black
+  });
   const maneuverText = strings[maneuver].toLowerCase();
   const instructionText = strings.formatString(
     strings.consecutiveInstructionTemplate,
