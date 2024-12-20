@@ -3,8 +3,9 @@ import _capitalize from "lodash.capitalize";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import { v4 as uuid } from "uuid";
 import { featureCollection } from "@turf/helpers";
-import { useLayers } from "./hooks/LayersContext";
 import tinycolor from "tinycolor2";
+import { useLayers } from "./hooks/LayersContext";
+import rasterizeSVG from "../../functions/rasterizeSVG";
 
 const parseColor = (color) => {
   const { r, g, b, a } = tinycolor(color).toRgb();
@@ -37,23 +38,6 @@ const MarkerLayer = ({
     };
 
     return offsets[anchor] || offsets.center;
-  };
-
-  const rasterizeSVG = (svgUrl, width, height) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = "Anonymous";
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL());
-      };
-      img.onerror = reject;
-      img.src = svgUrl;
-    });
   };
 
   useEffect(() => {

@@ -22,7 +22,7 @@ import SpeedLimitEU from "./SpeedLimitEU";
 import SpeedLimitUS from "./SpeedLimitUS";
 import Route from "./Route";
 import MarkerLayer from "./MarkerLayer";
-import ManeuverArrows from "./ManeuverArrows";
+import ManeuverArrows from "./ManeuverArrowsDeck";
 import LocationMarker from "./markers/LocationMarker";
 import LocationIcon from "../../icons/LocationIcon";
 import ChevronIcon from "../../icons/ChevronIcon";

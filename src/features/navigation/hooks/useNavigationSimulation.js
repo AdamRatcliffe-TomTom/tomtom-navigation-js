@@ -110,6 +110,8 @@ function useNavigationSimulation({
       ? "flyTo"
       : "jumpTo";
 
+    cancelSpeech();
+
     map.stop();
 
     setMapInteractive(false);
