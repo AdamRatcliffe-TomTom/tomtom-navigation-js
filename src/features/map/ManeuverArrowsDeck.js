@@ -73,7 +73,10 @@ const ManeuverArrows = ({ data, nextInstructionPointIndex, before }) => {
         getIconAngle: (d) => 180 - d.properties.rotation,
         getIconSize: 28,
         iconBillboard: false,
-        sizeUnits: "pixels"
+        sizeUnits: "pixels",
+        parameters: {
+          depthTest: false
+        }
       }),
       new GeoJsonLayer({
         id: `${id}-arrow-lines`,
@@ -84,7 +87,10 @@ const ManeuverArrows = ({ data, nextInstructionPointIndex, before }) => {
         getLineColor: [255, 255, 255, 255],
         getLineWidth: 6,
         lineWidthMinPixels: 6,
-        lineWidthMaxPixels: 13
+        lineWidthMaxPixels: 13,
+        parameters: {
+          depthTest: false
+        }
       })
     ];
   }, [filteredLineGeoJson, arrowHeadGeoJson, rasterizedArrow, id, before]);
