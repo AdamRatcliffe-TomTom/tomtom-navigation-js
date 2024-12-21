@@ -186,6 +186,7 @@ const useMicrosoftSpeech = () => {
       for (const [text, audioBlob] of audioMap.entries()) {
         audioCache.current.set(text, audioBlob);
       }
+      console.log("Fetched audio for route");
     } catch (error) {
       console.error("Batch audio prefetch failed:", error);
     }

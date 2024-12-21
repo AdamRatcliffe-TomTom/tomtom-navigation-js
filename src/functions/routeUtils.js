@@ -81,7 +81,11 @@ function announcementByIndex(
               measurementSystem,
               language
             );
-        return { text: announcementText, type: announcementType };
+        return {
+          type: announcementType,
+          text: announcementText,
+          priority: announcement.priority || false
+        };
       }
     }
   }

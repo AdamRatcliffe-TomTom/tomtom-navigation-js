@@ -83,8 +83,13 @@ const Navigation = ({
 }) => {
   const dispatch = useDispatch();
   const rulerRef = useRef(null);
-  const { speechAvailable, prefetchAudio, getVoiceForLanguage, speak } =
-    useSpeech();
+  const {
+    speechAvailable,
+    voicesAvailable,
+    prefetchAudio,
+    getVoiceForLanguage,
+    speak
+  } = useSpeech();
   const {
     apiKey,
     height,
@@ -234,7 +239,7 @@ const Navigation = ({
         prefetchAudio(messages, JSON.stringify(messages));
       }
     }
-  }, [speechAvailable, routeFeature, isPedestrian]);
+  }, [speechAvailable, voicesAvailable, routeFeature, isPedestrian]);
 
   useEffect(() => {
     if (Boolean(simulationShouldEnd)) {
@@ -258,7 +263,8 @@ const Navigation = ({
         voice,
         text: announcement.text,
         volume: guidanceVoiceVolume,
-        playbackRate: guidanceVoicePlaybackRate
+        playbackRate: guidanceVoicePlaybackRate,
+        replace: announcement.priority
       });
     }
   }, [announcement, voiceAnnouncementsEnabled]);
