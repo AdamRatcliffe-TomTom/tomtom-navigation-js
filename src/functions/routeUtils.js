@@ -84,7 +84,8 @@ function announcementByIndex(
         return {
           type: announcementType,
           text: announcementText,
-          priority: announcement.priority || false
+          priority: announcement.priority || false,
+          isLast: isArrivalManeuver(announcement.maneuver)
         };
       }
     }
@@ -102,11 +103,7 @@ function getAnnouncementText(
   // Announcement points for the ARRIVE maneuver variants are typically provided before the destination
   // is reached. Replace the maneuver type with the ARRIVING maneuver so an appropriate
   // announcement is used
-  if (
-    [Maneuvers.ARRIVE, Maneuvers.ARRIVE_LEFT, Maneuvers.ARRIVE_RIGHT].includes(
-      maneuver
-    )
-  ) {
+  if (isArrivalManeuver(maneuver)) {
     maneuver = Maneuvers.ARRIVING;
   }
 
@@ -158,6 +155,14 @@ function trafficEventsByIndex(route, index) {
       index >= triggerPointIndex &&
       index < startPointIndex
   );
+}
+
+function isArrivalManeuver(maneuver) {
+  return [
+    Maneuvers.ARRIVE,
+    Maneuvers.ARRIVE_LEFT,
+    Maneuvers.ARRIVE_RIGHT
+  ].includes(maneuver);
 }
 
 export {

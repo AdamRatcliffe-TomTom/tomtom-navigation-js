@@ -123,6 +123,8 @@ const Navigation = ({
   const isNavigating = useSelector(getIsNavigating);
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
+  const [arrivalAnnoucementSpoken, setArrivalAnnouncementSpoken] =
+    useState(false);
   const [seek, setSeek] = useState(null);
 
   const setETA = (feature) => {
@@ -259,13 +261,17 @@ const Navigation = ({
 
   useEffect(() => {
     if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
+      const { text, priority, isLast } = announcement;
+
       speak({
         voice,
-        text: announcement.text,
+        text,
         volume: guidanceVoiceVolume,
         playbackRate: guidanceVoicePlaybackRate,
-        replace: announcement.priority
+        replace: priority
       });
+
+      setArrivalAnnouncementSpoken(isLast);
     }
   }, [announcement, voiceAnnouncementsEnabled]);
 
@@ -428,7 +434,7 @@ const Navigation = ({
     map.once("moveend", () => dispatch(setViewTransitioning(false)));
 
     if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
-      if (lastInstruction) {
+      if (!arrivalAnnoucementSpoken && lastInstruction) {
         const announcement = strings[lastInstruction.maneuver];
         speak({
           voice,

@@ -92,6 +92,8 @@ const navigationSlice = createSlice({
         ruler = new CheapRuler(coordinates[0][1], "meters");
       }
 
+      // TODO: review use of inline consecutive instruction. Divergence from Routing API
+      // instruction format
       const consecutiveInstruction = instruction.consecutiveInstruction
         ? instruction.consecutiveInstruction
         : possibleCombineWithNext
