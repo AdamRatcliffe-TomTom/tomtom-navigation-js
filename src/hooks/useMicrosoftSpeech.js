@@ -17,6 +17,7 @@ const useMicrosoftSpeech = () => {
   const [voicesAvailable, setVoicesAvailable] = useState(false);
   const audioCache = useRef(new Map());
   const [lastRouteHash, setLastRouteHash] = useState(null);
+  const queue = useRef([]);
 
   useEffect(() => {
     getAvailableVoices();
@@ -135,7 +136,7 @@ const useMicrosoftSpeech = () => {
         throw new Error("Batch synthesis failed");
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Poll every second
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
   };
 
@@ -182,7 +183,6 @@ const useMicrosoftSpeech = () => {
       const zipUrl = await pollBatchStatus(jobId);
       const audioMap = await fetchAndExtractZip(zipUrl, texts);
 
-      // Update cache with extracted audio
       for (const [text, audioBlob] of audioMap.entries()) {
         audioCache.current.set(text, audioBlob);
       }
@@ -216,20 +216,34 @@ const useMicrosoftSpeech = () => {
     return await response.blob();
   };
 
+  const playNextInQueue = () => {
+    if (queue.current.length > 0) {
+      const next = queue.current.shift();
+      speak(next);
+    }
+  };
+
   const speak = async ({
     text,
     volume = 1,
     playbackRate = 1,
-    replace = false
+    replace = false,
+    enqueue = false
   }) => {
-    if (isSpeaking && !replace) {
-      console.log("Already speaking, cannot play a new text.");
+    if (isSpeaking && enqueue) {
+      console.log(`Text enqueued: "${text}"`);
+      queue.current.push({ text, volume, playbackRate });
       return;
     }
 
-    if (isSpeaking && replace && activePlayer) {
+    if (isSpeaking && replace) {
       console.log("Replacing current utterance with a new one.");
       cancelSpeech();
+    }
+
+    if (isSpeaking) {
+      console.log("Already speaking, cannot play a new text.");
+      return;
     }
 
     isSpeaking = true;
@@ -257,6 +271,7 @@ const useMicrosoftSpeech = () => {
     activePlayer.addEventListener("ended", () => {
       activePlayer = null;
       isSpeaking = false;
+      playNextInQueue();
     });
     activePlayer.play();
   };
@@ -266,6 +281,7 @@ const useMicrosoftSpeech = () => {
       activePlayer.pause();
       activePlayer = null;
       isSpeaking = false;
+      queue.current.length = 0;
       console.log("Speech cancelled.");
     }
   };

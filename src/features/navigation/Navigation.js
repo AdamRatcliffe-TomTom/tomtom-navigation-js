@@ -269,7 +269,8 @@ const Navigation = ({
         text,
         volume: guidanceVoiceVolume,
         playbackRate: guidanceVoicePlaybackRate,
-        replace: priority
+        replace: priority,
+        enqueue: isLast
       });
     }
   }, [announcement, voiceAnnouncementsEnabled]);
