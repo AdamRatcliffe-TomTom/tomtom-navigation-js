@@ -263,6 +263,8 @@ const Navigation = ({
     }
   }, [announcement, voiceAnnouncementsEnabled]);
 
+  // TODO: review use of this function. Default threshold is almost certainly too
+  // low to be of use for anything other than pedestrian navigation
   const findNearbyWaypoint = (currentPoint, threshold = 1) => {
     const {
       geometry: { coordinates }

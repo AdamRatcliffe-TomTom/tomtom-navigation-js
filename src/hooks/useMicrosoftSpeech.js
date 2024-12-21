@@ -215,11 +215,22 @@ const useMicrosoftSpeech = () => {
     return await response.blob();
   };
 
-  const speak = async ({ text, volume = 1, playbackRate = 1 }) => {
-    if (isSpeaking) {
+  const speak = async ({
+    text,
+    volume = 1,
+    playbackRate = 1,
+    replace = false
+  }) => {
+    if (isSpeaking && !replace) {
       console.log("Already speaking, cannot play a new text.");
       return;
     }
+
+    if (isSpeaking && replace && activePlayer) {
+      console.log("Replacing current utterance with a new one.");
+      cancelSpeech();
+    }
+
     isSpeaking = true;
 
     let audioBlob = audioCache.current.get(text);
