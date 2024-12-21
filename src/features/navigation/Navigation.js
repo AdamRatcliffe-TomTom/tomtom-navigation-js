@@ -83,6 +83,7 @@ const Navigation = ({
 }) => {
   const dispatch = useDispatch();
   const rulerRef = useRef(null);
+  const arrivalAnnoucementSpokenRef = useRef();
   const {
     speechAvailable,
     voicesAvailable,
@@ -123,8 +124,6 @@ const Navigation = ({
   const isNavigating = useSelector(getIsNavigating);
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
-  const [arrivalAnnoucementSpoken, setArrivalAnnouncementSpoken] =
-    useState(false);
   const [seek, setSeek] = useState(null);
 
   const setETA = (feature) => {
@@ -263,6 +262,8 @@ const Navigation = ({
     if (speechAvailable && voiceAnnouncementsEnabled && announcement) {
       const { text, priority, isLast } = announcement;
 
+      arrivalAnnoucementSpokenRef.current = isLast;
+
       speak({
         voice,
         text,
@@ -270,8 +271,6 @@ const Navigation = ({
         playbackRate: guidanceVoicePlaybackRate,
         replace: priority
       });
-
-      setArrivalAnnouncementSpoken(isLast);
     }
   }, [announcement, voiceAnnouncementsEnabled]);
 
@@ -434,7 +433,7 @@ const Navigation = ({
     map.once("moveend", () => dispatch(setViewTransitioning(false)));
 
     if (speechAvailable && voiceAnnouncementsEnabledRef?.current) {
-      if (!arrivalAnnoucementSpoken && lastInstruction) {
+      if (!arrivalAnnoucementSpokenRef.current && lastInstruction) {
         const announcement = strings[lastInstruction.maneuver];
         speak({
           voice,
