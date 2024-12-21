@@ -100,22 +100,16 @@ function getAnnouncementText(
   measurementSystem = "metric",
   language
 ) {
-  // Announcement points for the ARRIVE maneuver variants are typically provided before the destination
-  // is reached. Replace the maneuver type with the ARRIVING maneuver so an appropriate
-  // announcement is used
-  if (isArrivalManeuver(maneuver)) {
-    maneuver = Maneuvers.ARRIVING;
-  }
-
   const maneuverText = strings[maneuver];
   const includeDistance =
     distanceInMeters > 0 &&
     ![Maneuvers.STRAIGHT, Maneuvers.WAYPOINT_REACHED].includes(maneuver);
 
   if (includeDistance) {
-    const announcementTemplate = street
-      ? strings.guidanceAnnouncementOntoStreetTemplate
-      : strings.guidanceAnnouncementTemplate;
+    const announcementTemplate =
+      street & !isArrivalManeuver(maneuver)
+        ? strings.guidanceAnnouncementOntoStreetTemplate
+        : strings.guidanceAnnouncementTemplate;
 
     const { value: distance, units } = formatDistance(
       distanceInMeters,

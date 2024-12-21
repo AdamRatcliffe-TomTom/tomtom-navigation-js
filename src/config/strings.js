@@ -38,7 +38,7 @@ const strings = new LocalizedStrings({
     northWest: "North-West",
     unknown: "unknown",
     ARRIVING: "You will arrive at your destination",
-    ARRIVE: "You have arrived at your destination",
+    ARRIVE: "Arrive at your destination",
     ARRIVE_LEFT: "You have arrived. Your destination is on the left",
     ARRIVE_RIGHT: "You have arrived. Your destination is on the right",
     DEPART: "Start driving",
