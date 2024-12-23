@@ -7,6 +7,12 @@ import expandDirectionAbbreviation from "./expandDirectionAbbreviation";
 import strings from "../config/strings";
 import SectionTypes from "../constants/SectionTypes";
 
+const announcementTypes = [
+  AnnouncementTypes.EARLY_WARNING,
+  AnnouncementTypes.MAIN,
+  AnnouncementTypes.CONFIRMATION
+];
+
 function getFirstInstruction(route) {
   const { instructions } = route.properties.guidance;
   return instructions[0];
@@ -40,6 +46,51 @@ function speedLimitByIndex(route, index) {
   return undefined;
 }
 
+function allAnnouncements(route, measurementSystem, language, useMessageProp) {
+  const { instructions } = route.properties.guidance;
+  const announcements = [];
+
+  for (const instruction of instructions) {
+    const {
+      street,
+      earlyWarningAnnouncement,
+      mainAnnouncement,
+      confirmationAnnouncement,
+      message
+    } = instruction;
+
+    for (const announcementType of announcementTypes) {
+      const announcement =
+        announcementType === AnnouncementTypes.EARLY_WARNING
+          ? earlyWarningAnnouncement
+          : announcementType === AnnouncementTypes.MAIN
+          ? mainAnnouncement
+          : confirmationAnnouncement;
+
+      if (announcement) {
+        const announcementText = useMessageProp
+          ? message
+          : getAnnouncementText(
+              announcement,
+              street,
+              measurementSystem,
+              language
+            );
+
+        announcements.push({
+          pointIndex: announcement.pointIndex,
+          type: announcementType,
+          text: announcementText,
+          priority: announcement.priority || false,
+          isLast: isArrivalManeuver(announcement.maneuver)
+        });
+      }
+    }
+  }
+
+  return announcements;
+}
+
 function announcementByIndex(
   route,
   index,
@@ -57,12 +108,6 @@ function announcementByIndex(
       confirmationAnnouncement,
       message
     } = instruction;
-
-    const announcementTypes = [
-      AnnouncementTypes.EARLY_WARNING,
-      AnnouncementTypes.MAIN,
-      AnnouncementTypes.CONFIRMATION
-    ];
 
     for (const announcementType of announcementTypes) {
       const announcement =
@@ -164,6 +209,7 @@ export {
   getLastInstruction,
   instructionByIndex,
   speedLimitByIndex,
+  allAnnouncements,
   announcementByIndex,
   laneGuidanceByIndex,
   trafficEventsByIndex

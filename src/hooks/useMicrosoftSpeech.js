@@ -1,10 +1,14 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { v4 as uuid } from "uuid";
 import JSZip from "jszip";
 import {
   MS_SPEECH_SERVICE_REGION,
   MS_SPEECH_SERVICE_SUBSCRIPTION_KEY
 } from "../config";
+
+const audioCache = new Map();
+const queue = [];
+let lastRouteHash = null;
 
 const defaultVoiceName = "en-US-JennyNeural";
 const audioSupported = typeof Audio !== "undefined";
@@ -15,9 +19,6 @@ let isSpeaking = false;
 const useMicrosoftSpeech = () => {
   const [voices, setVoices] = useState();
   const [voicesAvailable, setVoicesAvailable] = useState(false);
-  const audioCache = useRef(new Map());
-  const [lastRouteHash, setLastRouteHash] = useState(null);
-  const queue = useRef([]);
 
   useEffect(() => {
     getAvailableVoices();
@@ -77,7 +78,7 @@ const useMicrosoftSpeech = () => {
     [voicesAvailable, voices]
   );
 
-  const createBatchRequest = async (texts, voiceName) => {
+  const createBatchRequest = useCallback(async (texts, voiceName) => {
     const jobId = `batch-synthesis-${uuid()}`;
     const url = `https://${MS_SPEECH_SERVICE_REGION}.api.cognitive.microsoft.com/texttospeech/batchsyntheses/${jobId}?api-version=2024-04-01`;
 
@@ -110,9 +111,9 @@ const useMicrosoftSpeech = () => {
     }
 
     return jobId;
-  };
+  }, []);
 
-  const pollBatchStatus = async (jobId) => {
+  const pollBatchStatus = useCallback(async (jobId) => {
     const url = `https://${MS_SPEECH_SERVICE_REGION}.api.cognitive.microsoft.com/texttospeech/batchsyntheses/${jobId}?api-version=2024-04-01`;
 
     while (true) {
@@ -138,9 +139,9 @@ const useMicrosoftSpeech = () => {
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
-  };
+  }, []);
 
-  const fetchAndExtractZip = async (zipUrl, texts) => {
+  const fetchAndExtractZip = useCallback(async (zipUrl, texts) => {
     const response = await fetch(zipUrl);
 
     if (!response.ok) {
@@ -162,35 +163,44 @@ const useMicrosoftSpeech = () => {
 
     await Promise.all(audioPromises);
     return audioMap;
-  };
+  }, []);
 
-  const prefetchAudio = async (texts, routeHash) => {
-    if (routeHash === lastRouteHash) {
-      console.log("Using cached audio for route");
-      return;
-    }
-
-    audioCache.current.clear();
-    setLastRouteHash(routeHash);
-
-    const voiceName = getDefaultVoice()?.ShortName;
-    if (!voiceName) {
-      throw new Error("No default voice available");
-    }
-
-    try {
-      const jobId = await createBatchRequest(texts, voiceName);
-      const zipUrl = await pollBatchStatus(jobId);
-      const audioMap = await fetchAndExtractZip(zipUrl, texts);
-
-      for (const [text, audioBlob] of audioMap.entries()) {
-        audioCache.current.set(text, audioBlob);
+  const prefetchAudio = useCallback(
+    async (texts, routeHash, voiceName) => {
+      if (routeHash === lastRouteHash) {
+        console.log("Using cached audio for route");
+        return;
       }
-      console.log("Fetched audio for route");
-    } catch (error) {
-      console.error("Batch audio prefetch failed:", error);
-    }
-  };
+
+      console.log("Fetching audio for route");
+
+      audioCache.clear();
+      lastRouteHash = routeHash;
+
+      const selectedVoiceName = voiceName || getDefaultVoice()?.ShortName;
+      if (!selectedVoiceName) {
+        throw new Error(
+          "No voice name provided and no default voice available."
+        );
+      }
+
+      try {
+        const jobId = await createBatchRequest(texts, selectedVoiceName);
+        const zipUrl = await pollBatchStatus(jobId);
+        const audioMap = await fetchAndExtractZip(zipUrl, texts);
+
+        for (const [text, audioBlob] of audioMap.entries()) {
+          console.log(`Adding audio for text "${text}"`);
+
+          audioCache.set(text, audioBlob);
+        }
+        console.log("Fetched audio for route");
+      } catch (error) {
+        console.error("Batch audio prefetch failed:", error);
+      }
+    },
+    [getDefaultVoice, createBatchRequest, pollBatchStatus, fetchAndExtractZip]
+  );
 
   const fetchSingleAudio = async ({ text, voiceName }) => {
     const url = `https://${MS_SPEECH_SERVICE_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
@@ -217,8 +227,8 @@ const useMicrosoftSpeech = () => {
   };
 
   const playNextInQueue = () => {
-    if (queue.current.length > 0) {
-      const next = queue.current.shift();
+    if (queue.length > 0) {
+      const next = queue.shift();
       speak(next);
     }
   };
@@ -232,7 +242,7 @@ const useMicrosoftSpeech = () => {
   }) => {
     if (isSpeaking && enqueue) {
       console.log(`Text enqueued: "${text}"`);
-      queue.current.push({ text, volume, playbackRate });
+      queue.push({ text, volume, playbackRate });
       return;
     }
 
@@ -248,14 +258,14 @@ const useMicrosoftSpeech = () => {
 
     isSpeaking = true;
 
-    let audioBlob = audioCache.current.get(text);
+    let audioBlob = audioCache.get(text);
 
     if (!audioBlob) {
-      console.log("Text not found in cache, fetching dynamically...");
+      console.log(`Text not found in cache "${text}", fetching dynamically...`);
       try {
         const voiceName = getDefaultVoice()?.ShortName;
         audioBlob = await fetchSingleAudio({ text, voiceName });
-        audioCache.current.set(text, audioBlob);
+        audioCache.set(text, audioBlob);
       } catch (error) {
         console.error("Dynamic text-to-speech failed:", error);
         isSpeaking = false;
@@ -281,7 +291,7 @@ const useMicrosoftSpeech = () => {
       activePlayer.pause();
       activePlayer = null;
       isSpeaking = false;
-      queue.current.length = 0;
+      queue.length = 0;
       console.log("Speech cancelled.");
     }
   };

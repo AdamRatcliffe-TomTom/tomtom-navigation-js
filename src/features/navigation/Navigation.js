@@ -10,6 +10,7 @@ import useSelectorRef from "../../hooks/useSelectorRef";
 import useSpeech from "../../hooks/useMicrosoftSpeech";
 import useNavigationRoute from "./hooks/useNavigationRoute";
 import useNavigationSimulation from "./hooks/useNavigationSimulation";
+import usePrefetchAudio from "./hooks/usePrefetchAudio";
 import BottomPanel from "./BottomPanel";
 import NavigationGuidancePanel from "./NavigationGuidancePanel";
 import Simulator from "./Simulator";
@@ -84,13 +85,8 @@ const Navigation = ({
   const dispatch = useDispatch();
   const rulerRef = useRef(null);
   const arrivalAnnoucementSpokenRef = useRef();
-  const {
-    speechAvailable,
-    voicesAvailable,
-    prefetchAudio,
-    getVoiceForLanguage,
-    speak
-  } = useSpeech();
+  const { speechAvailable, voicesAvailable, getVoiceForLanguage, speak } =
+    useSpeech();
   const {
     apiKey,
     height,
@@ -212,6 +208,14 @@ const Navigation = ({
     setETA
   });
 
+  usePrefetchAudio({
+    routeFeature,
+    speechAvailable,
+    voicesAvailable,
+    voice,
+    isPedestrian
+  });
+
   useEffect(() => {
     navigationPaddingTopRef.current = navigationPaddingTop;
   }, [navigationPaddingTop]);
@@ -224,23 +228,6 @@ const Navigation = ({
   //     setPreviousRoute(route);
   //   }
   // }, [isNavigating, route, previousRoute]);
-
-  useEffect(() => {
-    if (routeFeature) {
-      const shouldPrefetchAudio = speechAvailable && isPedestrian;
-
-      if (shouldPrefetchAudio) {
-        const {
-          properties: {
-            guidance: { instructions }
-          }
-        } = routeFeature;
-        const messages = instructions.map((instruction) => instruction.message);
-
-        prefetchAudio(messages, JSON.stringify(messages));
-      }
-    }
-  }, [speechAvailable, voicesAvailable, routeFeature, isPedestrian]);
 
   useEffect(() => {
     if (Boolean(simulationShouldEnd)) {
