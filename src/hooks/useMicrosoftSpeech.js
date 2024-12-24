@@ -8,7 +8,7 @@ import {
 
 const audioCache = new Map();
 const queue = [];
-let lastRouteHash = null;
+let lastPrefetchTextHash = null;
 
 const defaultVoiceName = "en-US-JennyNeural";
 const audioSupported = typeof Audio !== "undefined";
@@ -166,16 +166,20 @@ const useMicrosoftSpeech = () => {
   }, []);
 
   const prefetchAudio = useCallback(
-    async (texts, routeHash, voiceName) => {
-      if (routeHash === lastRouteHash) {
+    async (texts, prefetchTextHash, voiceName) => {
+      if (prefetchTextHash === lastPrefetchTextHash) {
         console.log("Using cached audio for route");
         return;
       }
 
-      console.log("Fetching audio for route");
-
       audioCache.clear();
-      lastRouteHash = routeHash;
+      lastPrefetchTextHash = prefetchTextHash;
+
+      let audioBlob = await fetchSingleAudio({
+        text: "Head south east",
+        voiceName
+      });
+      audioCache.set("Head south east", audioBlob);
 
       const selectedVoiceName = voiceName || getDefaultVoice()?.ShortName;
       if (!selectedVoiceName) {

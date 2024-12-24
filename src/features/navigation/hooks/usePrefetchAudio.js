@@ -37,10 +37,14 @@ const usePrefetchAudio = ({
           messages = announcements.map((announcement) => announcement.text);
         }
 
-        prefetchAudio(messages, JSON.stringify(messages), voice);
+        const hash = `${JSON.stringify(messages)}-${language}`;
+
+        prefetchAudio(messages, hash, voice);
       }
     }
   }, [
+    language,
+    measurementSystem,
     routeFeature,
     speechAvailable,
     voicesAvailable,
