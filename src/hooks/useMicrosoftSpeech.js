@@ -8,7 +8,6 @@ import {
 
 const audioCache = new Map();
 const queue = [];
-let lastPrefetchTextHash = null;
 
 const defaultVoiceName = "en-US-JennyNeural";
 const audioSupported = typeof Audio !== "undefined";
@@ -166,44 +165,45 @@ const useMicrosoftSpeech = () => {
   }, []);
 
   const prefetchAudio = useCallback(
-    async (texts, prefetchTextHash, voiceName) => {
-      if (prefetchTextHash === lastPrefetchTextHash) {
-        console.log("Using cached audio for route");
+    async (texts, voiceName) => {
+      if (!voiceName) {
+        throw new Error("Voice name is required for prefetching audio.");
+      }
+
+      // Initialize cache for the given voice if it doesn't exist
+      if (!audioCache.has(voiceName)) {
+        audioCache.set(voiceName, new Map());
+      }
+      const voiceCache = audioCache.get(voiceName);
+
+      // Filter texts to only those not already in the cache
+      const missingTexts = texts.filter((text) => !voiceCache.has(text));
+      if (missingTexts.length === 0) {
+        console.log(`All texts already cached for voice: ${voiceName}`);
         return;
       }
 
-      audioCache.clear();
-      lastPrefetchTextHash = prefetchTextHash;
-
-      let audioBlob = await fetchSingleAudio({
-        text: "Head south east",
-        voiceName
-      });
-      audioCache.set("Head south east", audioBlob);
-
-      const selectedVoiceName = voiceName || getDefaultVoice()?.ShortName;
-      if (!selectedVoiceName) {
-        throw new Error(
-          "No voice name provided and no default voice available."
-        );
-      }
+      console.log(
+        `Fetching audio for missing texts: ${missingTexts.join(", ")}`
+      );
 
       try {
-        const jobId = await createBatchRequest(texts, selectedVoiceName);
+        const jobId = await createBatchRequest(missingTexts, voiceName);
         const zipUrl = await pollBatchStatus(jobId);
-        const audioMap = await fetchAndExtractZip(zipUrl, texts);
+        const audioMap = await fetchAndExtractZip(zipUrl, missingTexts);
 
+        // Add fetched audio to the cache
         for (const [text, audioBlob] of audioMap.entries()) {
-          console.log(`Adding audio for text "${text}"`);
-
-          audioCache.set(text, audioBlob);
+          console.log(
+            `Adding audio to cache for voice: "${voiceName}", text: "${text}"`
+          );
+          voiceCache.set(text, audioBlob);
         }
-        console.log("Fetched audio for route");
       } catch (error) {
         console.error("Batch audio prefetch failed:", error);
       }
     },
-    [getDefaultVoice, createBatchRequest, pollBatchStatus, fetchAndExtractZip]
+    [createBatchRequest, pollBatchStatus, fetchAndExtractZip]
   );
 
   const fetchSingleAudio = async ({ text, voiceName }) => {
@@ -239,14 +239,50 @@ const useMicrosoftSpeech = () => {
 
   const speak = async ({
     text,
+    voice,
     volume = 1,
     playbackRate = 1,
     replace = false,
     enqueue = false
   }) => {
+    const voiceName =
+      (typeof voice === "object" ? voice.ShortName : voice) ||
+      getDefaultVoice()?.ShortName;
+
+    if (!voiceName) {
+      console.error("Voice name is required to play audio.");
+      return;
+    }
+
+    // Ensure the cache exists for this voice
+    if (!audioCache.has(voiceName)) {
+      audioCache.set(voiceName, new Map());
+    }
+    const voiceCache = audioCache.get(voiceName);
+
+    // Check if audio exists in cache
+    let audioBlob = voiceCache.get(text);
+    if (!audioBlob) {
+      console.log(
+        `Text "${text}" not found in cache for voice "${voiceName}", fetching dynamically...`
+      );
+      try {
+        audioBlob = await fetchSingleAudio({ text, voiceName });
+        voiceCache.set(text, audioBlob); // Add to cache after fetching
+      } catch (error) {
+        console.error(
+          `Failed to fetch audio for text: "${text}", voice: "${voiceName}". Error:`,
+          error
+        );
+        return;
+      }
+    }
+
+    console.log(`Playing audio for text: "${text}", voice: "${voiceName}"`);
+
     if (isSpeaking && enqueue) {
       console.log(`Text enqueued: "${text}"`);
-      queue.push({ text, volume, playbackRate });
+      queue.push({ text, voice, volume, playbackRate });
       return;
     }
 
@@ -261,23 +297,6 @@ const useMicrosoftSpeech = () => {
     }
 
     isSpeaking = true;
-
-    let audioBlob = audioCache.get(text);
-
-    if (!audioBlob) {
-      console.log(`Text not found in cache "${text}", fetching dynamically...`);
-      try {
-        const voiceName = getDefaultVoice()?.ShortName;
-        audioBlob = await fetchSingleAudio({ text, voiceName });
-        audioCache.set(text, audioBlob);
-      } catch (error) {
-        console.error("Dynamic text-to-speech failed:", error);
-        isSpeaking = false;
-        return;
-      }
-    } else {
-      console.log("Text found in cache");
-    }
 
     activePlayer = new Audio(URL.createObjectURL(audioBlob));
     activePlayer.volume = volume;
