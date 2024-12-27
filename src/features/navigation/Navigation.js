@@ -114,13 +114,14 @@ const Navigation = ({
   const {
     speed: simulationSpeed,
     zoom: simulationZoom,
-    spacing: simulationSpacing
+    spacing: simulationSpacing,
+    seek: simulationSeek
   } = mergedSimulationOptions;
   const showGuidancePanel = useSelector(getShowGuidancePanel);
   const isNavigating = useSelector(getIsNavigating);
   const routeOptions = useSelector(getRouteOptions);
   const automaticRouteCalculation = useSelector(getAutomaticRouteCalculation);
-  const [seek, setSeek] = useState(null);
+  const [seek, setSeek] = useState(simulationSeek);
 
   const setETA = (feature) => {
     const { lengthInMeters, travelTimeInSeconds } = feature.properties.summary;
@@ -228,6 +229,12 @@ const Navigation = ({
   //     setPreviousRoute(route);
   //   }
   // }, [isNavigating, route, previousRoute]);
+
+  useEffect(() => {
+    if (simulationSeek) {
+      setSeek(simulationSeek);
+    }
+  }, [simulationSeek]);
 
   useEffect(() => {
     if (Boolean(simulationShouldEnd)) {

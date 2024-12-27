@@ -146,13 +146,16 @@ function getAnnouncementText(
   language
 ) {
   const maneuverText = strings[maneuver];
+
+  if (maneuver === Maneuvers.DEPART) return maneuverText;
+
   const includeDistance =
     distanceInMeters > 0 &&
     ![Maneuvers.STRAIGHT, Maneuvers.WAYPOINT_REACHED].includes(maneuver);
 
   if (includeDistance) {
     const announcementTemplate =
-      street & !isArrivalManeuver(maneuver)
+      street && !isArrivalManeuver(maneuver)
         ? strings.guidanceAnnouncementOntoStreetTemplate
         : strings.guidanceAnnouncementTemplate;
 

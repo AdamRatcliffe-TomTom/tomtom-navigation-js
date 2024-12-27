@@ -9,7 +9,8 @@ import geoJsonBounds from "../../../functions/geoJsonBounds";
 import shouldAnimateCamera from "../../../functions/shouldAnimateCamera";
 import {
   getFirstInstruction,
-  getLastInstruction
+  getLastInstruction,
+  announcementByIndex
 } from "../../../functions/routeUtils";
 import strings from "../../../config/strings";
 
@@ -55,8 +56,13 @@ function useNavigationSimulation({
 }) {
   const dispatch = useDispatch();
   const routeOptions = useSelector(getRouteOptions);
-  const { guidanceVoiceVolume, guidanceVoicePlaybackRate, isTablet } =
-    useNavigationContext();
+  const {
+    guidanceVoiceVolume,
+    guidanceVoicePlaybackRate,
+    isTablet,
+    measurementSystem,
+    language
+  } = useNavigationContext();
   const { speechAvailable, speak, cancelSpeech } = useSpeech();
 
   useEffect(() => {
@@ -146,7 +152,9 @@ function useNavigationSimulation({
     ) {
       speak({
         voice,
-        text: strings.DEPART,
+        text:
+          announcementByIndex(routeFeature, 0, measurementSystem, language)
+            ?.text || strings.DEPART,
         volume: guidanceVoiceVolume,
         playbackRate: guidanceVoicePlaybackRate
       });
