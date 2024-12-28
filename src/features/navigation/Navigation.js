@@ -232,7 +232,7 @@ const Navigation = ({
 
   useEffect(() => {
     if (simulationSeek) {
-      setSeek(simulationSeek);
+      setSeek(simulationSeek * 1000);
     }
   }, [simulationSeek]);
 
