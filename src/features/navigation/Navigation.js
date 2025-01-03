@@ -341,7 +341,8 @@ const Navigation = ({
       timeRemaining,
       distanceRemaining,
       routeTravelled,
-      routeRemaining
+      routeRemaining,
+      animationDuration: duration
     };
 
     batch(() => {
