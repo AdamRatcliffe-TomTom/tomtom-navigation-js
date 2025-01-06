@@ -88,6 +88,7 @@ const ManeuverArrows = ({ data, nextInstructionPointIndex, before }) => {
         getLineWidth: 6,
         lineWidthMinPixels: 6,
         lineWidthMaxPixels: 13,
+        lineJointRounded: true,
         parameters: {
           depthTest: false
         }
