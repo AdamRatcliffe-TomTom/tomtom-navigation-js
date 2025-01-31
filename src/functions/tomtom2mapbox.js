@@ -28,6 +28,7 @@ const MANEUVERS = {
   MOTORWAY_EXIT_LEFT: "bear left",
   MOTORWAY_EXIT_RIGHT: "bear right",
   TAKE_FERRY: "continue",
+  TAKE_ELEVATOR: "continue",
   ROUNDABOUT_CROSS: "enter roundabout",
   ROUNDABOUT_RIGHT: "turn right",
   ROUNDABOUT_LEFT: "turn left",

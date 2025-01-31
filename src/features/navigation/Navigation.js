@@ -14,6 +14,8 @@ import usePrefetchAudio from "./hooks/usePrefetchAudio";
 import BottomPanel from "./BottomPanel";
 import NavigationGuidancePanel from "./NavigationGuidancePanel";
 import Simulator from "./Simulator";
+import pointOnLineWithElevation from "../../functions/pointOnLineWithElevation";
+import calculateElevationOffset from "../../functions/calculateElevationOffset";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
 import fireEvent from "../../functions/fireEvent";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
@@ -57,13 +59,19 @@ import {
   FIT_BOUNDS_PADDING_RIGHT,
   FIT_BOUNDS_PADDING_LEFT,
   VEHICLE_NAVIGATION_SIMULATION_ZOOM,
-  PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM
+  PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM,
+  VEHICLE_NAVIGATION_SIMULATION_PITCH,
+  PEDESTRIAN_NAVIGATION_SIMULATION_PITCH
 } from "../../config";
 
 const defaultSimulationOptions = {
   zoom: {
     pedestrian: PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM,
     vehicle: VEHICLE_NAVIGATION_SIMULATION_ZOOM
+  },
+  pitch: {
+    pedestrian: PEDESTRIAN_NAVIGATION_SIMULATION_PITCH,
+    vehicle: VEHICLE_NAVIGATION_SIMULATION_PITCH
   },
   speed: "1x",
   spacing: "acceldecel"
@@ -106,6 +114,10 @@ const Navigation = ({
       zoom: {
         ...defaultSimulationOptions.zoom,
         ...simulationOptions.zoom
+      },
+      pitch: {
+        ...defaultSimulationOptions.pitch,
+        ...simulationOptions.pitch
       }
     }),
     [simulationOptions]
@@ -114,6 +126,7 @@ const Navigation = ({
   const {
     speed: simulationSpeed,
     zoom: simulationZoom,
+    pitch: simulationPitch,
     spacing: simulationSpacing,
     seek: simulationSeek
   } = mergedSimulationOptions;
@@ -189,6 +202,9 @@ const Navigation = ({
     () => (isPedestrian ? simulationZoom.pedestrian : simulationZoom.vehicle),
     [isPedestrian, simulationZoom]
   );
+  const pitchForTravelMode = isPedestrian
+    ? simulationPitch.pedestrian
+    : simulationPitch.vehicle;
 
   const voice = useMemo(
     () => guidanceVoice || getVoiceForLanguage(language) || "en-US-JennyNeural",
@@ -269,30 +285,6 @@ const Navigation = ({
     }
   }, [announcement, voiceAnnouncementsEnabled]);
 
-  // TODO: review use of this function. Default threshold is almost certainly too
-  // low to be of use for anything other than pedestrian navigation
-  const findNearbyWaypoint = (currentPoint, threshold = 1) => {
-    const {
-      geometry: { coordinates }
-    } = routeFeature;
-
-    const ruler = getRuler(coordinates);
-
-    for (const waypoint of routeOptions.locations) {
-      const distance = ruler.distance(
-        currentPoint,
-        waypoint.geometry.coordinates
-      );
-      if (distance <= threshold) {
-        return {
-          point: waypoint.geometry.coordinates,
-          index: waypoint.properties.pointIndex
-        };
-      }
-    }
-    return null;
-  };
-
   const handleSimulatorUpdate = (event) => {
     // Don't want to process updates while the view is transitioning, such as when changing navigation perspective.
     if (viewTransitioning) {
@@ -310,11 +302,16 @@ const Navigation = ({
 
     const ruler = getRuler(coordinates);
 
-    // If a nearer waypoint exists, use that preferentially
-    let nearbyPoint = findNearbyWaypoint(stepCoords);
-    if (!nearbyPoint) {
-      nearbyPoint = ruler.pointOnLine(coordinates, stepCoords);
-    }
+    const nearbyPoint = pointOnLineWithElevation(coordinates, stepCoords);
+    const elevationOffset = nearbyPoint?.point[2]
+      ? calculateElevationOffset(
+          nearbyPoint.point[2],
+          nearbyPoint.point[1],
+          zoom
+        )
+      : 0;
+
+    console.log("elevationOffset: ", elevationOffset);
 
     const { point, index: pointIndex } = nearbyPoint;
 
@@ -355,6 +352,7 @@ const Navigation = ({
             pitch,
             bearing: stepBearing,
             animationOptions: {
+              offset: [0, elevationOffset],
               duration,
               padding: {
                 top: navigationPaddingTopRef.current,
@@ -472,24 +470,25 @@ const Navigation = ({
         <Simulator
           route={navigationRoute}
           zoom={zoomForTravelMode}
+          pitch={pitchForTravelMode}
           maneuvers={[
             {
               type: ["arrive"],
               buffer: 0.0621371,
               zoom: zoomForTravelMode + 1,
-              pitch: 40
+              pitch: isPedestrian ? pitchForTravelMode : 40
             },
             {
               type: ["turn left", "turn right"],
               buffer: 0.0621371,
               zoom: zoomForTravelMode + 1,
-              pitch: 40
+              pitch: isPedestrian ? pitchForTravelMode : 40
             },
             {
               type: ["bear right"],
               buffer: 0.0621371,
               zoom: zoomForTravelMode + 1,
-              pitch: 40
+              pitch: isPedestrian ? pitchForTravelMode : 40
             }
           ]}
           spacing={simulationSpacing}

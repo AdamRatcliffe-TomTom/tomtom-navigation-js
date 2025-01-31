@@ -198,7 +198,6 @@ const Map = ({
     () =>
       pedestrianRoute
         ? {
-            marginBottom: 24,
             transform: `rotateX(${pitch}deg)`,
             transformOrigin: "center",
             transition: "transform 0.1s"
