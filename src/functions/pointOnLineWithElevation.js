@@ -25,7 +25,7 @@ export default function pointOnLineWithElevation(line, point) {
     }
   }
 
-  return { point: closestPoint, segmentIndex: closestSegmentIndex };
+  return { point: closestPoint, index: closestSegmentIndex };
 }
 
 function projectPointOnSegment2D(point, start, end) {
