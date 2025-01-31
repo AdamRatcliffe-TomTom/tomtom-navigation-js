@@ -68,7 +68,7 @@ const routeBaseQuery = async (args) => {
       args;
 
     if (preCalculatedRoute) {
-      // const sectionedRoute = createSectionedRoute(preCalculatedRoute);
+      const sectionedRoute = createSectionedRoute(preCalculatedRoute);
       const maneuverLineStrings = createManeuverLineStrings(preCalculatedRoute);
 
       calculateTriggerPoints(preCalculatedRoute);
@@ -76,7 +76,7 @@ const routeBaseQuery = async (args) => {
       return {
         data: {
           route: preCalculatedRoute,
-          // sectionedRoute,
+          sectionedRoute,
           maneuverLineStrings
         }
       };
@@ -92,11 +92,11 @@ const routeBaseQuery = async (args) => {
     translateInstructions(route);
     calculateTriggerPoints(route);
 
-    // const sectionedRoute = createSectionedRoute(route);
+    const sectionedRoute = createSectionedRoute(route);
     const walkingLeg = createWalkingLeg(args.locations, route);
     const maneuverLineStrings = createManeuverLineStrings(route);
 
-    return { data: { route, walkingLeg, maneuverLineStrings } };
+    return { data: { route, sectionedRoute, walkingLeg, maneuverLineStrings } };
   } catch (error) {
     console.error(error);
 

@@ -188,7 +188,7 @@ function useNavigationSimulation({
 
     batch(() => {
       dispatch(setViewTransitioning(true));
-      dispatch(resetNavigation({ routeRemaining: routeFeature }));
+      dispatch(resetNavigation());
       dispatch(setPitch(0));
       dispatch(
         setFitBoundsOptions({

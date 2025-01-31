@@ -75,7 +75,6 @@ const navigationSlice = createSlice({
         timeRemaining,
         distanceRemaining,
         routeTravelled,
-        routeRemaining,
         route,
         measurementSystem,
         language
@@ -137,7 +136,6 @@ const navigationSlice = createSlice({
       state.nextInstruction = instruction;
       state.consecutiveInstruction = consecutiveInstruction;
       state.routeTravelled = routeTravelled;
-      state.routeRemaining = routeRemaining;
       state.distanceRemaining = distanceRemaining;
       state.distanceToNextManeuver = distanceToNextManeuver;
       state.timeRemaining = timeRemaining;
@@ -154,9 +152,6 @@ const navigationSlice = createSlice({
     setTimeRemaining: (state, action) => {
       state.timeRemaining = action.payload;
     },
-    setRouteRemaining: (state, action) => {
-      state.routeRemaining = action.payload;
-    },
     setRouteTravelled: (state, action) => {
       state.routeTravelled = action.payload;
     },
@@ -172,7 +167,7 @@ const navigationSlice = createSlice({
     setVoiceAnnouncementsEnabled: (state, action) => {
       state.voiceAnnouncementsEnabled = action.payload;
     },
-    resetNavigation: (state, action) => {
+    resetNavigation: (state) => {
       state.isNavigating = false;
       state.navigationPerspective = NavigationPerspectives.FOLLOW;
       state.hasReachedDestination = false;
@@ -181,7 +176,6 @@ const navigationSlice = createSlice({
       state.consecutiveInstruction = undefined;
       state.lastInstruction = undefined;
       state.routeTravelled = undefined;
-      state.routeRemaining = action.payload?.routeRemaining;
     }
   }
 });
@@ -265,11 +259,6 @@ const getRouteTravelled = createSelector(
   (state) => state.routeTravelled
 );
 
-const getRouteRemaining = createSelector(
-  rootSelector,
-  (state) => state.routeRemaining
-);
-
 const getHasReachedDestination = createSelector(
   rootSelector,
   (state) => state.hasReachedDestination
@@ -302,7 +291,6 @@ export {
   getTimeRemaining,
   getEta,
   getRouteTravelled,
-  getRouteRemaining,
   getHasReachedDestination,
   getSimulationShouldEnd,
   getVoiceAnnouncementsEnabled
@@ -319,7 +307,6 @@ export const {
   setCurrentLocation,
   setDistanceRemaining,
   setTimeRemaining,
-  setRouteRemaining,
   setRouteTravelled,
   setNextInstruction,
   setLastInstruction,

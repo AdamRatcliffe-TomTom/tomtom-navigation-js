@@ -72,11 +72,10 @@ import {
   getCurrentLocation,
   getNextInstruction,
   getRouteTravelled,
-  getRouteRemaining,
-  resetNavigation,
   setVoiceAnnouncementsEnabled,
   setNavigationPerspective,
-  setSimulationShouldEnd
+  setSimulationShouldEnd,
+  resetNavigation
 } from "../navigation/navigationSlice";
 
 const poiLayerId = "POI";
@@ -141,7 +140,6 @@ const Map = ({
   const viewTransitioning = useSelector(getViewTransitioning);
   const navigationPerspective = useSelector(getNavigationPerspective);
   const routeTravelled = useSelector(getRouteTravelled);
-  const routeRemaining = useSelector(getRouteRemaining);
   const {
     point: currentLocation,
     bearing: currentLocationBearing,
@@ -398,7 +396,7 @@ const Map = ({
       const routeFeature = route.features[0];
       const eventData = { route: routeFeature };
 
-      dispatch(resetNavigation({ routeRemaining: routeFeature }));
+      dispatch(resetNavigation());
 
       // TODO: timeout should not be necessary as store should already be updated using
       // the thunk
@@ -660,7 +658,7 @@ const Map = ({
           before={routeBeforeId}
           pedestrianBefore={pedestrianRouteBeforeId}
           routeTravelled={routeTravelled}
-          routeRemaining={pedestrianRoute ? route.features[0] : routeRemaining}
+          routeRemaining={sectionedRoute}
           walkingLeg={showWalkingLeg ? walkingLeg : null}
           isPedestrianRoute={pedestrianRoute}
         />

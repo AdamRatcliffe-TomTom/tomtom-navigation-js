@@ -53,7 +53,6 @@ const Route = ({
           getDashArray: [0.2, 4],
           dashJustified: true,
           extensions: [new PathStyleExtension({ dash: true })]
-          // lineBillboard: true
         })
         // new GeoJsonLayer({
         //   id: `${id}--Pedestrian--Travelled`,

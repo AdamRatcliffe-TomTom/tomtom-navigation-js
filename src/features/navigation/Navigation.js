@@ -327,7 +327,6 @@ const Navigation = ({
     const distanceRemaining = ruler.lineDistance(remainingPart);
     const timeRemaining = Math.max(travelTimeInSeconds - elapsedTime, 0);
     const routeTravelled = featureCollection([lineString(traveledPart)]);
-    const routeRemaining = featureCollection([lineString(remainingPart)]);
 
     const progress = {
       coordinates: stepCoords,
@@ -336,7 +335,6 @@ const Navigation = ({
       timeRemaining,
       distanceRemaining,
       routeTravelled,
-      routeRemaining,
       animationDuration: duration
     };
 
@@ -369,7 +367,6 @@ const Navigation = ({
           timeRemaining,
           distanceRemaining,
           routeTravelled,
-          routeRemaining,
           route,
           measurementSystem,
           language
