@@ -311,8 +311,6 @@ const Navigation = ({
         )
       : 0;
 
-    console.log("elevationOffset: ", elevationOffset);
-
     const { point, index: pointIndex } = nearbyPoint;
 
     const traveledPart = ruler.lineSlice(coordinates[0], point, coordinates);
