@@ -107,7 +107,7 @@ function useNavigationSimulation({
       : "none";
   };
 
-  const startNavigation = ({ bearing }) => {
+  const startNavigation = ({ bearing } = {}) => {
     const routeCoordinates = routeFeature.geometry.coordinates;
     const center = routeCoordinates[0];
     const firstInstruction = getFirstInstruction(routeFeature);
@@ -170,7 +170,7 @@ function useNavigationSimulation({
     fitBounds,
     fitBoundsOptions,
     userCancelled = false
-  }) => {
+  } = {}) => {
     cancelSpeech();
 
     const bounds =

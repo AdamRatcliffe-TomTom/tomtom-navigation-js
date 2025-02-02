@@ -74,7 +74,8 @@ const defaultSimulationOptions = {
     vehicle: VEHICLE_NAVIGATION_SIMULATION_PITCH
   },
   speed: "1x",
-  spacing: "acceldecel"
+  spacing: "acceldecel",
+  repeat: false
 };
 
 const Navigation = ({
@@ -93,6 +94,8 @@ const Navigation = ({
   const dispatch = useDispatch();
   const rulerRef = useRef(null);
   const arrivalAnnoucementSpokenRef = useRef();
+  const simulationRepeatRef = useRef(simulationRepeat);
+  const simulationTimeoutRef = useRef(null);
   const { speechAvailable, voicesAvailable, getVoiceForLanguage, speak } =
     useSpeech();
   const {
@@ -128,7 +131,8 @@ const Navigation = ({
     zoom: simulationZoom,
     pitch: simulationPitch,
     spacing: simulationSpacing,
-    seek: simulationSeek
+    seek: simulationSeek,
+    repeat: simulationRepeat
   } = mergedSimulationOptions;
   const showGuidancePanel = useSelector(getShowGuidancePanel);
   const isNavigating = useSelector(getIsNavigating);
@@ -232,6 +236,17 @@ const Navigation = ({
     voice,
     isPedestrian
   });
+
+  useEffect(() => {
+    simulationRepeatRef.current = simulationRepeat;
+
+    if (!simulationRepeat) {
+      if (simulationTimeoutRef.current) {
+        clearTimeout(simulationTimeoutRef.current);
+        simulationTimeoutRef.current = null;
+      }
+    }
+  }, [simulationRepeat]);
 
   useEffect(() => {
     navigationPaddingTopRef.current = navigationPaddingTop;
@@ -431,6 +446,15 @@ const Navigation = ({
           playbackRate: guidanceVoicePlaybackRate
         });
       }
+    }
+
+    if (simulationRepeatRef.current) {
+      simulationTimeoutRef.current = setTimeout(() => {
+        stopNavigation();
+        setTimeout(() => {
+          startNavigation();
+        }, 250);
+      }, 2000);
     }
 
     const eventData = {
