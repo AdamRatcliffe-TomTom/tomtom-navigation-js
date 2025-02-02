@@ -61,7 +61,8 @@ import {
   VEHICLE_NAVIGATION_SIMULATION_ZOOM,
   PEDESTRIAN_NAVIGATION_SIMULATION_ZOOM,
   VEHICLE_NAVIGATION_SIMULATION_PITCH,
-  PEDESTRIAN_NAVIGATION_SIMULATION_PITCH
+  PEDESTRIAN_NAVIGATION_SIMULATION_PITCH,
+  SIMULATION_REPEAT_DELAY
 } from "../../config";
 
 const defaultSimulationOptions = {
@@ -453,8 +454,8 @@ const Navigation = ({
         stopNavigation();
         setTimeout(() => {
           startNavigation();
-        }, 250);
-      }, 2000);
+        }, 1500);
+      }, SIMULATION_REPEAT_DELAY);
     }
 
     const eventData = {
