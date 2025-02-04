@@ -33,7 +33,7 @@ const Route = ({
   };
 
   const memoizedLayers = useMemo(() => {
-    if (!routeRemaining && !routeTravelled) {
+    if (!routeRemaining) {
       return null;
     }
 

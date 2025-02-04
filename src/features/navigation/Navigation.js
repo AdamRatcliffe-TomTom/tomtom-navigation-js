@@ -345,7 +345,7 @@ const Navigation = ({
     const routeTravelled = featureCollection([lineString(traveledPart)]);
 
     const progress = {
-      coordinates: stepCoords,
+      coordinates: point,
       bearing: stepBearing,
       elapsedTime,
       timeRemaining,
@@ -359,7 +359,7 @@ const Navigation = ({
         dispatch(
           setCamera({
             movingMethod: seek ? "jumpTo" : "easeTo",
-            center: stepCoords,
+            center: point,
             zoom: !isNaN(zoom) ? zoom : zoomForTravelMode, // On occasion zoom can be NaN
             pitch,
             bearing: stepBearing,
