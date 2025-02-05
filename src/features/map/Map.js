@@ -237,8 +237,8 @@ const Map = ({
 
   const containerStyle = useMemo(
     () => ({
-      width: `${width}px`,
-      height: `${height}px`
+      width,
+      height
     }),
     [width, height]
   );
