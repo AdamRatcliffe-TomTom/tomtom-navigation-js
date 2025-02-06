@@ -36,6 +36,7 @@ import countryCodeFromRoute from "../../functions/countryCodeFromRoute";
 import shouldAnimateCamera from "../../functions/shouldAnimateCamera";
 import fireEvent from "../../functions/fireEvent";
 import isPedestrianRoute from "../../functions/isPedestrianRoute";
+import { processRouteFeatures } from "./RouteMarkers";
 import ControlEvents from "../../constants/ControlEvents";
 import NavigationPerspectives from "../../constants/NavigationPerspectives";
 
@@ -212,11 +213,11 @@ const Map = ({
         (feature) => feature.geometry.type === "Point"
       )
     ) {
-      return preCalculatedRoute;
+      return processRouteFeatures(preCalculatedRoute);
     }
 
     if (routeOptions.locations) {
-      return routeOptions.locations;
+      return processRouteFeatures(routeOptions.locations);
     }
 
     return null;
