@@ -20,6 +20,9 @@ import { DEFAULT_SAFE_AREA_INSETS } from "../config";
 import {
   setCenter,
   setZoom,
+  setBearing,
+  setPitch,
+  setAnimationOptions,
   setRouteOptions,
   setAutomaticRouteCalculation,
   setMovingMethod
@@ -47,9 +50,15 @@ function NavigationView({
   guidanceVoicePlaybackRate = 1,
   simulationOptions = {},
   mapOptions = {},
+  animationOptions = {},
+  movingMethod = "jumpTo",
   mapStyles = {},
   initialCenter,
   initialZoom,
+  center,
+  zoom,
+  bearing,
+  pitch,
   routeWaypoints,
   routeOptions = {},
   automaticRouteCalculation,
@@ -104,6 +113,30 @@ function NavigationView({
   }, []);
 
   useEffect(() => {
+    if (center) dispatch(setCenter(center));
+  }, [center]);
+
+  useEffect(() => {
+    if (zoom) dispatch(setZoom(zoom));
+  }, [zoom]);
+
+  useEffect(() => {
+    if (bearing) dispatch(setBearing(bearing));
+  }, [bearing]);
+
+  useEffect(() => {
+    if (pitch) dispatch(setPitch(pitch));
+  }, [pitch]);
+
+  useEffect(() => {
+    if (movingMethod) dispatch(setMovingMethod(movingMethod));
+  }, [movingMethod]);
+
+  useEffect(() => {
+    if (animationOptions) dispatch(setAnimationOptions(animationOptions));
+  }, [animationOptions]);
+
+  useEffect(() => {
     batch(() => {
       dispatch(setAutomaticRouteCalculation(automaticRouteCalculation));
       dispatch(
@@ -114,7 +147,9 @@ function NavigationView({
           sectionType: getSectionTypesForTravelMode(routeOptions.travelMode)
         })
       );
-      dispatch(setMovingMethod("jumpTo"));
+      if (routeWaypoints) {
+        dispatch(setMovingMethod("jumpTo"));
+      }
     });
   }, [
     automaticRouteCalculation,
