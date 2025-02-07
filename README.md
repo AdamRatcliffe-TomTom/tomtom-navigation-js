@@ -53,7 +53,7 @@ Available component properties:
 | routeOptions.arrivalSidePreference             | `string` possible values are "anySide", "curbSide"                                                       | "anySide"                                                             | Specifies the preference of roadside on arrival to waypoints and destination. Stop on the road has to be set at least two meters to the preferred side, otherwise the behavior will default to "anySide". |
 | automaticRouteCalculation         | `boolean`                                                                                                | `false`                                                               | Automatically calculates a route when more than 1 waypoint is provided.                                                                                                                                                                                 |
 | arriveNorth         | `boolean`                                                                                                | `true`                                                               | When `true`, the map's bearing will be set to North when zooming out on the destination.                                                                                                                                                                                 |
-| routeWaypoints                    | `[Waypoint]`                                                                                             |                                                                       | An array of records for the route's waypoints. See description of the `Waypoint` record below. When `automaticRouteCalculation` is `true`, these waypoints will be used in the route calculation.                                                                                                                                                         |
+| routeWaypoints                    | GeoJSON FeatureCollection<Point> \| GeoJSON Point[]                                                                                             |                                                                       | A GeoJSON FeatureCollection of Point features or an array of Point features representing the route's waypoints. See description of properties supported for a Waypoint below. When `automaticRouteCalculation` is `true`, these waypoints will be used in the route calculation.                                                                                                                                                         |
 | routeData                         | `string` \| `object`                                                                                   |                                                                       | URL to a precalculated route result or the route result data. This is expected to be a GeoJSON representation of a result from the TomTom Maps Routing API calculateRoute endpoint.                                                                     |
 | showGuidancePanel                 | `boolean`                                                                                                | `true`                                                                | Show the navigation guidance panel.                                                                                                                                                                                                                     |   
 | showETAPanel                      | `boolean`                                                                                                | `true`                                                                | Show the ETA panel.                                                                                                                                                                                                                                     |
@@ -87,19 +87,50 @@ Available component properties:
 
 ## Waypoint
 
-Route waypoint records must have `longitude` and `latitude` properties, other properties are optional.
+A waypoint is a GeoJSON Point feature used to represent a location along a route. It must follow the GeoJSON Feature structure, with a geometry of type "Point" and an optional properties object.
 
-| Name        | Type              | Required | Description                                                                                                                                                                                                                                                                  |
-| ----------- | ----------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| coordinates | `[number,number]` | Yes      | The waypoint coordinates specified as `[longitude,latitude]`.                                                                                                                                                                                                                |
-| name        | `string`          | No       | The location name.                                                                                                                                                                                                                                                           |
-| address     | `string`          | No       | The location address.                                                                                                                                                                                                                                                        |
-| icon        | `Object`          | No       | Object providing icon properties                                                                                                                                                                                                                                             |
-| icon.url    | `string`          | No       | URL for an image to use to represent the location on the map.                                                                                                                                                                                                                |
-| icon.width  | `number`          | No       | Width of the icon in pixels.                                                                                                                                                                                                                                                 |
-| icon.height | `number`          | No       | Height of the icon in pixels.                                                                                                                                                                                                                                                |
-| icon.anchor | `string`          | No       | A string indicating the part of the icon that should be positioned closest to the coordinate. Options are 'center' , 'top' , 'bottom' , 'left' , 'right' , 'top-left' , 'top-right' , 'bottom-left' , and 'bottom-right'.                                                    |
-| icon.offset | `[number,number]` | No       | An array where the first element is the horizontal offset in pixels to apply relative to the icon's center (a negative value indicates left) and the second element is the vertical offset in pixels to apply relative to the icon's center (a negative value indicates up). |
+### Waypoint Format
+
+Each waypoint must be a GeoJSON Feature with the following structure:
+
+```json
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [longitude, latitude]
+  },
+  "properties": {
+    "name": "Optional name of the waypoint",
+    "address": "Optional address of the waypoint",
+    "icon": {
+      "url": "URL of an icon representing the waypoint",
+      "width": 24,
+      "height": 24,
+      "anchor": "center",
+      "offset": [0, -12]
+    }
+  }
+}
+```
+
+### **Waypoint Properties**
+
+| Name                        | Type                                                                                      | Required | Description |
+|-----------------------------|-----------------------------------------------------------------------------------------|----------|-------------|
+| `type`                      | `"Feature"`                                                                              | Yes    | Must be `"Feature"` as per the GeoJSON format. |
+| `geometry`                  | `object`                                                                                | Yes    | Defines the point geometry. Must contain a `type` of `"Point"` and `coordinates`. |
+| `geometry.type`             | `"Point"`                                                                               | Yes    | The geometry type must always be `"Point"`. |
+| `geometry.coordinates`      | `[number, number]`                                                                      | Yes    | An array containing `[longitude, latitude]` in decimal degrees. |
+| `properties`                | `object`                                                                                | No    | Contains optional metadata for the waypoint. |
+| `properties.name`           | `string`                                                                                | No    | Optional name of the waypoint. |
+| `properties.address`        | `string`                                                                                | No    | Optional address of the waypoint. |
+| `properties.icon`           | `object`                                                                                | No    | Optional object containing icon properties. |
+| `properties.icon.url`       | `string`                                                                                | No    | URL for an image to represent the waypoint on the map. |
+| `properties.icon.width`     | `number`                                                                                | No    | Width of the icon in pixels. |
+| `properties.icon.height`    | `number`                                                                                | No    | Height of the icon in pixels. |
+| `properties.icon.anchor`    | `"center"` \| `"top"` \| `"bottom"` \| `"left"` \| `"right"` \| `"top-left"` \| `"top-right"` \| `"bottom-left"` \| `"bottom-right"` | No | Specifies which part of the icon aligns with the coordinate. |
+| `properties.icon.offset`    | `[number, number]`                                                                      | No    | Offset `[x, y]` in pixels to adjust the icon’s position relative to the waypoint. |
 
 ## Component Events
 
