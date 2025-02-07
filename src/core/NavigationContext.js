@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  useEffect,
+  useRef
+} from "react";
 import strings from "../config/strings";
 
 const NavigationContext = createContext();
@@ -18,8 +25,8 @@ export default function NavigationContextProvider({
   apiKey,
   language = navigator.language,
   measurementSystem = "metric",
-  width,
-  height,
+  width: initialWidth, // Can be %, vw, vh, px
+  height: initialHeight,
   theme,
   guidanceVoice,
   guidanceVoiceVolume,
@@ -27,10 +34,32 @@ export default function NavigationContextProvider({
   safeAreaInsets,
   mapStyles = {}
 }) {
+  const containerRef = useRef(null);
+  const [containerSize, setContainerSize] = useState({
+    width: 0,
+    height: 0
+  });
+
+  // Additional states needed for the context
   const [measurementSystemAuto, setMeasurementSystemAuto] = useState("metric");
   const [guidancePanelHeight, setGuidancePanelHeight] = useState(0);
   const [bottomPanelHeight, setBottomPanelHeight] = useState(0);
-  const { isPhone, isTablet } = calculateDeviceType(width);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        setContainerSize({ width, height });
+      }
+    });
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const { isPhone, isTablet } = calculateDeviceType(containerSize.width);
 
   const contextValue = useMemo(() => {
     const streetStyles = mapStyles.street || {};
@@ -39,13 +68,13 @@ export default function NavigationContextProvider({
     return {
       apiKey,
       language,
-      width,
-      height,
-      isPortrait: height > width,
-      isLandscape: width > height,
+      width: containerSize.width,
+      height: containerSize.height,
+      isPortrait: containerSize.height > containerSize.width,
+      isLandscape: containerSize.width > containerSize.height,
       isPhone,
       isTablet,
-      landscapeMinimal: height < 500,
+      landscapeMinimal: containerSize.height < 500,
       theme,
       guidanceVoice,
       guidanceVoiceVolume,
@@ -90,8 +119,8 @@ export default function NavigationContextProvider({
     language,
     measurementSystem,
     measurementSystemAuto,
-    width,
-    height,
+    containerSize.width,
+    containerSize.height,
     theme,
     guidanceVoice,
     guidanceVoiceVolume,
@@ -103,6 +132,18 @@ export default function NavigationContextProvider({
   ]);
 
   return (
-    <NavigationContext.Provider value={contextValue} children={children} />
+    <NavigationContext.Provider value={contextValue}>
+      <div
+        ref={containerRef}
+        style={{
+          width: initialWidth || "100%",
+          height: initialHeight || "100%",
+          display: "flex",
+          flexDirection: "column"
+        }}
+      >
+        {children}
+      </div>
+    </NavigationContext.Provider>
   );
 }
