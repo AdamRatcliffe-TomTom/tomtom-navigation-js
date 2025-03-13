@@ -264,12 +264,15 @@ function NavigationView({
           </LayersProvider>
         </div>
         {!apiKey && <NoApiKeyMessage />}
-        <GeolocationDialog
-          isGeolocationAvailable={isGeolocationAvailable}
-          isGeolocationEnabled={isGeolocationEnabled}
-          onToggleHide={toggleHideGeolocationDialog}
-          hidden={hideGeolocationDialog}
-        />
+        {mapOptions.enableGeolocation === undefined ||
+          (mapOptions.enableGeolocation && (
+            <GeolocationDialog
+              isGeolocationAvailable={isGeolocationAvailable}
+              isGeolocationEnabled={isGeolocationEnabled}
+              onToggleHide={toggleHideGeolocationDialog}
+              hidden={hideGeolocationDialog}
+            />
+          ))}
         {children}
       </NavigationContextProvider>
     </ThemeProvider>
