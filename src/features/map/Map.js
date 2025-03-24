@@ -46,6 +46,7 @@ import {
   getBearing,
   getPitch,
   getBounds,
+  getPadding,
   getMovingMethod,
   getAnimationOptions,
   getRouteOptions,
@@ -152,6 +153,7 @@ const Map = ({
   const bearing = useSelector(getBearing);
   const pitch = useSelector(getPitch);
   const bounds = useSelector(getBounds);
+  const padding = useSelector(getPadding);
   const movingMethod = useSelector(getMovingMethod);
   const animationOptions = useSelector(getAnimationOptions);
   const routeOptions = useSelector(getRouteOptions);
@@ -620,6 +622,7 @@ const Map = ({
       center={center}
       zoom={zoom}
       bounds={bounds}
+      padding={padding}
       bearing={bearing}
       pitch={pitch}
       onLoad={handleMapLoad}

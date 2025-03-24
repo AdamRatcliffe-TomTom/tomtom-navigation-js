@@ -15,6 +15,7 @@ const initialState = {
   bearing: undefined,
   pitch: undefined,
   bounds: undefined,
+  padding: undefined,
   movingMethod: "jumpTo",
   fitBoundsOptions: {
     padding: {
@@ -80,6 +81,9 @@ const mapSlice = createSlice({
       state.bounds = action.payload;
       state.center = undefined;
     },
+    setPadding: (state, action) => {
+      state.padding = action.payload;
+    },
     setMovingMethod: (state, action) => {
       state.movingMethod = action.payload;
     },
@@ -124,6 +128,8 @@ const getBearing = createSelector(rootSelector, (state) => state.bearing);
 const getPitch = createSelector(rootSelector, (state) => state.pitch);
 
 const getBounds = createSelector(rootSelector, (state) => state.bounds);
+
+const getPadding = createSelector(rootSelector, (state) => state.padding);
 
 const getMovingMethod = createSelector(
   rootSelector,
@@ -178,6 +184,7 @@ export {
   getBearing,
   getPitch,
   getBounds,
+  getPadding,
   getMovingMethod,
   getAnimationOptions,
   getRouteOptions,
@@ -197,6 +204,7 @@ export const {
   setBearing,
   setPitch,
   setBounds,
+  setPadding,
   setMovingMethod,
   setRouteOptions,
   setAnimationOptions,

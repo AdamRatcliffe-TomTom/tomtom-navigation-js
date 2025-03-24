@@ -22,6 +22,7 @@ import {
   setZoom,
   setBearing,
   setPitch,
+  setPadding,
   setAnimationOptions,
   setRouteOptions,
   setAutomaticRouteCalculation,
@@ -59,6 +60,7 @@ function NavigationView({
   zoom,
   bearing,
   pitch,
+  padding,
   routeWaypoints,
   routeOptions = {},
   automaticRouteCalculation,
@@ -127,6 +129,10 @@ function NavigationView({
   useEffect(() => {
     if (pitch) dispatch(setPitch(pitch));
   }, [pitch]);
+
+  useEffect(() => {
+    if (padding) dispatch(setPadding(padding));
+  }, [padding]);
 
   useEffect(() => {
     if (movingMethod) dispatch(setMovingMethod(movingMethod));
