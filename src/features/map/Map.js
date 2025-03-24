@@ -165,12 +165,17 @@ const Map = ({
   const [isResizing, setIsResizing] = useState(false);
   const {
     data: { route, sectionedRoute, walkingLeg, maneuverLineStrings } = {}
-  } = useCalculateRouteQuery({
-    key: apiKey,
-    preCalculatedRoute,
-    automaticRouteCalculation,
-    ...routeOptions
-  });
+  } = useCalculateRouteQuery(
+    {
+      key: apiKey,
+      preCalculatedRoute,
+      automaticRouteCalculation,
+      ...routeOptions
+    },
+    {
+      skip: !routeOptions?.locations || routeOptions.locations.length < 2
+    }
+  );
 
   const fieldOfView = useFieldOfView(mapRef, debugFOV, safeAreaInsets, [
     safeAreaInsets,

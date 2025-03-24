@@ -11,12 +11,20 @@ const useNavigationRoute = ({
 }) => {
   const [navigationRoute, setNavigationRoute] = useState(null);
 
-  const { data: { route } = {} } = useCalculateRouteQuery({
-    key: apiKey,
-    preCalculatedRoute,
-    automaticRouteCalculation,
-    ...routeOptions
-  });
+  const shouldSkip =
+    !routeOptions?.locations || routeOptions.locations.length < 2;
+
+  const { data: { route } = {} } = useCalculateRouteQuery(
+    {
+      key: apiKey,
+      preCalculatedRoute,
+      automaticRouteCalculation,
+      ...routeOptions
+    },
+    {
+      skip: shouldSkip
+    }
+  );
 
   const processRoute = useCallback((routeFeature) => {
     if (routeFeature) {
