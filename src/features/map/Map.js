@@ -98,6 +98,7 @@ const Map = ({
   showPoi = false,
   showBuildings3D = true,
   showLocationMarker = true,
+  showCompassControl = true,
   showMapSwitcherControl = true,
   showMuteControl = true,
   showExitControl = false,
@@ -271,7 +272,7 @@ const Map = ({
   const muteControlVisible =
     showMuteControl && isNavigating && !hasReachedDestination;
   const mapSwitcherControlIsVisible = showMapSwitcherControl && !isNavigating;
-  const compassControlIsVisible = !isNavigating;
+  const compassControlIsVisible = showCompassControl && !isNavigating;
   const speedLimitControlIsVisible =
     isNavigating && speedLimit && !hasReachedDestination;
   const navigationPerspectiveControlIsVisible =
